@@ -1,3 +1,5 @@
+package com.infinityphase.CARIS;
+
 import sx.blah.discord.api.IDiscordClient;
 
 // Basically a HelloWorld Bot.
