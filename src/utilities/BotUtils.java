@@ -8,11 +8,11 @@ import sx.blah.discord.util.RequestBuffer;
 
 public class BotUtils {
 	// Constants:
-	static String BOT_PREFIX = "/";
+	public static String BOT_PREFIX = "/";
 	
 	// Actually creates the client object.
 	// Magic!
-	static IDiscordClient getBuiltDiscordClient(String token) {
+	public static IDiscordClient getBuiltDiscordClient(String token) {
 		// Creates a client with the given token.
 		// Uses the default value for shards for ease of use
 		// Here, any extra params for the bot should be attached.
@@ -23,7 +23,7 @@ public class BotUtils {
 				.build();
 	}
 	
-	static void sendMessage(IChannel channel, String message) {
+	public static void sendMessage(IChannel channel, String message) {
 		// Will send a string to a given channel
 		// For ease of use.
 		// YOu can create tons of these things, for everything.
