@@ -1,4 +1,4 @@
-package com.infinityphase.CARIS;
+package commands;
 
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 

@@ -1,10 +1,11 @@
+package utilities;
 import sx.blah.discord.api.ClientBuilder;
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.obj.IChannel;
 import sx.blah.discord.util.DiscordException;
 import sx.blah.discord.util.RequestBuffer;
 
-class BotUtils {
+public class BotUtils {
 	// Constants:
 	static String BOT_PREFIX = "/";
 	

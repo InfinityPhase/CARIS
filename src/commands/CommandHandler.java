@@ -1,7 +1,8 @@
-package com.infinityphase.CARIS;
+package commands;
 
 import sx.blah.discord.api.events.EventSubscriber;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
+import utilities.BotUtils;
 
 public class CommandHandler {
 	// Deals with events

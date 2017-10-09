@@ -1,6 +1,7 @@
-package com.infinityphase.CARIS;
 
+import commands.CommandHandler;
 import sx.blah.discord.api.IDiscordClient;
+import utilities.BotUtils;
 
 // Basically a HelloWorld Bot.
 // NOTE: When using Gradle, refresh/restart workspace to update dependencies
