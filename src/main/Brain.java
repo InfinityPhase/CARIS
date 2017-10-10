@@ -14,14 +14,14 @@ import utilities.Handler;
 
 public class Brain {
 	
-	public static ArrayList<Handler> invokedHandlers = new ArrayList<Handler>();
-	public static ArrayList<Handler> autoHandlers = new ArrayList<Handler>();
+	public static ArrayList<Handler> invokers = new ArrayList<Handler>();
+	public static ArrayList<Handler> responders = new ArrayList<Handler>();
 	
 	/* Invoked Handlers */
-	public static EchoInvoker echoHandler = new EchoInvoker();
+	public static EchoInvoker echoInvoker = new EchoInvoker();
 	
 	/* Auto Handlers */
-	public static MentionResponder mentionHandler = new MentionResponder();
+	public static MentionResponder mentionResponder = new MentionResponder();
 	
 	public static void main(String[] args) {
 		
@@ -44,8 +44,8 @@ public class Brain {
 		
 	}
 	public static void init() { // add handlers to their appropriate categories here
-		invokedHandlers.add(echoHandler);
-		autoHandlers.add(mentionHandler);
+		invokers.add(echoInvoker);
+		responders.add(mentionResponder);
 	}
 
 }
