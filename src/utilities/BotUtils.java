@@ -8,7 +8,6 @@ import sx.blah.discord.util.RequestBuffer;
 
 public class BotUtils {
 	// Constants:
-	public static String BOT_PREFIX = "/";
 	
 	// Actually creates the client object.
 	// Magic!
