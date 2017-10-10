@@ -3,13 +3,13 @@ package commands;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import handlers.Handler;
 import main.Brain;
 import main.Constants;
 import sx.blah.discord.api.events.EventSubscriber;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import tokens.Response;
 import utilities.BotUtils;
+import utilities.Handler;
 
 public class CommandHandler {
 	

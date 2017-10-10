@@ -3,11 +3,11 @@ package main;
 import java.util.ArrayList;
 
 import commands.CommandHandler;
-import handlers.EchoHandler;
-import handlers.Handler;
-import handlers.MentionHandler;
+import invokers.EchoInvoker;
+import responders.MentionResponder;
 import sx.blah.discord.api.IDiscordClient;
 import utilities.BotUtils;
+import utilities.Handler;
 
 // Basically a HelloWorld Bot.
 // NOTE: When using Gradle, refresh/restart workspace to update dependencies
@@ -18,10 +18,10 @@ public class Brain {
 	public static ArrayList<Handler> autoHandlers = new ArrayList<Handler>();
 	
 	/* Invoked Handlers */
-	public static EchoHandler echoHandler = new EchoHandler();
+	public static EchoInvoker echoHandler = new EchoInvoker();
 	
 	/* Auto Handlers */
-	public static MentionHandler mentionHandler = new MentionHandler();
+	public static MentionResponder mentionHandler = new MentionResponder();
 	
 	public static void main(String[] args) {
 		

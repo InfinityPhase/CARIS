@@ -1,11 +1,12 @@
-package handlers;
+package responders;
 
 import main.Constants;
+import utilities.Handler;
 
-public class MentionHandler implements Handler {
+public class MentionResponder implements Handler {
 	// Placeholder example auto handler
 	
-	public MentionHandler() {}
+	public MentionResponder() {}
 	
 	@Override
 	public String process(String message) {

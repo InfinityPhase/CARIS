@@ -1,4 +1,4 @@
-package handlers;
+package utilities;
 
 public interface Handler {
 	// The base handler interface. Extend this into other classes.

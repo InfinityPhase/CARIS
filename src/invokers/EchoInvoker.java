@@ -1,11 +1,12 @@
-package handlers;
+package invokers;
 
 import main.Constants;
+import utilities.Handler;
 
-public class EchoHandler implements Handler {
+public class EchoInvoker implements Handler {
 	// Placeholder example invoked handler
 	
-	public EchoHandler() {}
+	public EchoInvoker() {}
 	
 	@Override
 	public String process(String message) {
