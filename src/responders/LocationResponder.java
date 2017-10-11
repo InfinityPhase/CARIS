@@ -12,7 +12,7 @@ public class LocationResponder implements Handler {
 	@Override
 	public String process(String message) {
 		String response = "";
-		message.toLowerCase();
+		message = message.toLowerCase();
 		ArrayList<String> tokens = Brain.tp.parse(message.toLowerCase());
 		message = " " + message + " ";
 		if( tokens.contains("where's") || tokens.contains("where") ) {

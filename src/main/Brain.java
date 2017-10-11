@@ -4,10 +4,12 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import commands.CommandHandler;
+import commands.TextHandler;
 import invokers.EchoInvoker;
 import invokers.LocationInvoker;
 import responders.LocationResponder;
 import responders.MentionResponder;
+import responders.PoliteResponder;
 import sx.blah.discord.api.IDiscordClient;
 import utilities.BotUtils;
 import utilities.Handler;
@@ -26,10 +28,11 @@ public class Brain {
 	/* Invoked Handlers */
 	public static EchoInvoker echoInvoker = new EchoInvoker();
 	public static LocationInvoker locationInvoker = new LocationInvoker();
-	public static LocationResponder locationResponder = new LocationResponder();
 	
 	/* Auto Handlers */
 	public static MentionResponder mentionResponder = new MentionResponder();
+	public static LocationResponder locationResponder = new LocationResponder();
+	public static PoliteResponder politeResponder = new PoliteResponder();
 	
 	public static void main(String[] args) {
 		
@@ -66,6 +69,7 @@ public class Brain {
 		invokers.add(locationInvoker);
 		responders.add(mentionResponder);
 		responders.add(locationResponder);
+		responders.add(politeResponder);
 	}
 
 }
