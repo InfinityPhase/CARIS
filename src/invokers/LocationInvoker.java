@@ -36,14 +36,27 @@ public class LocationInvoker implements Handler {
 					if( locations.get(place).contains(person) ) {
 						return person + " is already at " + place + ".";
 					} else {
+						for( String location : locations.keySet() ) {
+							ArrayList<String> locals = locations.get(location);
+							if( locals.contains(person) ) {
+								locals.remove(person);
+							}
+						}
 						locations.get(place).add(person);
 						people.put(person, place);
 						response = person + "'s location has been set to " + place + ".";
 					}
 				} else {
-					ArrayList<String> attendees = new ArrayList<String>();
-					attendees.add(person);
-					locations.put(place, attendees);
+					for( String location : locations.keySet() ) {
+						ArrayList<String> locals = locations.get(location);
+						if( locals.contains(person) ) {
+							locals.remove(person);
+						}
+					}
+					ArrayList<String> locals = new ArrayList<String>();
+					locals.add(person);
+					locations.put(place, locals);
+					people.put(person, place);
 					response = person + "'s location has been set to " + place + ".";
 				}
 			} else if(action.equals("get")) {
@@ -64,10 +77,19 @@ public class LocationInvoker implements Handler {
 				if( !locations.containsKey(location) ) {
 					return location + " is not a set location.";
 				}
-				ArrayList<String> people = locations.get(location);
-				response = "The following people are at " + location + ": ";
-				for( String person : people ) {
-					response += person + " ";
+				ArrayList<String> locals = locations.get(location);
+				if( locals.size() == 0 ) {
+					response = "No one is at " + location + ".";
+				} else {
+					response = "The following people are at " + location + ": ";
+					for( int f=0; f<locals.size(); f++ ) {
+						response += locals.get(f);
+						if( f < locals.size()-1 ) {
+							response += ", ";
+						} else {
+							response += ".";
+						}
+					}
 				}
 			} else {
 				return "Unrecognized command: \"" + action + "\".";
