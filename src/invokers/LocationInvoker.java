@@ -120,6 +120,7 @@ public class LocationInvoker implements Handler {
 						locations.get(location).remove(person);
 					}
 				}
+				response = "Reset location for " + person + ".";
 			} else {
 				return "Unrecognized command: \"" + action + "\".";
 			}
