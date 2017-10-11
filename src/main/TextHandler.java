@@ -15,7 +15,7 @@ public class TextHandler {
 		// Checks if a message begins with the bot command prefix
 		if (message.startsWith(Constants.PREFIX)) { // if invoked
 			for( Handler h : Brain.invokers ) { // try each invocation handler
-				String text = h.process(message); // process individual invocation handler
+				String text = h.process(message.substring(Constants.PREFIX.length())); // process individual invocation handler
 				if( !text.equals("") ) { // if this produces a result
 					responses.add(new Response(text, h.getPriority())); // add it to the list of potential responses
 				}
