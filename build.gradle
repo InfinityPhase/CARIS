@@ -4,6 +4,10 @@ apply plugin:'eclipse'
 
 mainClassName = "main.Brain"
 
+run {
+	args findProperty("Args")
+}
+
 repositories {
 	jcenter()
 	maven {
