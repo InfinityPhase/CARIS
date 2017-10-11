@@ -20,7 +20,7 @@ public class LocationInvoker implements Handler {
 	@Override
 	public String process(String message) {
 		String response = "";
-		ArrayList<String> tokens = Brain.tp.parse(message);
+		ArrayList<String> tokens = Brain.tp.parse(message.toLowerCase());
 		if( tokens.get(0).equals("location") ) {
 			if( tokens.size() < 2 ) {
 				return "Syntax Error: Command not specified.";
@@ -89,6 +89,35 @@ public class LocationInvoker implements Handler {
 						} else {
 							response += ".";
 						}
+					}
+				}
+			} else if( action.equals("clear") ) {
+				if( tokens.size() < 3 ) {
+					return "Syntax Error: Insufficient parameters.";
+				}
+				String location = tokens.get(2);
+				if( !locations.containsKey(location) ) {
+					return location + " is not a set location.";
+				}
+				locations.remove(location);
+				for( String person : people.keySet() ) {
+					if(people.get(person).equals(location)) {
+						people.remove(person);
+					}
+				}
+				response = "Cleared location " + location + ".";
+			} else if( action.equals("reset") ) {
+				if( tokens.size() < 3 ) {
+					return "Syntax Error: Insufficient parameters.";
+				}
+				String person = tokens.get(2);
+				if( !people.containsKey(person) ) {
+					return person + " has not set a location.";
+				}
+				people.remove(person);
+				for( String location : locations.keySet() ) {
+					if( locations.get(location).contains(person) ) {
+						locations.get(location).remove(person);
 					}
 				}
 			} else {

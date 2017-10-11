@@ -12,7 +12,8 @@ public class LocationResponder implements Handler {
 	@Override
 	public String process(String message) {
 		String response = "";
-		ArrayList<String> tokens = Brain.tp.parse(message);
+		message.toLowerCase();
+		ArrayList<String> tokens = Brain.tp.parse(message.toLowerCase());
 		message = " " + message + " ";
 		if( tokens.contains("where's") || tokens.contains("where") ) {
 			for( String token : tokens ) {
