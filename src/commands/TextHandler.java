@@ -1,8 +1,10 @@
-package main;
+package commands;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import main.Brain;
+import main.Constants;
 import tokens.Response;
 import utilities.Handler;
 
