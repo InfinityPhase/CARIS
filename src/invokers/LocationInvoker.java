@@ -3,6 +3,7 @@ package invokers;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import main.Brain;
 import main.Constants;
 import utilities.Handler;
 
@@ -19,70 +20,47 @@ public class LocationInvoker implements Handler {
 	@Override
 	public String process(String message) {
 		String response = "";
-		if( message.startsWith(Constants.PREFIX + "location ") ) {
-			String command = message.substring(Constants.PREFIX.length() + 9);
-			int index = command.indexOf(" ");
-			if( index == -1 || index == command.length()-1 ) {
-				return "Syntax Error.";
+		ArrayList<String> tokens = Brain.tp.parse(message);
+		if( tokens.get(0).equals("location") ) {
+			if( tokens.size() < 2 ) {
+				return "Syntax Error: Command not specified.";
 			}
-			String action = command.substring(0, index);
-			command = command.substring(index+1);
+			String action = tokens.get(1);
 			if(action.equals("set")) {
-				String person = "";
-				String location = "";
-				int i2 = command.indexOf(" ");
-				if( i2 == -1 || i2 == command.length()-1 ) {
-					return "Syntax Error.";
+				if( tokens.size() < 4 ) {
+					return "Syntax Error: Insufficient parameters.";
 				}
-				person = command.substring(0, i2);
-				if( person.length() == 0 ) {
-					return "Syntax Error.";
-				}
-				command = command.substring(i2+1);
-				int i3 = command.length();
-				if( i3 == 0 ) {
-					return "Syntax Error.";
-				}
-				location = command.substring(0, i3);
-				if( locations.containsKey(location) ) {
-					if( locations.get(location).contains(person) ) {
-						return person + " is already at " + location + ".";
+				String person = tokens.get(2);
+				String place = tokens.get(3);
+				if( locations.containsKey(place) ) {
+					if( locations.get(place).contains(person) ) {
+						return person + " is already at " + place + ".";
 					} else {
-						locations.get(location).add(person);
-						people.put(person, location);
-						response = person + "'s location has been set to " + location + ".";
+						locations.get(place).add(person);
+						people.put(person, place);
+						response = person + "'s location has been set to " + place + ".";
 					}
 				} else {
 					ArrayList<String> attendees = new ArrayList<String>();
 					attendees.add(person);
-					locations.put(location, attendees);
-					response = person + "'s location has been set to " + location + ".";
+					locations.put(place, attendees);
+					response = person + "'s location has been set to " + place + ".";
 				}
 			} else if(action.equals("get")) {
-				String person = "";
-				int i2 = command.indexOf(" ");
-				if( i2 == -1 || i2 == command.length()-1 ) {
-					return "Syntax Error.";
+				if( tokens.size() < 3 ) {
+					return "Syntax Error: Insufficient parameters.";
 				}
-				person = command.substring(0, i2);
-				if( person.length() == 0 ) {
-					return "Syntax Error.";
-				}
+				String person = tokens.get(2);
 				if( !people.containsKey(person) ) {
 					return person + " has not set a location.";
 				}
 				String location = people.get(person);
 				response = person + " is at " + location + ".";
 			} else if(action.equals("check")) {
-				String location = "";
-				int i2 = command.indexOf(" ");
-				if( i2 == -1 || i2 == command.length()-1 ) {
-					return "Syntax Error.";
+				if( tokens.size() < 3 ) {
+					return "Syntax Error: Insufficient parameters.";
 				}
-				location = command.substring(0, i2);
-				if( location.length() == 0 ) {
-					return "Syntax Error.";
-				}
+				String location = tokens.get(2);
 				if( !locations.containsKey(location) ) {
 					return location + " is not a set location.";
 				}
@@ -100,7 +78,6 @@ public class LocationInvoker implements Handler {
 
 	@Override
 	public int getPriority() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
