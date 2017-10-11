@@ -31,7 +31,7 @@ public class LocationResponder implements Handler {
 		} else if( tokens.contains("who") && tokens.contains("is") && tokens.contains("at") || tokens.contains("who's") && tokens.contains("at") ) {
 			for( String location : Brain.locationInvoker.locations.keySet() ) {
 				if( message.contains(location) ) {
-					response = Brain.locationInvoker.process("location check " + location);
+					response = Brain.locationInvoker.process("loc check " + location);
 					break;
 				}
 			}
