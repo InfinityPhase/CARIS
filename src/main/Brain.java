@@ -6,6 +6,7 @@ import java.util.Scanner;
 import commands.CommandHandler;
 import invokers.EchoInvoker;
 import invokers.LocationInvoker;
+import responders.LocationResponder;
 import responders.MentionResponder;
 import sx.blah.discord.api.IDiscordClient;
 import utilities.BotUtils;
@@ -25,6 +26,7 @@ public class Brain {
 	/* Invoked Handlers */
 	public static EchoInvoker echoInvoker = new EchoInvoker();
 	public static LocationInvoker locationInvoker = new LocationInvoker();
+	public static LocationResponder locationResponder = new LocationResponder();
 	
 	/* Auto Handlers */
 	public static MentionResponder mentionResponder = new MentionResponder();
@@ -63,6 +65,7 @@ public class Brain {
 		invokers.add(echoInvoker);
 		invokers.add(locationInvoker);
 		responders.add(mentionResponder);
+		responders.add(locationResponder);
 	}
 
 }
