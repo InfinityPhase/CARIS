@@ -5,7 +5,9 @@ apply plugin:'eclipse'
 mainClassName = "main.Brain"
 
 run {
-	args findProperty("Args")
+	if (project.hasProperty("runArgs")) {
+        args Eval.me(runArgs)
+    }
 }
 
 repositories {
