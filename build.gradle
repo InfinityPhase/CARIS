@@ -5,8 +5,6 @@ apply plugin:'eclipse'
 mainClassName = "main.Brain"
 
 run {
-	//args findProperty("asdfghjkl")
-	//args 'MzY3MDk2NjYxNTE3Nzk1MzI5.DMAbAg.K18uVXirYRZkUWhy7j8nQwAPVeI'
 	if (project.hasProperty("runArgs")) {
         args Eval.me(runArgs)
     }
