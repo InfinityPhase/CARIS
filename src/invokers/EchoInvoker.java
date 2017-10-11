@@ -12,7 +12,7 @@ public class EchoInvoker implements Handler {
 	public String process(String message) {
 		String response = "";
 		if( message.startsWith(Constants.PREFIX + "echo ") ) {
-			response = message.substring(5);
+			response = message.substring(9);
 		}
 		return response;
 	}

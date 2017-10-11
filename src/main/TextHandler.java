@@ -30,8 +30,11 @@ public class TextHandler {
 		}
 		if( responses.size() != 0 ) { // if any response exists
 			Response[] options = new Response[responses.size()]; // create a static array of response options
+			for( int f=0; f<responses.size(); f++ ) {
+				options[f] = (responses.get(f));
+			}
 			Arrays.sort(options); // sort these options
-			System.out.println(options[0]);
+			System.out.println(options[0].text);
 		}
 	}
 	
