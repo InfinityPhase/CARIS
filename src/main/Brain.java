@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import commands.CommandHandler;
+import commands.TextHandler;
 import invokers.EchoInvoker;
 import responders.MentionResponder;
 import sx.blah.discord.api.IDiscordClient;
