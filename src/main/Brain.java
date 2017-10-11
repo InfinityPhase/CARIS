@@ -9,11 +9,14 @@ import responders.MentionResponder;
 import sx.blah.discord.api.IDiscordClient;
 import utilities.BotUtils;
 import utilities.Handler;
+import utilities.TokenParser;
 
 // Basically a HelloWorld Bot.
 // NOTE: When using Gradle, refresh/restart workspace to update dependencies
 
 public class Brain {
+	
+	public static TokenParser tp = new TokenParser();
 	
 	public static ArrayList<Handler> invokers = new ArrayList<Handler>();
 	public static ArrayList<Handler> responders = new ArrayList<Handler>();
