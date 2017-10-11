@@ -8,6 +8,7 @@ import main.Constants;
 import sx.blah.discord.api.events.EventSubscriber;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import tokens.Response;
+import tokens.User;
 import utilities.BotUtils;
 import utilities.Handler;
 
@@ -37,6 +38,10 @@ public class CommandHandler {
 	@EventSubscriber
 	public void onMessageRecieved(MessageReceivedEvent event) {
 		String message = event.getMessage().getContent();
+		Brain.currentUser = event.getAuthor().getName();
+		if( !Brain.users.keySet().contains(Brain.currentUser) ) {
+			Brain.users.put(Brain.currentUser, new User(event.getAuthor()));
+		}
 		ArrayList<Response> responses = new ArrayList<Response>();
 		
 		// Checks if a message begins with the bot command prefix

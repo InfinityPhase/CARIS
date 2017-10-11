@@ -1,6 +1,7 @@
 package main;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Scanner;
 
 import commands.CommandHandler;
@@ -10,6 +11,8 @@ import invokers.LocationInvoker;
 import responders.LocationResponder;
 import responders.MentionResponder;
 import sx.blah.discord.api.IDiscordClient;
+import sx.blah.discord.handle.obj.IUser;
+import tokens.User;
 import utilities.BotUtils;
 import utilities.Handler;
 import utilities.TokenParser;
@@ -20,6 +23,9 @@ import utilities.TokenParser;
 public class Brain {
 	
 	public static TokenParser tp = new TokenParser();
+	
+	public static String currentUser = "";
+	public static HashMap<String, User> users = new HashMap<String, User>();
 	
 	public static ArrayList<Handler> invokers = new ArrayList<Handler>();
 	public static ArrayList<Handler> responders = new ArrayList<Handler>();
