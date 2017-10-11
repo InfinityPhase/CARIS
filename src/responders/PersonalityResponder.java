@@ -6,9 +6,9 @@ import main.Brain;
 import main.Constants;
 import utilities.Handler;
 
-public class PoliteResponder implements Handler {
+public class PersonalityResponder implements Handler {
 	
-	public PoliteResponder() {}
+	public PersonalityResponder() {}
 
 	@Override
 	public String process(String message) {
@@ -16,7 +16,7 @@ public class PoliteResponder implements Handler {
 		message = message.toLowerCase();
 		ArrayList<String> tokens = Brain.tp.parse(message);
 		if( tokens.contains(Constants.NAME.toLowerCase()) ) {
-			if( message.contains("thank you") ) {
+			if( message.contains("thank you") || message.contains("thank") ) {
 				response = "You're welcome.";
 			} else if( message.contains("pls") ) {
 				response = "I'm trying ;;";
@@ -35,7 +35,5 @@ public class PoliteResponder implements Handler {
 	public int getPriority() {
 		return 1;
 	}
-	
-	
 	
 }
