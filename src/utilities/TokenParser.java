@@ -15,20 +15,28 @@ public class TokenParser {
 		char[] charArray = line.toCharArray();
 		String temp = "";
 		boolean openQuote = false;
+		boolean border = false;
 		for( char c : charArray ) {
-			if( c == ' ' && !openQuote) {
+			if( c == ' ' && !openQuote && temp.length() > 0 ) {
 				tokens.add(temp);
 				temp = "";
+				border = false;
 			} else if( c == '"' ) {
 				if( openQuote ) {
 					openQuote = false;
-					tokens.add(temp);
+					if( temp.length() > 0 ) {
+						tokens.add(temp);
+					}
 					temp = "";
+					border = true;
 				} else {
 					openQuote = true;
 				}
 			} else {
-				temp += c;
+				if( !border ) {
+					temp += c;
+				}
+				border = false;
 			}
 		}
 		return tokens;
