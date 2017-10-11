@@ -20,7 +20,7 @@ public class TokenParser {
 		ArrayList<String> tokens = new ArrayList<String>();
 		line += " ";
 		while( line.contains("  ") ) {
-			line.replace("  ", " ");
+			line = line.replace("  ", " ");
 		}
 		char[] charArray = line.toCharArray();
 		String temp = "";
