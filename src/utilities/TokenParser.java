@@ -3,6 +3,16 @@ package utilities;
 import java.util.ArrayList;
 
 public class TokenParser {
+	public char[] punctuation = new char[] {
+			'.',
+			',',
+			'!',
+			'?',
+			':',
+			';',
+			'-',
+			'@',
+	};
 	
 	public TokenParser() {}
 	
@@ -34,7 +44,16 @@ public class TokenParser {
 				}
 			} else {
 				if( !border ) {
-					temp += c;
+					boolean valid = true;
+					for( char p : punctuation ) {
+						if( c == p ) {
+							valid = false;
+							break;
+						}
+					}
+					if( valid || openQuote ) {
+						temp += c;
+					}
 				}
 				border = false;
 			}
