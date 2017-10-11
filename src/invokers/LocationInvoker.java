@@ -20,13 +20,13 @@ public class LocationInvoker implements Handler {
 	public String process(String message) {
 		String response = "";
 		if( message.startsWith(Constants.PREFIX + "location ") ) {
-			String command = message.substring(13);
+			String command = message.substring(Constants.PREFIX.length() + 9);
 			int index = command.indexOf(" ");
 			if( index == -1 || index == command.length()-1 ) {
 				return "Syntax Error.";
 			} else {
-				String action = message.substring(0, index);
-				command = message.substring(index+1);
+				String action = command.substring(0, index);
+				command = command.substring(index+1);
 				if(action.equals("set")) {
 					String person = "";
 					String location = "";
