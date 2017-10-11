@@ -40,7 +40,7 @@ public class CommandHandler {
 		ArrayList<Response> responses = new ArrayList<Response>();
 		
 		// Checks if a message begins with the bot command prefix
-		if (event.getMessage().getContent().startsWith(Constants.PREFIX)) { // if invoked
+		if (message.startsWith(Constants.PREFIX)) { // if invoked
 			for( Handler h : Brain.invokers ) { // try each invocation handler
 				String text = h.process(message); // process individual invocation handler
 				if( !text.equals("") ) { // if this produces a result
