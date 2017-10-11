@@ -20,6 +20,7 @@ public class LocationInvoker implements Handler {
 	@Override
 	public String process(String message) {
 		String response = "";
+		message = message.toLowerCase();
 		ArrayList<String> tokens = Brain.tp.parse(message.toLowerCase());
 		if( tokens.get(0).equals("loc") ) {
 			if( tokens.size() < 2 ) {
@@ -30,11 +31,26 @@ public class LocationInvoker implements Handler {
 				if( tokens.size() < 4 ) {
 					return "Syntax Error: Insufficient parameters.";
 				}
-				String person = tokens.get(2);
-				String place = tokens.get(3);
-				if( locations.containsKey(place) ) {
-					if( locations.get(place).contains(person) ) {
-						return person + " is already at " + place + ".";
+				String place = tokens.get(2);
+				ArrayList<String> persons = new ArrayList<String>();
+				for( int f=3; f<tokens.size(); f++ ) {
+					persons.add(tokens.get(f));
+				}
+				for( String person : persons ) {
+					if( locations.containsKey(place) ) {
+						if( locations.get(place).contains(person) ) {
+							return person + " is already at " + place + ".";
+						} else {
+							for( String location : locations.keySet() ) {
+								ArrayList<String> locals = locations.get(location);
+								if( locals.contains(person) ) {
+									locals.remove(person);
+								}
+							}
+							locations.get(place).add(person);
+							people.put(person, place);
+							response = person + "'s location has been set to " + place + ".";
+						}
 					} else {
 						for( String location : locations.keySet() ) {
 							ArrayList<String> locals = locations.get(location);
@@ -42,22 +58,15 @@ public class LocationInvoker implements Handler {
 								locals.remove(person);
 							}
 						}
-						locations.get(place).add(person);
+						ArrayList<String> locals = new ArrayList<String>();
+						locals.add(person);
+						locations.put(place, locals);
 						people.put(person, place);
 						response = person + "'s location has been set to " + place + ".";
 					}
-				} else {
-					for( String location : locations.keySet() ) {
-						ArrayList<String> locals = locations.get(location);
-						if( locals.contains(person) ) {
-							locals.remove(person);
-						}
-					}
-					ArrayList<String> locals = new ArrayList<String>();
-					locals.add(person);
-					locations.put(place, locals);
-					people.put(person, place);
-					response = person + "'s location has been set to " + place + ".";
+				}
+				if( persons.size() > 1 ) {
+					response = "Locations have been updated.";
 				}
 			} else if(action.equals("get")) {
 				if( tokens.size() < 3 ) {
