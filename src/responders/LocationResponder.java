@@ -18,8 +18,7 @@ public class LocationResponder implements Handler {
 		String response = "";
 		messageText = messageText.toLowerCase();
 		ArrayList<String> tokens = Brain.tp.parse(messageText.toLowerCase());
-		tokens.pop(0);
-
+		
 		messageText = " " + messageText + " ";
 		if( tokens.contains("where's") || tokens.contains("where") ) {
 			for( String person : Brain.locationInvoker.people.keySet() ) {

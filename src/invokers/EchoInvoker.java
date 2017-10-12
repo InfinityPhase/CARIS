@@ -18,7 +18,7 @@ public class EchoInvoker implements Handler {
 		String messageText = message.getContent();
 		String response = "";
 		ArrayList<String> tokens = Brain.tp.parse(messageText);
-		tokens.pop(0);
+		tokens.remove(0);
 		
 		if( tokens.get(0).equals("echo") ) {
 			response = tokens.get(1);
@@ -30,7 +30,7 @@ public class EchoInvoker implements Handler {
 	public String process(String message) {
 		String response = "";
 		ArrayList<String> tokens = Brain.tp.parse(message);
-		tokens.pop(0);
+		tokens.remove(0);
 		
 		if( tokens.get(0).equals("echo") ) {
 			response = tokens.get(1);
