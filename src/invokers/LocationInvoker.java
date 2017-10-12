@@ -26,7 +26,7 @@ public class LocationInvoker implements Handler {
 		String response = "";
 		messageText = messageText.toLowerCase();
 		ArrayList<String> tokens = Brain.tp.parse(messageText);
-		tokens.pop(0);
+		tokens.remove(0);
 		
 		if( tokens.get(0).equals("loc") ) {
 			if( tokens.size() < 2 ) {
@@ -148,7 +148,7 @@ public class LocationInvoker implements Handler {
 		String response = "";
 		message = message.toLowerCase();
 		ArrayList<String> tokens = Brain.tp.parse(message);
-		tokens.pop(0);
+		tokens.remove(0);
 
 		if( tokens.get(0).equals("loc") ) {
 			if( tokens.size() < 2 ) {
