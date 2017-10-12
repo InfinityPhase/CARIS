@@ -36,37 +36,23 @@ public class LocationResponder implements Handler {
 		} else if( tokens.contains("who") && tokens.contains("is") && tokens.contains("at") || tokens.contains("who's") && tokens.contains("at") ) {
 			for( String location : Brain.locationInvoker.locations.keySet() ) {
 				if( messageText.contains(location.toString()) ) {
-					response = Brain.locationInvoker.process("loc check " + location);
-					break;
-				}
-			}
-		}
-		return response;
-	}
-
-	@Override
-	public String process(String message) {		
-		String response = "";
-		message = message.toLowerCase();
-		ArrayList<String> tokens = Brain.tp.parse(message.toLowerCase());
-		message = " " + message + " ";
-		if( tokens.contains("where's") || tokens.contains("where") ) {
-			for( String person : Brain.locationInvoker.people.keySet() ) {
-				if( message.contains(person) ) {
-					response = person + " is at " + Brain.locationInvoker.people.get(person) + ".";
-					break;
-				}
-			}
-			for( String token : tokens ) {
-				if( Brain.locationInvoker.people.keySet().contains(token) ) {
-					response = token + " is at " + Brain.locationInvoker.people.get(token) + ".";
-					break;
-				}
-			}
-		} else if( tokens.contains("who") && tokens.contains("is") && tokens.contains("at") || tokens.contains("who's") && tokens.contains("at") ) {
-			for( String location : Brain.locationInvoker.locations.keySet() ) {
-				if( message.contains(location) ) {
-					response = Brain.locationInvoker.process("loc check " + location);
+					if( !Brain.locationInvoker.locations.containsKey(location) ) {
+						return location + " is not a set location.";
+					}
+					ArrayList<String> locals = Brain.locationInvoker.locations.get(location);
+					if( locals.size() == 0 ) {
+						response = "No one is at " + location + ".";
+					} else {
+						response = "The following people are at " + location + ": ";
+						for( int f=0; f<locals.size(); f++ ) {
+							response += locals.get(f);
+							if( f < locals.size()-1 ) {
+								response += ", ";
+							} else {
+								response += ".";
+							}
+						}
+					}
 					break;
 				}
 			}

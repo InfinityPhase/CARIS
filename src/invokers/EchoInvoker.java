@@ -27,18 +27,6 @@ public class EchoInvoker implements Handler {
 	}
 	
 	@Override
-	public String process(String message) {
-		String response = "";
-		ArrayList<String> tokens = Brain.tp.parse(message);
-		tokens.remove(0);
-		
-		if( tokens.get(0).equals("echo") ) {
-			response = tokens.get(1);
-		}
-		return response;
-	}
-	
-	@Override
 	public int getPriority() {
 		return 0;
 	}
