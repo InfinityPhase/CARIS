@@ -45,7 +45,7 @@ public class CommandHandler {
 		if ( messageText.startsWith( Constants.PREFIX ) ) { // if invoked
 			for( Handler h : Brain.invokers ) { // try each invocation handler
 				// TODO: Try to optimize this later
-				String text = h.process( event.getMessage() ) ); // process individual invocation handler
+				String text = h.process( event.getMessage() ); // process individual invocation handler
 				if( !text.equals("") ) { // if this produces a result
 					responses.add( new Response( text, h.getPriority() ) ); // add it to the list of potential responses
 				}
