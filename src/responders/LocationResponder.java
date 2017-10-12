@@ -34,7 +34,7 @@ public class LocationResponder implements Handler {
 			}
 		} else if( tokens.contains("who") && tokens.contains("is") && tokens.contains("at") || tokens.contains("who's") && tokens.contains("at") ) {
 			for( String location : Brain.locationInvoker.locations.keySet() ) {
-				if( messageText.contains(location) ) {
+				if( messageText.contains(location.toString()) ) {
 					response = Brain.locationInvoker.process("loc check " + location);
 					break;
 				}
@@ -45,7 +45,6 @@ public class LocationResponder implements Handler {
 
 	@Override
 	public int getPriority() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
