@@ -10,8 +10,8 @@ import invokers.EchoInvoker;
 import invokers.LocationInvoker;
 import responders.LocationResponder;
 import responders.MentionResponder;
+import responders.PersonalityResponder;
 import sx.blah.discord.api.IDiscordClient;
-import sx.blah.discord.handle.obj.IUser;
 import tokens.User;
 import utilities.BotUtils;
 import utilities.Handler;
@@ -37,6 +37,7 @@ public class Brain {
 	/* Auto Handlers */
 	public static MentionResponder mentionResponder = new MentionResponder();
 	public static LocationResponder locationResponder = new LocationResponder();
+	public static PersonalityResponder personalityResponder = new PersonalityResponder();
 	
 	public static void main(String[] args) {
 		
@@ -73,6 +74,7 @@ public class Brain {
 		invokers.add(locationInvoker);
 		responders.add(mentionResponder);
 		responders.add(locationResponder);
+		responders.add(personalityResponder);
 	}
 
 }

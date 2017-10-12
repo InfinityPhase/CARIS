@@ -26,6 +26,8 @@ public class PersonalityResponder implements Handler {
 				response = ">m<";
 			} else if( message.contains("shut up") ) {
 				response = ";w;";
+			} else if( tokens.contains("no") ) {
+				response = "Caris YES!";
 			}
 		}
 		return response;
