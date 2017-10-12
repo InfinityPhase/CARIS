@@ -7,6 +7,7 @@ import main.Brain;
 import main.Constants;
 import sx.blah.discord.api.events.EventSubscriber;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
+import sx.blah.discord.handle.impl.obj.Message;
 import tokens.Response;
 import tokens.User;
 import utilities.BotUtils;
@@ -45,7 +46,7 @@ public class CommandHandler {
 		if ( messageText.startsWith( Constants.PREFIX ) ) { // if invoked
 			for( Handler h : Brain.invokers ) { // try each invocation handler
 				// TODO: Try to optimize this later
-				String text = h.process( event.getMessage() ); // process individual invocation handler
+				String text = h.process( (Message) event.getMessage() ); // process individual invocation handler
 				if( !text.equals("") ) { // if this produces a result
 					responses.add( new Response( text, h.getPriority() ) ); // add it to the list of potential responses
 				}
@@ -53,7 +54,7 @@ public class CommandHandler {
 		} else { // if not being invoked
 			for( Handler h : Brain.responders ) { // then try each auto handler
 				// TODO: Try to optimize this later.
-				String text = h.process( event.getMessage() ); // process individual handler
+				String text = h.process( (Message) event.getMessage() ); // process individual handler
 				if( !text.equals("") ) { // if this produces a result
 					responses.add( new Response( text, h.getPriority() ) ); // add it to the list of potential responses
 				}
