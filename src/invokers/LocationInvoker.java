@@ -26,6 +26,8 @@ public class LocationInvoker implements Handler {
 		String response = "";
 		messageText = messageText.toLowerCase();
 		ArrayList<String> tokens = Brain.tp.parse(messageText);
+		tokens.pop(0);
+		
 		if( tokens.get(0).equals("loc") ) {
 			if( tokens.size() < 2 ) {
 				return "Syntax Error: Command not specified.";
@@ -146,6 +148,8 @@ public class LocationInvoker implements Handler {
 		String response = "";
 		message = message.toLowerCase();
 		ArrayList<String> tokens = Brain.tp.parse(message);
+		tokens.pop(0);
+
 		if( tokens.get(0).equals("loc") ) {
 			if( tokens.size() < 2 ) {
 				return "Syntax Error: Command not specified.";
