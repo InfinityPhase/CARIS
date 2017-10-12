@@ -24,10 +24,7 @@ import utilities.TokenParser;
 public class Brain {
 	
 	public static TokenParser tp = new TokenParser();
-	
-	public static String currentUser = "";
-	public static HashMap<String, User> users = new HashMap<String, User>();
-	
+		
 	public static ArrayList<Handler> invokers = new ArrayList<Handler>();
 	public static ArrayList<Handler> responders = new ArrayList<Handler>();
 	

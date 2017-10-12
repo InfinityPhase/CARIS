@@ -7,6 +7,8 @@ import main.Brain;
 import main.Constants;
 import utilities.Handler;
 
+import sx.blah.discord.handle.impl.obj.Message;
+
 public class LocationInvoker implements Handler {
 	
 	public HashMap<String, ArrayList<String>> locations;
@@ -18,10 +20,12 @@ public class LocationInvoker implements Handler {
 	}
 	
 	@Override
-	public String process(String message) {
+	public String process(Message message) {
+		String messageText = message.getContent();
+		
 		String response = "";
-		message = message.toLowerCase();
-		ArrayList<String> tokens = Brain.tp.parse(message);
+		messageText = messageText.toLowerCase();
+		ArrayList<String> tokens = Brain.tp.parse(messageText);
 		if( tokens.get(0).equals("loc") ) {
 			if( tokens.size() < 2 ) {
 				return "Syntax Error: Command not specified.";

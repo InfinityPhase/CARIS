@@ -1,7 +1,9 @@
 package utilities;
 
+import sx.blah.discord.handle.impl.obj.Message;
+
 public interface Handler {
 	// The base handler interface. Extend this into other classes.
-	public String process(String message);
+	public String process(Message message);
 	public int getPriority();
 }
