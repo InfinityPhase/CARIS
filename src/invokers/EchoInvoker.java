@@ -16,7 +16,12 @@ public class EchoInvoker implements Handler {
 	@Override
 	public String process(Message message) {
 		String messageText = message.getContent();
-		return process(messageText);
+		String response = "";
+		ArrayList<String> tokens = Brain.tp.parse(messageText);
+		if( tokens.get(0).equals("echo") ) {
+			response = tokens.get(1);
+		}
+		return response;
 	}
 	
 	@Override
