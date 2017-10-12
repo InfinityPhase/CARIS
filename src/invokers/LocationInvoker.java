@@ -21,11 +21,11 @@ public class LocationInvoker implements Handler {
 	
 	@Override
 	public String process(Message message) {
-		return process( message.getContent() );
+		String messageText = message.getContent();
 		
 		String response = "";
-		message = message.toLowerCase();
-		ArrayList<String> tokens = Brain.tp.parse(message);
+		messageText = messageText.toLowerCase();
+		ArrayList<String> tokens = Brain.tp.parse(messageText);
 		if( tokens.get(0).equals("loc") ) {
 			if( tokens.size() < 2 ) {
 				return "Syntax Error: Command not specified.";
