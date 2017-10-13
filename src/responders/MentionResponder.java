@@ -16,7 +16,8 @@ public class MentionResponder extends Handler {
 		if( Constants.DEBUG ) {System.out.println("\t\t\tProcessing MentionResponder.");}
 		String response = "";
 		String messageText = format(event);
-		ArrayList<String> tokens = Brain.tp.parse(messageText);
+		if( Constants.DEBUG ) {System.out.println("\t\t\tFormatted message: \"" + messageText + "\"");}
+		ArrayList<String> tokens = Brain.tp.parse(event.getMessage().getContent().toLowerCase());
 		
 		if( tokens.contains(Constants.NAME.toLowerCase()) ) {
 			response = "What is it?";

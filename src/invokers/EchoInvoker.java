@@ -16,7 +16,8 @@ public class EchoInvoker extends Handler {
 		if( Constants.DEBUG ) {System.out.println("\t\t\tProcessing EchoInvoker.");}
 		String response = "";
 		String messageText = format(event);
-		ArrayList<String> tokens = Brain.tp.parse(messageText);
+		if( Constants.DEBUG ) {System.out.println("\t\t\tFormatted message: \"" + messageText + "\"");}
+		ArrayList<String> tokens = Brain.tp.parse(event.getMessage().getContent().toLowerCase());
 		tokens.remove(0);
 		
 		if( tokens.get(0).equals("echo") ) {

@@ -15,7 +15,8 @@ public class LocationResponder extends Handler {
 		if( Constants.DEBUG ) {System.out.println("\t\t\tProcessing LocationResponder.");}
 		String response = "";
 		String messageText = format(event);
-		ArrayList<String> tokens = Brain.tp.parse(messageText);
+		if( Constants.DEBUG ) {System.out.println("\t\t\tFormatted message: \"" + messageText + "\"");}
+		ArrayList<String> tokens = Brain.tp.parse(event.getMessage().getContent().toLowerCase());
 		
 		if( tokens.contains("where's") || tokens.contains("where") ) {
 			if( Constants.DEBUG ) {System.out.println("\t\t\t\tLocation query detected.");}
