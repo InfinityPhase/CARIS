@@ -1,17 +1,22 @@
 package tokens;
 
-import sx.blah.discord.handle.obj.IUser;
+import sx.blah.discord.handle.obj.User;
 
-public class User {
+import java.util.HashMap;
+
+public class Users {
 	
-	public IUser user;
-	public double karma;
-	public int rank;
+	// THESE ARE REQUIRED
+	public int karma;
+	public User user;
 	
-	public User(IUser user) {
+	// Extended Variables
+	public Map< String, String > contactInfo = new HashMap< String, String >();
+	public String location;
+		
+	public Users (User user) {
 		this.user = user;
+		userHuman = user.getDisplayName()
 		karma = 0;
-		rank = 0;
-	}
-	
+	}	
 }
