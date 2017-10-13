@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Scanner;
 
 import sx.blah.discord.api.IDiscordClient;
+import sx.blah.discord.handle.impl.obj.User;
 
 import commands.CommandHandler;
 import tokens.User;
@@ -47,7 +48,7 @@ public class Brain {
 		}
 		
 		// Creates Map of Username-human to User user
-		public Map< String, User > humanToUser = new HashMap< String, User >();
+		public HashMap< String, User > humanToUser = new HashMap< String, User >();
 
 		// Gets token from arguments
 		String token = args[0];

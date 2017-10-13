@@ -1,6 +1,6 @@
 package tokens;
 
-import sx.blah.discord.handle.obj.User;
+import sx.blah.discord.handle.impl.obj.User;
 
 import java.util.HashMap;
 
@@ -14,9 +14,9 @@ public class Users {
 	public Map< String, String > contactInfo = new HashMap< String, String >();
 	public String location;
 		
-	public Users (User user) {
+	public Users ( User user) {
 		this.user = user;
-		userHuman = user.getDisplayName()
+		Brain.humanToUser.put( user.getName(), user );
 		karma = 0;
 	}	
 }
