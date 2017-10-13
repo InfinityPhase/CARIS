@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import main.Brain;
-import main.ChannelInfo;
+import main.GuildInfo;
 import library.Constants;
 import sx.blah.discord.api.events.EventSubscriber;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
@@ -38,14 +38,14 @@ public class CommandHandler {
 	
 	@EventSubscriber
 	public void onMessageRecieved(MessageReceivedEvent event) {
-		if( Constants.DEBUG ) {System.out.println("\tMessage received: \"" + event.getMessage().getContent() + "\" from User \"" + event.getAuthor().getName() + "\" on Channel \"" + event.getChannel().getName() + "\".");}
-		if( !Brain.channelIndex.containsKey(event.getChannel()) ) {
-			Brain.channelIndex.put(event.getChannel(), new ChannelInfo());
-			if( Constants.DEBUG ) {System.out.println("\tCreating new Channel Object \"" + event.getChannel().getName() + "\".");}
+		if( Constants.DEBUG ) {System.out.println("\tMessage received: \"" + event.getMessage().getContent() + "\" from User \"" + event.getAuthor().getName() + "\" on Guild \"" + event.getGuild().getName() + "\".");}
+		if( !Brain.guildIndex.containsKey(event.getGuild()) ) {
+			Brain.guildIndex.put(event.getGuild(), new GuildInfo());
+			if( Constants.DEBUG ) {System.out.println("\tCreating new Guild Object \"" + event.getGuild().getName() + "\".");}
 		}
-		if( !Brain.channelIndex.get(event.getChannel()).userIndex.containsKey(event.getAuthor().getName()) ) {
-			Brain.channelIndex.get(event.getChannel()).userIndex.put(event.getAuthor().getName(), new UserData(event.getAuthor()));
-			if( Constants.DEBUG ) {System.out.println("\tAdding new User \"" + event.getAuthor().getName() + "\" to Channel " + event.getChannel().getName() + ".");}
+		if( !Brain.guildIndex.get(event.getGuild()).userIndex.containsKey(event.getAuthor().getName()) ) {
+			Brain.guildIndex.get(event.getGuild()).userIndex.put(event.getAuthor().getName(), new UserData(event.getAuthor()));
+			if( Constants.DEBUG ) {System.out.println("\tAdding new User \"" + event.getAuthor().getName() + "\" to Guild " + event.getGuild().getName() + ".");}
 		}
 		
 		String messageText = event.getMessage().getContent();

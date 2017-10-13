@@ -42,36 +42,36 @@ public class LocationInvoker extends Handler {
 					if( Constants.DEBUG ) {System.out.println("\t\t\t\t\tPerson added: \"" + tokens.get(f) + "\".");}
 				}
 				for( String person : persons ) {
-					if( Brain.channelIndex.get(event.getChannel()).locations.containsKey(place) ) {
+					if( Brain.guildIndex.get(event.getGuild()).locations.containsKey(place) ) {
 						if( Constants.DEBUG ) {System.out.println("\t\t\t\t\tLocation \"" + place + "\" found.");}
-						if( Brain.channelIndex.get(event.getChannel()).locations.get(place).contains(person) ) {
+						if( Brain.guildIndex.get(event.getGuild()).locations.get(place).contains(person) ) {
 							if( Constants.DEBUG ) {System.out.println("\t\t\t\t\tLocationInvoker triggered.");}
 							return person + " is already at " + place + ".";
 						} else {
 							if( Constants.DEBUG ) {System.out.println("\t\t\t\t\t\tNew Location \"" + place + "\" generated.");}
-							for( String location : Brain.channelIndex.get(event.getChannel()).locations.keySet() ) {
-								ArrayList<String> locals = Brain.channelIndex.get(event.getChannel()).locations.get(location);
+							for( String location : Brain.guildIndex.get(event.getGuild()).locations.keySet() ) {
+								ArrayList<String> locals = Brain.guildIndex.get(event.getGuild()).locations.get(location);
 								if( locals.contains(person) ) {
 									locals.remove(person);
 								}
 							}
-							Brain.channelIndex.get(event.getChannel()).locations.get(place).add(person);
-							Brain.channelIndex.get(event.getChannel()).people.put(person, place);
+							Brain.guildIndex.get(event.getGuild()).locations.get(place).add(person);
+							Brain.guildIndex.get(event.getGuild()).people.put(person, place);
 							response = person + "'s location has been set to " + place + ".";
 							if( Constants.DEBUG ) {System.out.println("\t\t\t\t\tLocationInvoker triggered.");}
 						}
 					} else {
 						if( Constants.DEBUG ) {System.out.println("\t\t\t\t\tRemoving previous location references.");}
-						for( String location : Brain.channelIndex.get(event.getChannel()).locations.keySet() ) {
-							ArrayList<String> locals = Brain.channelIndex.get(event.getChannel()).locations.get(location);
+						for( String location : Brain.guildIndex.get(event.getGuild()).locations.keySet() ) {
+							ArrayList<String> locals = Brain.guildIndex.get(event.getGuild()).locations.get(location);
 							if( locals.contains(person) ) {
 								locals.remove(person);
 							}
 						}
 						ArrayList<String> locals = new ArrayList<String>();
 						locals.add(person);
-						Brain.channelIndex.get(event.getChannel()).locations.put(place, locals);
-						Brain.channelIndex.get(event.getChannel()).people.put(person, place);
+						Brain.guildIndex.get(event.getGuild()).locations.put(place, locals);
+						Brain.guildIndex.get(event.getGuild()).people.put(person, place);
 						response = person + "'s location has been set to " + place + ".";
 						if( Constants.DEBUG ) {System.out.println("\t\t\t\t\tLocation set successfully.");}
 						if( Constants.DEBUG ) {System.out.println("\t\t\t\t\tLocationInvoker triggered.");}
@@ -90,12 +90,12 @@ public class LocationInvoker extends Handler {
 					return "Syntax Error: Insufficient parameters.";
 				}
 				String person = tokens.get(2);
-				if( !Brain.channelIndex.get(event.getChannel()).people.containsKey(person) ) {
+				if( !Brain.guildIndex.get(event.getGuild()).people.containsKey(person) ) {
 					if( Constants.DEBUG ) {System.out.println("\t\t\t\t\tLocation not found for \"" + person + "\".");}
 					if( Constants.DEBUG ) {System.out.println("\t\t\t\t\tLocationInvoker triggered.");}
 					return person + " has not set a location.";
 				}
-				String location = Brain.channelIndex.get(event.getChannel()).people.get(person);
+				String location = Brain.guildIndex.get(event.getGuild()).people.get(person);
 				response = person + " is at " + location + ".";
 				if( Constants.DEBUG ) {System.out.println("\t\t\t\t\tLocationInvoker triggered.");}
 			} else if(action.equals("check")) {
@@ -106,12 +106,12 @@ public class LocationInvoker extends Handler {
 					return "Syntax Error: Insufficient parameters.";
 				}
 				String location = tokens.get(2);
-				if( !Brain.channelIndex.get(event.getChannel()).locations.containsKey(location) ) {
+				if( !Brain.guildIndex.get(event.getGuild()).locations.containsKey(location) ) {
 					if( Constants.DEBUG ) {System.out.println("\t\t\t\t\tLocation \"" + location + "\"invalid.");}
 					if( Constants.DEBUG ) {System.out.println("\t\t\t\t\tLocationInvoker triggered.");}
 					return location + " is not a set location.";
 				}
-				ArrayList<String> locals = Brain.channelIndex.get(event.getChannel()).locations.get(location);
+				ArrayList<String> locals = Brain.guildIndex.get(event.getGuild()).locations.get(location);
 				if( locals.size() == 0 ) {
 					if( Constants.DEBUG ) {System.out.println("\t\t\t\t\tLocation \"" + location + "\" empty.");}
 					if( Constants.DEBUG ) {System.out.println("\t\t\t\t\tLocationInvoker triggered.");}
@@ -137,15 +137,15 @@ public class LocationInvoker extends Handler {
 					return "Syntax Error: Insufficient parameters.";
 				}
 				String location = tokens.get(2);
-				if( !Brain.channelIndex.get(event.getChannel()).locations.containsKey(location) ) {
+				if( !Brain.guildIndex.get(event.getGuild()).locations.containsKey(location) ) {
 					if( Constants.DEBUG ) {System.out.println("\t\t\t\t\tLocation \t" + location + "\" not found." );}
 					if( Constants.DEBUG ) {System.out.println("\t\t\t\t\tLocationInvoker triggered.");}
 					return location + " is not a set location.";
 				}
-				Brain.channelIndex.get(event.getChannel()).locations.remove(location);
-				for( String person : Brain.channelIndex.get(event.getChannel()).people.keySet() ) {
-					if(Brain.channelIndex.get(event.getChannel()).people.get(person).equals(location)) {
-						Brain.channelIndex.get(event.getChannel()).people.remove(person);
+				Brain.guildIndex.get(event.getGuild()).locations.remove(location);
+				for( String person : Brain.guildIndex.get(event.getGuild()).people.keySet() ) {
+					if(Brain.guildIndex.get(event.getGuild()).people.get(person).equals(location)) {
+						Brain.guildIndex.get(event.getGuild()).people.remove(person);
 					}
 				}
 				if( Constants.DEBUG ) {System.out.println("\t\t\t\t\tLocation cleared.");}
@@ -159,16 +159,16 @@ public class LocationInvoker extends Handler {
 					return "Syntax Error: Insufficient parameters.";
 				}
 				String person = tokens.get(2);
-				if( !Brain.channelIndex.get(event.getChannel()).people.containsKey(person) ) {
+				if( !Brain.guildIndex.get(event.getGuild()).people.containsKey(person) ) {
 					if( Constants.DEBUG ) {System.out.println("\t\t\t\t\tNo location set for \"" + person + "\".");}
 					if( Constants.DEBUG ) {System.out.println("\t\t\t\t\tLocationInvoker triggered.");}
 					return person + " has not set a location.";
 				}
 				if( Constants.DEBUG ) {System.out.println("\t\t\t\t\tRemoving previous location references.");}
-				Brain.channelIndex.get(event.getChannel()).people.remove(person);
-				for( String location : Brain.channelIndex.get(event.getChannel()).locations.keySet() ) {
-					if( Brain.channelIndex.get(event.getChannel()).locations.get(location).contains(person) ) {
-						Brain.channelIndex.get(event.getChannel()).locations.get(location).remove(person);
+				Brain.guildIndex.get(event.getGuild()).people.remove(person);
+				for( String location : Brain.guildIndex.get(event.getGuild()).locations.keySet() ) {
+					if( Brain.guildIndex.get(event.getGuild()).locations.get(location).contains(person) ) {
+						Brain.guildIndex.get(event.getGuild()).locations.get(location).remove(person);
 					}
 				}
 				if( Constants.DEBUG ) {System.out.println("\t\t\t\t\tLocation reset successfully.");}

@@ -5,7 +5,7 @@ import java.util.HashMap;
 
 import tokens.UserData;
 
-public class ChannelInfo {
+public class GuildInfo {
 	/* Location Libraries */
 	public HashMap<String, ArrayList<String>> locations;
 	public HashMap<String, String> people;
@@ -14,7 +14,7 @@ public class ChannelInfo {
 	public HashMap<String, String> translator;
 	public HashMap <String, UserData> userIndex;
 	
-	public ChannelInfo() {
+	public GuildInfo() {
 		locations = new HashMap<String, ArrayList<String>>();
 		people = new HashMap<String, String>();
 		translator = new HashMap<String, String>();

@@ -3,18 +3,17 @@ package main;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import sx.blah.discord.api.IDiscordClient;
-import sx.blah.discord.handle.obj.IChannel;
 import commands.CommandHandler;
-import utilities.BotUtils;
-import utilities.Handler;
-import utilities.TokenParser;
-
 import invokers.EchoInvoker;
 import invokers.LocationInvoker;
 import library.Constants;
 import responders.LocationResponder;
 import responders.MentionResponder;
+import sx.blah.discord.api.IDiscordClient;
+import sx.blah.discord.handle.obj.IGuild;
+import utilities.BotUtils;
+import utilities.Handler;
+import utilities.TokenParser;
 
 public class Brain {
 
@@ -32,7 +31,7 @@ public class Brain {
 	public static LocationResponder locationResponder = new LocationResponder();
 	
 	/* Gigantic Variable Library */
-	public static HashMap<IChannel, ChannelInfo> channelIndex = new HashMap<IChannel, ChannelInfo>();
+	public static HashMap<IGuild, GuildInfo> guildIndex = new HashMap<IGuild, GuildInfo>();
 	
 	public static void main(String[] args) {
 
