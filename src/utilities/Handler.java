@@ -8,8 +8,6 @@ public class Handler {
 	public Handler() {}
 	
 	public String process(MessageReceivedEvent event) {
-		String response = "";
-		String messageText = format(event);
 		return "";
 	}
 	

@@ -1,9 +1,8 @@
 package tokens;
 
-import sx.blah.discord.handle.impl.obj.Message;
 import sx.blah.discord.handle.obj.IMessage;
 
-public class Response implements Comparable {
+public class Response implements Comparable<Response> {
 	// Potential responses
 	public String text;
 	public IMessage message;
@@ -23,16 +22,12 @@ public class Response implements Comparable {
 	}
 	
 	@Override
-	public int compareTo(Object o) { // sort with higher priority first
-		if( o instanceof Response ) {
-			int compare = ((Response) o).priority;
-			if( this.priority < compare ) {
-				return 1;
-			} else if( this.priority > compare ) {
-				return -1;
-			} else {
-				return 0;
-			}
+	public int compareTo(Response r) { // sort with higher priority first
+		int compare = r.priority;
+		if( this.priority < compare ) {
+			return 1;
+		} else if( this.priority > compare ) {
+			return -1;
 		} else {
 			return 0;
 		}

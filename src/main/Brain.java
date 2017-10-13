@@ -2,20 +2,17 @@ package main;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Scanner;
 
 import sx.blah.discord.api.IDiscordClient;
-import sx.blah.discord.handle.impl.obj.User;
 import sx.blah.discord.handle.obj.IChannel;
 import commands.CommandHandler;
-import tokens.UserData;
 import utilities.BotUtils;
 import utilities.Handler;
 import utilities.TokenParser;
 
 import invokers.EchoInvoker;
 import invokers.LocationInvoker;
-
+import library.Constants;
 import responders.LocationResponder;
 import responders.MentionResponder;
 
@@ -51,18 +48,21 @@ public class Brain {
 		String token = args[0];
 
 		IDiscordClient cli = BotUtils.getBuiltDiscordClient(token);
-
+		if( Constants.DEBUG ) {System.out.println("Client built successfully.");}
+		
 		cli.getDispatcher().registerListener(new CommandHandler());
-
+		if( Constants.DEBUG ) {System.out.println("Listener established successfully.");}
+		
 		// Only login after all event registering is done
 		cli.login();
+		if( Constants.DEBUG ) {System.out.println("Client logged in.");}
 
 	}
 	public static void init() { // add handlers to their appropriate categories here
+		if( Constants.DEBUG ) {System.out.println("Initializing.");}
 		invokers.add(echoInvoker);
 		invokers.add(locationInvoker);
 		responders.add(mentionResponder);
 		responders.add(locationResponder);
 	}
-
 }

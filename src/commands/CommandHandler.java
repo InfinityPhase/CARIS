@@ -8,8 +8,6 @@ import main.ChannelInfo;
 import library.Constants;
 import sx.blah.discord.api.events.EventSubscriber;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
-import sx.blah.discord.handle.impl.obj.Message;
-import sx.blah.discord.handle.obj.IUser;
 import tokens.Response;
 import tokens.UserData;
 import utilities.BotUtils;
@@ -40,11 +38,14 @@ public class CommandHandler {
 	
 	@EventSubscriber
 	public void onMessageRecieved(MessageReceivedEvent event) {
+		if( Constants.DEBUG ) {System.out.println("\tMessage received: \"" + event.getMessage().getContent() + "\" from User \"" + event.getAuthor().getName() + "\" on Channel \"" + event.getChannel().getName() + "\".");}
 		if( !Brain.channelIndex.containsKey(event.getChannel()) ) {
 			Brain.channelIndex.put(event.getChannel(), new ChannelInfo());
+			if( Constants.DEBUG ) {System.out.println("\tCreating new Channel Object \"" + event.getChannel().getName() + "\".");}
 		}
 		if( !Brain.channelIndex.get(event.getChannel()).userIndex.containsKey(event.getAuthor().getName()) ) {
 			Brain.channelIndex.get(event.getChannel()).userIndex.put(event.getAuthor().getName(), new UserData(event.getAuthor()));
+			if( Constants.DEBUG ) {System.out.println("\tAdding new User \"" + event.getAuthor().getName() + "\" to Channel " + event.getChannel().getName() + ".");}
 		}
 		
 		String messageText = event.getMessage().getContent();
@@ -53,29 +54,39 @@ public class CommandHandler {
 		
 		// Checks if a message begins with the bot command prefix
 		if ( messageText.startsWith( Constants.PREFIX ) ) { // if invoked
+			if( Constants.DEBUG ) {System.out.println("\tInvocation detected.");}
 			for( Handler h : Brain.invokers ) { // try each invocation handler
 				// TODO: Try to optimize this later
 				String text = h.process( event ); // process individual invocation handler
 				if( !text.equals("") ) { // if this produces a result
+					if( Constants.DEBUG ) {System.out.println("\t\tResponse option generated: \"" + text + "\"");}
 					responses.add( new Response( text, h.getPriority() ) ); // add it to the list of potential responses
 				}
+				else if( Constants.DEBUG ) {System.out.println("\t\tNo response generated.");}
 			}
 		} else { // if not being invoked
+			if( Constants.DEBUG ) {System.out.println("\tGenerating automatic response.");}
 			for( Handler h : Brain.responders ) { // then try each auto handler
 				// TODO: Try to optimize this later.
 				String text = h.process( event ); // process individual handler
 				if( !text.equals("") ) { // if this produces a result
+					if( Constants.DEBUG ) {System.out.println("\t\tResponse option generated: \"" + text + "\"");}
 					responses.add( new Response( text, h.getPriority() ) ); // add it to the list of potential responses
 				}
+				else if( Constants.DEBUG ) {System.out.println("\t\tNo response generated.");}
 			}
 		}
 		if( responses.size() != 0 ) { // if any response exists
+			if( Constants.DEBUG ) {System.out.println("\tSelecting optimal response.");}
 			Response[] options = new Response[responses.size()]; // create a static array of response options
 			for( int f=0; f<responses.size(); f++ ) {
 				options[f] = responses.get(f);
 			}
 			Arrays.sort(options); // sort these options
+			if( Constants.DEBUG ) {System.out.println("\tOptimal response selected: \"" + options[0].text + "\"");}
 			BotUtils.sendMessage( event.getChannel(), options[0].text ); // print out highest priority response option 
+		} else {
+			if( Constants.DEBUG ) {System.out.println("\tNo responses available.");}
 		}
 	}
 

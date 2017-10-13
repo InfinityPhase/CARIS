@@ -7,12 +7,12 @@ import tokens.UserData;
 
 public class ChannelInfo {
 	/* Location Libraries */
-	public static HashMap<String, ArrayList<String>> locations;
-	public static HashMap<String, String> people;
+	public HashMap<String, ArrayList<String>> locations;
+	public HashMap<String, String> people;
 	
 	// Creates Map of Username-human to User user
-	public static HashMap<String, String> translator;
-	public static HashMap <String, UserData> userIndex;
+	public HashMap<String, String> translator;
+	public HashMap <String, UserData> userIndex;
 	
 	public ChannelInfo() {
 		locations = new HashMap<String, ArrayList<String>>();
