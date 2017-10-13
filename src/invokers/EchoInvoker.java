@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import main.Brain;
 import library.Constants;
 import utilities.Handler;
+import tokens.UserData;
 
 import sx.blah.discord.handle.impl.obj.Message;
 
@@ -21,7 +22,7 @@ public class EchoInvoker implements Handler {
 		tokens.remove(0);
 		
 		if( tokens.get(0).equals("echo") ) {
-			response = tokens.get(1);
+			response = tokens.get(1);;
 		}
 		return response;
 	}

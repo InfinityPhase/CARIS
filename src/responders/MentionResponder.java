@@ -2,11 +2,11 @@ package responders;
 
 import java.util.ArrayList;
 
-import main.Brain;
 import library.Constants;
-import utilities.Handler;
-
+import main.Brain;
 import sx.blah.discord.handle.impl.obj.Message;
+import utilities.Handler;
+import tokens.UserData;
 
 public class MentionResponder implements Handler {
 	// Placeholder example auto handler

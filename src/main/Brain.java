@@ -35,8 +35,8 @@ public class Brain {
 	public static LocationResponder locationResponder = new LocationResponder();
 	
 	// Creates Map of Username-human to User user
-	public static HashMap< String, User > humanToUser = new HashMap< String, User >();
-
+	public static HashMap< String, String > translator = new HashMap< String, String >();
+	public static HashMap < String , UserData > userIndex = new HashMap< String, UserData >();
 	
 	public static void main(String[] args) {
 
