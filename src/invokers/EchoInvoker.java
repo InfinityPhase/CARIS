@@ -3,7 +3,7 @@ package invokers;
 import java.util.ArrayList;
 
 import main.Brain;
-import main.Constants;
+import library.Constants;
 import utilities.Handler;
 
 import sx.blah.discord.handle.impl.obj.Message;

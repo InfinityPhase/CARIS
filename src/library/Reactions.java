@@ -1,6 +1,6 @@
-package main;
+package library;
 
-public class Library {
+public class Reactions {
 	// stores appropriate reactions for various things
 	public String[] frustratedEmojis = new String[] {
 			">w<", ">u<", ">m<", ">n<", ">w>", ">u>", ">m>", ">n>",
