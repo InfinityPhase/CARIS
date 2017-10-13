@@ -8,6 +8,7 @@ import library.Constants;
 import sx.blah.discord.api.events.EventSubscriber;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import sx.blah.discord.handle.impl.obj.Message;
+import sx.blah.discord.handle.obj.IUser;
 import tokens.Response;
 import tokens.UserData;
 import utilities.BotUtils;
@@ -38,6 +39,10 @@ public class CommandHandler {
 	
 	@EventSubscriber
 	public void onMessageRecieved(MessageReceivedEvent event) {
+		if( !Brain.userIndex.containsKey(event.getAuthor().getName()) ) {
+			Brain.userIndex.put(event.getAuthor().getName(), new UserData(event.getAuthor()));
+		}
+		
 		String messageText = event.getMessage().getContent();
 		
 		ArrayList<Response> responses = new ArrayList<Response>();
@@ -68,5 +73,10 @@ public class CommandHandler {
 			Arrays.sort(options); // sort these options
 			BotUtils.sendMessage( event.getChannel(), options[0].text ); // print out highest priority response option 
 		}
+	}
+
+	private Object UserData(IUser author) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
