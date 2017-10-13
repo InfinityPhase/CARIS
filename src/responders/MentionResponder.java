@@ -21,7 +21,7 @@ public class MentionResponder implements Handler {
 		messageText = messageText.toLowerCase();
 		ArrayList<String> tokens = Brain.tp.parse(messageText);
 		if( tokens.contains(Constants.NAME.toLowerCase()) ) {
-			response = "I have been summoned.";
+			response = "What is it?";
 		}
 		return response;
 	}
