@@ -4,16 +4,20 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
-import commands.CommandHandler;
-import invokers.EchoInvoker;
-import invokers.LocationInvoker;
-import responders.LocationResponder;
-import responders.MentionResponder;
 import sx.blah.discord.api.IDiscordClient;
+import sx.blah.discord.handle.impl.obj.User;
+
+import commands.CommandHandler;
 import tokens.User;
 import utilities.BotUtils;
 import utilities.Handler;
 import utilities.TokenParser;
+
+import invokers.EchoInvoker;
+import invokers.LocationInvoker;
+
+import responders.LocationResponder;
+import responders.MentionResponder;
 
 // Basically a HelloWorld Bot.
 // NOTE: When using Gradle, refresh/restart workspace to update dependencies
@@ -42,6 +46,9 @@ public class Brain {
 			System.out.println("# java -jar SimpleResponder.jar TOKEN");
 			System.exit(0);
 		}
+		
+		// Creates Map of Username-human to User user
+		public HashMap< String, User > humanToUser = new HashMap< String, User >();
 
 		// Gets token from arguments
 		String token = args[0];

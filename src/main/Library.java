@@ -16,7 +16,7 @@ public class Library {
 			
 	};
 	public String[] hurtReactions = new String[] {
-			
+			"I- Why- Okay..."
 	};
 	public String[] happyReactions = new String[] {
 			
