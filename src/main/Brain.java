@@ -8,7 +8,7 @@ import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.impl.obj.User;
 
 import commands.CommandHandler;
-import tokens.User;
+import tokens.UserData;
 import utilities.BotUtils;
 import utilities.Handler;
 import utilities.TokenParser;
@@ -18,9 +18,6 @@ import invokers.LocationInvoker;
 
 import responders.LocationResponder;
 import responders.MentionResponder;
-
-// Basically a HelloWorld Bot.
-// NOTE: When using Gradle, refresh/restart workspace to update dependencies
 
 public class Brain {
 
@@ -37,6 +34,10 @@ public class Brain {
 	public static MentionResponder mentionResponder = new MentionResponder();
 	public static LocationResponder locationResponder = new LocationResponder();
 	
+	// Creates Map of Username-human to User user
+	public static HashMap< String, User > humanToUser = new HashMap< String, User >();
+
+	
 	public static void main(String[] args) {
 
 		init();
@@ -47,9 +48,6 @@ public class Brain {
 			System.exit(0);
 		}
 		
-		// Creates Map of Username-human to User user
-		public HashMap< String, User > humanToUser = new HashMap< String, User >();
-
 		// Gets token from arguments
 		String token = args[0];
 

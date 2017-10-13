@@ -9,7 +9,7 @@ import sx.blah.discord.api.events.EventSubscriber;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import sx.blah.discord.handle.impl.obj.Message;
 import tokens.Response;
-import tokens.User;
+import tokens.UserData;
 import utilities.BotUtils;
 import utilities.Handler;
 
