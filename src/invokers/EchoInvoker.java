@@ -6,7 +6,7 @@ import main.Brain;
 import library.Constants;
 import utilities.Handler;
 import tokens.UserData;
-
+import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import sx.blah.discord.handle.impl.obj.Message;
 
 public class EchoInvoker extends Handler {
@@ -14,9 +14,9 @@ public class EchoInvoker extends Handler {
 	
 	public EchoInvoker() {}
 	
-	public String process(Message message) {
+	public String process(MessageReceivedEvent event) {
 		String response = "";
-		String messageText = format(message);
+		String messageText = format(event);
 		ArrayList<String> tokens = Brain.tp.parse(messageText);
 		tokens.remove(0);
 		

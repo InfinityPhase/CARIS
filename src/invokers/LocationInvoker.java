@@ -6,7 +6,7 @@ import java.util.HashMap;
 import main.Brain;
 import library.Constants;
 import utilities.Handler;
-
+import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import sx.blah.discord.handle.impl.obj.Message;
 
 public class LocationInvoker extends Handler {
@@ -19,11 +19,9 @@ public class LocationInvoker extends Handler {
 		people = new HashMap<String, String>();
 	}
 	
-	public String process(Message message) {
-		String messageText = message.getContent();
-		
+	public String process(MessageReceivedEvent event) {		
 		String response = "";
-		messageText = messageText.toLowerCase();
+		String messageText = format(event);
 		ArrayList<String> tokens = Brain.tp.parse(messageText);
 		tokens.remove(0);
 		

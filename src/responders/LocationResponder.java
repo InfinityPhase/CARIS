@@ -4,16 +4,16 @@ import java.util.ArrayList;
 
 import main.Brain;
 import utilities.Handler;
-
+import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import sx.blah.discord.handle.impl.obj.Message;
 
 public class LocationResponder extends Handler {
 
 	public LocationResponder() {}
 	
-	public String process(Message message) {
+	public String process(MessageReceivedEvent event) {
 		String response = "";
-		String messageText = format(message);
+		String messageText = format(event);
 		ArrayList<String> tokens = Brain.tp.parse(messageText.toLowerCase());
 		
 		if( tokens.contains("where's") || tokens.contains("where") ) {

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import library.Constants;
 import main.Brain;
+import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import sx.blah.discord.handle.impl.obj.Message;
 import utilities.Handler;
 import tokens.UserData;
@@ -13,9 +14,9 @@ public class MentionResponder extends Handler {
 	
 	public MentionResponder() {}
 	
-	public String process(Message message) {
+	public String process(MessageReceivedEvent event) {
 		String response = "";
-		String messageText = format(message);
+		String messageText = format(event);
 		ArrayList<String> tokens = Brain.tp.parse(messageText);
 		
 		if( tokens.contains(Constants.NAME.toLowerCase()) ) {
