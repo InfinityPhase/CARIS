@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.impl.obj.User;
-
+import sx.blah.discord.handle.obj.IChannel;
 import commands.CommandHandler;
 import tokens.UserData;
 import utilities.BotUtils;
@@ -34,13 +34,8 @@ public class Brain {
 	public static MentionResponder mentionResponder = new MentionResponder();
 	public static LocationResponder locationResponder = new LocationResponder();
 	
-	/* Location Libraries */
-	public static HashMap<String, ArrayList<String>> locations = new HashMap<String, ArrayList<String>>();
-	public static HashMap<String, String> people = new HashMap<String, String>();
-	
-	// Creates Map of Username-human to User user
-	public static HashMap< String, String > translator = new HashMap< String, String >();
-	public static HashMap < String , UserData > userIndex = new HashMap< String, UserData >();
+	/* Gigantic Variable Library */
+	public static HashMap<IChannel, ChannelInfo> channelIndex = new HashMap<IChannel, ChannelInfo>();
 	
 	public static void main(String[] args) {
 

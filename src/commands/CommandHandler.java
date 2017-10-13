@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import main.Brain;
+import main.ChannelInfo;
 import library.Constants;
 import sx.blah.discord.api.events.EventSubscriber;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
@@ -39,8 +40,11 @@ public class CommandHandler {
 	
 	@EventSubscriber
 	public void onMessageRecieved(MessageReceivedEvent event) {
-		if( !Brain.userIndex.containsKey(event.getAuthor().getName()) ) {
-			Brain.userIndex.put(event.getAuthor().getName(), new UserData(event.getAuthor()));
+		if( !Brain.channelIndex.containsKey(event.getChannel()) ) {
+			Brain.channelIndex.put(event.getChannel(), new ChannelInfo());
+		}
+		if( !Brain.channelIndex.get(event.getChannel()).userIndex.containsKey(event.getAuthor().getName()) ) {
+			Brain.channelIndex.get(event.getChannel()).userIndex.put(event.getAuthor().getName(), new UserData(event.getAuthor()));
 		}
 		
 		String messageText = event.getMessage().getContent();
