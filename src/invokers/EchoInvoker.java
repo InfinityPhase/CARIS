@@ -9,15 +9,14 @@ import tokens.UserData;
 
 import sx.blah.discord.handle.impl.obj.Message;
 
-public class EchoInvoker implements Handler {
+public class EchoInvoker extends Handler {
 	// Placeholder example invoked handler
 	
 	public EchoInvoker() {}
 	
-	@Override
 	public String process(Message message) {
-		String messageText = message.getContent();
 		String response = "";
+		String messageText = format(message);
 		ArrayList<String> tokens = Brain.tp.parse(messageText);
 		tokens.remove(0);
 		
@@ -27,8 +26,4 @@ public class EchoInvoker implements Handler {
 		return response;
 	}
 	
-	@Override
-	public int getPriority() {
-		return 0;
-	}
 }

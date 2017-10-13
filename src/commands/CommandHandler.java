@@ -75,8 +75,4 @@ public class CommandHandler {
 		}
 	}
 
-	private Object UserData(IUser author) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }

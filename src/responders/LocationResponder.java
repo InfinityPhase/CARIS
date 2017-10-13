@@ -7,19 +7,15 @@ import utilities.Handler;
 
 import sx.blah.discord.handle.impl.obj.Message;
 
-public class LocationResponder implements Handler {
+public class LocationResponder extends Handler {
 
 	public LocationResponder() {}
 	
-	@Override
 	public String process(Message message) {
-		String messageText = message.getContent();
-		
 		String response = "";
-		messageText = messageText.toLowerCase();
+		String messageText = format(message);
 		ArrayList<String> tokens = Brain.tp.parse(messageText.toLowerCase());
 		
-		messageText = " " + messageText + " ";
 		if( tokens.contains("where's") || tokens.contains("where") ) {
 			for( String person : Brain.locationInvoker.people.keySet() ) {
 				if( messageText.contains(person) ) {
@@ -58,11 +54,6 @@ public class LocationResponder implements Handler {
 			}
 		}
 		return response;
-	}
-	
-	@Override
-	public int getPriority() {
-		return 0;
 	}
 
 }

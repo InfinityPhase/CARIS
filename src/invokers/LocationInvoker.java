@@ -9,7 +9,7 @@ import utilities.Handler;
 
 import sx.blah.discord.handle.impl.obj.Message;
 
-public class LocationInvoker implements Handler {
+public class LocationInvoker extends Handler {
 	
 	public HashMap<String, ArrayList<String>> locations;
 	public HashMap<String, String> people;
@@ -19,7 +19,6 @@ public class LocationInvoker implements Handler {
 		people = new HashMap<String, String>();
 	}
 	
-	@Override
 	public String process(Message message) {
 		String messageText = message.getContent();
 		
@@ -141,11 +140,6 @@ public class LocationInvoker implements Handler {
 			}
 		}
 		return response;
-	}
-	
-	@Override
-	public int getPriority() {
-		return 0;
 	}
 
 }
