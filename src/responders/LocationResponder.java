@@ -17,25 +17,25 @@ public class LocationResponder extends Handler {
 		ArrayList<String> tokens = Brain.tp.parse(messageText.toLowerCase());
 		
 		if( tokens.contains("where's") || tokens.contains("where") ) {
-			for( String person : Brain.locationInvoker.people.keySet() ) {
+			for( String person : Brain.people.keySet() ) {
 				if( messageText.contains(person) ) {
-					response = person + " is at " + Brain.locationInvoker.people.get(person) + ".";
+					response = person + " is at " + Brain.people.get(person) + ".";
 					break;
 				}
 			}
 			for( String token : tokens ) {
-				if( Brain.locationInvoker.people.keySet().contains(token) ) {
-					response = token + " is at " + Brain.locationInvoker.people.get(token) + ".";
+				if( Brain.people.keySet().contains(token) ) {
+					response = token + " is at " + Brain.people.get(token) + ".";
 					break;
 				}
 			}
 		} else if( tokens.contains("who") && tokens.contains("is") && tokens.contains("at") || tokens.contains("who's") && tokens.contains("at") ) {
-			for( String location : Brain.locationInvoker.locations.keySet() ) {
+			for( String location : Brain.locations.keySet() ) {
 				if( messageText.contains(location.toString()) ) {
-					if( !Brain.locationInvoker.locations.containsKey(location) ) {
+					if( !Brain.locations.containsKey(location) ) {
 						return location + " is not a set location.";
 					}
-					ArrayList<String> locals = Brain.locationInvoker.locations.get(location);
+					ArrayList<String> locals = Brain.locations.get(location);
 					if( locals.size() == 0 ) {
 						response = "No one is at " + location + ".";
 					} else {

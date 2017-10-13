@@ -34,6 +34,10 @@ public class Brain {
 	public static MentionResponder mentionResponder = new MentionResponder();
 	public static LocationResponder locationResponder = new LocationResponder();
 	
+	/* Location Libraries */
+	public static HashMap<String, ArrayList<String>> locations = new HashMap<String, ArrayList<String>>();
+	public static HashMap<String, String> people = new HashMap<String, String>();
+	
 	// Creates Map of Username-human to User user
 	public static HashMap< String, String > translator = new HashMap< String, String >();
 	public static HashMap < String , UserData > userIndex = new HashMap< String, UserData >();
