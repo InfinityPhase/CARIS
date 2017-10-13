@@ -1,4 +1,4 @@
-package main;
+package library;
 
 public class Library {
 	// stores appropriate reactions for various things

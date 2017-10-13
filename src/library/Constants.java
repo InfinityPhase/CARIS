@@ -1,4 +1,4 @@
-package main;
+package library;
 
 public class Constants {
 	public static final String PREFIX = "==> ";
