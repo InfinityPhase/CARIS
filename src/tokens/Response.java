@@ -32,7 +32,7 @@ public class Response implements Comparable<Response> {
 		this.text = "";
 		this.priority = priority;
 		this.message = null;
-		this.builder = new EmbedBuilder();
+		this.builder = builder;
 		embed = true;
 	}
 	
