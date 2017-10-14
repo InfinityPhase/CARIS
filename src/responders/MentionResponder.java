@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import library.Constants;
 import main.Brain;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
+import tokens.Response;
 import utilities.Handler;
 
 public class MentionResponder extends Handler {
@@ -12,7 +13,7 @@ public class MentionResponder extends Handler {
 	
 	public MentionResponder() {}
 	
-	public String process(MessageReceivedEvent event) {
+	public Response process(MessageReceivedEvent event) {
 		if( Constants.DEBUG ) {System.out.println("\t\t\tProcessing MentionResponder.");}
 		String response = "";
 		String messageText = format(event);
@@ -24,7 +25,7 @@ public class MentionResponder extends Handler {
 			if( Constants.DEBUG ) {System.out.println("\t\t\t\tMentionResponder triggered.");}
 		} else if( Constants.DEBUG ) {System.out.println("\t\t\t\tMentionResponder unactivated.");}
 		if( Constants.DEBUG ) {System.out.println("\t\t\tMentionResponder processed.");}
-		return response;
+		return build(response);
 	}
 
 }

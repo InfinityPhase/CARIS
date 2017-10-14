@@ -57,10 +57,13 @@ public class CommandHandler {
 			if( Constants.DEBUG ) {System.out.println("\tInvocation detected.");}
 			for( Handler h : Brain.invokers ) { // try each invocation handler
 				// TODO: Try to optimize this later
-				String text = h.process( event ); // process individual invocation handler
-				if( !text.equals("") ) { // if this produces a result
-					if( Constants.DEBUG ) {System.out.println("\t\tResponse option generated: \"" + text + "\"");}
-					responses.add( new Response( text, h.getPriority() ) ); // add it to the list of potential responses
+				Response r = h.process(event);
+				if( r.embed ) {
+					if( Constants.DEBUG ) {System.out.println("\t\tResponse embed option generated.");}
+					responses.add(r);
+				} if( !r.text.equals("") ) { // if this produces a result
+					if( Constants.DEBUG ) {System.out.println("\t\tResponse option generated: \"" + r.text + "\"");}
+					responses.add( r ); // add it to the list of potential responses
 				}
 				else if( Constants.DEBUG ) {System.out.println("\t\tNo response generated.");}
 			}
@@ -68,10 +71,13 @@ public class CommandHandler {
 			if( Constants.DEBUG ) {System.out.println("\tGenerating automatic response.");}
 			for( Handler h : Brain.responders ) { // then try each auto handler
 				// TODO: Try to optimize this later.
-				String text = h.process( event ); // process individual handler
-				if( !text.equals("") ) { // if this produces a result
-					if( Constants.DEBUG ) {System.out.println("\t\tResponse option generated: \"" + text + "\"");}
-					responses.add( new Response( text, h.getPriority() ) ); // add it to the list of potential responses
+				Response r = h.process( event ); // process individual handler
+				if( r.embed ) {
+					if( Constants.DEBUG ) {System.out.println("\t\tResponse embed option generated.");}
+					responses.add(r);
+				} else if( !r.text.equals("") ) { // if this produces a result
+					if( Constants.DEBUG ) {System.out.println("\t\tResponse option generated: \"" + r.text + "\"");}
+					responses.add( r ); // add it to the list of potential responses
 				}
 				else if( Constants.DEBUG ) {System.out.println("\t\tNo response generated.");}
 			}
@@ -83,8 +89,12 @@ public class CommandHandler {
 				options[f] = responses.get(f);
 			}
 			Arrays.sort(options); // sort these options
-			if( Constants.DEBUG ) {System.out.println("\tOptimal response selected: \"" + options[0].text + "\"");}
-			BotUtils.sendMessage( event.getChannel(), options[0].text ); // print out highest priority response option 
+			if( Constants.DEBUG ) {System.out.println("\tOptimal response selected.");}
+			if( options[0].embed ) {
+				event.getChannel().sendMessage(options[0].builder.build());
+			} else {
+				BotUtils.sendMessage( event.getChannel(), options[0].text ); // print out highest priority response option 
+			}
 		} else {
 			if( Constants.DEBUG ) {System.out.println("\tNo responses available.");}
 		}
