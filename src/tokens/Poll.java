@@ -22,71 +22,63 @@ public class Poll {
 	
 	public EmbedBuilder check() {
 		EmbedBuilder builder = new EmbedBuilder();
-//		response += "__" + name + "__";
-//		response += "\n*" + description + "*";
-//		for( String option : options.keySet() ) {
-//			response += "\n  **" + option + "** : " + options.get(option).size(); 
-//		}
-//		response += "\nType \"==> vote cast \"" + name + "\" <option>" + "\" to vote.";
+		builder.withTitle("**__" + name + "__**");
+		builder.withDesc("*" + description + "*");
+		for( String option : options.keySet() ) {
+			builder.appendField(option, options.get(option).size() + " votes!", false);
+		}
+		builder.withFooterText("Type \"==> vote cast \"" + name + "\" <option>" + "\" to vote.");
+		builder.withAuthorName("Poll Status:");
 		return builder;
 	}
 	
 	public EmbedBuilder end() {
 		EmbedBuilder builder = new EmbedBuilder();
-//		response += "__" + name + "__";
-//		response += "\n*" + description + "*";
-//		for( String option : options.keySet() ) {
-//			response += "\n  **" + option + "** : " + options.get(option).size(); 
-//		}
-//		int max = 0;
-//		String winner = "";
-//		boolean multiWinner = false;
-//		for( String option : options.keySet() ) {
-//			int s = options.get(option).size();
-//			if( s > max ) {
-//				max = s;
-//				winner = option;
-//				multiWinner = false;
-//			} else if( s == max && max != 0 ) {
-//				winner += " and " + option;
-//				multiWinner = true;
-//			}
-//		}
-//		if( max == 0 ) {
-//			response += "\nThere are no winners.";
-//		} else if( multiWinner ) {
-//			response += "\nThe winners are " + winner + ", with " + max;
-//			if( max == 1 ) {
-//				response += " vote!";
-//			} else {
-//				response += "votes!";
-//			}
-//		} else {
-//			response += "\nThe winner is " + winner + ", with " + max;
-//			if( max == 1 ) {
-//				response += " vote!";
-//			} else {
-//				response += "votes!";
-//			}
-//		}
+		builder.withTitle("**__" + name + "__**");
+		builder.withDesc("*" + description + "*");
+		for( String option : options.keySet() ) {
+			builder.appendField(option, options.get(option).size() + " votes!", false);
+		}
+
+		int max = 0;
+		String winner = "";
+		boolean multiWinner = false;
+		for( String option : options.keySet() ) {
+			int s = options.get(option).size();
+			if( s > max ) {
+				max = s;
+				winner = option;
+				multiWinner = false;
+			} else if( s == max && max != 0 ) {
+				winner += " and " + option;
+				multiWinner = true;
+			}
+		}
+		if( max == 0 ) {
+			builder.withAuthorName("Tie!");
+		} else if( multiWinner ) {
+			builder.withAuthorName("The winners are " + winner + "!");
+		} else {
+			builder.withAuthorName("The winner is " + winner + "!");
+		}
 		return builder;
 	}
 	public EmbedBuilder cast(IUser user, String choice) {
 		EmbedBuilder builder = new EmbedBuilder();
-//		boolean voted = false;
-//		for( String option : options.keySet() ) {
-//			if( options.get(option).contains(user.getName()) ) {
-//				options.get(option).remove(user.getName());
-//				options.get(choice).add(user.getName());
-//				response = "Changed vote to \"" + choice +"\"!\n";
-//				voted = true;
-//			}
-//		}
-//		if( !voted ) {
-//			options.get(choice).add(user.getName());
-//			response += "Cast vote for \"" + choice + "\"!\n"; 
-//		}
-//		response += check();
+		builder = check();
+		boolean voted = false;
+		for( String option : options.keySet() ) {
+			if( options.get(option).contains(user.getName()) ) {
+				options.get(option).remove(user.getName());
+				options.get(choice).add(user.getName());
+				builder.withAuthorName("Changed vote to \"" + choice +"\"!");
+				voted = true;
+			}
+		}
+		if( !voted ) {
+			options.get(choice).add(user.getName());
+			builder.withAuthorName("Cast vote for \"" + choice + "\"!"); 
+		}
 		return builder;
 	}
 }
