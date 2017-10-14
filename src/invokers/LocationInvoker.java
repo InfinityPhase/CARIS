@@ -6,12 +6,13 @@ import library.Constants;
 import main.Brain;
 import utilities.Handler;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
+import tokens.Response;
 
 public class LocationInvoker extends Handler {
 	
 	public LocationInvoker() {}
 	
-	public String process(MessageReceivedEvent event) {	
+	public Response process(MessageReceivedEvent event) {	
 		if( Constants.DEBUG ) {System.out.println("\t\t\tProcessing LocationInvoker.");}
 		String response = "";
 		String messageText = format(event);
@@ -24,7 +25,7 @@ public class LocationInvoker extends Handler {
 			if( tokens.size() < 2 ) {
 				if( Constants.DEBUG ) {System.out.println("\t\t\t\t\tSyntax Error. Aborting.");}
 				if( Constants.DEBUG ) {System.out.println("\t\t\t\t\tLocationInvoker triggered.");}
-				return "Syntax Error: Command not specified.";
+				return build("Syntax Error: Command not specified.");
 			}
 			String action = tokens.get(1);
 			if(action.equals("set")) {
@@ -32,7 +33,7 @@ public class LocationInvoker extends Handler {
 				if( tokens.size() < 4 ) {
 					if( Constants.DEBUG ) {System.out.println("\t\t\t\t\tSyntax Error. Aborting.");}
 					if( Constants.DEBUG ) {System.out.println("\t\t\t\t\tLocationInvoker triggered.");}
-					return "Syntax Error: Insufficient parameters.";
+					return build("Syntax Error: Insufficient parameters.");
 				}
 				String place = tokens.get(2);
 				if( Constants.DEBUG ) {System.out.println("\t\t\t\t\t\tLocation set: \"" + place + "\".");}
@@ -46,7 +47,7 @@ public class LocationInvoker extends Handler {
 						if( Constants.DEBUG ) {System.out.println("\t\t\t\t\tLocation \"" + place + "\" found.");}
 						if( Brain.guildIndex.get(event.getGuild()).locations.get(place).contains(person) ) {
 							if( Constants.DEBUG ) {System.out.println("\t\t\t\t\tLocationInvoker triggered.");}
-							return person + " is already at " + place + ".";
+							return build(person + " is already at " + place + ".");
 						} else {
 							if( Constants.DEBUG ) {System.out.println("\t\t\t\t\t\tNew Location \"" + place + "\" generated.");}
 							for( String location : Brain.guildIndex.get(event.getGuild()).locations.keySet() ) {
@@ -87,13 +88,13 @@ public class LocationInvoker extends Handler {
 				if( tokens.size() < 3 ) {
 					if( Constants.DEBUG ) {System.out.println("\t\t\t\t\tSyntax Error. Aborting.");}
 					if( Constants.DEBUG ) {System.out.println("\t\t\t\t\tLocationInvoker triggered.");}
-					return "Syntax Error: Insufficient parameters.";
+					return build("Syntax Error: Insufficient parameters.");
 				}
 				String person = tokens.get(2);
 				if( !Brain.guildIndex.get(event.getGuild()).people.containsKey(person) ) {
 					if( Constants.DEBUG ) {System.out.println("\t\t\t\t\tLocation not found for \"" + person + "\".");}
 					if( Constants.DEBUG ) {System.out.println("\t\t\t\t\tLocationInvoker triggered.");}
-					return person + " has not set a location.";
+					return build(person + " has not set a location.");
 				}
 				String location = Brain.guildIndex.get(event.getGuild()).people.get(person);
 				response = person + " is at " + location + ".";
@@ -103,13 +104,13 @@ public class LocationInvoker extends Handler {
 				if( tokens.size() < 3 ) {
 					if( Constants.DEBUG ) {System.out.println("\t\t\t\t\tSyntax Error. Aborting.");}
 					if( Constants.DEBUG ) {System.out.println("\t\t\t\t\tLocationInvoker triggered.");}
-					return "Syntax Error: Insufficient parameters.";
+					return build("Syntax Error: Insufficient parameters.");
 				}
 				String location = tokens.get(2);
 				if( !Brain.guildIndex.get(event.getGuild()).locations.containsKey(location) ) {
 					if( Constants.DEBUG ) {System.out.println("\t\t\t\t\tLocation \"" + location + "\"invalid.");}
 					if( Constants.DEBUG ) {System.out.println("\t\t\t\t\tLocationInvoker triggered.");}
-					return location + " is not a set location.";
+					return build(location + " is not a set location.");
 				}
 				ArrayList<String> locals = Brain.guildIndex.get(event.getGuild()).locations.get(location);
 				if( locals.size() == 0 ) {
@@ -134,13 +135,13 @@ public class LocationInvoker extends Handler {
 				if( tokens.size() < 3 ) {
 					if( Constants.DEBUG ) {System.out.println("\t\t\t\t\tSyntax Error. Aborting.");}
 					if( Constants.DEBUG ) {System.out.println("\t\t\t\t\tLocationInvoker triggered.");}
-					return "Syntax Error: Insufficient parameters.";
+					return build("Syntax Error: Insufficient parameters.");
 				}
 				String location = tokens.get(2);
 				if( !Brain.guildIndex.get(event.getGuild()).locations.containsKey(location) ) {
 					if( Constants.DEBUG ) {System.out.println("\t\t\t\t\tLocation \t" + location + "\" not found." );}
 					if( Constants.DEBUG ) {System.out.println("\t\t\t\t\tLocationInvoker triggered.");}
-					return location + " is not a set location.";
+					return build(location + " is not a set location.");
 				}
 				Brain.guildIndex.get(event.getGuild()).locations.remove(location);
 				for( String person : Brain.guildIndex.get(event.getGuild()).people.keySet() ) {
@@ -156,13 +157,13 @@ public class LocationInvoker extends Handler {
 				if( tokens.size() < 3 ) {
 					if( Constants.DEBUG ) {System.out.println("\t\t\t\t\tSyntax Error. Aborting.");}
 					if( Constants.DEBUG ) {System.out.println("\t\t\t\t\tLocationInvoker triggered.");}
-					return "Syntax Error: Insufficient parameters.";
+					return build("Syntax Error: Insufficient parameters.");
 				}
 				String person = tokens.get(2);
 				if( !Brain.guildIndex.get(event.getGuild()).people.containsKey(person) ) {
 					if( Constants.DEBUG ) {System.out.println("\t\t\t\t\tNo location set for \"" + person + "\".");}
 					if( Constants.DEBUG ) {System.out.println("\t\t\t\t\tLocationInvoker triggered.");}
-					return person + " has not set a location.";
+					return build(person + " has not set a location.");
 				}
 				if( Constants.DEBUG ) {System.out.println("\t\t\t\t\tRemoving previous location references.");}
 				Brain.guildIndex.get(event.getGuild()).people.remove(person);
@@ -177,11 +178,11 @@ public class LocationInvoker extends Handler {
 			} else {
 				if( Constants.DEBUG ) {System.out.println("\t\t\t\tKeyword \"" + action + "\" unknown. Aborting.");}
 				if( Constants.DEBUG ) {System.out.println("\t\t\t\tLocationInvoker triggered.");}
-				return "Unrecognized command: \"" + action + "\".";
+				return build("Unrecognized command: \"" + action + "\".");
 			}
 		} else if( Constants.DEBUG ) {System.out.println("\t\t\t\tLocationInvoker unactivated.");}
 		if( Constants.DEBUG ) {System.out.println("\t\t\tLocationInvoker processed.");}
-		return response;
+		return build(response);
 	}
 
 }

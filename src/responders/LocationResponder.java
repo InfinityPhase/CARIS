@@ -6,12 +6,13 @@ import library.Constants;
 import main.Brain;
 import utilities.Handler;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
+import tokens.Response;
 
 public class LocationResponder extends Handler {
 
 	public LocationResponder() {}
 	
-	public String process(MessageReceivedEvent event) {
+	public Response process(MessageReceivedEvent event) {
 		if( Constants.DEBUG ) {System.out.println("\t\t\tProcessing LocationResponder.");}
 		String response = "";
 		String messageText = format(event);
@@ -44,7 +45,7 @@ public class LocationResponder extends Handler {
 					if( !Brain.guildIndex.get(event.getChannel()).locations.containsKey(location) ) {
 						if( Constants.DEBUG ) {System.out.println("\t\t\t\t\tLocation not set.");}
 						if( Constants.DEBUG ) {System.out.println("\t\t\t\t\tLocationResponder triggered.");}
-						return location + " is not a set location.";
+						return build(location + " is not a set location.");
 					}
 					ArrayList<String> locals = Brain.guildIndex.get(event.getChannel()).locations.get(location);
 					if( locals.size() == 0 ) {
@@ -69,7 +70,7 @@ public class LocationResponder extends Handler {
 			}
 		} else if( Constants.DEBUG ) {System.out.println("\t\t\t\tLocationResponder unactivated.");}
 		if( Constants.DEBUG ) {System.out.println("\t\t\tLocationResponder processed.");}
-		return response;
+		return build(response);
 	}
 
 }

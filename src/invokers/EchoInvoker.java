@@ -6,13 +6,14 @@ import library.Constants;
 import main.Brain;
 import utilities.Handler;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
+import tokens.Response;
 
 public class EchoInvoker extends Handler {
 	// Placeholder example invoked handler
 	
 	public EchoInvoker() {}
 	
-	public String process(MessageReceivedEvent event) {
+	public Response process(MessageReceivedEvent event) {
 		if( Constants.DEBUG ) {System.out.println("\t\t\tProcessing EchoInvoker.");}
 		String response = "";
 		String messageText = format(event);
@@ -25,7 +26,7 @@ public class EchoInvoker extends Handler {
 			response = tokens.get(1);;
 		} else if( Constants.DEBUG ) {System.out.println("\t\t\t\tEchoInvoker unactivated.");}
 		if( Constants.DEBUG ) {System.out.println("\t\t\tEchoInvoker processed.");}
-		return response;
+		return build(response);
 	}
 	
 }
