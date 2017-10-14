@@ -26,7 +26,7 @@ public class Poll {
 		for( String option : options.keySet() ) {
 			response += "\n  **" + option + "** : " + options.get(option).size(); 
 		}
-		response += "\nType \"==> vote cast " + name + " <option>" + "\" to vote.";
+		response += "\nType \"==> vote cast \"" + name + "\" <option>" + "\" to vote.";
 		return response;
 	}
 	
@@ -53,8 +53,7 @@ public class Poll {
 		}
 		if( max == 0 ) {
 			response += "\nThere are no winners.";
-		}
-		if( multiWinner ) {
+		} else if( multiWinner ) {
 			response += "\nThe winners are " + winner + ", with " + max;
 			if( max == 1 ) {
 				response += " vote!";
@@ -78,13 +77,13 @@ public class Poll {
 			if( options.get(option).contains(user.getName()) ) {
 				options.get(option).remove(user.getName());
 				options.get(choice).add(user.getName());
-				response = "Changed vote to \"" + choice +"\"!";
+				response = "Changed vote to \"" + choice +"\"!\n";
 				voted = true;
 			}
 		}
 		if( !voted ) {
 			options.get(choice).add(user.getName());
-			response += "Cast vote for \"" + choice + "\"!"; 
+			response += "Cast vote for \"" + choice + "\"!\n"; 
 		}
 		response += check();
 		return response;

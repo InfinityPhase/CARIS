@@ -43,6 +43,7 @@ public class VoteInvoker extends Handler {
 				}
 				response = "Poll \"" + name + "\" ended.";
 				response += "\n" + Brain.guildIndex.get(event.getGuild()).polls.get(name).end();
+				Brain.guildIndex.get(event.getGuild()).polls.remove(name);
 			} else if( action.equals("cast") ) {
 				if( tokens.size() < 4 ) {
 					return "Syntax Error: Insufficient parameters.";
@@ -62,6 +63,9 @@ public class VoteInvoker extends Handler {
 					return "Insufficient parameters.";
 				}
 				String name = tokens.get(2);
+				if( !Brain.guildIndex.get(event.getGuild()).polls.containsKey(name) ) {
+					return "Poll \"" + name + "\" does not exist.";
+				}
 				response = Brain.guildIndex.get(event.getGuild()).polls.get(name).check();
 			} else {
 				return "Unrecognized command: \"" + action + "\".";

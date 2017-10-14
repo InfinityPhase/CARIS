@@ -6,6 +6,7 @@ import java.util.HashMap;
 import commands.CommandHandler;
 import invokers.EchoInvoker;
 import invokers.LocationInvoker;
+import invokers.VoteInvoker;
 import library.Constants;
 import responders.LocationResponder;
 import responders.MentionResponder;
@@ -25,7 +26,8 @@ public class Brain {
 	/* Invoked Handlers */
 	public static EchoInvoker echoInvoker = new EchoInvoker();
 	public static LocationInvoker locationInvoker = new LocationInvoker();
-
+	public static VoteInvoker voteInvoker = new VoteInvoker();
+	
 	/* Auto Handlers */
 	public static MentionResponder mentionResponder = new MentionResponder();
 	public static LocationResponder locationResponder = new LocationResponder();
@@ -61,6 +63,7 @@ public class Brain {
 		if( Constants.DEBUG ) {System.out.println("Initializing.");}
 		invokers.add(echoInvoker);
 		invokers.add(locationInvoker);
+		invokers.add(voteInvoker);
 		responders.add(mentionResponder);
 		responders.add(locationResponder);
 	}
