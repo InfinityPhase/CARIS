@@ -41,9 +41,8 @@ public class VoteInvoker extends Handler {
 				if( !Brain.guildIndex.get(event.getGuild()).polls.keySet().contains(name) ) {
 					return build( "Poll \"" + name + "\" does not exist.");
 				}
-				response = "Poll \"" + name + "\" ended.";
-				response += "\n" + Brain.guildIndex.get(event.getGuild()).polls.get(name).end();
 				Brain.guildIndex.get(event.getGuild()).polls.remove(name);
+				return build(Brain.guildIndex.get(event.getGuild()).polls.get(name).end());
 			} else if( action.equals("cast") ) {
 				if( tokens.size() < 4 ) {
 					return build( "Syntax Error: Insufficient parameters.");
