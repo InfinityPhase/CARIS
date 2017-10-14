@@ -20,8 +20,22 @@ public class Poll {
 		}
 	}
 	
+	public EmbedBuilder start() {
+		EmbedBuilder builder = new EmbedBuilder();
+		builder.withColor(255, 0, 0);
+		builder.withTitle("**__" + name + "__**");
+		builder.withDesc("*" + description + "*");
+		for( String option : options.keySet() ) {
+			builder.appendField(option, options.get(option).size() + " votes!", false);
+		}
+		builder.withFooterText("Type \"==> vote cast \"" + name + "\" <option>" + "\" to vote.");
+		builder.withAuthorName("Poll created!");
+		return builder;
+	}
+	
 	public EmbedBuilder check() {
 		EmbedBuilder builder = new EmbedBuilder();
+		builder.withColor(255, 0, 0);
 		builder.withTitle("**__" + name + "__**");
 		builder.withDesc("*" + description + "*");
 		for( String option : options.keySet() ) {
@@ -34,6 +48,7 @@ public class Poll {
 	
 	public EmbedBuilder end() {
 		EmbedBuilder builder = new EmbedBuilder();
+		builder.withColor(255, 0, 0);
 		builder.withTitle("**__" + name + "__**");
 		builder.withDesc("*" + description + "*");
 		for( String option : options.keySet() ) {
@@ -65,6 +80,7 @@ public class Poll {
 	}
 	public EmbedBuilder cast(IUser user, String choice) {
 		EmbedBuilder builder = new EmbedBuilder();
+		builder.withColor(255, 0, 0);
 		builder = check();
 		boolean voted = false;
 		for( String option : options.keySet() ) {

@@ -32,8 +32,7 @@ public class VoteInvoker extends Handler {
 					choices.add(tokens.get(f));
 				}
 				Brain.guildIndex.get(event.getGuild()).polls.put(name, new Poll(name, description, choices));
-				response = "Poll \"" + name + "\" created.";
-				response += "\n" + Brain.guildIndex.get(event.getGuild()).polls.get(name).check();
+				return build(Brain.guildIndex.get(event.getGuild()).polls.get(name).start());
 			} else if( action.equals("end") ) {
 				if( tokens.size() < 3 ) {
 					return build( "Syntax Error: Insufficient parameters.");
