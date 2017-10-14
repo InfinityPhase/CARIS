@@ -27,7 +27,7 @@ public class Handler {
 	public Response build(String response) {
 		return new Response(response, getPriority());
 	}
-	public Response biuld(EmbedBuilder builder) {
+	public Response build(EmbedBuilder builder) {
 		return new Response(builder, getPriority());
 	}
 }
