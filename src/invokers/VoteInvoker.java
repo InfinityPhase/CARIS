@@ -5,9 +5,8 @@ import java.util.ArrayList;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import tokens.Poll;
 import tokens.Response;
-import utilities.Handler;
 
-public class VoteInvoker extends Handler {
+public class VoteInvoker extends Invoker {
 	// TODO: CONSOLIDATE MY GODDAMN VARIABLE REFERENCES
 	public Response process(MessageReceivedEvent event) {
 		setup(event);
