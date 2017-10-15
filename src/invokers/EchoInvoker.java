@@ -15,7 +15,7 @@ public class EchoInvoker extends Invoker {
 			response = tokens.get(1);;
 		} else if( Constants.DEBUG ) {System.out.println("\t\t\t\tEchoInvoker unactivated.");}
 		if( Constants.DEBUG ) {System.out.println("\t\t\tEchoInvoker processed.");}
-		return build(response);
+		return build();
 	}
 	
 }

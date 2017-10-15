@@ -16,7 +16,7 @@ public class MentionResponder extends Responder {
 			if( Constants.DEBUG ) {System.out.println("\t\t\t\tMentionResponder triggered.");}
 		} else if( Constants.DEBUG ) {System.out.println("\t\t\t\tMentionResponder unactivated.");}
 		if( Constants.DEBUG ) {System.out.println("\t\t\tMentionResponder processed.");}
-		return build(response);
+		return build();
 	}
 
 }

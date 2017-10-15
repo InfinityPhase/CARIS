@@ -22,7 +22,7 @@ public class Handler {
 	
 	public Response process(MessageReceivedEvent event) {
 		setup(event);
-		return build(response);
+		return build();
 	}
 	
 	protected void setup(MessageReceivedEvent event) {
@@ -47,11 +47,19 @@ public class Handler {
 		return Brain.tp.parse(event.getMessage().getContent());
 	}
 	
-	protected Response build(String response) {
+	protected Response build() {
+		if( embed == null ) {
+			return buildResponse();
+		} else {
+			return buildEmbed();
+		}
+	}
+	
+	protected Response buildResponse() {
 		return new Response(response, getPriority());
 	}
-	protected Response build(EmbedBuilder builder) {
-		return new Response(builder, getPriority());
+	protected Response buildEmbed() {
+		return new Response(embed, getPriority());
 	}
 	
 	protected boolean containsIgnoreCase(String a, String b) {
