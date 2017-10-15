@@ -11,7 +11,7 @@ public class MentionResponder extends Responder {
 	public Response process(MessageReceivedEvent event) {
 		setup(event);
 
-		if( containsIgnoreCase(tokens, Constants.NAME) ) {
+		if( containsIgnoreCase(messageText, " " + Constants.NAME + " ") ) {
 			response = "What is it?";
 			if( Constants.DEBUG ) {System.out.println("\t\t\t\tMentionResponder triggered.");}
 		} else if( Constants.DEBUG ) {System.out.println("\t\t\t\tMentionResponder unactivated.");}
