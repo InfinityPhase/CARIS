@@ -7,7 +7,7 @@ import tokens.Poll;
 import tokens.Response;
 
 public class VoteInvoker extends Invoker {
-	// TODO: CONSOLIDATE MY GODDAMN VARIABLE REFERENCES
+
 	public Response process(MessageReceivedEvent event) {
 		setup(event);
 		
@@ -37,7 +37,6 @@ public class VoteInvoker extends Invoker {
 					return build( "Poll \"" + name + "\" does not exist.");
 				}
 				
-				// TODO: This is inefficient. We can't return midcode anymore.
 				Response temp = build(variables.polls.get(name).end());
 				variables.polls.remove(name);
 				return temp;
