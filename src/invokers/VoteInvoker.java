@@ -40,8 +40,8 @@ public class VoteInvoker extends Invoker {
 					response =  "Poll \"" + name + "\" does not exist.";
 					return build();
 				}
-				
-				embed = variables.polls.get(name).end();
+				Poll p = variables.polls.get(name);
+				embed = p.end();
 				variables.polls.remove(name);
 			} else if( action.equals("cast") ) {
 				if( tokens.size() < 4 ) {
@@ -53,12 +53,13 @@ public class VoteInvoker extends Invoker {
 					response =  "Poll \"" + name + "\" does not exist.";
 					return build();
 				}
+				Poll p = variables.polls.get(name);
 				String choice = tokens.get(3);
-				if( !variables.polls.get(name).options.keySet().contains(choice) ) {
+				if( !p.options.keySet().contains(choice) ) {
 					response =  "Option \"" + choice + "\" does not exist.";
 					return build();
 				}
-				embed = variables.polls.get(name).cast(event.getAuthor(), choice);
+				embed = p.cast(event.getAuthor(), choice);
 				
 			} else if( action.equals("add") ) {
 				if( tokens.size() < 4 ) {
@@ -70,16 +71,17 @@ public class VoteInvoker extends Invoker {
 					response =  "Poll \"" + name + "\" does not exist.";
 					return build();
 				}
-				if( variables.polls.get(name).locked ) {
+				Poll p = variables.polls.get(name);
+				if( p.locked ) {
 					response = "Poll \"" + name + "\" is locked!";
 					return build();
 				}
 				String choice = tokens.get(3);
-				if( variables.polls.get(name).options.keySet().contains(choice) ) {
+				if( p.options.keySet().contains(choice) ) {
 					response =  "Option \"" + choice + "\" already exists.";
 					return build();
 				}
-				embed = variables.polls.get(name).add(choice);
+				embed = p.add(choice);
 			} else if( action.equals("del") ) {
 				if( tokens.size() < 4 ) {
 					response = "Syntax Error: Insufficient parameters.";
@@ -90,16 +92,17 @@ public class VoteInvoker extends Invoker {
 					response =  "Poll \"" + name + "\" does not exist.";
 					return build();
 				}
-				if( variables.polls.get(name).locked ) {
+				Poll p = variables.polls.get(name);
+				if( p.locked ) {
 					response = "Poll \"" + name + "\" is already locked!";
 					return build();
 				}
 				String choice = tokens.get(3);
-				if( !variables.polls.get(name).options.keySet().contains(choice) ) {
+				if( !p.options.keySet().contains(choice) ) {
 					response =  "Option \"" + choice + "\" already exists.";
 					return build();
 				}
-				embed = variables.polls.get(name).remove(choice);
+				embed = p.remove(choice);
 			} else if( action.equals("check") ) {
 				if( tokens.size() < 3 ) {
 					response =  "Insufficient parameters.";
@@ -110,7 +113,8 @@ public class VoteInvoker extends Invoker {
 					response =  "Poll \"" + name + "\" does not exist.";
 					return build();
 				}
-				embed = variables.polls.get(name).check();
+				Poll p = variables.polls.get(name);
+				embed = p.check();
 			} else if( action.equals("lock") ) {
 				if( tokens.size() < 3 ) {
 					response =  "Insufficient parameters.";
@@ -121,11 +125,12 @@ public class VoteInvoker extends Invoker {
 					response =  "Poll \"" + name + "\" does not exist.";
 					return build();
 				}
-				if( variables.polls.get(name).locked ) {
+				Poll p = variables.polls.get(name);
+				if( p.locked ) {
 					response = "Poll \"" + name + "\" is already locked!";
 					return build();
 				}
-				variables.polls.get(name).locked = true;
+				p.locked = true;
 				response = "Poll \"" + name + "\" locked!";
 			}  else if( action.equals("unlock") ) {
 				if( tokens.size() < 3 ) {
@@ -137,11 +142,12 @@ public class VoteInvoker extends Invoker {
 					response =  "Poll \"" + name + "\" does not exist.";
 					return build();
 				}
-				if( !variables.polls.get(name).locked ) {
+				Poll p = variables.polls.get(name);
+				if( !p.locked ) {
 					response = "Poll \"" + name + "\" is already unlocked!";
 					return build();
 				}
-				variables.polls.get(name).locked = false;
+				p.locked = false;
 				response = "Poll \"" + name + "\" unlocked!";
 			} else {
 				response =  "Unrecognized command: \"" + action + "\".";

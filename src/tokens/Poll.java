@@ -68,7 +68,11 @@ public class Poll {
 			}
 		}
 		if( max == 0 ) {
-			builder.withAuthorName("Tie!");
+			if( options.size() == 1 ) {
+				builder.withAuthorName(options.get(0) + " wins by default!");
+			} else {
+				builder.withAuthorName("Tie!");
+			}
 		} else if( multiWinner ) {
 			builder.withAuthorName("The winners are " + winner + "!");
 		} else {
@@ -79,11 +83,13 @@ public class Poll {
 	public EmbedBuilder cast(IUser user, String choice) {
 		EmbedBuilder builder = new EmbedBuilder();
 		boolean voted = false;
+		String previous = "";
 		for( String option : options.keySet() ) {
 			if( options.get(option).contains(user.getName()) ) {
 				options.get(option).remove(user.getName());
 				options.get(choice).add(user.getName());
 				voted = true;
+				previous = option;
 			}
 		}
 		if( !voted ) {
@@ -91,6 +97,9 @@ public class Poll {
 		}
 		builder = check();
 		if( voted ) {
+			if( previous.equals(choice) ) {
+				builder.withAuthorName("You have already voted for \"" + choice + "\"!");
+			}
 			builder.withAuthorName("Changed vote to \"" + choice +"\"!");
 		} else {
 			builder.withAuthorName("Cast vote for \"" + choice + "\"!"); 
