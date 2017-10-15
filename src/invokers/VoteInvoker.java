@@ -142,7 +142,7 @@ public class VoteInvoker extends Invoker {
 					return build();
 				}
 				variables.polls.get(name).locked = false;
-				response = "Poll \"" + name + "\" unlocked!!";
+				response = "Poll \"" + name + "\" unlocked!";
 			} else {
 				response =  "Unrecognized command: \"" + action + "\".";
 				return build();
