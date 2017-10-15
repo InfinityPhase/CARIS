@@ -60,6 +60,46 @@ public class VoteInvoker extends Invoker {
 				}
 				embed = variables.polls.get(name).cast(event.getAuthor(), choice);
 				
+			} else if( action.equals("add") ) {
+				if( tokens.size() < 4 ) {
+					response = "Syntax Error: Insufficient parameters.";
+					return build();
+				}
+				String name = tokens.get(2);
+				if( !variables.polls.keySet().contains(name) ) {
+					response =  "Poll \"" + name + "\" does not exist.";
+					return build();
+				}
+				if( variables.polls.get(name).locked ) {
+					response = "Poll \"" + name + "\" is locked!";
+					return build();
+				}
+				String choice = tokens.get(3);
+				if( variables.polls.get(name).options.keySet().contains(choice) ) {
+					response =  "Option \"" + choice + "\" already exists.";
+					return build();
+				}
+				embed = variables.polls.get(name).add(choice);
+			} else if( action.equals("del") ) {
+				if( tokens.size() < 4 ) {
+					response = "Syntax Error: Insufficient parameters.";
+					return build();
+				}
+				String name = tokens.get(2);
+				if( !variables.polls.keySet().contains(name) ) {
+					response =  "Poll \"" + name + "\" does not exist.";
+					return build();
+				}
+				if( variables.polls.get(name).locked ) {
+					response = "Poll \"" + name + "\" is already locked!";
+					return build();
+				}
+				String choice = tokens.get(3);
+				if( !variables.polls.get(name).options.keySet().contains(choice) ) {
+					response =  "Option \"" + choice + "\" already exists.";
+					return build();
+				}
+				embed = variables.polls.get(name).remove(choice);
 			} else if( action.equals("check") ) {
 				if( tokens.size() < 3 ) {
 					response =  "Insufficient parameters.";
@@ -71,6 +111,38 @@ public class VoteInvoker extends Invoker {
 					return build();
 				}
 				embed = variables.polls.get(name).check();
+			} else if( action.equals("lock") ) {
+				if( tokens.size() < 3 ) {
+					response =  "Insufficient parameters.";
+					return build();
+				}
+				String name = tokens.get(2);
+				if( !variables.polls.containsKey(name) ) {
+					response =  "Poll \"" + name + "\" does not exist.";
+					return build();
+				}
+				if( variables.polls.get(name).locked ) {
+					response = "Poll \"" + name + "\" is already locked!";
+					return build();
+				}
+				variables.polls.get(name).locked = true;
+				response = "Poll \"" + name + "\" locked!";
+			}  else if( action.equals("unlock") ) {
+				if( tokens.size() < 3 ) {
+					response =  "Insufficient parameters.";
+					return build();
+				}
+				String name = tokens.get(2);
+				if( !variables.polls.containsKey(name) ) {
+					response =  "Poll \"" + name + "\" does not exist.";
+					return build();
+				}
+				if( !variables.polls.get(name).locked ) {
+					response = "Poll \"" + name + "\" is already unlocked!";
+					return build();
+				}
+				variables.polls.get(name).locked = false;
+				response = "Poll \"" + name + "\" unlocked!!";
 			} else {
 				response =  "Unrecognized command: \"" + action + "\".";
 				return build();

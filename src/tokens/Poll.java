@@ -10,6 +10,7 @@ public class Poll {
 	public String name;
 	public String description;
 	public HashMap<String, ArrayList<String>> options;
+	public boolean locked;
 	
 	public Poll( String name, String description, ArrayList<String> choices ) {
 		this.name = name;
@@ -82,15 +83,32 @@ public class Poll {
 			if( options.get(option).contains(user.getName()) ) {
 				options.get(option).remove(user.getName());
 				options.get(choice).add(user.getName());
-				builder.withAuthorName("Changed vote to \"" + choice +"\"!");
 				voted = true;
 			}
 		}
 		if( !voted ) {
 			options.get(choice).add(user.getName());
-			builder.withAuthorName("Cast vote for \"" + choice + "\"!"); 
 		}
 		builder = check();
+		if( voted ) {
+			builder.withAuthorName("Changed vote to \"" + choice +"\"!");
+		} else {
+			builder.withAuthorName("Cast vote for \"" + choice + "\"!"); 
+		}
+		return builder;
+	}
+	public EmbedBuilder add(String choice) {
+		EmbedBuilder builder = new EmbedBuilder();
+		options.put(choice, new ArrayList<String>());
+		builder = check();
+		builder.withAuthorName("Option \"" + choice + "\" added!");
+		return builder;
+	}
+	public EmbedBuilder remove(String choice) {
+		EmbedBuilder builder = new EmbedBuilder();
+		options.remove(choice);
+		builder = check();
+		builder.withAuthorName("Option \"" + choice + "\" removed!");
 		return builder;
 	}
 }
