@@ -2,7 +2,6 @@ package invokers;
 
 import java.util.ArrayList;
 
-import main.Brain;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import tokens.Poll;
 import tokens.Response;
@@ -11,10 +10,7 @@ import utilities.Handler;
 public class VoteInvoker extends Handler {
 	// TODO: CONSOLIDATE MY GODDAMN VARIABLE REFERENCES
 	public Response process(MessageReceivedEvent event) {
-		String response = "";
-		String messageText = format(event);
-		ArrayList<String> tokens = Brain.tp.parse(event.getMessage().getContent().toLowerCase());
-		tokens.remove(0);
+		setup(event);
 		
 		if( tokens.get(0).equals("vote") ) {
 			if( tokens.size() < 2 ) {
@@ -31,44 +27,44 @@ public class VoteInvoker extends Handler {
 				for( int f=4; f<tokens.size(); f++ ) {
 					choices.add(tokens.get(f));
 				}
-				Brain.guildIndex.get(event.getGuild()).polls.put(name, new Poll(name, description, choices));
-				return build(Brain.guildIndex.get(event.getGuild()).polls.get(name).start());
+				variables.polls.put(name, new Poll(name, description, choices));
+				return build(variables.polls.get(name).start());
 			} else if( action.equals("end") ) {
 				if( tokens.size() < 3 ) {
 					return build( "Syntax Error: Insufficient parameters.");
 				}
 				String name = tokens.get(2);
-				if( !Brain.guildIndex.get(event.getGuild()).polls.keySet().contains(name) ) {
+				if( !variables.polls.keySet().contains(name) ) {
 					return build( "Poll \"" + name + "\" does not exist.");
 				}
 				
 				// TODO: This is inefficient. We can't return midcode anymore.
-				Response temp = build(Brain.guildIndex.get(event.getGuild()).polls.get(name).end());
-				Brain.guildIndex.get(event.getGuild()).polls.remove(name);
+				Response temp = build(variables.polls.get(name).end());
+				variables.polls.remove(name);
 				return temp;
 			} else if( action.equals("cast") ) {
 				if( tokens.size() < 4 ) {
 					return build( "Syntax Error: Insufficient parameters.");
 				}
 				String name = tokens.get(2);
-				if( !Brain.guildIndex.get(event.getGuild()).polls.keySet().contains(name) ) {
+				if( !variables.polls.keySet().contains(name) ) {
 					return build( "Poll \"" + name + "\" does not exist.");
 				}
 				String choice = tokens.get(3);
-				if( !Brain.guildIndex.get(event.getGuild()).polls.get(name).options.keySet().contains(choice) ) {
+				if( !variables.polls.get(name).options.keySet().contains(choice) ) {
 					return build( "Option \"" + choice + "\" does not exist.");
 				}
-				return build(Brain.guildIndex.get(event.getGuild()).polls.get(name).cast(event.getAuthor(), choice));
+				return build(variables.polls.get(name).cast(event.getAuthor(), choice));
 				
 			} else if( action.equals("check") ) {
 				if( tokens.size() < 3 ) {
 					return build( "Insufficient parameters.");
 				}
 				String name = tokens.get(2);
-				if( !Brain.guildIndex.get(event.getGuild()).polls.containsKey(name) ) {
+				if( !variables.polls.containsKey(name) ) {
 					return build( "Poll \"" + name + "\" does not exist.");
 				}
-				return build(Brain.guildIndex.get(event.getGuild()).polls.get(name).check());
+				return build(variables.polls.get(name).check());
 			} else {
 				return build( "Unrecognized command: \"" + action + "\".");
 			}
