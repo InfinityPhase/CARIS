@@ -13,12 +13,14 @@ public class VoteInvoker extends Invoker {
 		
 		if( tokens.get(0).equals("vote") ) {
 			if( tokens.size() < 2 ) {
-				return build( "Syntax Error: Command not specified.");
+				response = "Syntax Error: Command not specified.";
+				return build();
 			}
 			String action = tokens.get(1);
 			if( action.equals("new") ) {
 				if( tokens.size() < 5 ) {
-					return build( "Syntax Error: Insufficient parameters.");
+					response = "Syntax Error: Insufficient parameters.";
+					return build();
 				}
 				String name = tokens.get(2);
 				String description = tokens.get(3);
@@ -30,43 +32,51 @@ public class VoteInvoker extends Invoker {
 				embed = (variables.polls.get(name).start());
 			} else if( action.equals("end") ) {
 				if( tokens.size() < 3 ) {
-					return build( "Syntax Error: Insufficient parameters.");
+					response =  "Syntax Error: Insufficient parameters.";
+					return build();
 				}
 				String name = tokens.get(2);
 				if( !variables.polls.keySet().contains(name) ) {
-					return build( "Poll \"" + name + "\" does not exist.");
+					response =  "Poll \"" + name + "\" does not exist.";
+					return build();
 				}
 				
 				embed = variables.polls.get(name).end();
 				variables.polls.remove(name);
 			} else if( action.equals("cast") ) {
 				if( tokens.size() < 4 ) {
-					return build( "Syntax Error: Insufficient parameters.");
+					response =  "Syntax Error: Insufficient parameters.";
+					return build();
 				}
 				String name = tokens.get(2);
 				if( !variables.polls.keySet().contains(name) ) {
-					return build( "Poll \"" + name + "\" does not exist.");
+					response =  "Poll \"" + name + "\" does not exist.";
+					return build();
 				}
 				String choice = tokens.get(3);
 				if( !variables.polls.get(name).options.keySet().contains(choice) ) {
-					return build( "Option \"" + choice + "\" does not exist.");
+					response =  "Option \"" + choice + "\" does not exist.";
+					return build();
 				}
 				embed = variables.polls.get(name).cast(event.getAuthor(), choice);
 				
 			} else if( action.equals("check") ) {
 				if( tokens.size() < 3 ) {
-					return build( "Insufficient parameters.");
+					response =  "Insufficient parameters.";
+					return build();
 				}
 				String name = tokens.get(2);
 				if( !variables.polls.containsKey(name) ) {
-					return build( "Poll \"" + name + "\" does not exist.");
+					response =  "Poll \"" + name + "\" does not exist.";
+					return build();
 				}
 				embed = variables.polls.get(name).check();
 			} else {
-				return build( "Unrecognized command: \"" + action + "\".");
+				response =  "Unrecognized command: \"" + action + "\".";
+				return build();
 			}
 		}
-		return build(response);
+		return build();
 	}
 	
 }
