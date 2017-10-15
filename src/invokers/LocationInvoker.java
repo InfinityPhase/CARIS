@@ -7,9 +7,7 @@ import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedE
 import tokens.Response;
 
 public class LocationInvoker extends Invoker {
-	
-	public LocationInvoker() {}
-	
+		
 	public Response process(MessageReceivedEvent event) {	
 		setup(event);
 		
@@ -18,7 +16,8 @@ public class LocationInvoker extends Invoker {
 			if( tokens.size() < 2 ) {
 				if( Constants.DEBUG ) {System.out.println("\t\t\t\t\tSyntax Error. Aborting.");}
 				if( Constants.DEBUG ) {System.out.println("\t\t\t\t\tLocationInvoker triggered.");}
-				return build("Syntax Error: Command not specified.");
+				response = "Syntax Error: Command not specified.";
+				return build();
 			}
 			String action = tokens.get(1);
 			if(action.equals("set")) {
@@ -26,7 +25,8 @@ public class LocationInvoker extends Invoker {
 				if( tokens.size() < 4 ) {
 					if( Constants.DEBUG ) {System.out.println("\t\t\t\t\tSyntax Error. Aborting.");}
 					if( Constants.DEBUG ) {System.out.println("\t\t\t\t\tLocationInvoker triggered.");}
-					return build("Syntax Error: Insufficient parameters.");
+					response = "Syntax Error: Insufficient parameters.";
+					return build();
 				}
 				String place = tokens.get(2);
 				if( Constants.DEBUG ) {System.out.println("\t\t\t\t\t\tLocation set: \"" + place + "\".");}
@@ -40,7 +40,8 @@ public class LocationInvoker extends Invoker {
 						if( Constants.DEBUG ) {System.out.println("\t\t\t\t\tLocation \"" + place + "\" found.");}
 						if( variables.locations.get(place).contains(person) ) {
 							if( Constants.DEBUG ) {System.out.println("\t\t\t\t\tLocationInvoker triggered.");}
-							return build(person + " is already at " + place + ".");
+							response = person + " is already at " + place + ".";
+							return build();
 						} else {
 							if( Constants.DEBUG ) {System.out.println("\t\t\t\t\t\tNew Location \"" + place + "\" generated.");}
 							for( String location : variables.locations.keySet() ) {
@@ -81,13 +82,15 @@ public class LocationInvoker extends Invoker {
 				if( tokens.size() < 3 ) {
 					if( Constants.DEBUG ) {System.out.println("\t\t\t\t\tSyntax Error. Aborting.");}
 					if( Constants.DEBUG ) {System.out.println("\t\t\t\t\tLocationInvoker triggered.");}
-					return build("Syntax Error: Insufficient parameters.");
+					response = "Syntax Error: Insufficient parameters.";
+					return build();
 				}
 				String person = tokens.get(2);
 				if( !variables.people.containsKey(person) ) {
 					if( Constants.DEBUG ) {System.out.println("\t\t\t\t\tLocation not found for \"" + person + "\".");}
 					if( Constants.DEBUG ) {System.out.println("\t\t\t\t\tLocationInvoker triggered.");}
-					return build(person + " has not set a location.");
+					response = person + " has not set a location.";
+					return build();
 				}
 				String location = variables.people.get(person);
 				response = person + " is at " + location + ".";
@@ -97,13 +100,15 @@ public class LocationInvoker extends Invoker {
 				if( tokens.size() < 3 ) {
 					if( Constants.DEBUG ) {System.out.println("\t\t\t\t\tSyntax Error. Aborting.");}
 					if( Constants.DEBUG ) {System.out.println("\t\t\t\t\tLocationInvoker triggered.");}
-					return build("Syntax Error: Insufficient parameters.");
+					response = "Syntax Error: Insufficient parameters.";
+					return build();
 				}
 				String location = tokens.get(2);
 				if( !variables.locations.containsKey(location) ) {
 					if( Constants.DEBUG ) {System.out.println("\t\t\t\t\tLocation \"" + location + "\"invalid.");}
 					if( Constants.DEBUG ) {System.out.println("\t\t\t\t\tLocationInvoker triggered.");}
-					return build(location + " is not a set location.");
+					response = location + " is not a set location.";
+					return build();
 				}
 				ArrayList<String> locals = variables.locations.get(location);
 				if( locals.size() == 0 ) {
@@ -128,13 +133,15 @@ public class LocationInvoker extends Invoker {
 				if( tokens.size() < 3 ) {
 					if( Constants.DEBUG ) {System.out.println("\t\t\t\t\tSyntax Error. Aborting.");}
 					if( Constants.DEBUG ) {System.out.println("\t\t\t\t\tLocationInvoker triggered.");}
-					return build("Syntax Error: Insufficient parameters.");
+					response = "Syntax Error: Insufficient parameters.";
+					return build();
 				}
 				String location = tokens.get(2);
 				if( !variables.locations.containsKey(location) ) {
 					if( Constants.DEBUG ) {System.out.println("\t\t\t\t\tLocation \t" + location + "\" not found." );}
 					if( Constants.DEBUG ) {System.out.println("\t\t\t\t\tLocationInvoker triggered.");}
-					return build(location + " is not a set location.");
+					response = location + " is not a set location.";
+					return build();
 				}
 				variables.locations.remove(location);
 				for( String person : variables.people.keySet() ) {
@@ -150,13 +157,15 @@ public class LocationInvoker extends Invoker {
 				if( tokens.size() < 3 ) {
 					if( Constants.DEBUG ) {System.out.println("\t\t\t\t\tSyntax Error. Aborting.");}
 					if( Constants.DEBUG ) {System.out.println("\t\t\t\t\tLocationInvoker triggered.");}
-					return build("Syntax Error: Insufficient parameters.");
+					response = "Syntax Error: Insufficient parameters.";
+					return build();
 				}
 				String person = tokens.get(2);
 				if( !variables.people.containsKey(person) ) {
 					if( Constants.DEBUG ) {System.out.println("\t\t\t\t\tNo location set for \"" + person + "\".");}
 					if( Constants.DEBUG ) {System.out.println("\t\t\t\t\tLocationInvoker triggered.");}
-					return build(person + " has not set a location.");
+					response = person + " has not set a location.";
+					return build();
 				}
 				if( Constants.DEBUG ) {System.out.println("\t\t\t\t\tRemoving previous location references.");}
 				variables.people.remove(person);
@@ -171,11 +180,12 @@ public class LocationInvoker extends Invoker {
 			} else {
 				if( Constants.DEBUG ) {System.out.println("\t\t\t\tKeyword \"" + action + "\" unknown. Aborting.");}
 				if( Constants.DEBUG ) {System.out.println("\t\t\t\tLocationInvoker triggered.");}
-				return build("Unrecognized command: \"" + action + "\".");
+				response = "Unrecognized command: \"" + action + "\".";
+				return build();
 			}
 		} else if( Constants.DEBUG ) {System.out.println("\t\t\t\tLocationInvoker unactivated.");}
 		if( Constants.DEBUG ) {System.out.println("\t\t\tLocationInvoker processed.");}
-		return build(response);
+		return build();
 	}
 
 }

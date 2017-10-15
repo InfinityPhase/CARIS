@@ -13,20 +13,21 @@ public class Handler {
 	// The base handler class. Extend this into other classes.
 	
 	protected String response;
+	protected EmbedBuilder embed;
 	protected String messageText;
 	protected ArrayList<String> tokens;
 	protected GuildInfo variables;
 	
 	public Handler() {}
 	
-	
 	public Response process(MessageReceivedEvent event) {
 		setup(event);
-		return build(response);
+		return build();
 	}
 	
 	protected void setup(MessageReceivedEvent event) {
 		response = "";
+		embed = null;
 		messageText = format(event);
 		tokens = tokenize(event);
 		variables = Brain.guildIndex.get(event.getGuild());
@@ -46,12 +47,19 @@ public class Handler {
 		return Brain.tp.parse(event.getMessage().getContent());
 	}
 	
-	protected Response build(String response) {
+	protected Response build() {
+		if( embed == null ) {
+			return buildResponse();
+		} else {
+			return buildEmbed();
+		}
+	}
+	
+	protected Response buildResponse() {
 		return new Response(response, getPriority());
 	}
-
-	protected Response build(EmbedBuilder builder) {
-		return new Response(builder, getPriority());
+	protected Response buildEmbed() {
+		return new Response(embed, getPriority());
 	}
 	
 	protected boolean containsIgnoreCase(String a, String b) {

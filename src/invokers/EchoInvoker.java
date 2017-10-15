@@ -6,9 +6,7 @@ import tokens.Response;
 
 public class EchoInvoker extends Invoker {
 	// Placeholder example invoked handler
-	
-	public EchoInvoker() {}
-	
+		
 	public Response process(MessageReceivedEvent event) {
 		setup(event);
 		
@@ -17,7 +15,7 @@ public class EchoInvoker extends Invoker {
 			response = tokens.get(1);;
 		} else if( Constants.DEBUG ) {System.out.println("\t\t\t\tEchoInvoker unactivated.");}
 		if( Constants.DEBUG ) {System.out.println("\t\t\tEchoInvoker processed.");}
-		return build(response);
+		return build();
 	}
 	
 }

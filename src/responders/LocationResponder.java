@@ -7,8 +7,6 @@ import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedE
 import tokens.Response;
 
 public class LocationResponder extends Responder {
-
-	public LocationResponder() {}
 	
 	@Override
 	public Response process(MessageReceivedEvent event) {
@@ -32,7 +30,8 @@ public class LocationResponder extends Responder {
 					if( !containsIgnoreCase(variables.locations.keySet(), location) ) {
 						if( Constants.DEBUG ) {System.out.println("\t\t\t\t\tLocation not set.");}
 						if( Constants.DEBUG ) {System.out.println("\t\t\t\t\tLocationResponder triggered.");}
-						return build(location + " is not a set location.");
+						response = location + " is not a set location.";
+						return build();
 					}
 					ArrayList<String> locals = variables.locations.get(location);
 					if( locals.size() == 0 ) {
@@ -57,7 +56,7 @@ public class LocationResponder extends Responder {
 			}
 		} else if( Constants.DEBUG ) {System.out.println("\t\t\t\tLocationResponder unactivated.");}
 		if( Constants.DEBUG ) {System.out.println("\t\t\tLocationResponder processed.");}
-		return build(response);
+		return build();
 	}
 
 }
