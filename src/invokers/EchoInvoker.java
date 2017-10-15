@@ -1,7 +1,6 @@
 package invokers;
 
 import library.Constants;
-import utilities.Invoker;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import tokens.Response;
 

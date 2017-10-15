@@ -1,9 +1,10 @@
-package utilities;
+package invokers;
 
 import java.util.ArrayList;
 
 import main.Brain;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
+import utilities.Handler;
 
 public class Invoker extends Handler {
 	// Base Invoker class. Same as Handler, but here for future use.

@@ -3,7 +3,6 @@ package responders;
 import java.util.ArrayList;
 
 import library.Constants;
-import utilities.Responder;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import tokens.Response;
 
