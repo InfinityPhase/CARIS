@@ -27,7 +27,7 @@ public class VoteInvoker extends Invoker {
 					choices.add(tokens.get(f));
 				}
 				variables.polls.put(name, new Poll(name, description, choices));
-				return build(variables.polls.get(name).start());
+				embed = (variables.polls.get(name).start());
 			} else if( action.equals("end") ) {
 				if( tokens.size() < 3 ) {
 					return build( "Syntax Error: Insufficient parameters.");
@@ -37,9 +37,8 @@ public class VoteInvoker extends Invoker {
 					return build( "Poll \"" + name + "\" does not exist.");
 				}
 				
-				Response temp = build(variables.polls.get(name).end());
+				embed = variables.polls.get(name).end();
 				variables.polls.remove(name);
-				return temp;
 			} else if( action.equals("cast") ) {
 				if( tokens.size() < 4 ) {
 					return build( "Syntax Error: Insufficient parameters.");
@@ -52,7 +51,7 @@ public class VoteInvoker extends Invoker {
 				if( !variables.polls.get(name).options.keySet().contains(choice) ) {
 					return build( "Option \"" + choice + "\" does not exist.");
 				}
-				return build(variables.polls.get(name).cast(event.getAuthor(), choice));
+				embed = variables.polls.get(name).cast(event.getAuthor(), choice);
 				
 			} else if( action.equals("check") ) {
 				if( tokens.size() < 3 ) {
@@ -62,7 +61,7 @@ public class VoteInvoker extends Invoker {
 				if( !variables.polls.containsKey(name) ) {
 					return build( "Poll \"" + name + "\" does not exist.");
 				}
-				return build(variables.polls.get(name).check());
+				embed = variables.polls.get(name).check();
 			} else {
 				return build( "Unrecognized command: \"" + action + "\".");
 			}
