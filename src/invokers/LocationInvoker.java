@@ -4,21 +4,16 @@ import java.util.ArrayList;
 
 import library.Constants;
 import main.Brain;
-import utilities.Handler;
+import utilities.Invoker;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import tokens.Response;
 
-public class LocationInvoker extends Handler {
+public class LocationInvoker extends Invoker {
 	
 	public LocationInvoker() {}
 	
 	public Response process(MessageReceivedEvent event) {	
-		if( Constants.DEBUG ) {System.out.println("\t\t\tProcessing LocationInvoker.");}
-		String response = "";
-		String messageText = format(event);
-		if( Constants.DEBUG ) {System.out.println("\t\t\tFormatted message: \"" + messageText + "\"");}
-		ArrayList<String> tokens = Brain.tp.parse(event.getMessage().getContent().toLowerCase());
-		tokens.remove(0);
+		setup(event);
 		
 		if( tokens.get(0).equals("loc") ) {
 			if( Constants.DEBUG ) {System.out.println("\t\t\t\tKeyword \"loc\" detected.");}

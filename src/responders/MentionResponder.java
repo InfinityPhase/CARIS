@@ -1,26 +1,20 @@
 package responders;
 
-import java.util.ArrayList;
-
 import library.Constants;
-import main.Brain;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import tokens.Response;
-import utilities.Handler;
+import utilities.Responder;
 
-public class MentionResponder extends Handler {
+public class MentionResponder extends Responder {
 	// Placeholder example auto handler
 	
 	public MentionResponder() {}
 	
+	@Override
 	public Response process(MessageReceivedEvent event) {
-		if( Constants.DEBUG ) {System.out.println("\t\t\tProcessing MentionResponder.");}
-		String response = "";
-		String messageText = format(event);
-		if( Constants.DEBUG ) {System.out.println("\t\t\tFormatted message: \"" + messageText + "\"");}
-		ArrayList<String> tokens = Brain.tp.parse(event.getMessage().getContent().toLowerCase());
-		
-		if( tokens.contains(Constants.NAME.toLowerCase()) ) {
+		setup(event);
+
+		if( containsIgnoreCase(tokens, Constants.NAME) ) {
 			response = "What is it?";
 			if( Constants.DEBUG ) {System.out.println("\t\t\t\tMentionResponder triggered.");}
 		} else if( Constants.DEBUG ) {System.out.println("\t\t\t\tMentionResponder unactivated.");}

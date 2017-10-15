@@ -17,6 +17,10 @@ import utilities.TokenParser;
 
 public class Brain {
 
+	/*	IMPORTANT NOTES
+	 * 	- Responders ignore case by setting messages to lower case before parsing
+	 */
+	
 	public static TokenParser tp = new TokenParser();
 
 	public static ArrayList<Handler> invokers = new ArrayList<Handler>();
