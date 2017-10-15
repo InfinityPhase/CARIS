@@ -28,7 +28,7 @@ public class TokenParser {
 		boolean border = false;
 		for( char c : charArray ) {
 			if( c == ' ' && !openQuote && temp.length() > 0 ) {
-				tokens.add(temp);
+				tokens.add(temp.toLowerCase());
 				temp = "";
 				border = false;
 			} else if( c == '"' ) {
