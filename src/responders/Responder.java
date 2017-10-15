@@ -1,10 +1,11 @@
-package utilities;
+package responders;
 
 import java.util.ArrayList;
 import java.util.Set;
 
 import main.Brain;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
+import utilities.Handler;
 
 public class Responder extends Handler {
 	// Base Responder class. Ignores case.

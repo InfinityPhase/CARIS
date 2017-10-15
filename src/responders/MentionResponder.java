@@ -3,7 +3,6 @@ package responders;
 import library.Constants;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import tokens.Response;
-import utilities.Responder;
 
 public class MentionResponder extends Responder {
 	// Placeholder example auto handler
