@@ -1,6 +1,7 @@
 package utilities;
 
 import java.util.ArrayList;
+import java.util.Set;
 
 import main.Brain;
 import main.GuildInfo;
@@ -51,5 +52,36 @@ public class Handler {
 
 	protected Response build(EmbedBuilder builder) {
 		return new Response(builder, getPriority());
+	}
+	
+	protected boolean containsIgnoreCase(String a, String b) {
+		return a.toLowerCase().contains(b.toLowerCase());
+	}
+	
+	protected boolean containsIgnoreCase(ArrayList<String> a, String b) {
+		for( String token : a ) {
+			if( containsIgnoreCase(token, b) ) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	protected boolean containsIgnoreCase(String[] a, String b) {
+		for( String token : a ) {
+			if( containsIgnoreCase(token, b) ) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	protected Boolean containsIgnoreCase(Set<String> a, String b) {
+		for( String token : a ) {
+			if( containsIgnoreCase(token, b) ) {
+				return true;
+			}
+		}
+		return false;
 	}
 }
