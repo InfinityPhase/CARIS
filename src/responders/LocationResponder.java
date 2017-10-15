@@ -24,14 +24,6 @@ public class LocationResponder extends Responder {
 					break;
 				}
 			}
-			for( String token : tokens ) {
-				if( containsIgnoreCase(variables.people.keySet(), token) ) {
-					if( Constants.DEBUG ) {System.out.println("\t\t\t\t\tLocation \"" + token + "\" detected.");}
-					if( Constants.DEBUG ) {System.out.println("\t\t\t\t\tLocationResponder triggered.");}
-					response = token + " is at " + variables.people.get(token) + ".";
-					break;
-				}
-			}
 		} else if( containsIgnoreCase(tokens, "who") && containsIgnoreCase(tokens, "is") && containsIgnoreCase(tokens, "at") || containsIgnoreCase(tokens, "who's") && containsIgnoreCase(tokens, "at") ) {
 			if( Constants.DEBUG ) {System.out.println("\t\t\t\tPerson query detected.");}
 			for( String location : variables.locations.keySet() ) {
