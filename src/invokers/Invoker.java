@@ -7,7 +7,16 @@ import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedE
 import utilities.Handler;
 
 public class Invoker extends Handler {
-	// Base Invoker class. Same as Handler, but here for future use.
+	// Base Invoker class. Setup removes first token.
+	
+	@Override
+	protected void setup(MessageReceivedEvent event) {
+		response = "";
+		messageText = format(event);
+		tokens = tokenize(event);
+		variables = Brain.guildIndex.get(event.getGuild());
+		tokens.remove(0);
+	}
 	
 	@Override
 	protected ArrayList<String> tokenize(MessageReceivedEvent event) {
