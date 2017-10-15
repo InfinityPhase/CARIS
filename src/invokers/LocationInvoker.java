@@ -7,9 +7,7 @@ import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedE
 import tokens.Response;
 
 public class LocationInvoker extends Invoker {
-	
-	public LocationInvoker() {}
-	
+		
 	public Response process(MessageReceivedEvent event) {	
 		setup(event);
 		

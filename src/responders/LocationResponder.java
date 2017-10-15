@@ -7,8 +7,6 @@ import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedE
 import tokens.Response;
 
 public class LocationResponder extends Responder {
-
-	public LocationResponder() {}
 	
 	@Override
 	public Response process(MessageReceivedEvent event) {

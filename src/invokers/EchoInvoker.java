@@ -6,9 +6,7 @@ import tokens.Response;
 
 public class EchoInvoker extends Invoker {
 	// Placeholder example invoked handler
-	
-	public EchoInvoker() {}
-	
+		
 	public Response process(MessageReceivedEvent event) {
 		setup(event);
 		

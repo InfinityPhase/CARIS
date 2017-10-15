@@ -13,12 +13,12 @@ public class Handler {
 	// The base handler class. Extend this into other classes.
 	
 	protected String response;
+	protected EmbedBuilder embed;
 	protected String messageText;
 	protected ArrayList<String> tokens;
 	protected GuildInfo variables;
 	
 	public Handler() {}
-	
 	
 	public Response process(MessageReceivedEvent event) {
 		setup(event);
@@ -27,6 +27,7 @@ public class Handler {
 	
 	protected void setup(MessageReceivedEvent event) {
 		response = "";
+		embed = null;
 		messageText = format(event);
 		tokens = tokenize(event);
 		variables = Brain.guildIndex.get(event.getGuild());
