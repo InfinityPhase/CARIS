@@ -21,14 +21,13 @@ public class Handler {
 	
 	
 	public Response process(MessageReceivedEvent event) {
-		return new Response("", getPriority());
+		setup(event);
+		return build(response);
 	}
 	
 	protected void setup(MessageReceivedEvent event) {
-		if( Constants.DEBUG ) {System.out.println("\t\t\tProcessing LocationResponder.");}
 		response = "";
 		messageText = format(event);
-		if( Constants.DEBUG ) {System.out.println("\t\t\tFormatted message: \"" + messageText + "\"");}
 		tokens = tokenize(event);
 		variables = Brain.guildIndex.get(event.getGuild());
 	}
