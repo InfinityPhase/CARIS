@@ -7,6 +7,8 @@ import sx.blah.discord.handle.obj.IUser;
 
 public class UserData {
 	
+	public String lastMessage;
+	
 	// THESE ARE REQUIRED
 	public int karma;
 	public User user;
@@ -20,6 +22,7 @@ public class UserData {
 		karma = 0;
 		new HashMap< String, String >();
 		location = "";
+		lastMessage = "";
 	}
 	
 	public UserData ( IUser user ) {

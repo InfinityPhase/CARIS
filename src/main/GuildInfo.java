@@ -15,7 +15,7 @@ public class GuildInfo {
 	public HashMap<String, String> people;
 	
 	// Creates Map of Username-human to User user
-	public HashMap<String, String> translator;
+	public HashMap<String, String> translator; // we might not need this if people just @ everyone else
 	public HashMap <String, UserData> userIndex;
 	
 	public GuildInfo() {

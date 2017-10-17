@@ -43,8 +43,9 @@ public class CommandHandler {
 			Brain.guildIndex.put(event.getGuild(), new GuildInfo());
 			if( Constants.DEBUG ) {System.out.println("\tCreating new Guild Object \"" + event.getGuild().getName() + "\".");}
 		}
-		if( !Brain.guildIndex.get(event.getGuild()).userIndex.containsKey(event.getAuthor().getName()) ) {
-			Brain.guildIndex.get(event.getGuild()).userIndex.put(event.getAuthor().getName(), new UserData(event.getAuthor()));
+		GuildInfo gi = Brain.guildIndex.get(event.getGuild());
+		if( !gi.userIndex.containsKey(event.getAuthor().getName()) ) {
+			gi.userIndex.put(event.getAuthor().getName(), new UserData(event.getAuthor()));
 			if( Constants.DEBUG ) {System.out.println("\tAdding new User \"" + event.getAuthor().getName() + "\" to Guild " + event.getGuild().getName() + ".");}
 		}
 		
@@ -98,6 +99,7 @@ public class CommandHandler {
 		} else {
 			if( Constants.DEBUG ) {System.out.println("\tNo responses available.");}
 		}
+		gi.userIndex.get(event.getAuthor().getName()).lastMessage = messageText;
 	}
 
 }
