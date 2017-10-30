@@ -6,10 +6,13 @@ import java.util.HashMap;
 import commands.CommandHandler;
 import invokers.EchoInvoker;
 import invokers.LocationInvoker;
+import invokers.NicknameInvoker;
 import invokers.VoteInvoker;
+import invokers._8BallInvoker;
 import library.Constants;
 import responders.LocationResponder;
 import responders.MentionResponder;
+import responders.NicknameResponder;
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.obj.IGuild;
 import utilities.BotUtils;
@@ -31,10 +34,13 @@ public class Brain {
 	public static EchoInvoker echoInvoker = new EchoInvoker();
 	public static LocationInvoker locationInvoker = new LocationInvoker();
 	public static VoteInvoker voteInvoker = new VoteInvoker();
+	public static _8BallInvoker _8ballInvoker = new _8BallInvoker();
+	public static NicknameInvoker nicknameInvoker = new NicknameInvoker();
 	
 	/* Auto Handlers */
 	public static MentionResponder mentionResponder = new MentionResponder();
 	public static LocationResponder locationResponder = new LocationResponder();
+	public static NicknameResponder nicknameResponder = new NicknameResponder();
 	
 	/* Gigantic Variable Library */
 	public static HashMap<IGuild, GuildInfo> guildIndex = new HashMap<IGuild, GuildInfo>();
@@ -66,9 +72,9 @@ public class Brain {
 	public static void init() { // add handlers to their appropriate categories here
 		if( Constants.DEBUG ) {System.out.println("Initializing.");}
 		invokers.add(echoInvoker);
-		invokers.add(locationInvoker);
 		invokers.add(voteInvoker);
-		responders.add(mentionResponder);
-		responders.add(locationResponder);
+		invokers.add(_8ballInvoker);
+		invokers.add(nicknameInvoker);
+		responders.add(nicknameResponder);
 	}
 }

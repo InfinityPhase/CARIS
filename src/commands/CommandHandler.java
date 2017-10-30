@@ -94,6 +94,11 @@ public class CommandHandler {
 			if( options[0].embed ) {
 				event.getChannel().sendMessage(options[0].builder.build());
 			} else {
+				if( options[0].text.startsWith("Nickname set to ") ) {
+					int index1 = options[0].text.indexOf('\"') + 1;
+					int index2 = options[0].text.lastIndexOf('\"');
+					event.getGuild().setUserNickname(event.getAuthor(), options[0].text.substring(index1, index2));
+				}
 				BotUtils.sendMessage( event.getChannel(), options[0].text ); // print out highest priority response option 
 			}
 		} else {
