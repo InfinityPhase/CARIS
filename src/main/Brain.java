@@ -29,6 +29,8 @@ public class Brain {
 
 	/*	IMPORTANT NOTES
 	 * 	- Responders ignore case by setting messages to lower case before parsing
+	 *  - Constants cannot be altered; Use for... Constants
+	 *  - Variables should be mutable; Use for changing values
 	 */
 	
 	public static TokenParser tp = new TokenParser();
