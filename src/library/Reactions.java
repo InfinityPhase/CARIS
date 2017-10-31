@@ -29,6 +29,6 @@ public class Reactions {
 			
 	};
 	public String[] happyComments = new String[] {
-			
+			"Awww, thanks!"
 	};
 }

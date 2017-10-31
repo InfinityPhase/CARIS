@@ -1,6 +1,8 @@
 package main;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 
 import commands.CommandHandler;
@@ -26,6 +28,7 @@ public class Brain {
 	 */
 	
 	public static TokenParser tp = new TokenParser();
+	public static SimpleDateFormat sdf = new SimpleDateFormat( Constants.DATEFORMAT );
 
 	public static ArrayList<Handler> invokers = new ArrayList<Handler>();
 	public static ArrayList<Handler> responders = new ArrayList<Handler>();
@@ -55,6 +58,11 @@ public class Brain {
 			System.exit(0);
 		}
 		
+		if( args.length >= 3 ) {
+			// Get the encryption password
+			
+		}
+		
 		// Gets token from arguments
 		String token = args[0];
 
@@ -67,6 +75,22 @@ public class Brain {
 		// Only login after all event registering is done
 		cli.login();
 		if( Constants.DEBUG ) {System.out.println("Client logged in.");}
+		
+		long startTime = System.currentTimeMillis();
+		while( true ) {
+			// I'm sure that this won't cause a slowdown...
+			// Heh heh... heh.
+			if( ( ( System.currentTimeMillis() - startTime ) >= Constants.SAVETIME ) && Constants.SAVESTATE ) {
+				// Check to save state of CARIS
+				String fileName = ( Constants.PREPENDDATE ? sdf.format( Calendar.getInstance().getTime() ) : "" ) + Constants.SAVEFILE + Constants.SAVEEXTENTION;
+				// Open JSON file
+				// Clear contents if exists
+				// Stream data of objects to PGP
+				// Save stream to JSON file
+				
+				startTime = System.currentTimeMillis();
+			}
+		}
 
 	}
 	public static void init() { // add handlers to their appropriate categories here
