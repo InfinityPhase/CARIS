@@ -1,5 +1,9 @@
 package main;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -82,11 +86,16 @@ public class Brain {
 			// Heh heh... heh.
 			if( ( ( System.currentTimeMillis() - startTime ) >= Constants.SAVETIME ) && Constants.SAVESTATE ) {
 				// Check to save state of CARIS
+				if( Constants.DEBUG ) { System.out.println("Saving CARIS State..."); }
+				
 				String fileName = ( Constants.PREPENDDATE ? sdf.format( Calendar.getInstance().getTime() ) : "" ) + Constants.SAVEFILE + Constants.SAVEEXTENTION;
 				// Open JSON file
 				// Clear contents if exists
 				// Stream data of objects to PGP
 				// Save stream to JSON file
+				// Read file:
+				// try( BufferedReader br = new BufferedReader( new InputStreamReader( new FileInputStream( new File( fileName ) ), Constants.ENCODING ) ); ) {} catch( EXCEPTION e ) {}
+				
 				
 				startTime = System.currentTimeMillis();
 			}
