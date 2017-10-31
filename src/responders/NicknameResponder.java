@@ -5,6 +5,9 @@ import tokens.Response;
 
 public class NicknameResponder extends Responder {
 	
+	/* This is a magic ID. Used to ID when we can restore states */
+	private static final long serialVersionUID = -570619837617912235L;
+
 	@Override
 	public Response process(MessageReceivedEvent event) {
 		System.out.println("NickResp");

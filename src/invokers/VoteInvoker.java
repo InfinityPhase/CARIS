@@ -8,6 +8,9 @@ import tokens.Response;
 
 public class VoteInvoker extends Invoker {
 
+	/* This is a magic ID. Used to ID when we can restore states */
+	private static final long serialVersionUID = 8065198606360010466L;
+
 	public Response process(MessageReceivedEvent event) {
 		setup(event);
 		

@@ -7,6 +7,9 @@ import tokens.Response;
 
 public class _8BallInvoker extends Invoker {
 	
+	/* This is a magic ID. Used to ID when we can restore states */
+	private static final long serialVersionUID = -2176783238658735415L;
+	
 	public final String[] responses = new String[] {
 		"Sure, I guess",
 		"What?? No!! What are you thinking?!",

@@ -8,6 +8,9 @@ import tokens.Response;
 
 public class LocationResponder extends Responder {
 	
+	/* This is a magic ID. Used to ID when we can restore states */
+	private static final long serialVersionUID = 699216121747600155L;
+
 	@Override
 	public Response process(MessageReceivedEvent event) {
 		setup(event);
