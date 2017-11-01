@@ -10,7 +10,16 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
+import com.fasterxml.jackson.annotation.PropertyAccessor;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import sx.blah.discord.api.IDiscordClient;
+import sx.blah.discord.handle.obj.IGuild;
+
 import commands.CommandHandler;
+import library.Variables;
 import invokers.EchoInvoker;
 import invokers.LocationInvoker;
 import invokers.NicknameInvoker;
@@ -20,8 +29,6 @@ import library.Constants;
 import responders.LocationResponder;
 import responders.MentionResponder;
 import responders.NicknameResponder;
-import sx.blah.discord.api.IDiscordClient;
-import sx.blah.discord.handle.obj.IGuild;
 import utilities.BotUtils;
 import utilities.Handler;
 import utilities.TokenParser;
@@ -57,12 +64,12 @@ public class Brain implements Serializable {
 	public static NicknameResponder nicknameResponder = new NicknameResponder();
 
 	/* Gigantic Variable Library */
-	public static HashMap<IGuild, GuildInfo> guildIndex = new HashMap<IGuild, GuildInfo>();
+//	public static HashMap<IGuild, GuildInfo> guildIndex = new HashMap<IGuild, GuildInfo>();
 
 	public static void main(String[] args) {
 
 		init();
-		
+
 		String token = null;
 
 		if( args.length <= 0 && System.console() != null ) {
@@ -109,14 +116,44 @@ public class Brain implements Serializable {
 		// Designed to run tasks based on time
 		long startTime = System.currentTimeMillis();
 		while( true ) {
-			// I'm sure that this won't cause a slowdown...
-			// Heh heh... heh.
 			if( ( ( System.currentTimeMillis() - startTime ) >= Constants.SAVETIME ) && Constants.SAVESTATE ) {
+				
 				if( Constants.DEBUG ) { System.out.println("Saving CARIS State..."); }
 
-				String fileName = ( Constants.PREPENDDATE ? sdf.format( Calendar.getInstance().getTime() ) + "_" : "" ) + Constants.SAVEFILE + Constants.SAVEEXTENTION;
-				saveState( fileName );
+				File fileName = new File( ( Constants.PREPENDDATE ? sdf.format( Calendar.getInstance().getTime() ) + "_" : "" ) + Constants.SAVEFILE + Constants.SAVEEXTENTION );
 
+				ObjectMapper out = new ObjectMapper().setVisibility(PropertyAccessor.FIELD, Visibility.ANY);
+				
+				// TODO: create array of things that need to be stored
+				// Include the invokers map, responders map, and anything else
+				
+				for( Handler h : invokers ) {
+					try {
+						System.out.println( out.writeValueAsString(h));
+						out.writeValue( fileName, h );
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+				
+				for( Handler h : responders ) {
+					try {
+						System.out.println( out.writeValueAsString(h));
+						out.writeValue( fileName, h );
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				
+				try {
+					System.out.println( out.writeValueAsString(Variables.guildIndex));
+					out.writeValue( fileName, Variables.guildIndex );
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
 				// Reset the timer
 				startTime = System.currentTimeMillis();
 			}
@@ -154,9 +191,5 @@ public class Brain implements Serializable {
 			System.out.println( "Failed to write to CARIS save file: " + fileOut.getPath() );
 			e.printStackTrace();
 		}
-	}
-
-	static void saveState( String fileOut ) {
-		saveState( new File( fileOut ) );
 	}
 }
