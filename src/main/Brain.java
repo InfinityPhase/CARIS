@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.io.Console;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 
 import commands.CommandHandler;
 import invokers.EchoInvoker;
@@ -91,18 +94,29 @@ public class Brain {
 			// I'm sure that this won't cause a slowdown...
 			// Heh heh... heh.
 			if( ( ( System.currentTimeMillis() - startTime ) >= Constants.SAVETIME ) && Constants.SAVESTATE ) {
-				// Check to save state of CARIS
 				if( Constants.DEBUG ) { System.out.println("Saving CARIS State..."); }
 
 				String fileName = ( Constants.PREPENDDATE ? sdf.format( Calendar.getInstance().getTime() ) : "" ) + Constants.SAVEFILE + Constants.SAVEEXTENTION;
-				// Open JSON file
-				// Clear contents if exists
-				// Stream data of objects to PGP
-				// Save stream to JSON file
+
 				// Read file:
 				// try( BufferedReader br = new BufferedReader( new InputStreamReader( new FileInputStream( new File( fileName ) ), Constants.ENCODING ) ); ) {} catch( EXCEPTION e ) {}
+				try( ObjectOutputStream out = new ObjectOutputStream( new FileOutputStream( fileName ) ); ) {
+					// Open JSON file
+					// Clear contents if exists
+					// Stream data of objects to PGP
+					// Save stream to JSON file
+					for( Handler h : invokers ) {
+						out.writeObject( h );
+					}
+					for( Handler h : responders ) {
+						out.writeObject( h );
+					}
+					
+				} catch (IOException e) {
+					System.out.println( "Failed to open CARIS save file: " + fileName );
+				}
 
-
+				// Reset the timer
 				startTime = System.currentTimeMillis();
 			}
 		}
