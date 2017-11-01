@@ -10,22 +10,23 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
+import library.Constants;
 import commands.CommandHandler;
+import utilities.BotUtils;
+import utilities.Handler;
+import utilities.TokenParser;
 import invokers.EchoInvoker;
 import invokers.LocationInvoker;
 import invokers.NicknameInvoker;
 import invokers.VoteInvoker;
 import invokers._8BallInvoker;
-import library.Constants;
-import library.Variables;
 import responders.LocationResponder;
 import responders.MentionResponder;
 import responders.NicknameResponder;
+
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.obj.IGuild;
-import utilities.BotUtils;
-import utilities.Handler;
-import utilities.TokenParser;
+
 
 public class Brain implements Serializable {
 
@@ -41,7 +42,6 @@ public class Brain implements Serializable {
 	
 	public static TokenParser tp = new TokenParser();
 	public static SimpleDateFormat sdf = new SimpleDateFormat( Constants.DATEFORMAT );
-	public static Console console = System.console();
 
 	public static ArrayList<Handler> invokers = new ArrayList<Handler>();
 	public static ArrayList<Handler> responders = new ArrayList<Handler>();
@@ -75,12 +75,15 @@ public class Brain implements Serializable {
 		String token = args[0];
 
 		// Get the encryption password
-		if( Constants.SAVESTATE ) {
-			char password[] = console.readPassword("Save file password: ");
+		if( Constants.SAVESTATE && ( System.console() != null ) ) {
+			char password[] = System.console().readPassword("Save file password: ");
 
 			if( password.length <= 0 ) {
 				System.out.println("WARNING: Password is empty");
 			}
+		} else {
+			System.out.println("WARNING: Password is empty");
+			char password[] = {};
 		}
 
 		IDiscordClient cli = BotUtils.getBuiltDiscordClient(token);
@@ -102,25 +105,27 @@ public class Brain implements Serializable {
 			if( ( ( System.currentTimeMillis() - startTime ) >= Constants.SAVETIME ) && Constants.SAVESTATE ) {
 				if( Constants.DEBUG ) { System.out.println("Saving CARIS State..."); }
 
-				String fileName = ( Constants.PREPENDDATE ? sdf.format( Calendar.getInstance().getTime() ) : "" ) + Constants.SAVEFILE + Constants.SAVEEXTENTION;
+				String fileName = ( Constants.PREPENDDATE ? sdf.format( Calendar.getInstance().getTime() ) + "_" : "" ) + Constants.SAVEFILE + Constants.SAVEEXTENTION;
 
 				// Read file:
 				// try( BufferedReader br = new BufferedReader( new InputStreamReader( new FileInputStream( new File( fileName ) ), Constants.ENCODING ) ); ) {} catch( EXCEPTION e ) {}
-				try( ObjectOutputStream out = new ObjectOutputStream( new FileOutputStream( fileName ) ); ) {
+				try {
 					// Open JSON file
 					// Clear contents if exists
 					// Stream data of objects to PGP
 					// Save stream to JSON file
-//					for( Handler h : invokers ) {
-//						out.writeObject( h );
-//					} for( Handler h : responders ) {
-//						out.writeObject( h );
-//					}
-					
-					out.defaultWriteObject();
-					
+					ObjectOutputStream out = new ObjectOutputStream( new FileOutputStream( fileName ) );
+//					out.defaultWriteObject();
+					for( Handler h : invokers ) {
+						out.writeObject( h );
+					}
+					for( Handler h : responders ) {
+						out.writeObject( h );
+					}
+					out.close();
 				} catch (IOException e) {
 					System.out.println( "Failed to open CARIS save file: " + fileName );
+					e.printStackTrace();
 				}
 
 				// Reset the timer

@@ -1,12 +1,17 @@
 package main;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import tokens.Poll;
 import tokens.UserData;
 
-public class GuildInfo {
+public class GuildInfo implements Serializable {
+
+	/* Unique ID for this version of this class */
+	private static final long serialVersionUID = 6924279741134225977L;
+
 	/* Vote Libraries */
 	public HashMap<String, Poll> polls;
 	

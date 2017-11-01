@@ -13,7 +13,7 @@ public class Constants {
 	public static final boolean SAVESTATE = true;
 	public static final boolean PREPENDDATE = true;
 	public static final String SAVEFILE = "CARIS_State";
-	public static final String SAVEEXTENTION = ".json";
+	public static final String SAVEEXTENTION = ".caris";
 	public static final String DATEFORMAT = "yyyyMMddhhmm";
 	public static final String ENCODING = "UTF-8";
 }
