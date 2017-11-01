@@ -8,6 +8,7 @@ import java.io.Console;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 
 import commands.CommandHandler;
 import invokers.EchoInvoker;
@@ -26,7 +27,7 @@ import utilities.BotUtils;
 import utilities.Handler;
 import utilities.TokenParser;
 
-public class Brain {
+public class Brain implements Serializable {
 
 	/*	IMPORTANT NOTES
 	 * 	- Responders ignore case by setting messages to lower case before parsing
@@ -34,7 +35,10 @@ public class Brain {
 	 *  - Variables should be mutable; Use for changing values
 	 *  - When a module is altered, update the ID with Eclipse
 	 */
-
+	
+	/* Allows for versioning of the class Brain */
+	private static final long serialVersionUID = 653133840606620696L;
+	
 	public static TokenParser tp = new TokenParser();
 	public static SimpleDateFormat sdf = new SimpleDateFormat( Constants.DATEFORMAT );
 	public static Console console = System.console();
@@ -66,18 +70,18 @@ public class Brain {
 			System.out.println("# java -jar SimpleResponder.jar TOKEN");
 			System.exit(0);
 		}
+		
+		// Gets token from arguments
+		String token = args[0];
 
 		// Get the encryption password
 		if( Constants.SAVESTATE ) {
-			Variables.password = console.readPassword();
+			char password[] = console.readPassword("Save file password: ");
 
-			if( Variables.password.length <= 0 ) {
+			if( password.length <= 0 ) {
 				System.out.println("WARNING: Password is empty");
 			}
 		}
-
-		// Gets token from arguments
-		String token = args[0];
 
 		IDiscordClient cli = BotUtils.getBuiltDiscordClient(token);
 		if( Constants.DEBUG ) {System.out.println("Client built successfully.");}
@@ -89,6 +93,8 @@ public class Brain {
 		cli.login();
 		if( Constants.DEBUG ) {System.out.println("Client logged in.");}
 
+		// This should run last, after everything else
+		// Designed to run tasks based on time
 		long startTime = System.currentTimeMillis();
 		while( true ) {
 			// I'm sure that this won't cause a slowdown...
@@ -105,12 +111,13 @@ public class Brain {
 					// Clear contents if exists
 					// Stream data of objects to PGP
 					// Save stream to JSON file
-					for( Handler h : invokers ) {
-						out.writeObject( h );
-					}
-					for( Handler h : responders ) {
-						out.writeObject( h );
-					}
+//					for( Handler h : invokers ) {
+//						out.writeObject( h );
+//					} for( Handler h : responders ) {
+//						out.writeObject( h );
+//					}
+					
+					out.defaultWriteObject();
 					
 				} catch (IOException e) {
 					System.out.println( "Failed to open CARIS save file: " + fileName );

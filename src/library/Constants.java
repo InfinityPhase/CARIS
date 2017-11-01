@@ -8,7 +8,8 @@ public class Constants {
 	
 	/* Settings for saving the state of CARIS */
 	// SAVETIME uses milliseconds
-	public static final int SAVETIME = 6000000;
+	// Default is 6000000 ms
+	public static final int SAVETIME = 10000;
 	public static final boolean SAVESTATE = true;
 	public static final boolean PREPENDDATE = true;
 	public static final String SAVEFILE = "CARIS_State";
