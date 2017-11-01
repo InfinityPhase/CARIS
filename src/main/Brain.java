@@ -1,32 +1,30 @@
 package main;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.io.Console;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashMap;
 
-import library.Constants;
 import commands.CommandHandler;
-import utilities.BotUtils;
-import utilities.Handler;
-import utilities.TokenParser;
 import invokers.EchoInvoker;
 import invokers.LocationInvoker;
 import invokers.NicknameInvoker;
 import invokers.VoteInvoker;
 import invokers._8BallInvoker;
+import library.Constants;
 import responders.LocationResponder;
 import responders.MentionResponder;
 import responders.NicknameResponder;
-
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.obj.IGuild;
-
+import utilities.BotUtils;
+import utilities.Handler;
+import utilities.TokenParser;
 
 public class Brain implements Serializable {
 
@@ -36,12 +34,12 @@ public class Brain implements Serializable {
 	 *  - Variables should be mutable; Use for changing values
 	 *  - When a module is altered, update the ID with Eclipse
 	 */
-	
+
 	/* Allows for versioning of the class Brain */
 	private static final long serialVersionUID = 653133840606620696L;
-	
+
 	public static TokenParser tp = new TokenParser();
-	public static SimpleDateFormat sdf = new SimpleDateFormat( Constants.DATEFORMAT );
+	transient public static SimpleDateFormat sdf = new SimpleDateFormat( Constants.DATEFORMAT );
 
 	public static ArrayList<Handler> invokers = new ArrayList<Handler>();
 	public static ArrayList<Handler> responders = new ArrayList<Handler>();
@@ -64,15 +62,26 @@ public class Brain implements Serializable {
 	public static void main(String[] args) {
 
 		init();
-
-		if (!(args.length >= 1)) {
-			System.out.println("Please pass the TOKEN as the first argument.");
-			System.out.println("# java -jar SimpleResponder.jar TOKEN");
-			System.exit(0);
-		}
 		
+		String token = null;
+
+		if( args.length <= 0 && System.console() != null ) {
+			token = System.console().readPassword("Bot Token: ").toString();
+			if( token.length() <= 0 ) {
+				System.out.println("Tokens must be longer than 0 characters.");
+				System.exit(1);
+			}
+		} else{
+			if( args.length > 0 ) {
+				token = args[0];
+			} else {
+				System.out.println("Please pass the TOKEN as the first argument.");
+				System.out.println("# java -jar SimpleResponder.jar TOKEN");
+				System.exit(1);
+			}
+		}
+
 		// Gets token from arguments
-		String token = args[0];
 
 		// Get the encryption password
 		if( Constants.SAVESTATE && ( System.console() != null ) ) {
@@ -106,27 +115,7 @@ public class Brain implements Serializable {
 				if( Constants.DEBUG ) { System.out.println("Saving CARIS State..."); }
 
 				String fileName = ( Constants.PREPENDDATE ? sdf.format( Calendar.getInstance().getTime() ) + "_" : "" ) + Constants.SAVEFILE + Constants.SAVEEXTENTION;
-
-				// Read file:
-				// try( BufferedReader br = new BufferedReader( new InputStreamReader( new FileInputStream( new File( fileName ) ), Constants.ENCODING ) ); ) {} catch( EXCEPTION e ) {}
-				try {
-					// Open JSON file
-					// Clear contents if exists
-					// Stream data of objects to PGP
-					// Save stream to JSON file
-					ObjectOutputStream out = new ObjectOutputStream( new FileOutputStream( fileName ) );
-//					out.defaultWriteObject();
-					for( Handler h : invokers ) {
-						out.writeObject( h );
-					}
-					for( Handler h : responders ) {
-						out.writeObject( h );
-					}
-					out.close();
-				} catch (IOException e) {
-					System.out.println( "Failed to open CARIS save file: " + fileName );
-					e.printStackTrace();
-				}
+				saveState( fileName );
 
 				// Reset the timer
 				startTime = System.currentTimeMillis();
@@ -143,5 +132,31 @@ public class Brain implements Serializable {
 		responders.add(mentionResponder);
 		responders.add(locationResponder);
 		responders.add(nicknameResponder);
+	}
+
+	static void saveState( File fileOut ) {
+		try( ObjectOutputStream out = new ObjectOutputStream( new FileOutputStream( fileOut ) ); ){
+			// Open JSON file
+			// Clear contents if exists
+			// Stream data of objects to PGP
+			// Save stream to JSON file
+
+			System.out.println("Test after out, before write");
+
+			out.defaultWriteObject();
+
+			System.out.println("Test after write");
+
+			out.flush();
+
+			out.flush();
+		} catch (IOException e) {
+			System.out.println( "Failed to write to CARIS save file: " + fileOut.getPath() );
+			e.printStackTrace();
+		}
+	}
+
+	static void saveState( String fileOut ) {
+		saveState( new File( fileOut ) );
 	}
 }
