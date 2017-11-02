@@ -19,7 +19,6 @@ public class Logger {
 	BufferedWriter debugWriter;
 
 	public Logger() {
-
 		try {
 			this.logWriter = new BufferedWriter( new OutputStreamWriter( new FileOutputStream( 
 					new File( ( Constants.PREPENDDATE ? sdf.format( Calendar.getInstance().getTime() ) + "_" : "" ) + Constants.LOG_FILE_NAME + Constants.SAVEEXTENTION ) ), Constants.ENCODING));
@@ -27,6 +26,23 @@ public class Logger {
 			this.debugWriter = this.logWriter;
 		} catch (UnsupportedEncodingException | FileNotFoundException e) {
 			e.printStackTrace();
+		}
+	}
+	
+	public Logger(boolean happy) {
+		try {
+			this.logWriter = new BufferedWriter( new OutputStreamWriter( new FileOutputStream( 
+					new File( ( Constants.PREPENDDATE ? sdf.format( Calendar.getInstance().getTime() ) + "_" : "" ) + Constants.LOG_FILE_NAME + Constants.SAVEEXTENTION ) ), Constants.ENCODING));
+			// You know what? Shut up.
+			this.debugWriter = this.logWriter;
+		} catch (UnsupportedEncodingException | FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		
+		if( happy ) {
+			toConsole("============================================================");
+			toConsole(" :] :) :P ^^ ");
+			toConsole("============================================================");
 		}
 	}
 	
