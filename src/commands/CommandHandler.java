@@ -41,7 +41,8 @@ public class CommandHandler {
 	public void onMessageRecieved(MessageReceivedEvent event) {
 		
 		// Testing shit
-		main.Brain.testClass.putUserToGuild( event.getAuthor(), event.getGuild() );
+//		main.Brain.testClass.putUserToGuild( event.getAuthor(), event.getGuild() );
+		main.Brain.testClass.putGuildHere(event.getGuild());
 		
 		if( Constants.DEBUG ) {System.out.println("\tMessage received: \"" + event.getMessage().getContent() + "\" from User \"" + event.getAuthor().getName() + "\" on Guild \"" + event.getGuild().getName() + "\".");}
 		if( !Variables.guildIndex.containsKey(event.getGuild()) ) {

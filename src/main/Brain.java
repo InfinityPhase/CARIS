@@ -137,15 +137,7 @@ public class Brain implements Serializable {
 
 				File fileName = new File( ( Constants.PREPENDDATE ? sdf.format( Calendar.getInstance().getTime() ) + "_" : "" ) + Constants.SAVEFILE + Constants.SAVEEXTENTION );
 
-				ObjectMapper out = new ObjectMapper().setVisibility(PropertyAccessor.FIELD, Visibility.ANY);
-				
-				ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
-				try {
-					String json = ow.writeValueAsString( testClass );
-				} catch (JsonProcessingException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+				ObjectWriter out = new ObjectMapper().setVisibility(PropertyAccessor.FIELD, Visibility.ANY).writer().withDefaultPrettyPrinter();
 
 				// TODO: create array of things that need to be stored
 				// Include the invokers map, responders map, and anything else
@@ -174,14 +166,6 @@ public class Brain implements Serializable {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-
-//				try {
-//					out.writeValue( fileName, Variables.debugTest );
-//					//					out.writeValue( fileName, Variables.guildIndex );
-//				} catch (IOException e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				}
 
 				// Reset the timer
 				startTime = System.currentTimeMillis();

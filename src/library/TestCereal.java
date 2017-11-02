@@ -23,6 +23,7 @@ public class TestCereal {
 	private List< Integer > numbers = new ArrayList< Integer >();
 	
 	private Map< IUser, IGuild > userToGuild = new HashMap< IUser, IGuild >();
+	private IGuild guildHere;
 	
 	public TestCereal(int level, String comment ) {
 		this.level = level;
@@ -39,5 +40,9 @@ public class TestCereal {
 	
 	public void putUserToGuild(IUser iUser, IGuild iGuild) {
 		this.userToGuild.put(iUser, iGuild);
+	}
+	
+	public void putGuildHere(IGuild guild) {
+		this.guildHere = guild;
 	}
 }
