@@ -9,7 +9,7 @@ public class NicknameResponder extends Responder {
 	public Response process(MessageReceivedEvent event) {
 		System.out.println("NickResp");
 		setup(event);
-		if( containsIgnoreCase( tokens, "my" ) && ( containsIgnoreCase( tokens, "name" ) && containsIgnoreCase( tokens, "is" ) || containsIgnoreCase( tokens, "names" ) || containsIgnoreCase( tokens, " name's " ) ) ) {
+		if( containsIgnoreCase( tokens, "my" ) && ( containsIgnoreCase( tokens, "name" ) && containsIgnoreCase( tokens, "is" ) || containsIgnoreCase( tokens, "names" ) || containsIgnoreCase( messageText, " name's " ) ) ) {
 			int index1 = messageText.indexOf('\"');
 			int index2 = messageText.lastIndexOf('\"');
 			if( index1 != -1 && index2 != -1 && index1 != index2 ) {
