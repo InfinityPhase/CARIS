@@ -1,5 +1,6 @@
 package main;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -17,6 +18,7 @@ import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.obj.IGuild;
 import utilities.BotUtils;
 import utilities.Handler;
+import utilities.Logger;
 import utilities.TokenParser;
 
 public class Brain {
@@ -26,6 +28,7 @@ public class Brain {
 	 */
 	
 	public static TokenParser tp = new TokenParser();
+	public static Logger log = new Logger();
 
 	public static ArrayList<Handler> invokers = new ArrayList<Handler>();
 	public static ArrayList<Handler> responders = new ArrayList<Handler>();
