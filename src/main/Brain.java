@@ -53,8 +53,8 @@ public class Brain {
 		init();
 
 		if (!(args.length >= 1)) {
-			System.out.println("Please pass the TOKEN as the first argument.");
-			System.out.println("# java -jar SimpleResponder.jar TOKEN");
+			log.out("Please pass the TOKEN as the first argument.");
+			log.out("# java -jar SimpleResponder.jar TOKEN");
 			System.exit(0);
 		}
 		
@@ -62,18 +62,17 @@ public class Brain {
 		String token = args[0];
 
 		IDiscordClient cli = BotUtils.getBuiltDiscordClient(token);
-		if( Constants.DEBUG ) {System.out.println("Client built successfully.");}
+		log.debugOut("Client built successfully.");
 		
 		cli.getDispatcher().registerListener(new CommandHandler());
-		if( Constants.DEBUG ) {System.out.println("Listener established successfully.");}
+		log.debugOut("Listener established successfully.");
 		
 		// Only login after all event registering is done
 		cli.login();
-		if( Constants.DEBUG ) {System.out.println("Client logged in.");}
-
+		log.debugOut("Client logged in.");
 	}
 	public static void init() { // add handlers to their appropriate categories here
-		if( Constants.DEBUG ) {System.out.println("Initializing.");}
+		log.debugOut("Initializing.");
 		invokers.add(echoInvoker);
 		invokers.add(voteInvoker);
 		invokers.add(_8ballInvoker);
