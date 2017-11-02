@@ -39,6 +39,10 @@ public class CommandHandler {
 	
 	@EventSubscriber
 	public void onMessageRecieved(MessageReceivedEvent event) {
+		
+		// Testing shit
+		main.Brain.testClass.putUserToGuild( event.getAuthor(), event.getGuild() );
+		
 		if( Constants.DEBUG ) {System.out.println("\tMessage received: \"" + event.getMessage().getContent() + "\" from User \"" + event.getAuthor().getName() + "\" on Guild \"" + event.getGuild().getName() + "\".");}
 		if( !Variables.guildIndex.containsKey(event.getGuild()) ) {
 			Variables.guildIndex.put(event.getGuild(), new GuildInfo());
@@ -63,7 +67,7 @@ public class CommandHandler {
 				if( r.embed ) {
 					if( Constants.DEBUG ) {System.out.println("\t\tResponse embed option generated.");}
 					responses.add(r);
-				} if( !r.text.equals("") ) { // if this produces a result
+				} if( !r.text.equals("") && r.text != null ) { // if this produces a result
 					if( Constants.DEBUG ) {System.out.println("\t\tResponse option generated: \"" + r.text + "\"");}
 					responses.add( r ); // add it to the list of potential responses
 				}

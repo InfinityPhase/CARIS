@@ -14,18 +14,21 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.obj.IGuild;
 
 import commands.CommandHandler;
 import library.Variables;
+import invokers.DebugInvoker;
 import invokers.EchoInvoker;
 import invokers.LocationInvoker;
 import invokers.NicknameInvoker;
 import invokers.VoteInvoker;
 import invokers._8BallInvoker;
 import library.Constants;
+import library.TestCereal;
 import responders.LocationResponder;
 import responders.MentionResponder;
 import responders.NicknameResponder;
@@ -48,6 +51,9 @@ public class Brain implements Serializable {
 	public static TokenParser tp = new TokenParser();
 	transient public static SimpleDateFormat sdf = new SimpleDateFormat( Constants.DATEFORMAT );
 
+	// TESTING
+	public static TestCereal testClass = new TestCereal( 9000, "SO ANNOYING" );
+
 	public static ArrayList<Handler> invokers = new ArrayList<Handler>();
 	public static ArrayList<Handler> responders = new ArrayList<Handler>();
 
@@ -57,6 +63,7 @@ public class Brain implements Serializable {
 	public static VoteInvoker voteInvoker = new VoteInvoker();
 	public static _8BallInvoker _8ballInvoker = new _8BallInvoker();
 	public static NicknameInvoker nicknameInvoker = new NicknameInvoker();
+	public static DebugInvoker debugInvoker = new DebugInvoker();
 
 	/* Auto Handlers */
 	public static MentionResponder mentionResponder = new MentionResponder();
@@ -64,9 +71,17 @@ public class Brain implements Serializable {
 	public static NicknameResponder nicknameResponder = new NicknameResponder();
 
 	/* Gigantic Variable Library */
-//	public static HashMap<IGuild, GuildInfo> guildIndex = new HashMap<IGuild, GuildInfo>();
+	//	public static HashMap<IGuild, GuildInfo> guildIndex = new HashMap<IGuild, GuildInfo>();
 
 	public static void main(String[] args) {
+		
+		testClass.putPhrases("String", "Value");
+		testClass.putPhrases("A", "Z");
+		testClass.putPhrases("Big", "Small");
+		testClass.putNumbers(4);
+		testClass.putNumbers(6);
+		testClass.putNumbers(8);
+
 
 		init();
 
@@ -117,43 +132,57 @@ public class Brain implements Serializable {
 		long startTime = System.currentTimeMillis();
 		while( true ) {
 			if( ( ( System.currentTimeMillis() - startTime ) >= Constants.SAVETIME ) && Constants.SAVESTATE ) {
-				
+
 				if( Constants.DEBUG ) { System.out.println("Saving CARIS State..."); }
 
 				File fileName = new File( ( Constants.PREPENDDATE ? sdf.format( Calendar.getInstance().getTime() ) + "_" : "" ) + Constants.SAVEFILE + Constants.SAVEEXTENTION );
 
 				ObjectMapper out = new ObjectMapper().setVisibility(PropertyAccessor.FIELD, Visibility.ANY);
 				
+				ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+				try {
+					String json = ow.writeValueAsString( testClass );
+				} catch (JsonProcessingException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+
 				// TODO: create array of things that need to be stored
 				// Include the invokers map, responders map, and anything else
-				
-				for( Handler h : invokers ) {
-					try {
-						System.out.println( out.writeValueAsString(h));
-						out.writeValue( fileName, h );
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-				}
-				
-				for( Handler h : responders ) {
-					try {
-						System.out.println( out.writeValueAsString(h));
-						out.writeValue( fileName, h );
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
+
+//				for( Handler h : invokers ) {
+//					try {
+//						out.writeValue( fileName, h );
+//					} catch (IOException e) {
+//						e.printStackTrace();
+//					}
+//				}
+//
+//				for( Handler h : responders ) {
+//					try {
+//						out.writeValue( fileName, h );
+//					} catch (IOException e) {
+//						// TODO Auto-generated catch block
+//						e.printStackTrace();
+//					}
+//
+//				}
 				
 				try {
-					System.out.println( out.writeValueAsString(Variables.guildIndex));
-					out.writeValue( fileName, Variables.guildIndex );
-				} catch (IOException e) {
+					out.writeValue(fileName, testClass);
+				} catch (IOException e1) {
 					// TODO Auto-generated catch block
-					e.printStackTrace();
+					e1.printStackTrace();
 				}
-				
+
+//				try {
+//					out.writeValue( fileName, Variables.debugTest );
+//					//					out.writeValue( fileName, Variables.guildIndex );
+//				} catch (IOException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
+
 				// Reset the timer
 				startTime = System.currentTimeMillis();
 			}
@@ -166,6 +195,7 @@ public class Brain implements Serializable {
 		invokers.add(voteInvoker);
 		invokers.add(_8ballInvoker);
 		invokers.add(nicknameInvoker);
+		invokers.add(debugInvoker);
 		responders.add(mentionResponder);
 		responders.add(locationResponder);
 		responders.add(nicknameResponder);
