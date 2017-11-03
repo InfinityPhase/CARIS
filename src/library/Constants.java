@@ -14,7 +14,7 @@ public class Constants {
         public static final int SAVETIME = 20000;
         public static final boolean SAVESTATE = true;
         public static final boolean PREPENDDATE = true;
-        public static final boolean LOGFILE = true;
+        public static final boolean LOG_FILE = true;
         public static final boolean DEBUG_FILE = true;
         public static final String SAVEFILE = "CARIS_State";
         public static final String DEBUG_FILE_NAME = "DebugLog";
