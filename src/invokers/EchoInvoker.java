@@ -1,6 +1,6 @@
 package invokers;
 
-import library.Constants;
+import main.Brain;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import tokens.Response;
 
@@ -11,10 +11,12 @@ public class EchoInvoker extends Invoker {
 		setup(event);
 		
 		if( tokens.get(0).equals("echo") ) {
-			if( Constants.DEBUG ) {System.out.println("\t\t\t\tEchoInvoker triggered.");}
+			Brain.log.debugOut("\t\t\t\tEchoInvoker triggered.");
 			response = tokens.get(1);;
-		} else if( Constants.DEBUG ) {System.out.println("\t\t\t\tEchoInvoker unactivated.");}
-		if( Constants.DEBUG ) {System.out.println("\t\t\tEchoInvoker processed.");}
+		} else {
+			Brain.log.debugOut("\t\t\t\tEchoInvoker unactivated.");
+		}
+		Brain.log.debugOut("\t\t\tEchoInvoker processed.");
 		return build();
 	}
 	
