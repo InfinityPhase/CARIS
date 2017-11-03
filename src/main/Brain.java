@@ -32,6 +32,7 @@ public class Brain {
 
 	public static ArrayList<Handler> invokers = new ArrayList<Handler>();
 	public static ArrayList<Handler> responders = new ArrayList<Handler>();
+	public static ArrayList<Handler> memories = new ArrayList<Handler>();
 
 	/* Invoked Handlers */
 	public static EchoInvoker echoInvoker = new EchoInvoker();
