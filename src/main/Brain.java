@@ -1,16 +1,15 @@
 package main;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import commands.CommandHandler;
 import invokers.EchoInvoker;
+import invokers.FortuneInvoker;
 import invokers.LocationInvoker;
 import invokers.NicknameInvoker;
 import invokers.VoteInvoker;
 import invokers._8BallInvoker;
-import library.Constants;
 import responders.LocationResponder;
 import responders.MentionResponder;
 import responders.NicknameResponder;
@@ -39,6 +38,7 @@ public class Brain {
 	public static VoteInvoker voteInvoker = new VoteInvoker();
 	public static _8BallInvoker _8ballInvoker = new _8BallInvoker();
 	public static NicknameInvoker nicknameInvoker = new NicknameInvoker();
+	public static FortuneInvoker fortuneInvoker = new FortuneInvoker();
 	
 	/* Auto Handlers */
 	public static MentionResponder mentionResponder = new MentionResponder();
@@ -77,6 +77,7 @@ public class Brain {
 		invokers.add(voteInvoker);
 		invokers.add(_8ballInvoker);
 		invokers.add(nicknameInvoker);
+		invokers.add(fortuneInvoker);
 		responders.add(mentionResponder);
 		responders.add(locationResponder);
 		responders.add(nicknameResponder);
