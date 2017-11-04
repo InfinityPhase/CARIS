@@ -76,7 +76,7 @@ public class Brain {
 		invokers.add(_8ballInvoker);
 		invokers.add(nicknameInvoker);
 		responders.add(mentionResponder);
-		responders.add(locationResponder);
+		//responders.add(locationResponder);
 		responders.add(nicknameResponder);
 	}
 }
