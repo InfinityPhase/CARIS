@@ -8,6 +8,7 @@ public class AuthorMemory extends Memory {
 	
 	public Thought remember( MessageReceivedEvent event ) {
 		setup(event);
+		name = "Author";
 		
 		text.add("Message Author: ");
 		text.add( event.getAuthor().getName() );

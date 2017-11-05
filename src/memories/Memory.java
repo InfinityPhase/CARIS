@@ -16,6 +16,7 @@ public class Memory extends Handler {
 		
 	protected List<String> text = new ArrayList<String>();
 	protected IMessage message;
+	protected String name;
 		
 	@Override
 	protected void setup(MessageReceivedEvent event) {
@@ -24,31 +25,19 @@ public class Memory extends Handler {
 		message = null;
 	}
 	
-	protected Thought think( List<String> text ) {
-		return new Thought(text); 
-	}
-	
-	protected Thought think( IMessage message ) {
-		return new Thought(message);
-	}
-	
-	protected Thought think( List<String> text, IMessage message ) {
-		return new Thought(text, message);
-	}
-	
 	protected Thought think() {
 		if( text.isEmpty() ) {
 			if( message != null ) {
-				return new Thought(message);
+				return new Thought(message, name);
 			} else {
 				Brain.log.debugOut("Nothing to think about");
 				return null;
 			}
 		} else {
 			if( message != null ) {
-				return new Thought(text, message);
+				return new Thought(text, message, name);
 			} else {
-				return new Thought(text);
+				return new Thought(text, name);
 			}
 		}
 	}

@@ -14,20 +14,25 @@ public class Thought {
 	public List< String > text = new ArrayList< String >();
 	// The origional message (Optional)
 	public IMessage message;
+	// Title of the thought
+	public String name;
 	
-	public Thought( List<String> text ) {
+	public Thought( List<String> text, String name ) {
 		this.text = text;
 		this.message = null;
+		this.name = name;
 	}
 	
-	public Thought( IMessage message ) {
+	public Thought( IMessage message, String name ) {
 		this.text = null;
 		this.message = message;
+		this.name = name;
 	}
 	
-	public Thought( List<String> text, IMessage message ) {
+	public Thought( List<String> text, IMessage message, String name ) {
 		this.text = text;
 		this.message = message;
+		this.name = name;
 	}
 	
 	
