@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import sx.blah.discord.handle.obj.IMessage;
+import sx.blah.discord.util.EmbedBuilder;
 
 public class Thought {
 	// Implement multiline responses using ArrayList
@@ -12,10 +13,15 @@ public class Thought {
 	
 	// What you want to say
 	public List< String > text = new ArrayList< String >();
-	// The origional message (Optional)
+	// The origonal message (Optional)
 	public IMessage message;
 	// Title of the thought
 	public String name;
+	
+	// All that stuff from the response
+	public int priority;
+	public EmbedBuilder builder;
+	public boolean embed;
 	
 	public Thought( List<String> text, String name ) {
 		this.text = text;

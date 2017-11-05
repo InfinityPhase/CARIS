@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import library.Constants;
 import main.Brain;
@@ -55,9 +56,21 @@ public class CommandHandler {
 		String messageText = event.getMessage().getContent();
 
 		ArrayList<Response> responses = new ArrayList<Response>();
-		
+
 		// Name of thought, the actual thoughts
-		List< HashMap< String, Thought > > thoughts = new ArrayList< HashMap< String, Thought > >();
+		Map< String, Thought > thoughts = new HashMap< String, Thought >();
+
+		// Time to think
+		for( Handler h : Brain.memories ) {
+			// Think
+			Brain.log.debugOut("Recording Message...");
+			Thought t = h.ponder(event);
+			if( !t.name.isEmpty() && ( !t.text.isEmpty() || !t.equals(null) ) ) {
+				thoughts.put( t.name, t );
+			} else {
+				Brain.log.debugOut("No thought generated");
+			}
+		}
 
 		// Checks if a message begins with the bot command prefix
 		if ( messageText.startsWith( Constants.PREFIX ) ) { // if invoked
