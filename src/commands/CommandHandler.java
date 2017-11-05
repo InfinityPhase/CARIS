@@ -2,13 +2,16 @@ package commands;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
 
+import library.Constants;
 import main.Brain;
 import main.GuildInfo;
-import library.Constants;
 import sx.blah.discord.api.events.EventSubscriber;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import tokens.Response;
+import tokens.Thought;
 import tokens.UserData;
 import utilities.BotUtils;
 import utilities.Handler;
@@ -52,6 +55,9 @@ public class CommandHandler {
 		String messageText = event.getMessage().getContent();
 
 		ArrayList<Response> responses = new ArrayList<Response>();
+		
+		// Name of thought, the actual thoughts
+		List< HashMap< String, Thought > > thoughts = new ArrayList< HashMap< String, Thought > >();
 
 		// Checks if a message begins with the bot command prefix
 		if ( messageText.startsWith( Constants.PREFIX ) ) { // if invoked

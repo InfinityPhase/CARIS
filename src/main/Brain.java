@@ -1,6 +1,5 @@
 package main;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -10,7 +9,7 @@ import invokers.LocationInvoker;
 import invokers.NicknameInvoker;
 import invokers.VoteInvoker;
 import invokers._8BallInvoker;
-import library.Constants;
+import memories.AuthorMemory;
 import responders.LocationResponder;
 import responders.MentionResponder;
 import responders.NicknameResponder;
@@ -46,6 +45,9 @@ public class Brain {
 	public static LocationResponder locationResponder = new LocationResponder();
 	public static NicknameResponder nicknameResponder = new NicknameResponder();
 	
+	/* Things that think */
+	public static AuthorMemory authorMemory = new AuthorMemory();
+	
 	/* Gigantic Variable Library */
 	public static HashMap<IGuild, GuildInfo> guildIndex = new HashMap<IGuild, GuildInfo>();
 	
@@ -74,12 +76,16 @@ public class Brain {
 	}
 	public static void init() { // add handlers to their appropriate categories here
 		log.debugOut("Initializing.");
+		
 		invokers.add(echoInvoker);
 		invokers.add(voteInvoker);
 		invokers.add(_8ballInvoker);
 		invokers.add(nicknameInvoker);
+		
 		responders.add(mentionResponder);
 		responders.add(locationResponder);
 		responders.add(nicknameResponder);
+		
+		memories.add(authorMemory);
 	}
 }

@@ -4,11 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import main.Brain;
-import main.GuildInfo;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import sx.blah.discord.handle.obj.IMessage;
-import sx.blah.discord.handle.obj.IUser;
-import sx.blah.discord.util.EmbedBuilder;
 import tokens.Thought;
 import utilities.Handler;
 

@@ -4,7 +4,7 @@ import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedE
 import tokens.Response;
 import tokens.Thought;
 
-public class getAuthor extends Memory {
+public class AuthorMemory extends Memory {
 	
 	public Thought remember( MessageReceivedEvent event ) {
 		setup(event);
