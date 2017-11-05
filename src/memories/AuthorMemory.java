@@ -15,7 +15,6 @@ public class AuthorMemory extends Memory {
 		text.add("Author Display Name: ");
 		text.add( event.getAuthor().getDisplayName( event.getGuild() ) );
 		
-		
 		return think();
 	}
 

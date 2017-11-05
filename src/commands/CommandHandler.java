@@ -58,6 +58,7 @@ public class CommandHandler {
 		ArrayList<Response> responses = new ArrayList<Response>();
 
 		// Name of thought, the actual thoughts
+		// Later use TreeMap, sort values better
 		Map< String, Thought > thoughts = new HashMap< String, Thought >();
 
 		// Time to think
@@ -70,6 +71,26 @@ public class CommandHandler {
 			} else {
 				Brain.log.debugOut("No thought generated");
 			}
+		}
+
+		if( !thoughts.isEmpty() ) {
+			// Say what you think
+			for( String name : thoughts.keySet() ) {
+				// Compile thoughts in order
+				for( int i = 0; i < Constants.THOUGHT_ORDER.length; i++ ) {
+					if( Constants.THOUGHT_ORDER[i].equalsIgnoreCase( name ) ) {
+						// Write to file
+						// Check if text array exists, and iterate over it
+						// Then, check for a message and print the text
+						for( int j = 0; j < thoughts.get(name).text.size(); j++ ) {
+							Brain.log.out( thoughts.get(name).text.get( j ) );
+							
+						}
+					}
+				}
+			}
+		} else {
+			Brain.log.debugOut("Nothing to think about");
 		}
 
 		// Checks if a message begins with the bot command prefix
