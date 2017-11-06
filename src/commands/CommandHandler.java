@@ -66,7 +66,7 @@ public class CommandHandler {
 			// Think
 			Brain.log.debugOut("Recording Message...");
 			Thought t = h.ponder(event);
-			if( !t.name.isEmpty() && ( !t.text.isEmpty() || !t.equals(null) ) ) {
+			if( !t.name.isEmpty() && ( !t.text.isEmpty() /*|| !t.equals(null) */) ) {
 				thoughts.put( t.name, t );
 			} else {
 				Brain.log.debugOut("No thought generated");
