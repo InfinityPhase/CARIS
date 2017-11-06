@@ -3,6 +3,7 @@ package invokers;
 import main.Brain;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import tokens.Response;
+import library.ImpromptuTopics;
 
 public class ImpromptuInvoker extends Invoker {
 	
@@ -20,16 +21,16 @@ public class ImpromptuInvoker extends Invoker {
 			Brain.log.debugOut( "Impromptu topic generator invoked" );
 			
 			if( containsIgnoreCase( keywords[1] , tokens.get( 1 ) ) ) {
-				// Get random thing from impConcrete
+				// Get random thing from Concrete
 				Brain.log.debugOut( "Choosing random concrete topic..." );
 			} else if( containsIgnoreCase( keywords[2], tokens.get( 1 ) ) ) {
-				// Random impAbstract
+				// Random Abstract
 				Brain.log.debugOut( "Choosing random abstract topic..." );
 			} else if( containsIgnoreCase( keywords[3], tokens.get( 1 ) ) ) {
-				// Random impQuote
+				// Random Quote
 				Brain.log.debugOut( "Choosing random quote..." );
 			} else if( containsIgnoreCase( keywords[4], tokens.get( 1 ) ) ) {
-				// Random impCurrent
+				// Random Current
 				Brain.log.debugOut( "Choosing random current event..." );
 				response = "You think I keep track of world events? Try again.";
 			} else {
