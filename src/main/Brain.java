@@ -73,11 +73,13 @@ public class Brain {
 	}
 	public static void init() { // add handlers to their appropriate categories here
 		log.debugOut("Initializing.");
+		
 		invokers.add(echoInvoker);
 		invokers.add(voteInvoker);
 		invokers.add(_8ballInvoker);
 		invokers.add(nicknameInvoker);
 		invokers.add(fortuneInvoker);
+		
 		responders.add(mentionResponder);
 		//responders.add(locationResponder);
 		responders.add(nicknameResponder);
