@@ -17,6 +17,7 @@ import responders.NicknameResponder;
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.obj.IGuild;
 import utilities.BotUtils;
+import utilities.FileIO;
 import utilities.Handler;
 import utilities.Logger;
 import utilities.TokenParser;
@@ -27,8 +28,10 @@ public class Brain {
 	 * 	- Responders ignore case by setting messages to lower case before parsing
 	 */
 	
+	/* Utilities */
 	public static TokenParser tp = new TokenParser();
 	public static Logger log = new Logger();
+	public static FileIO file = new FileIO();
 
 	public static ArrayList<Handler> invokers = new ArrayList<Handler>();
 	public static ArrayList<Handler> responders = new ArrayList<Handler>();

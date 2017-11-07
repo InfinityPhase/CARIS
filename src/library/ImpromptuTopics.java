@@ -6,6 +6,11 @@ import java.util.List;
 
 public class ImpromptuTopics {
 	// Impromptu wordlist
+	
+	public static String Concrete_File = "ConcreteList";
+	public static String Abstract_File = "AbstractList";
+	public static String Quote_File = "QuoteList";
+	public static String Current_File = "CurrentList";
 
 	// Add ability to load from files
 	// Alter framework?

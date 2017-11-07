@@ -88,6 +88,22 @@ public class FileIO {
 		}
 	}
 	
+	// Check if the thing exists
+	
+	public boolean writerExists( String name ) {
+		if( writers.containsKey( name ) ) {
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean readerExists( String name ) {
+		if( readers.containsKey( name ) ) {
+			return true;
+		}
+		return false;
+	}
+	
 	// Okay, actually use the things that have been made
 	
 	public void write( String name, String content ) {
