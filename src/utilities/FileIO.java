@@ -98,6 +98,26 @@ public class FileIO {
 		}
 	}
 	
+	public void writeTemp( File name, String content ) {
+		try {
+			writer = new BufferedWriter( new OutputStreamWriter( new FileOutputStream( name ) ) );
+			writer.write( content );
+			writer.close();
+		} catch ( IOException e ) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void writeTemp( File name, String content, String encoding ) {
+		try {
+			writer = new BufferedWriter( new OutputStreamWriter( new FileOutputStream( name ), encoding ) );
+			writer.write( content );
+			writer.close();
+		} catch ( IOException e ) {
+			e.printStackTrace();
+		}
+	}
+	
 	public String read( String name ) {
 		String output = null;
 		try {
@@ -106,6 +126,14 @@ public class FileIO {
 			e.printStackTrace();
 		}
 		return output;
+	}
+	
+	public void readReset( String name ) {
+		try {
+			readers.get( name ).reset();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 }
