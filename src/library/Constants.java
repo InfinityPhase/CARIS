@@ -12,8 +12,8 @@ public class Constants {
         // SAVETIME uses milliseconds
         // Default is 6000000 ms
         public static final int SAVETIME = 20000;
+        public static final boolean PREPENDDATE = true;
         public static final boolean SAVESTATE = false;
-        public static final boolean PREPENDDATE = false;
         public static final boolean LOGFILE = false;
         public static final boolean DEBUG_FILE = false;
         public static final String SAVEFILE = "CARIS_State";

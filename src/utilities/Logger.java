@@ -52,7 +52,7 @@ public class Logger {
 	}
 
 	public void toLog(String message) {
-		if( Constants.LOGFILE ) {
+		if( Constants.LOG_FILE ) {
 			try {
 				logWriter.write(message);
 			} catch (IOException e) {
@@ -62,7 +62,7 @@ public class Logger {
 	}
 
 	public void out(String message) {
-		if( Constants.LOGFILE ) {
+		if( Constants.LOG_FILE ) {
 			toLog(message);
 		}
 		toConsole(message);
