@@ -31,7 +31,7 @@ public class Brain {
 	/* Utilities */
 	public static TokenParser tp = new TokenParser();
 	public static Logger log = new Logger();
-	public static FileIO file = new FileIO();
+	public static FileIO files = new FileIO();
 
 	public static ArrayList<Handler> invokers = new ArrayList<Handler>();
 	public static ArrayList<Handler> responders = new ArrayList<Handler>();

@@ -1,6 +1,5 @@
 package invokers;
 
-import java.io.File;
 import java.util.List;
 import java.util.Random;
 
@@ -78,15 +77,19 @@ public class TopicInvoker extends Invoker {
 				} else if( containsIgnoreCase( wordlists[0], tokens.get( 2 ) ) ) {
 					// Concrete list
 					ImpromptuTopics.Concrete.clear();
+					response = "I cleared the list for the Concrete topic.";
 				} else if( containsIgnoreCase( wordlists[1], tokens.get( 2 ) ) ) {
 					// Abstract list
 					ImpromptuTopics.Abstract.clear();
+					response = "I cleared the list for the Abstract topic.";
 				} else if( containsIgnoreCase( wordlists[2], tokens.get( 2 ) ) ) {
 					// Quote list
 					ImpromptuTopics.Quote.clear();
+					response = "I cleared the list for the Quote topic.";
 				} else if( containsIgnoreCase( wordlists[3], tokens.get( 2 ) ) ) {
 					// Current list
 					ImpromptuTopics.Current.clear();
+					response = "I cleared the list for the Current topic.";
 				}
 				
 			} else if( containsIgnoreCase( commands[1], tokens.get( 1 ) ) ) {
@@ -97,12 +100,20 @@ public class TopicInvoker extends Invoker {
 					response = "I can't find that topic.";
 				} else if( containsIgnoreCase( wordlists[0], tokens.get( 2 ) ) ) {
 					// Concrete list
+					resetList(ImpromptuTopics.Concrete, ImpromptuTopics.Concrete_File);
+					response = "I reset the topic list for Concrete back to standard.";
 				} else if( containsIgnoreCase( wordlists[1], tokens.get( 2 ) ) ) {
 					// Abstract list
+					resetList(ImpromptuTopics.Abstract, ImpromptuTopics.Abstract_File);
+					response = "I reset the topic list for Abstract back to standard.";
 				} else if( containsIgnoreCase( wordlists[2], tokens.get( 2 ) ) ) {
 					// Quote list
+					resetList(ImpromptuTopics.Quote, ImpromptuTopics.Quote_File);
+					response = "I reset the topic list for Quote back to standard.";
 				} else if( containsIgnoreCase( wordlists[3], tokens.get( 2 ) ) ) {
 					// Current list
+					resetList(ImpromptuTopics.Current, ImpromptuTopics.Current_File);
+					response = "I reset the topic list for Current back to standard.";
 				}
 				
 			} else if( containsIgnoreCase( commands[2], tokens.get( 1 ) ) ) {
@@ -141,11 +152,14 @@ public class TopicInvoker extends Invoker {
 		return build();
 	}
 	
-	private void resetList( List list, File file ) {
-		
-	}
-	
-	private void resetList( List list, String file ) {
-		
+	private void resetList( List<String> list, String file ) {
+		list.clear();
+		if( !Brain.files.readerExists( file ) ) {
+			Brain.files.newReader(file, file);
+		}
+		String[] content = Brain.files.readAll( file );
+		for( String l : content ) {
+			list.add( l );
+		}
 	}
 }
