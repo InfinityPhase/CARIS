@@ -8,6 +8,7 @@ import invokers.EchoInvoker;
 import invokers.FortuneInvoker;
 import invokers.LocationInvoker;
 import invokers.NicknameInvoker;
+import invokers.TopicInvoker;
 import invokers.VoteInvoker;
 import invokers._8BallInvoker;
 import responders.LocationResponder;
@@ -39,6 +40,7 @@ public class Brain {
 	public static _8BallInvoker _8ballInvoker = new _8BallInvoker();
 	public static NicknameInvoker nicknameInvoker = new NicknameInvoker();
 	public static FortuneInvoker fortuneInvoker = new FortuneInvoker();
+	public static TopicInvoker topicInvoker = new TopicInvoker();
 	
 	/* Auto Handlers */
 	public static MentionResponder mentionResponder = new MentionResponder();
@@ -78,6 +80,8 @@ public class Brain {
 		invokers.add(_8ballInvoker);
 		invokers.add(nicknameInvoker);
 		invokers.add(fortuneInvoker);
+		invokers.add(topicInvoker);
+		
 		responders.add(mentionResponder);
 		//responders.add(locationResponder);
 		responders.add(nicknameResponder);

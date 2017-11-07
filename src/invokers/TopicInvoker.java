@@ -7,7 +7,7 @@ import library.ImpromptuTopics;
 
 import java.util.Random;
 
-public class ImpromptuInvoker extends Invoker {
+public class TopicInvoker extends Invoker {
 
 	String[][] keywords = { { "imp", "impromptu" },
 			{ "concrete", "physical", "real" },
