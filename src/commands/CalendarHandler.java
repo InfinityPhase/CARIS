@@ -16,6 +16,7 @@ public class CalendarHandler {
 			for( Calendar c : info.reminders.keySet() ) {
 				Reminder reminder = info.reminders.get(c);
 				if( Brain.current.after(c) ) {
+					System.out.println(Brain.current.toString());
 					String send = "";
 					send += reminder.origin.getAuthor().mention();
 					send += ", here's your reminder";

@@ -1,7 +1,9 @@
 package responders;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
+import library.PunctuationOptions;
 import main.Brain;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import tokens.Reminder;
@@ -22,7 +24,7 @@ public class ReminderResponder extends Responder {
 				response = "Reminder set successfully.";
 				System.out.println(c.toString());
 			}
-		} else if( hasIgnoreCase( tokens, "remind" ) && hasIgnoreCase( tokens, "in" )) {
+		} else if( hasIgnoreCase( tokens, "remind" ) ) {
 			Calendar c = timeParser.parseTimer(tokens);
 			if( c != null ) {
 				Brain.guildIndex.get(event.getGuild()).reminders.put(c, new Reminder(message, event));
@@ -33,4 +35,9 @@ public class ReminderResponder extends Responder {
 		return build();
 	}
 
+	@Override
+	protected ArrayList<String> tokenize(MessageReceivedEvent event) {
+		return Brain.tp.parse(event.getMessage().getContent().toLowerCase(), PunctuationOptions.TIME);
+	}
+	
 }

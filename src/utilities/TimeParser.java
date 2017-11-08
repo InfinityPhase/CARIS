@@ -50,6 +50,7 @@ public class TimeParser {
 	}
 	
 	public Calendar parseAlarm(ArrayList<String> tokens) {
+		Calendar previous = Calendar.getInstance();
 		Calendar target = Calendar.getInstance();
 		int year = target.get(Calendar.YEAR);
 		int month = target.get(Calendar.MONTH);
@@ -86,6 +87,7 @@ public class TimeParser {
 			} else if( order >= 1 && order <= 31 ) {
 				day = order;
 			} else if( isInteger(token) ) {
+				System.out.println(token);
 				int possibleYear = Integer.parseInt(token);
 				if( possibleYear >= target.get(Calendar.YEAR) ) {
 					year = possibleYear;
@@ -93,6 +95,8 @@ public class TimeParser {
 			} else if( token.contains(":") ) {
 				int posHour = parseHour(token);
 				int posMinute = parseMinute(token);
+				System.out.println(posHour);
+				System.out.println(posMinute);
 				if( hour != -1 ) {
 					hour = posHour;
 				}
@@ -100,6 +104,7 @@ public class TimeParser {
 					minute = posMinute;
 				}
 			} else if( token.equalsIgnoreCase("PM") ) {
+				System.out.println("pm");
 				pm = true;
 			}
 		}
@@ -108,7 +113,9 @@ public class TimeParser {
 		}
 		if( verify(year, month, day) ) {
 			target.set(year, month, day, hour, minute, 0);
-			return target;
+			if( verify(previous, target) ) {
+				return target;
+			}
 		}
 		return null;
 	}
