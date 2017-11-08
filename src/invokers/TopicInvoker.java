@@ -138,7 +138,7 @@ public class TopicInvoker extends Invoker {
 					// Current list
 					ImpromptuTopics.Current.add( tokens.get( 3 ) );
 					response = "I added the topic " + tokens.get( 3 ) + " to the list Current.";
-				}
+				} 
 			}
 			
 			// AUGH. THE REPETITION OF IF STATEMENTS...
