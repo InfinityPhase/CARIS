@@ -1,9 +1,11 @@
 package main;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 
 import tokens.Poll;
+import tokens.Reminder;
 import tokens.UserData;
 
 public class GuildInfo {
@@ -16,7 +18,8 @@ public class GuildInfo {
 	
 	// Creates Map of Username-human to User user
 	public HashMap<String, String> translator; // we might not need this if people just @ everyone else
-	public HashMap <String, UserData> userIndex;
+	public HashMap<String, UserData> userIndex;
+	public HashMap<Calendar, Reminder> reminders;
 	
 	public GuildInfo() {
 		polls = new HashMap<String, Poll>();
@@ -24,5 +27,6 @@ public class GuildInfo {
 		people = new HashMap<String, String>();
 		translator = new HashMap<String, String>();
 		userIndex = new HashMap<String, UserData>();
+		reminders = new HashMap<Calendar, Reminder>();
 	}
 }

@@ -1,8 +1,10 @@
 package main;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 
+import commands.CalendarHandler;
 import commands.CommandHandler;
 import invokers.EchoInvoker;
 import invokers.FortuneInvoker;
@@ -13,6 +15,7 @@ import invokers._8BallInvoker;
 import responders.LocationResponder;
 import responders.MentionResponder;
 import responders.NicknameResponder;
+import responders.ReminderResponder;
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.obj.IGuild;
 import utilities.BotUtils;
@@ -44,9 +47,13 @@ public class Brain {
 	public static MentionResponder mentionResponder = new MentionResponder();
 	public static LocationResponder locationResponder = new LocationResponder();
 	public static NicknameResponder nicknameResponder = new NicknameResponder();
+	public static ReminderResponder reminderResponder = new ReminderResponder();
 	
 	/* Gigantic Variable Library */
 	public static HashMap<IGuild, GuildInfo> guildIndex = new HashMap<IGuild, GuildInfo>();
+	
+	public static CalendarHandler calendarHandler = new CalendarHandler();
+	public static Calendar current = Calendar.getInstance();
 	
 	public static void main(String[] args) {
 
@@ -70,6 +77,11 @@ public class Brain {
 		// Only login after all event registering is done
 		cli.login();
 		log.debugOut("Client logged in.");
+		
+		while( true ) {
+			current = Calendar.getInstance();
+			calendarHandler.check();
+		}
 	}
 	public static void init() { // add handlers to their appropriate categories here
 		log.debugOut("Initializing.");
@@ -81,5 +93,6 @@ public class Brain {
 		responders.add(mentionResponder);
 		responders.add(locationResponder);
 		responders.add(nicknameResponder);
+		responders.add(reminderResponder);
 	}
 }
