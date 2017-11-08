@@ -91,7 +91,7 @@ public class Brain {
 		invokers.add(nicknameInvoker);
 		invokers.add(fortuneInvoker);
 		responders.add(mentionResponder);
-		responders.add(locationResponder);
+		//responders.add(locationResponder);
 		responders.add(nicknameResponder);
 		responders.add(reminderResponder);
 	}
