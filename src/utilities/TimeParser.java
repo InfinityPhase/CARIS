@@ -57,40 +57,59 @@ public class TimeParser {
 		int day = target.get(Calendar.DAY_OF_MONTH);
 		int hour = target.get(Calendar.HOUR);
 		int minute = target.get(Calendar.MINUTE);
+		boolean yearChange = false;
+		boolean monthChange = false;
+		boolean dayChange = false;
+		boolean hourChange = false;
+		boolean minuteChange = false;
 		boolean pm = false;
 		for( String token : tokens ) {
 			int order = parseOrder(token);
 			if( token.equalsIgnoreCase("January") ) {
 				month = Calendar.JANUARY;
+				monthChange = true;
 			} else if( token.equalsIgnoreCase("February") ) {
 				month = Calendar.FEBRUARY;
+				monthChange = true;
 			} else if( token.equalsIgnoreCase("March") ) {
 				month = Calendar.MARCH;
+				monthChange = true;
 			} else if( token.equalsIgnoreCase("April") ) {
 				month = Calendar.APRIL;
+				monthChange = true;
 			} else if( token.equalsIgnoreCase("May") ) {
 				month = Calendar.MAY;
+				monthChange = true;
 			} else if( token.equalsIgnoreCase("June") ) {
 				month = Calendar.JUNE;
+				monthChange = true;
 			} else if( token.equalsIgnoreCase("July") ) {
 				month = Calendar.JULY;
+				monthChange = true;
 			} else if( token.equalsIgnoreCase("August") ) {
 				month = Calendar.AUGUST;
+				monthChange = true;
 			} else if( token.equalsIgnoreCase("September") ) {
 				month = Calendar.SEPTEMBER;
+				monthChange = true;
 			} else if( token.equalsIgnoreCase("October") ) {
 				month = Calendar.OCTOBER;
+				monthChange = true;
 			} else if( token.equalsIgnoreCase("November") ) {
 				month = Calendar.NOVEMBER;
+				monthChange = true;
 			} else if( token.equalsIgnoreCase("December") ) {
 				month = Calendar.DECEMBER;
+				monthChange = true;
 			} else if( order >= 1 && order <= 31 ) {
 				day = order;
+				dayChange = true;
 			} else if( isInteger(token) ) {
 				System.out.println(token);
 				int possibleYear = Integer.parseInt(token);
 				if( possibleYear >= target.get(Calendar.YEAR) ) {
 					year = possibleYear;
+					yearChange = true;
 				}
 			} else if( token.contains(":") ) {
 				int posHour = parseHour(token);
@@ -99,9 +118,11 @@ public class TimeParser {
 				System.out.println(posMinute);
 				if( hour != -1 ) {
 					hour = posHour;
+					hourChange = true;
 				}
 				if( minute != -1 ) {
 					minute = posMinute;
+					minuteChange = true;
 				}
 			} else if( token.equalsIgnoreCase("PM") ) {
 				System.out.println("pm");
@@ -110,6 +131,21 @@ public class TimeParser {
 		}
 		if( pm == true && hour < 12 ) {
 			hour += 12;
+		}
+		if( yearChange && !monthChange && !dayChange && !hourChange && !minuteChange ) {
+			month = Calendar.JANUARY;
+			day = 1;
+			hour = 0;
+			minute = 0;
+		} else if( monthChange && !dayChange && !hourChange && !minuteChange ) {
+			day = 1;
+			hour = 0;
+			minute = 0;
+		} else if( dayChange && !hourChange && !minuteChange ) {
+			hour = 0;
+			minute = 0;
+		} else if( hourChange && !minuteChange ) {
+			minute = 0;
 		}
 		if( verify(year, month, day) ) {
 			target.set(year, month, day, hour, minute, 0);
