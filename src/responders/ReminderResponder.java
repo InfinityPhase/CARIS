@@ -17,7 +17,7 @@ public class ReminderResponder extends Responder {
 	@Override
 	public Response process(MessageReceivedEvent event) {
 		messageSetup(event);
-		if( hasIgnoreCase( tokens, "reminder" ) || hasIgnoreCase( tokens, "remind" ) && hasIgnoreCase( tokens, "on" ) ) {
+		if( hasIgnoreCase( tokens, "reminder" ) || hasIgnoreCase( tokens, "remind" ) && hasIgnoreCase( tokens, "on" ) || hasIgnoreCase( tokens, "remind") && hasIgnoreCase( tokens, "at" ) ) {
 			Calendar c = timeParser.parseAlarm(tokens);
 			if( c != null ) {
 				Brain.guildIndex.get(event.getGuild()).reminders.put(c, new Reminder(message, event));
