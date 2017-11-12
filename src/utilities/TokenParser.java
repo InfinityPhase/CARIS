@@ -18,10 +18,16 @@ public class TokenParser {
 	
 	public ArrayList<String> parse(String line) {
 		ArrayList<String> tokens = new ArrayList<String>();
-		line += " ";
 		while( line.contains("  ") ) {
 			line = line.replace("  ", " ");
 		}
+		while( line.contains("“") ) {
+			line = line.replace("“", "\"");
+		}
+		while( line.contains("”") ) {
+			line = line.replace("”", "\"");
+		}
+		line += " ";
 		char[] charArray = line.toCharArray();
 		String temp = "";
 		boolean openQuote = false;
