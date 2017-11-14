@@ -1,9 +1,15 @@
 package library;
 
 public class Constants {
-        public static final String PREFIX = "==> ";
+        public static final String COMMAND_PREFIX = "==> ";
+        public static final String ADMIN_PREFIX = "! ";
         public static final String NAME = "CARIS";
         public static final boolean OFFLINE = false;
+        
+        public static final long[] ADMIN_IDS = new long[]{
+        		Long.parseLong("246562987651891200"),
+        		Long.parseLong("365715538166415362"),
+        };
         
         /* Debug Levels: 0: Everything 1: DebugMessages 2: Warning 3:Error -1 or 4:Status */
         public static final boolean DEBUG = true;

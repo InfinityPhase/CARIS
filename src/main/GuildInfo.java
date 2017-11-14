@@ -7,8 +7,12 @@ import java.util.HashMap;
 import tokens.Poll;
 import tokens.Reminder;
 import tokens.UserData;
+import utilities.Handler;
 
 public class GuildInfo {
+	/* Guild Settings */
+	public HashMap<String, Boolean> modules;
+	
 	/* Vote Libraries */
 	public HashMap<String, Poll> polls;
 	
@@ -22,11 +26,24 @@ public class GuildInfo {
 	public HashMap<Calendar, Reminder> reminders;
 	
 	public GuildInfo() {
+		modules = new HashMap<String, Boolean>();
+		
 		polls = new HashMap<String, Poll>();
 		locations = new HashMap<String, ArrayList<String>>();
 		people = new HashMap<String, String>();
 		translator = new HashMap<String, String>();
 		userIndex = new HashMap<String, UserData>();
 		reminders = new HashMap<Calendar, Reminder>();
+		
+		init();
+	}
+	
+	private void init() {
+		for( String s : Brain.invokerModules.keySet() ) {
+			modules.put(s, true);
+		}
+		for( String s :  Brain.responderModules.keySet() ) {
+			modules.put(s, true);
+		}
 	}
 }

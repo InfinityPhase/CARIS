@@ -8,6 +8,7 @@ import commands.CalendarHandler;
 import commands.CommandHandler;
 import invokers.EchoInvoker;
 import invokers.FortuneInvoker;
+import invokers.Invoker;
 import invokers.LocationInvoker;
 import invokers.NicknameInvoker;
 import invokers.VoteInvoker;
@@ -16,6 +17,7 @@ import responders.LocationResponder;
 import responders.MentionResponder;
 import responders.NicknameResponder;
 import responders.ReminderResponder;
+import responders.Responder;
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.obj.IGuild;
 import utilities.BotUtils;
@@ -35,6 +37,9 @@ public class Brain {
 	public static ArrayList<Handler> invokers = new ArrayList<Handler>();
 	public static ArrayList<Handler> responders = new ArrayList<Handler>();
 
+	public static HashMap<String, Invoker> invokerModules = new HashMap<String, Invoker>();
+	public static HashMap<String, Responder> responderModules = new HashMap<String, Responder>();
+	
 	/* Invoked Handlers */
 	public static EchoInvoker echoInvoker = new EchoInvoker();
 	public static LocationInvoker locationInvoker = new LocationInvoker();
@@ -94,5 +99,14 @@ public class Brain {
 		//responders.add(locationResponder);
 		responders.add(nicknameResponder);
 		responders.add(reminderResponder);
+		invokerModules.put("Echo Invoker", echoInvoker);
+		invokerModules.put("Vote Invoker", voteInvoker);
+		invokerModules.put("8ball Invoker", _8ballInvoker);
+		invokerModules.put("Nickname Invoker", nicknameInvoker);
+		invokerModules.put("Fortune Invoker", fortuneInvoker);
+		responderModules.put("Mention Responder", mentionResponder);
+		responderModules.put("Nickname Responder", nicknameResponder);
+		responderModules.put("Reminder Responder", reminderResponder);
+		
 	}
 }
