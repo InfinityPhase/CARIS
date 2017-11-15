@@ -1,7 +1,5 @@
 package controller;
 
-import main.Brain;
-import main.GuildInfo;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import tokens.Response;
 
@@ -33,8 +31,8 @@ public class ModuleController extends Controller {
 							}
 						}
 					}
-					if( tokens.get(1).equals("list") && response.isEmpty() ) {
-						
+					if( (tokens.get(1).equals("list") || tokens.get(1).equals("status") || tokens.get(1).equals("state")) && response.isEmpty() ) {
+						embed = variables.moduleStatusBuilder.list(variables.name, variables.modules);
 					}
 				}
 			}

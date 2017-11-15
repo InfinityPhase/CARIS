@@ -1,4 +1,4 @@
-package embedbuilder;
+package embedbuilders;
 
 import java.util.ArrayList;
 
