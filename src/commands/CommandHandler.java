@@ -85,8 +85,9 @@ public class CommandHandler {
 					}
 				}
 			}
-		}
-		if ( messageText.startsWith( Constants.COMMAND_PREFIX ) ) { // if invoked
+		} else if( messageText.startsWith("==>") && !admin ) {
+			responses.add( new Response("The \"==>\" command invoker is now deprecated. Please use \".c\" instead.", 0) );
+		} else if ( messageText.startsWith( Constants.COMMAND_PREFIX ) ) { // if invoked
 			Brain.log.debugOut("\tInvocation detected.");
 			for( String s : Brain.invokerModules.keySet() ) { // try each invocation handler
 				boolean check = gi.modules.keySet().contains(s);
