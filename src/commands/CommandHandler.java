@@ -3,6 +3,7 @@ package commands;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import controller.Controller;
 import invokers.Invoker;
 import main.Brain;
 import main.GuildInfo;
@@ -65,7 +66,25 @@ public class CommandHandler {
 		// Checks if a message begins with the bot command prefix
 		if ( messageText.startsWith( Constants.ADMIN_PREFIX ) && admin ) {
 			Brain.log.debugOut("\tAdmin detected.");
-			// TODO: stuff
+			for( String s : Brain.controllerModules.keySet() ) { // try each invocation handler
+				boolean check = gi.modules.keySet().contains(s);
+				if( !check ) {
+					continue;
+				} else if( gi.modules.get(s) ) {
+					Controller h = Brain.controllerModules.get(s);
+					Response r = h.process(event);
+					if( r.embed ) {
+						Brain.log.debugOut("\t\tResponse embed option generated.");
+						responses.add(r);
+					} if( !r.text.equals("") ) { // if this produces a result
+						Brain.log.debugOut("\t\tResponse option generated: \"" + r.text + "\"");
+						responses.add( r ); // add it to the list of potential responses
+					}
+					else {
+						Brain.log.debugOut("\t\tNo response generated.");
+					}
+				}
+			}
 		}
 		if ( messageText.startsWith( Constants.COMMAND_PREFIX ) ) { // if invoked
 			Brain.log.debugOut("\tInvocation detected.");

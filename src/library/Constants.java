@@ -1,8 +1,8 @@
 package library;
 
 public class Constants {
-        public static final String COMMAND_PREFIX = "==> ";
-        public static final String ADMIN_PREFIX = "! ";
+        public static final String COMMAND_PREFIX = ".c ";
+        public static final String ADMIN_PREFIX = "==> ";
         public static final String NAME = "CARIS";
         public static final boolean OFFLINE = false;
         

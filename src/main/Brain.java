@@ -6,6 +6,8 @@ import java.util.HashMap;
 
 import commands.CalendarHandler;
 import commands.CommandHandler;
+import controller.Controller;
+import controller.ModuleController;
 import invokers.EchoInvoker;
 import invokers.FortuneInvoker;
 import invokers.Invoker;
@@ -34,11 +36,9 @@ public class Brain {
 	public static TokenParser tp = new TokenParser();
 	public static Logger log = new Logger();
 
-	public static ArrayList<Handler> invokers = new ArrayList<Handler>();
-	public static ArrayList<Handler> responders = new ArrayList<Handler>();
-
 	public static HashMap<String, Invoker> invokerModules = new HashMap<String, Invoker>();
 	public static HashMap<String, Responder> responderModules = new HashMap<String, Responder>();
+	public static HashMap<String, Controller> controllerModules = new HashMap<String, Controller>();
 	
 	/* Invoked Handlers */
 	public static EchoInvoker echoInvoker = new EchoInvoker();
@@ -53,6 +53,9 @@ public class Brain {
 	public static LocationResponder locationResponder = new LocationResponder();
 	public static NicknameResponder nicknameResponder = new NicknameResponder();
 	public static ReminderResponder reminderResponder = new ReminderResponder();
+	
+	/* Admin Controllers */
+	public static ModuleController moduleController = new ModuleController();
 	
 	/* Gigantic Variable Library */
 	public static HashMap<IGuild, GuildInfo> guildIndex = new HashMap<IGuild, GuildInfo>();
@@ -90,15 +93,6 @@ public class Brain {
 	}
 	public static void init() { // add handlers to their appropriate categories here
 		log.debugOut("Initializing.");
-		invokers.add(echoInvoker);
-		invokers.add(voteInvoker);
-		invokers.add(_8ballInvoker);
-		invokers.add(nicknameInvoker);
-		invokers.add(fortuneInvoker);
-		responders.add(mentionResponder);
-		//responders.add(locationResponder);
-		responders.add(nicknameResponder);
-		responders.add(reminderResponder);
 		invokerModules.put("Echo Invoker", echoInvoker);
 		invokerModules.put("Vote Invoker", voteInvoker);
 		invokerModules.put("8ball Invoker", _8ballInvoker);
@@ -107,6 +101,6 @@ public class Brain {
 		responderModules.put("Mention Responder", mentionResponder);
 		responderModules.put("Nickname Responder", nicknameResponder);
 		responderModules.put("Reminder Responder", reminderResponder);
-		
+		controllerModules.put("Module Controller", moduleController);
 	}
 }

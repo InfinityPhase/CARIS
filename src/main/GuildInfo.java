@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 
+import embedbuilder.PollBuilder;
 import tokens.Poll;
 import tokens.Reminder;
 import tokens.UserData;
@@ -14,6 +15,7 @@ public class GuildInfo {
 	public HashMap<String, Boolean> modules;
 	
 	/* Vote Libraries */
+	public PollBuilder pollBuilder;
 	public HashMap<String, Poll> polls;
 	
 	/* Location Libraries */
@@ -28,6 +30,7 @@ public class GuildInfo {
 	public GuildInfo() {
 		modules = new HashMap<String, Boolean>();
 		
+		pollBuilder = new PollBuilder();
 		polls = new HashMap<String, Poll>();
 		locations = new HashMap<String, ArrayList<String>>();
 		people = new HashMap<String, String>();
