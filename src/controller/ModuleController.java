@@ -1,5 +1,6 @@
 package controller;
 
+import main.Brain;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import tokens.Response;
 
@@ -25,7 +26,7 @@ public class ModuleController extends Controller {
 								if( !state ) {
 									response = "Module \"" + message + "\" already disabled.";
 								} else {
-									variables.modules.put(message, true);
+									variables.modules.put(message, false);
 									response = "Module \"" + message + "\" disabled!";
 								}
 							}
