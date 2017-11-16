@@ -9,6 +9,7 @@ import java.util.Map;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import main.Brain;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import sx.blah.discord.handle.obj.IMessage;
 
@@ -16,6 +17,8 @@ public class RasaParser {
 	private Map< String, JSONObject > messageResponses = new HashMap< String, JSONObject >();
 	
 	final String rasaURL = "http://localhost:5000/parse";
+	final String USER_AGENT = "Mozilla/5.0";
+	final String DATA_TYPE = "application/x-www-form-urlencoded";
 	HttpURLConnection rasa;
 	
 	public RasaParser() {}
@@ -28,6 +31,8 @@ public class RasaParser {
 			connection.setDoInput( true );
 			connection.setDoOutput( true );
 			connection.setRequestMethod( "POST" );
+			connection.setRequestProperty( "User-Agent", USER_AGENT );
+			connection.setRequestProperty( "Content-Type", DATA_TYPE );
 			
 			return connection;
 		} catch ( IOException e ) {
@@ -41,10 +46,19 @@ public class RasaParser {
 	}
 	
 	public void process( String message ) {
+		String response;
 		rasa = setup(rasaURL);
+		Brain.log.debugOut( "Checking message: " + message );
 		rasa.setRequestProperty( "q", message );
 		try {
-			messageResponses.put( message,  new JSONObject( rasa.getResponseMessage() ) );
+			rasa.connect();
+			response = rasa.getResponseMessage();
+			Brain.log.debugOut( response );
+			if( !response.equalsIgnoreCase( "Internal Server Error" ) ) {
+				messageResponses.put( message,  new JSONObject( response ) );
+			} else {
+				Brain.log.debugOut( "Critical Faliure, RASA server down." );
+			}
 		} catch (JSONException | IOException e) {
 			e.printStackTrace();
 		}
@@ -203,4 +217,7 @@ public class RasaParser {
 		// This will return the raw json
 		return getAll( message.getContent() );
 	}
+	
+	/* Gets information about the running RASA server */
+	// TODO: Get info about RASA server
 }
