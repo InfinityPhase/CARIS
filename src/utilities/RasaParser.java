@@ -1,9 +1,7 @@
 package utilities;
 
 import java.io.IOException;
-import java.io.OutputStream;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
@@ -15,35 +13,42 @@ import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedE
 import sx.blah.discord.handle.obj.IMessage;
 
 public class RasaParser {
-	final String rasaURL = "http://localhost:5000/parse";
 	private Map< String, JSONObject > messageResponses = new HashMap< String, JSONObject >();
 	
-	URL url;
+	final String rasaURL = "http://localhost:5000/parse";
 	HttpURLConnection rasa;
 	
-	public RasaParser() {
+	public RasaParser() {}
+	
+	private HttpURLConnection setup( String urlName ) {
 		try {
-			url = new URL(rasaURL);
-			rasa = (HttpURLConnection) url.openConnection();
+			URL url = new URL( urlName );
 			
-			// Set options
-			rasa.setDoInput( true );
-			rasa.setDoOutput( true );
-			rasa.setRequestMethod( "POST" );
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
+			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+			connection.setDoInput( true );
+			connection.setDoOutput( true );
+			connection.setRequestMethod( "POST" );
+			
+			return connection;
+		} catch ( IOException e ) {
 			e.printStackTrace();
 		}
+		return null;
+	}
+	
+	private void disable( HttpURLConnection connection ) {
+		connection.disconnect();
 	}
 	
 	public void process( String message ) {
+		rasa = setup(rasaURL);
 		rasa.setRequestProperty( "q", message );
 		try {
 			messageResponses.put( message,  new JSONObject( rasa.getResponseMessage() ) );
 		} catch (JSONException | IOException e) {
 			e.printStackTrace();
 		}
+		disable(rasa);
 	}
 	
 	public void process( IMessage message ) {

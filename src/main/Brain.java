@@ -18,6 +18,7 @@ import invokers._8BallInvoker;
 import responders.LocationResponder;
 import responders.MentionResponder;
 import responders.NicknameResponder;
+import responders.RasaTestResponder;
 import responders.ReminderResponder;
 import responders.Responder;
 import sx.blah.discord.api.IDiscordClient;
@@ -25,6 +26,7 @@ import sx.blah.discord.handle.obj.IGuild;
 import utilities.BotUtils;
 import utilities.Handler;
 import utilities.Logger;
+import utilities.RasaParser;
 import utilities.TokenParser;
 
 public class Brain {
@@ -35,6 +37,7 @@ public class Brain {
 	
 	public static TokenParser tp = new TokenParser();
 	public static Logger log = new Logger();
+	public static RasaParser rasa = new RasaParser();
 
 	public static HashMap<String, Invoker> invokerModules = new HashMap<String, Invoker>();
 	public static HashMap<String, Responder> responderModules = new HashMap<String, Responder>();
@@ -53,6 +56,7 @@ public class Brain {
 	public static LocationResponder locationResponder = new LocationResponder();
 	public static NicknameResponder nicknameResponder = new NicknameResponder();
 	public static ReminderResponder reminderResponder = new ReminderResponder();
+	public static RasaTestResponder rasaTestResponder = new RasaTestResponder();
 	
 	/* Admin Controllers */
 	public static ModuleController moduleController = new ModuleController();
@@ -101,6 +105,7 @@ public class Brain {
 		responderModules.put("Mention Responder", mentionResponder);
 		responderModules.put("Nickname Responder", nicknameResponder);
 		responderModules.put("Reminder Responder", reminderResponder);
+		responderModules.put("Rasa Test Responder", rasaTestResponder);
 		controllerModules.put("Module Controller", moduleController);
 	}
 }
