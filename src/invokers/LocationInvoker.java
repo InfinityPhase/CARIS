@@ -3,6 +3,7 @@ package invokers;
 import java.util.ArrayList;
 
 import library.Constants;
+import main.Brain;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import tokens.Response;
 
@@ -15,38 +16,38 @@ public class LocationInvoker extends Invoker {
 		setup(event);
 		
 		if( tokens.get(0).equals("loc") ) {
-			if( Constants.DEBUG ) {System.out.println("\t\t\t\tKeyword \"loc\" detected.");}
+			Brain.log.debugOut("\t\t\t\tKeyword \"loc\" detected.");
 			if( tokens.size() < 2 ) {
-				if( Constants.DEBUG ) {System.out.println("\t\t\t\t\tSyntax Error. Aborting.");}
-				if( Constants.DEBUG ) {System.out.println("\t\t\t\t\tLocationInvoker triggered.");}
+				Brain.log.debugOut("\t\t\t\t\tSyntax Error. Aborting.");
+			Brain.log.debugOut("\t\t\t\t\tLocationInvoker triggered.");
 				response = "Syntax Error: Command not specified.";
 				return build();
 			}
 			String action = tokens.get(1);
 			if(action.equals("set")) {
-				if( Constants.DEBUG ) {System.out.println("\t\t\t\tParameter \"set\" detected.");}
+				Brain.log.debugOut("\t\t\t\tParameter \"set\" detected.");
 				if( tokens.size() < 4 ) {
-					if( Constants.DEBUG ) {System.out.println("\t\t\t\t\tSyntax Error. Aborting.");}
-					if( Constants.DEBUG ) {System.out.println("\t\t\t\t\tLocationInvoker triggered.");}
+					Brain.log.debugOut("\t\t\t\t\tSyntax Error. Aborting.");
+					Brain.log.debugOut("\t\t\t\t\tLocationInvoker triggered.");
 					response = "Syntax Error: Insufficient parameters.";
 					return build();
 				}
 				String place = tokens.get(2);
-				if( Constants.DEBUG ) {System.out.println("\t\t\t\t\t\tLocation set: \"" + place + "\".");}
+				Brain.log.debugOut("\t\t\t\t\t\tLocation set: \"" + place + "\".");
 				ArrayList<String> persons = new ArrayList<String>();
 				for( int f=3; f<tokens.size(); f++ ) {
 					persons.add(tokens.get(f));
-					if( Constants.DEBUG ) {System.out.println("\t\t\t\t\tPerson added: \"" + tokens.get(f) + "\".");}
+					Brain.log.debugOut("\t\t\t\t\tPerson added: \"" + tokens.get(f) + "\".");
 				}
 				for( String person : persons ) {
 					if( variables.locations.containsKey(place) ) {
-						if( Constants.DEBUG ) {System.out.println("\t\t\t\t\tLocation \"" + place + "\" found.");}
+						Brain.log.debugOut("\t\t\t\t\tLocation \"" + place + "\" found.");
 						if( variables.locations.get(place).contains(person) ) {
-							if( Constants.DEBUG ) {System.out.println("\t\t\t\t\tLocationInvoker triggered.");}
+							Brain.log.debugOut("\t\t\t\t\tLocationInvoker triggered.");
 							response = person + " is already at " + place + ".";
 							return build();
 						} else {
-							if( Constants.DEBUG ) {System.out.println("\t\t\t\t\t\tNew Location \"" + place + "\" generated.");}
+							Brain.log.debugOut("\t\t\t\t\t\tNew Location \"" + place + "\" generated.");
 							for( String location : variables.locations.keySet() ) {
 								ArrayList<String> locals = variables.locations.get(location);
 								if( locals.contains(person) ) {
@@ -56,10 +57,10 @@ public class LocationInvoker extends Invoker {
 							variables.locations.get(place).add(person);
 							variables.people.put(person, place);
 							response = person + "'s location has been set to " + place + ".";
-							if( Constants.DEBUG ) {System.out.println("\t\t\t\t\tLocationInvoker triggered.");}
+							Brain.log.debugOut("\t\t\t\t\tLocationInvoker triggered.");
 						}
 					} else {
-						if( Constants.DEBUG ) {System.out.println("\t\t\t\t\tRemoving previous location references.");}
+						Brain.log.debugOut("\t\t\t\t\tRemoving previous location references.");
 						for( String location : variables.locations.keySet() ) {
 							ArrayList<String> locals = variables.locations.get(location);
 							if( locals.contains(person) ) {
@@ -71,56 +72,56 @@ public class LocationInvoker extends Invoker {
 						variables.locations.put(place, locals);
 						variables.people.put(person, place);
 						response = person + "'s location has been set to " + place + ".";
-						if( Constants.DEBUG ) {System.out.println("\t\t\t\t\tLocation set successfully.");}
-						if( Constants.DEBUG ) {System.out.println("\t\t\t\t\tLocationInvoker triggered.");}
+						Brain.log.debugOut("\t\t\t\t\tLocation set successfully.");
+						Brain.log.debugOut("\t\t\t\t\tLocationInvoker triggered.");
 					}
 				}
 				if( persons.size() > 1 ) {
-					if( Constants.DEBUG ) {System.out.println("\t\t\t\t\tLocation updated successfully.");}
+					Brain.log.debugOut("\t\t\t\t\tLocation updated successfully.");
 					response = "Locations have been updated.";
-					if( Constants.DEBUG ) {System.out.println("\t\t\t\t\tLocationInvoker triggered.");}
+					Brain.log.debugOut("\t\t\t\t\tLocationInvoker triggered.");
 				}
 			} else if(action.equals("get")) {
-				if( Constants.DEBUG ) {System.out.println("\t\t\t\tParameter \"get\" detected.");}
+				Brain.log.debugOut("\t\t\t\tParameter \"get\" detected.");
 				if( tokens.size() < 3 ) {
-					if( Constants.DEBUG ) {System.out.println("\t\t\t\t\tSyntax Error. Aborting.");}
-					if( Constants.DEBUG ) {System.out.println("\t\t\t\t\tLocationInvoker triggered.");}
+					Brain.log.debugOut("\t\t\t\t\tSyntax Error. Aborting.");
+					Brain.log.debugOut("\t\t\t\t\tLocationInvoker triggered.");
 					response = "Syntax Error: Insufficient parameters.";
 					return build();
 				}
 				String person = tokens.get(2);
 				if( !variables.people.containsKey(person) ) {
-					if( Constants.DEBUG ) {System.out.println("\t\t\t\t\tLocation not found for \"" + person + "\".");}
-					if( Constants.DEBUG ) {System.out.println("\t\t\t\t\tLocationInvoker triggered.");}
+					Brain.log.debugOut("\t\t\t\t\tLocation not found for \"" + person + "\".");
+				Brain.log.debugOut("\t\t\t\t\tLocationInvoker triggered.");
 					response = person + " has not set a location.";
 					return build();
 				}
 				String location = variables.people.get(person);
 				response = person + " is at " + location + ".";
-				if( Constants.DEBUG ) {System.out.println("\t\t\t\t\tLocationInvoker triggered.");}
+				Brain.log.debugOut("\t\t\t\t\tLocationInvoker triggered.");
 			} else if(action.equals("check")) {
-				if( Constants.DEBUG ) {System.out.println("\t\t\t\tParameter \"check\" detected.");}
+				Brain.log.debugOut("\t\t\t\tParameter \"check\" detected.");
 				if( tokens.size() < 3 ) {
-					if( Constants.DEBUG ) {System.out.println("\t\t\t\t\tSyntax Error. Aborting.");}
-					if( Constants.DEBUG ) {System.out.println("\t\t\t\t\tLocationInvoker triggered.");}
+					Brain.log.debugOut("\t\t\t\t\tSyntax Error. Aborting.");
+					Brain.log.debugOut("\t\t\t\t\tLocationInvoker triggered.");
 					response = "Syntax Error: Insufficient parameters.";
 					return build();
 				}
 				String location = tokens.get(2);
 				if( !variables.locations.containsKey(location) ) {
-					if( Constants.DEBUG ) {System.out.println("\t\t\t\t\tLocation \"" + location + "\"invalid.");}
-					if( Constants.DEBUG ) {System.out.println("\t\t\t\t\tLocationInvoker triggered.");}
+					Brain.log.debugOut("\t\t\t\t\tLocation \"" + location + "\"invalid.");
+					Brain.log.debugOut("\t\t\t\t\tLocationInvoker triggered.");
 					response = location + " is not a set location.";
 					return build();
 				}
 				ArrayList<String> locals = variables.locations.get(location);
 				if( locals.size() == 0 ) {
-					if( Constants.DEBUG ) {System.out.println("\t\t\t\t\tLocation \"" + location + "\" empty.");}
-					if( Constants.DEBUG ) {System.out.println("\t\t\t\t\tLocationInvoker triggered.");}
+					Brain.log.debugOut("\t\t\t\t\tLocation \"" + location + "\" empty.");
+				Brain.log.debugOut("\t\t\t\t\tLocationInvoker triggered.");
 					response = "No one is at " + location + ".";
 				} else {
-					if( Constants.DEBUG ) {System.out.println("\t\t\t\t\tPeople detected at \"" + location + "\" successfully.");}
-					if( Constants.DEBUG ) {System.out.println("\t\t\t\t\tLocationInvoker triggered.");}
+					Brain.log.debugOut("\t\t\t\t\tPeople detected at \"" + location + "\" successfully.");
+				Brain.log.debugOut("\t\t\t\t\tLocationInvoker triggered.");
 					response = "The following people are at " + location + ": ";
 					for( int f=0; f<locals.size(); f++ ) {
 						response += locals.get(f);
@@ -132,17 +133,17 @@ public class LocationInvoker extends Invoker {
 					}
 				}
 			} else if( action.equals("clear") ) {
-				if( Constants.DEBUG ) {System.out.println("\t\t\t\tParameter \"clear\" detected.");}
+				Brain.log.debugOut("\t\t\t\tParameter \"clear\" detected.");
 				if( tokens.size() < 3 ) {
-					if( Constants.DEBUG ) {System.out.println("\t\t\t\t\tSyntax Error. Aborting.");}
-					if( Constants.DEBUG ) {System.out.println("\t\t\t\t\tLocationInvoker triggered.");}
+					Brain.log.debugOut("\t\t\t\t\tSyntax Error. Aborting.");
+					Brain.log.debugOut("\t\t\t\t\tLocationInvoker triggered.");
 					response = "Syntax Error: Insufficient parameters.";
 					return build();
 				}
 				String location = tokens.get(2);
 				if( !variables.locations.containsKey(location) ) {
-					if( Constants.DEBUG ) {System.out.println("\t\t\t\t\tLocation \t" + location + "\" not found." );}
-					if( Constants.DEBUG ) {System.out.println("\t\t\t\t\tLocationInvoker triggered.");}
+					Brain.log.debugOut("\t\t\t\t\tLocation \t" + location + "\" not found." );
+					Brain.log.debugOut("\t\t\t\t\tLocationInvoker triggered.");
 					response = location + " is not a set location.";
 					return build();
 				}
@@ -152,42 +153,44 @@ public class LocationInvoker extends Invoker {
 						variables.people.remove(person);
 					}
 				}
-				if( Constants.DEBUG ) {System.out.println("\t\t\t\t\tLocation cleared.");}
+				Brain.log.debugOut("\t\t\t\t\tLocation cleared.");
 				response = "Cleared location " + location + ".";
-				if( Constants.DEBUG ) {System.out.println("\t\t\t\t\tLocationInvoker triggered.");}
+				Brain.log.debugOut("\t\t\t\t\tLocationInvoker triggered.");
 			} else if( action.equals("reset") ) {
-				if( Constants.DEBUG ) {System.out.println("\t\t\t\tParameter \"reset\" detected.");}
+				Brain.log.debugOut("\t\t\t\tParameter \"reset\" detected.");
 				if( tokens.size() < 3 ) {
-					if( Constants.DEBUG ) {System.out.println("\t\t\t\t\tSyntax Error. Aborting.");}
-					if( Constants.DEBUG ) {System.out.println("\t\t\t\t\tLocationInvoker triggered.");}
+					Brain.log.debugOut("\t\t\t\t\tSyntax Error. Aborting.");
+					Brain.log.debugOut("\t\t\t\t\tLocationInvoker triggered.");
 					response = "Syntax Error: Insufficient parameters.";
 					return build();
 				}
 				String person = tokens.get(2);
 				if( !variables.people.containsKey(person) ) {
-					if( Constants.DEBUG ) {System.out.println("\t\t\t\t\tNo location set for \"" + person + "\".");}
-					if( Constants.DEBUG ) {System.out.println("\t\t\t\t\tLocationInvoker triggered.");}
+					Brain.log.debugOut("\t\t\t\t\tNo location set for \"" + person + "\".");
+					Brain.log.debugOut("\t\t\t\t\tLocationInvoker triggered.");
 					response = person + " has not set a location.";
 					return build();
 				}
-				if( Constants.DEBUG ) {System.out.println("\t\t\t\t\tRemoving previous location references.");}
+				Brain.log.debugOut("\t\t\t\t\tRemoving previous location references.");
 				variables.people.remove(person);
 				for( String location : variables.locations.keySet() ) {
 					if( variables.locations.get(location).contains(person) ) {
 						variables.locations.get(location).remove(person);
 					}
 				}
-				if( Constants.DEBUG ) {System.out.println("\t\t\t\t\tLocation reset successfully.");}
+				Brain.log.debugOut("\t\t\t\t\tLocation reset successfully.");
 				response = "Reset location for " + person + ".";
-				if( Constants.DEBUG ) {System.out.println("\t\t\t\t\tLocationInvoker triggered.");}
+				Brain.log.debugOut("\t\t\t\t\tLocationInvoker triggered.");
 			} else {
-				if( Constants.DEBUG ) {System.out.println("\t\t\t\tKeyword \"" + action + "\" unknown. Aborting.");}
-				if( Constants.DEBUG ) {System.out.println("\t\t\t\tLocationInvoker triggered.");}
+				Brain.log.debugOut("\t\t\t\tKeyword \"" + action + "\" unknown. Aborting.");
+				Brain.log.debugOut("\t\t\t\tLocationInvoker triggered.");
 				response = "Unrecognized command: \"" + action + "\".";
 				return build();
 			}
-		} else if( Constants.DEBUG ) {System.out.println("\t\t\t\tLocationInvoker unactivated.");}
-		if( Constants.DEBUG ) {System.out.println("\t\t\tLocationInvoker processed.");}
+		} else {
+			Brain.log.debugOut("\t\t\t\tLocationInvoker unactivated.");
+		}
+		Brain.log.debugOut("\t\t\tLocationInvoker processed.");
 		return build();
 	}
 

@@ -17,5 +17,11 @@ public class Invoker extends Handler implements Serializable {
 		super.setup(event);
 		tokens.remove(0);
 	}
+	
+	@Override
+	protected void messageSetup(MessageReceivedEvent event) {
+		super.messageSetup(event);
+		tokens.remove(0);
+	}
 
 }

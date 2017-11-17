@@ -14,6 +14,7 @@ public class Handler {
 	// The base handler class. Extend this into other classes.
 	
 	protected String response;
+	protected String message;
 	protected EmbedBuilder embed;
 	protected String messageText;
 	protected ArrayList<String> tokens;
@@ -28,10 +29,20 @@ public class Handler {
 	
 	protected void setup(MessageReceivedEvent event) {
 		response = "";
+		message = "";
 		embed = null;
 		messageText = format(event);
 		tokens = tokenize(event);
 		variables = Variables.guildIndex.get(event.getGuild());
+	}
+	
+	protected void messageSetup(MessageReceivedEvent event) {
+		response = "";
+		message = "";
+		embed = null;
+		messageText = messageFormat(event);
+		tokens = tokenize(event);
+		variables = Brain.guildIndex.get(event.getGuild());
 	}
 	
 	protected int getPriority() {
@@ -44,8 +55,28 @@ public class Handler {
 		return messageText;
 	}
 	
+	protected String messageFormat(MessageReceivedEvent event) {
+		String messageText = event.getMessage().getContent();
+		int q1 = messageText.indexOf("\"");
+		int q2 = messageText.lastIndexOf("\"");
+		if( q1 != -1 && q1 != q2 ) {
+			message = messageText.substring(q1+1, q2);
+			String a = messageText.substring(0, q1);
+			String b = "";
+			if( q2 != messageText.length()-1 ) {
+				b = messageText.substring(q2+1);
+			}
+			messageText = a + b;
+		}
+		return messageText;
+	}
+	
 	protected ArrayList<String> tokenize(MessageReceivedEvent event) {
 		return Brain.tp.parse(event.getMessage().getContent());
+	}
+	
+	protected ArrayList<String> messageTokenize() {
+		return Brain.tp.parse(messageText);
 	}
 	
 	protected Response build() {
@@ -61,6 +92,33 @@ public class Handler {
 	}
 	protected Response buildEmbed() {
 		return new Response(embed, getPriority());
+	}
+	
+	protected boolean hasIgnoreCase(ArrayList<String> a, String b) {
+		for( String token: a ) {
+			if( token.equalsIgnoreCase(b) ) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	protected boolean hasIgnoreCase(String[] a, String b) {
+		for( String token: a ) {
+			if( token.equalsIgnoreCase(b) ) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	protected boolean hasIgnoreCase(Set<String> a, String b) {
+		for( String token: a ) {
+			if( token.equalsIgnoreCase(b) ) {
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	protected boolean containsIgnoreCase(String a, String b) {

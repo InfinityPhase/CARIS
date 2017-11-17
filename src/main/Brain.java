@@ -6,34 +6,36 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 
-import sx.blah.discord.api.IDiscordClient;
-import sx.blah.discord.handle.obj.IGuild;
-
+import commands.CalendarHandler;
 import commands.CommandHandler;
-import library.Variables;
+import controller.Controller;
+import controller.ModuleController;
 import invokers.DebugInvoker;
 import invokers.EchoInvoker;
+import invokers.FortuneInvoker;
+import invokers.Invoker;
 import invokers.LocationInvoker;
 import invokers.NicknameInvoker;
 import invokers.VoteInvoker;
 import invokers._8BallInvoker;
 import library.Constants;
-import library.TestCereal;
 import responders.LocationResponder;
 import responders.MentionResponder;
 import responders.NicknameResponder;
+import responders.ReminderResponder;
+import responders.Responder;
+import sx.blah.discord.api.IDiscordClient;
+import sx.blah.discord.handle.obj.IGuild;
 import utilities.BotUtils;
-import utilities.Handler;
+import utilities.Logger;
 import utilities.TokenParser;
 
 public class Brain implements Serializable {
@@ -49,13 +51,12 @@ public class Brain implements Serializable {
 	private static final long serialVersionUID = 653133840606620696L;
 
 	public static TokenParser tp = new TokenParser();
-	transient public static SimpleDateFormat sdf = new SimpleDateFormat( Constants.DATEFORMAT );
+	public static Logger log = new Logger();
+	public static SimpleDateFormat sdf = new SimpleDateFormat();
 
-	// TESTING
-	public static TestCereal testClass = new TestCereal( 9000, "SO ANNOYING" );
-
-	public static ArrayList<Handler> invokers = new ArrayList<Handler>();
-	public static ArrayList<Handler> responders = new ArrayList<Handler>();
+	public static HashMap<String, Invoker> invokerModules = new HashMap<String, Invoker>();
+	public static HashMap<String, Responder> responderModules = new HashMap<String, Responder>();
+	public static HashMap<String, Controller> controllerModules = new HashMap<String, Controller>();
 
 	/* Invoked Handlers */
 	public static EchoInvoker echoInvoker = new EchoInvoker();
@@ -63,25 +64,29 @@ public class Brain implements Serializable {
 	public static VoteInvoker voteInvoker = new VoteInvoker();
 	public static _8BallInvoker _8ballInvoker = new _8BallInvoker();
 	public static NicknameInvoker nicknameInvoker = new NicknameInvoker();
+
 	public static DebugInvoker debugInvoker = new DebugInvoker();
+
+	public static FortuneInvoker fortuneInvoker = new FortuneInvoker();
 
 	/* Auto Handlers */
 	public static MentionResponder mentionResponder = new MentionResponder();
 	public static LocationResponder locationResponder = new LocationResponder();
 	public static NicknameResponder nicknameResponder = new NicknameResponder();
+	public static ReminderResponder reminderResponder = new ReminderResponder();
+
+	/* Admin Controllers */
+	public static ModuleController moduleController = new ModuleController();
 
 	/* Gigantic Variable Library */
-	//	public static HashMap<IGuild, GuildInfo> guildIndex = new HashMap<IGuild, GuildInfo>();
+	public static HashMap<IGuild, GuildInfo> guildIndex = new HashMap<IGuild, GuildInfo>();
 
+	public static CalendarHandler calendarHandler = new CalendarHandler();
+	public static Calendar current = Calendar.getInstance();
+
+	// Because we tend to alter the Constants.SAVESTATE variable
+	@SuppressWarnings("unused")
 	public static void main(String[] args) {
-		
-		testClass.putPhrases("String", "Value");
-		testClass.putPhrases("A", "Z");
-		testClass.putPhrases("Big", "Small");
-		testClass.putNumbers(4);
-		testClass.putNumbers(6);
-		testClass.putNumbers(8);
-
 
 		init();
 
@@ -118,19 +123,24 @@ public class Brain implements Serializable {
 		}
 
 		IDiscordClient cli = BotUtils.getBuiltDiscordClient(token);
-		if( Constants.DEBUG ) {System.out.println("Client built successfully.");}
+
+		log.debugOut("Client built successfully.");
 
 		cli.getDispatcher().registerListener(new CommandHandler());
-		if( Constants.DEBUG ) {System.out.println("Listener established successfully.");}
+		log.debugOut("Listener established successfully.");
 
 		// Only login after all event registering is done
 		cli.login();
-		if( Constants.DEBUG ) {System.out.println("Client logged in.");}
+		log.debugOut("Client logged in.");
 
 		// This should run last, after everything else
 		// Designed to run tasks based on time
 		long startTime = System.currentTimeMillis();
 		while( true ) {
+
+			current = Calendar.getInstance();
+			calendarHandler.check();
+
 			if( ( ( System.currentTimeMillis() - startTime ) >= Constants.SAVETIME ) && Constants.SAVESTATE ) {
 
 				if( Constants.DEBUG ) { System.out.println("Saving CARIS State..."); }
@@ -142,29 +152,20 @@ public class Brain implements Serializable {
 				// TODO: create array of things that need to be stored
 				// Include the invokers map, responders map, and anything else
 
-//				for( Handler h : invokers ) {
-//					try {
-//						out.writeValue( fileName, h );
-//					} catch (IOException e) {
-//						e.printStackTrace();
-//					}
-//				}
-//
-//				for( Handler h : responders ) {
-//					try {
-//						out.writeValue( fileName, h );
-//					} catch (IOException e) {
-//						// TODO Auto-generated catch block
-//						e.printStackTrace();
-//					}
-//
-//				}
-				
-				try {
-					out.writeValue(fileName, testClass);
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+				for( Invoker h : invokerModules.values() ) {
+					try {
+						out.writeValue( fileName, h );
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+
+				for( Responder h : responderModules.values() ) {
+					try {
+						out.writeValue( fileName, h );
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
 				}
 
 				// Reset the timer
@@ -173,16 +174,19 @@ public class Brain implements Serializable {
 		}
 
 	}
+
+
 	public static void init() { // add handlers to their appropriate categories here
-		if( Constants.DEBUG ) {System.out.println("Initializing.");}
-		invokers.add(echoInvoker);
-		invokers.add(voteInvoker);
-		invokers.add(_8ballInvoker);
-		invokers.add(nicknameInvoker);
-		invokers.add(debugInvoker);
-		responders.add(mentionResponder);
-		responders.add(locationResponder);
-		responders.add(nicknameResponder);
+		log.debugOut("Initializing.");
+		invokerModules.put("Echo Invoker", echoInvoker);
+		invokerModules.put("Vote Invoker", voteInvoker);
+		invokerModules.put("8ball Invoker", _8ballInvoker);
+		invokerModules.put("Nickname Invoker", nicknameInvoker);
+		invokerModules.put("Fortune Invoker", fortuneInvoker);
+		responderModules.put("Mention Responder", mentionResponder);
+		responderModules.put("Nickname Responder", nicknameResponder);
+		responderModules.put("Reminder Responder", reminderResponder);
+		controllerModules.put("Module Controller", moduleController);
 	}
 
 	static void saveState( File fileOut ) {
