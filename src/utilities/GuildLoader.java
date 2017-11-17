@@ -1,9 +1,12 @@
 package utilities;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 
 import javax.net.ssl.HttpsURLConnection;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.vdurmont.emoji.Emoji;
@@ -47,42 +50,65 @@ public class GuildLoader {
 		// FORMAT:
 		// curl -i -H "Accept: application/json" -H "Content-Type: application/json" -H "User-Agent: DiscordBot (example.com, 1)" -H "Authorization: Bot TOKENHERE" -X GET 'https://discordapp.com/api/guilds/{guildID}'
 
-		url = new URL( endpoint + guildID );
-		connection = (HttpsURLConnection) url.openConnection();
+		try {
+			url = new URL( endpoint + guildID );
 
-		// Set params properly
-		connection.setRequestMethod( "GET" );
-		connection.setDoInput(true);
-		connection.setDoOutput(true);
+			connection = (HttpsURLConnection) url.openConnection();
 
-		// Set the headers
-		connection.setRequestProperty( "Content-Type", "application/json" );
-		connection.setRequestProperty( "User-Agent", "DiscordBot (infinityphase.com, 1)" );
-		connection.setRequestProperty( "Authorization", "Bot " + Brain.token );
+			// Set params properly
+			connection.setRequestMethod( "GET" );
+			connection.setDoInput(true);
+			connection.setDoOutput(true);
 
-		rawGuild = new JSONObject( connection.getResponseMessage() );
+			// Set the headers
+			connection.setRequestProperty( "Content-Type", "application/json" );
+			connection.setRequestProperty( "User-Agent", "DiscordBot (infinityphase.com, 1)" );
+			connection.setRequestProperty( "Authorization", "Bot " + Brain.token );
 
+			rawGuild = new JSONObject( connection.getResponseMessage() );
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		} catch (JSONException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public GuildLoader( Long guildID ) {
-		url = new URL( endpoint + guildID );
-		connection = (HttpsURLConnection) url.openConnection();
+		try {
+			url = new URL( endpoint + guildID );
 
-		// Set params properly
-		connection.setRequestMethod( "GET" );
-		connection.setDoInput(true);
-		connection.setDoOutput(true);
+			connection = (HttpsURLConnection) url.openConnection();
 
-		// Set the headers
-		connection.setRequestProperty( "Content-Type", "application/json" );
-		connection.setRequestProperty( "User-Agent", "DiscordBot (infinityphase.com, 1)" );
-		connection.setRequestProperty( "Authorization", "Bot " + Brain.token );
+			// Set params properly
+			connection.setRequestMethod( "GET" );
+			connection.setDoInput(true);
+			connection.setDoOutput(true);
 
-		rawGuild = new JSONObject( connection.getResponseMessage() );
+			// Set the headers
+			connection.setRequestProperty( "Content-Type", "application/json" );
+			connection.setRequestProperty( "User-Agent", "DiscordBot (infinityphase.com, 1)" );
+			connection.setRequestProperty( "Authorization", "Bot " + Brain.token );
+
+			rawGuild = new JSONObject( connection.getResponseMessage() );
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		} catch (JSONException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
+	@SuppressWarnings("unchecked")
 	public Guild buildGuild() {
-		return new Guild(shard, rawGuild.getString("name"), rawGuild.getLong("id"), rawGuild.getString("icon"), rawGuild.getLong("owner_id"), rawGuild.getLong("afk_channel_id"), rawGuild.getInt("afk_timeout"), rawGuild.getString("region"), rawGuild.getInt("verification_level"), (Cache<IRole>) rawGuild.get("roles"), (Cache<IChannel>) rawGuild.get("channels"), (Cache<IVoiceChannel>) rawGuild.get("voiceChannels"), (Cache<IUser>) rawGuild.get("users"), (Cache<Guild.TimeStampHolder>) rawGuild.get("joinTimes"), (Cache<ICategory>) rawGuild.get("categories") );
+		return new Guild(shard, rawGuild.getString("name"), rawGuild.getLong("id"), rawGuild.getString("icon"), 
+				rawGuild.getLong("owner_id"), rawGuild.getLong("afk_channel_id"), rawGuild.getInt("afk_timeout"), 
+				rawGuild.getString("region"), rawGuild.getInt("verification_level"), (Cache<IRole>) rawGuild.get("roles"), 
+				(Cache<IChannel>) rawGuild.get("channels"), ( (Cache<IVoiceChannel>) rawGuild.get("voiceChannels") ), 
+				(Cache<IUser>) rawGuild.get("users"), ( (Cache<Guild.TimeStampHolder>) rawGuild.get("joinTimes") ), 
+				( (Cache<ICategory>) rawGuild.get("categories") ) );
 	}
 
 }
