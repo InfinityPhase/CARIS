@@ -85,20 +85,28 @@ public class Logger {
 	}
 
 	public void debugOut(String message) {
-		if( Constants.DEBUG ) {
-			toConsole(message);
-			debugLog(message);
-		}
-		
 		debugOut( message, 0 );
 	}
 	
 	public void debugOut( String message, int indent ) {
+		// Adds the symbols specified to the beginning of the message
+		// Eg. -> if indent = 1
+		// > if indent = 0
+		// ----> if indent = 4
+		
 		debugOut( multiplyString( DEBUG_INDENT, indent ) + DEBUG_HEADER + " " + message );
 		
 		if( Constants.DEBUG ) {
+			if( INDENT_CONSOLE ) {
+				toConsole( multiplyString( DEBUG_INDENT, indent ) + DEBUG_HEADER + " " + message );
+			} else {
 			toConsole(message);
+			}
+			if( INDENT_FILE ) {
+				debugLog( multiplyString( DEBUG_INDENT, indent ) + DEBUG_HEADER + " " + message );
+			} else {
 			debugLog(message);
+			}
 		}
 	}
 	
