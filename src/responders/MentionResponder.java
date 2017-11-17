@@ -14,11 +14,11 @@ public class MentionResponder extends Responder {
 
 		if( containsIgnoreCase(messageText, " " + Constants.NAME + " ") ) {
 			response = "What is it?";
-			Brain.log.debugOut("\t\t\t\tMentionResponder triggered.");
+			Brain.log.debugOut("MentionResponder triggered.", 4);
 		} else {
-			Brain.log.debugOut("\t\t\t\tMentionResponder unactivated."); 
+			Brain.log.debugOut("MentionResponder unactivated.", 4); 
 		}
-		Brain.log.debugOut("\t\t\tMentionResponder processed.");
+		Brain.log.debugOut("MentionResponder processed.", 3);
 		return build();
 	}
 

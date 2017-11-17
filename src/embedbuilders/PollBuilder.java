@@ -17,7 +17,7 @@ public class PollBuilder {
 		for( String option : p.options.keySet() ) {
 			builder.appendField(option, p.options.get(option).size() + " votes!", false);
 		}
-		builder.withFooterText("Type `==> vote cast \"" + p.name + "\" <option>" + "` to vote.");
+		builder.withFooterText("Type `.c vote cast \"" + p.name + "\" <option>" + "` to vote.");
 		builder.withAuthorName("Poll created!");
 		return builder;
 	}
@@ -29,7 +29,7 @@ public class PollBuilder {
 		for( String option : p.options.keySet() ) {
 			builder.appendField(option, p.options.get(option).size() + " votes!", false);
 		}
-		builder.withFooterText("Type `==> vote cast \"" + p.name + "\" <option>" + "` to vote.");
+		builder.withFooterText("Type `.c vote cast \"" + p.name + "\" <option>" + "` to vote.");
 		builder.withAuthorName("Poll Status:");
 		return builder;
 	}

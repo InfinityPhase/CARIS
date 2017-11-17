@@ -1,5 +1,6 @@
 package utilities;
 
+import main.Brain;
 import sx.blah.discord.api.ClientBuilder;
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.obj.IChannel;
@@ -38,7 +39,7 @@ public class BotUtils {
 			catch (DiscordException e) {
 				// Reports errors without crashing
 				// This is also the place to log errors
-				System.err.println("Message could not be sent with error: ");
+				Brain.log.debugOut("Message could not be sent with error: ");
 				e.printStackTrace();
 			}
 		});
