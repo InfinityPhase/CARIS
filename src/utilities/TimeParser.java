@@ -116,8 +116,8 @@ public class TimeParser {
 			} else if( token.contains(":") ) {
 				int posHour = parseHour(token);
 				int posMinute = parseMinute(token);
-				Brain.log.debugOut( "" + posHour );
-				Brain.log.debugOut( "" + posMinute);
+				Brain.log.debugOut( posHour );
+				Brain.log.debugOut( posMinute);
 				if( hour != -1 ) {
 					hour = posHour;
 					hourChange = true;

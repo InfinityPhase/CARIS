@@ -89,6 +89,22 @@ public class Logger {
 		debugOut( message, 0 );
 	}
 	
+	public void debugOut( int message ) {
+		debugOut( message + "" );
+	}
+	
+	public void debugOut( int message, int indent ) {
+		debugOut( message + "", indent );
+	}
+	
+	public void debugOut( boolean message ) {
+		debugOut( message + "" );
+	}
+	
+	public void debugOut( boolean message, int indent ) {
+		debugOut( message + "", indent );
+	}
+	
 	public void debugOut( String message, int indent ) {
 		// Adds the symbols specified to the beginning of the message
 		// Eg. -> if indent = 1
