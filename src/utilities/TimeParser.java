@@ -3,6 +3,8 @@ package utilities;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import main.Brain;
+
 public class TimeParser {
 	
 	public Calendar parseTimer(ArrayList<String> tokens) {
@@ -105,7 +107,7 @@ public class TimeParser {
 				day = order;
 				dayChange = true;
 			} else if( isInteger(token) ) {
-				System.out.println(token);
+				Brain.log.debugOut(token);
 				int possibleYear = Integer.parseInt(token);
 				if( possibleYear >= target.get(Calendar.YEAR) ) {
 					year = possibleYear;
@@ -114,8 +116,8 @@ public class TimeParser {
 			} else if( token.contains(":") ) {
 				int posHour = parseHour(token);
 				int posMinute = parseMinute(token);
-				System.out.println(posHour);
-				System.out.println(posMinute);
+				Brain.log.debugOut( posHour );
+				Brain.log.debugOut( posMinute);
 				if( hour != -1 ) {
 					hour = posHour;
 					hourChange = true;
@@ -125,7 +127,7 @@ public class TimeParser {
 					minuteChange = true;
 				}
 			} else if( token.equalsIgnoreCase("PM") ) {
-				System.out.println("pm");
+				Brain.log.debugOut("pm");
 				pm = true;
 			}
 		}
