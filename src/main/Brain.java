@@ -83,14 +83,14 @@ public class Brain implements Serializable {
 
 	public static CalendarHandler calendarHandler = new CalendarHandler();
 	public static Calendar current = Calendar.getInstance();
+	
+	public static String token = null;
 
 	// Because we tend to alter the Constants.SAVESTATE variable
 	@SuppressWarnings("unused")
 	public static void main(String[] args) {
 
 		init();
-
-		String token = null;
 
 		if( args.length <= 0 && System.console() != null ) {
 			token = System.console().readPassword("Bot Token: ").toString();
