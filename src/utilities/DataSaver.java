@@ -4,6 +4,7 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.util.HashMap;
 
+import main.Brain;
 import main.GuildInfo;
 import sx.blah.discord.handle.obj.IGuild;
 
@@ -23,7 +24,7 @@ public class DataSaver {
 				fbw.close();
 			}
 		} catch(Exception e) {
-			System.out.println("Couldn't print to the file");
+			Brain.log.debugOut("Couldn't print to the file");
 		}
 	}
 }

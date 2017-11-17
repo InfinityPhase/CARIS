@@ -28,6 +28,7 @@ public class Logger {
 			this.logWriter = new BufferedWriter( new OutputStreamWriter( new FileOutputStream( 
 					new File( ( Constants.PREPENDDATE ? sdf.format( Calendar.getInstance().getTime() ) + "_" : "" ) + Constants.LOG_FILE_NAME + Constants.SAVEEXTENTION ) ), Constants.ENCODING));
 			// You know what? Shut up.
+			// This is still stupid. Fix it.
 			this.debugWriter = this.logWriter;
 		} catch (UnsupportedEncodingException | FileNotFoundException e) {
 			e.printStackTrace();
