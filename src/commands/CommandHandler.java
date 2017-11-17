@@ -3,15 +3,17 @@ package commands;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import controller.Controller;
+import invokers.Invoker;
 import main.Brain;
 import main.GuildInfo;
+import responders.Responder;
 import library.Constants;
 import sx.blah.discord.api.events.EventSubscriber;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import tokens.Response;
 import tokens.UserData;
 import utilities.BotUtils;
-import utilities.Handler;
 
 public class CommandHandler {
 
@@ -47,17 +49,25 @@ public class CommandHandler {
 		if( !gi.userIndex.containsKey(event.getAuthor().getName()) ) {
 			gi.userIndex.put(event.getAuthor().getName(), new UserData(event.getAuthor()));
 			Brain.log.debugOut("\tAdding new User \"" + event.getAuthor().getName() + "\" to Guild " + event.getGuild().getName() + ".");
+			Brain.log.debugOut("\t"+event.getAuthor().getLongID());
 		}
 
 		String messageText = event.getMessage().getContent();
-
+		long id = event.getAuthor().getLongID();
+		boolean admin = false;
+		for( long l : Constants.ADMIN_IDS ) {
+			if( id == l ) {
+				admin = true;
+			}
+		}
+		
 		ArrayList<Response> responses = new ArrayList<Response>();
 
 		// Checks if a message begins with the bot command prefix
-		if ( messageText.startsWith( Constants.PREFIX ) ) { // if invoked
-			Brain.log.debugOut("\tInvocation detected.");
-			for( Handler h : Brain.invokers ) { // try each invocation handler
-				// TODO: Try to optimize this later
+		if ( messageText.startsWith( Constants.ADMIN_PREFIX ) && admin ) {
+			Brain.log.debugOut("\tAdmin detected.");
+			for( String s : Brain.controllerModules.keySet() ) { // try each invocation handler
+				Controller h = Brain.controllerModules.get(s);
 				Response r = h.process(event);
 				if( r.embed ) {
 					Brain.log.debugOut("\t\tResponse embed option generated.");
@@ -70,20 +80,48 @@ public class CommandHandler {
 					Brain.log.debugOut("\t\tNo response generated.");
 				}
 			}
+		} else if( messageText.startsWith("==>") && !admin ) {
+			responses.add( new Response("The \"==>\" command invoker is now deprecated. Please use \".c\" instead.", 0) );
+		} else if ( messageText.startsWith( Constants.COMMAND_PREFIX ) ) { // if invoked
+			Brain.log.debugOut("\tInvocation detected.");
+			for( String s : Brain.invokerModules.keySet() ) { // try each invocation handler
+				boolean check = gi.modules.keySet().contains(s);
+				if( !check ) {
+					continue;
+				} else if( gi.modules.get(s) ) {
+					Invoker h = Brain.invokerModules.get(s);
+					Response r = h.process(event);
+					if( r.embed ) {
+						Brain.log.debugOut("\t\tResponse embed option generated.");
+						responses.add(r);
+					} if( !r.text.equals("") ) { // if this produces a result
+						Brain.log.debugOut("\t\tResponse option generated: \"" + r.text + "\"");
+						responses.add( r ); // add it to the list of potential responses
+					}
+					else {
+						Brain.log.debugOut("\t\tNo response generated.");
+					}
+				}
+			}
 		} else { // if not being invoked
 			Brain.log.debugOut("\tGenerating automatic response.");
-			for( Handler h : Brain.responders ) { // then try each auto handler
-				// TODO: Try to optimize this later.
-				Response r = h.process( event ); // process individual handler
-				if( r.embed ) {
-					Brain.log.debugOut("\t\tResponse embed option generated.");
-					responses.add(r);
-				} else if( !r.text.equals("") ) { // if this produces a result
-					Brain.log.debugOut("\t\tResponse option generated: \"" + r.text + "\"");
-					responses.add( r ); // add it to the list of potential responses
-				}
-				else {
-					Brain.log.debugOut("\t\tNo response generated.");
+			for( String s : Brain.responderModules.keySet() ) { // then try each auto handler
+				boolean check = gi.modules.keySet().contains(s);
+				if( !check ) {
+					continue;
+				} else if( gi.modules.get(s) ) {
+					Responder h = Brain.responderModules.get(s);
+					Response r = h.process(event);
+					if( r.embed ) {
+						Brain.log.debugOut("\t\tResponse embed option generated.");
+						responses.add(r);
+					} if( !r.text.equals("") ) { // if this produces a result
+						Brain.log.debugOut("\t\tResponse option generated: \"" + r.text + "\"");
+						responses.add( r ); // add it to the list of potential responses
+					}
+					else {
+						Brain.log.debugOut("\t\tNo response generated.");
+					}
 				}
 			}
 		}
