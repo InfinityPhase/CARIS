@@ -11,12 +11,12 @@ public class EchoInvoker extends Invoker {
 		setup(event);
 		
 		if( tokens.get(0).equals("echo") ) {
-			Brain.log.debugOut("\t\t\t\tEchoInvoker triggered.");
+			Brain.log.debugOut("EchoInvoker triggered.", 4);
 			response = tokens.get(1);;
 		} else {
-			Brain.log.debugOut("\t\t\t\tEchoInvoker unactivated.");
+			Brain.log.debugOut("EchoInvoker unactivated.", 4);
 		}
-		Brain.log.debugOut("\t\t\tEchoInvoker processed.");
+		Brain.log.debugOut("EchoInvoker processed.", 3);
 		return build();
 	}
 	
