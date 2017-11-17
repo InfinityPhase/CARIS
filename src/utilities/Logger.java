@@ -17,6 +17,11 @@ public class Logger {
 
 	BufferedWriter logWriter;
 	BufferedWriter debugWriter;
+	
+	private final String DEBUG_HEADER = ">";
+	private final String DEBUG_INDENT = "-";
+	private final boolean INDENT_FILE = true;
+	private final boolean INDENT_CONSOLE = true;
 
 	public Logger() {
 		try {
@@ -84,6 +89,29 @@ public class Logger {
 			toConsole(message);
 			debugLog(message);
 		}
+		
+		debugOut( message, 0 );
+	}
+	
+	public void debugOut( String message, int indent ) {
+		debugOut( multiplyString( DEBUG_INDENT, indent ) + DEBUG_HEADER + " " + message );
+		
+		if( Constants.DEBUG ) {
+			toConsole(message);
+			debugLog(message);
+		}
+	}
+	
+	/* Utilities */
+	private String multiplyString( String str, int times ) {
+		// Perhaps replace with this:
+		// String sb = new String( new char[ times ] ).replace( "\0", str );
+		StringBuilder sb = new StringBuilder();
+		for( int i = 0; i < times; i++ ) {
+			sb.append( str );
+		}
+		
+		return sb.toString();
 	}
 
 }
