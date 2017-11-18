@@ -115,7 +115,7 @@ public class Brain implements Serializable {
 			char password[] = System.console().readPassword("Save file password: ");
 
 			if( password.length <= 0 ) {
-				Slog.debugOut("WARNING: Password is empty");
+				log.debugOut("WARNING: Password is empty");
 			}
 		} else {
 			log.debugOut("WARNING: Password is empty");
