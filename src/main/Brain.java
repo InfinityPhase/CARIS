@@ -95,15 +95,15 @@ public class Brain implements Serializable {
 		if( args.length <= 0 && System.console() != null ) {
 			token = System.console().readPassword("Bot Token: ").toString();
 			if( token.length() <= 0 ) {
-				System.out.println("Tokens must be longer than 0 characters.");
+				log.debugOut("Tokens must be longer than 0 characters.");
 				System.exit(1);
 			}
-		} else{
+		} else {
 			if( args.length > 0 ) {
 				token = args[0];
 			} else {
-				System.out.println("Please pass the TOKEN as the first argument.");
-				System.out.println("# java -jar SimpleResponder.jar TOKEN");
+				log.debugOut("Please pass the TOKEN as the first argument.");
+				log.debugOut("# java -jar SimpleResponder.jar TOKEN");
 				System.exit(1);
 			}
 		}
@@ -115,10 +115,10 @@ public class Brain implements Serializable {
 			char password[] = System.console().readPassword("Save file password: ");
 
 			if( password.length <= 0 ) {
-				System.out.println("WARNING: Password is empty");
+				Slog.debugOut("WARNING: Password is empty");
 			}
 		} else {
-			System.out.println("WARNING: Password is empty");
+			log.debugOut("WARNING: Password is empty");
 			char password[] = {};
 		}
 
@@ -126,7 +126,7 @@ public class Brain implements Serializable {
 
 		log.debugOut("Client built successfully.");
 
-		cli.getDispatcher().registerListener(new CommandHandler());
+		cli.getDispatcher().registerListener( new CommandHandler() );
 		log.debugOut("Listener established successfully.");
 
 		// Only login after all event registering is done
@@ -196,17 +196,17 @@ public class Brain implements Serializable {
 			// Stream data of objects to PGP
 			// Save stream to JSON file
 
-			System.out.println("Test after out, before write");
+			log.debugOut("Test after out, before write");
 
 			out.defaultWriteObject();
 
-			System.out.println("Test after write");
+			log.debugOut("Test after write");
 
 			out.flush();
 
 			out.flush();
 		} catch (IOException e) {
-			System.out.println( "Failed to write to CARIS save file: " + fileOut.getPath() );
+			log.debugOut( "Failed to write to CARIS save file: " + fileOut.getPath() );
 			e.printStackTrace();
 		}
 	}
