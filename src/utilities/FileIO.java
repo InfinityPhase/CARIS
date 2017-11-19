@@ -17,6 +17,8 @@ import java.util.Map;
 
 public class FileIO {
 	// TODO: Ability to have name and filename be the same
+	// NOTE: Checking for the existence of a writer/reader
+	// is the user's responsibility
 	
 	private BufferedWriter writer;
 	private BufferedReader reader;
@@ -88,6 +90,10 @@ public class FileIO {
 		} catch( FileNotFoundException e ) {
 			e.printStackTrace();
 		}
+	}
+	
+	public void copyWriter( String first, String dest ) {
+		writers.put( dest, writers.get( first ) );
 	}
 	
 	// Check if the thing exists

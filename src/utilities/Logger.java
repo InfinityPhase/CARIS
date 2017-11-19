@@ -11,12 +11,10 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import library.Constants;
+import main.Brain;
 
 public class Logger {
 	SimpleDateFormat sdf = new SimpleDateFormat( Constants.DATEFORMAT );
-
-	BufferedWriter logWriter;
-	BufferedWriter debugWriter;
 
 	private final String DEBUG_HEADER = ">";
 	private final String DEBUG_INDENT = "-";
@@ -24,31 +22,22 @@ public class Logger {
 	private final boolean INDENT_CONSOLE = true;
 
 	public Logger() {
-		try {
-			this.logWriter = new BufferedWriter( new OutputStreamWriter( new FileOutputStream( 
-					new File( ( Constants.PREPENDDATE ? sdf.format( Calendar.getInstance().getTime() ) + "_" : "" ) + Constants.LOG_FILE_NAME + Constants.SAVEEXTENTION ) ), Constants.ENCODING));
-			// You know what? Shut up.
-			// This is still stupid. Fix it.
-			this.debugWriter = this.logWriter;
-		} catch (UnsupportedEncodingException | FileNotFoundException e) {
-			e.printStackTrace();
-		}
+		Brain.files.newWriter( "logWriter", ( ( Constants.PREPENDDATE ? sdf.format( Calendar.getInstance().getTime() ) + "_" : "" ) + Constants.LOG_FILE_NAME + Constants.SAVEEXTENTION ), Constants.ENCODING );
+		// Sigh. Still needs fixing.
+		// Later will be used to split output. For now, is useless
+		Brain.files.copyWriter( "logWriter", "debugWriter" );
 	}
 
 	public Logger(boolean happy) {
-		try {
-			this.logWriter = new BufferedWriter( new OutputStreamWriter( new FileOutputStream( 
-					new File( ( Constants.PREPENDDATE ? sdf.format( Calendar.getInstance().getTime() ) + "_" : "" ) + Constants.LOG_FILE_NAME + Constants.SAVEEXTENTION ) ), Constants.ENCODING));
-			// You know what? Shut up.
-			this.debugWriter = this.logWriter;
-		} catch (UnsupportedEncodingException | FileNotFoundException e) {
-			e.printStackTrace();
-		}
+		Brain.files.newWriter( "logWriter", ( ( Constants.PREPENDDATE ? sdf.format( Calendar.getInstance().getTime() ) + "_" : "" ) + Constants.LOG_FILE_NAME + Constants.SAVEEXTENTION ), Constants.ENCODING );
+		// Sigh. Still needs fixing.
+		// Later will be used to split output. For now, is useless
+		Brain.files.copyWriter( "logWriter", "debugWriter" );
 
 		if( happy ) {
-			toConsole("============================================================");
+			toConsole("================");
 			toConsole(" :] :) :P ^^ ");
-			toConsole("============================================================");
+			toConsole("================");
 		}
 	}
 
@@ -59,11 +48,7 @@ public class Logger {
 
 	public void toLog(String message) {
 		if( Constants.LOG_FILE ) {
-			try {
-				logWriter.write(message);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			Brain.files.write( "logWriter", message );
 		}
 	}
 
@@ -77,11 +62,8 @@ public class Logger {
 
 	public void debugLog(String message) {
 		if( Constants.DEBUG_FILE ) {
-			try {
-				debugWriter.write(message);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			Brain.files.write( "debugOut", message );
+
 		}
 	}
 
