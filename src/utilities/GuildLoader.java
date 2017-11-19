@@ -103,13 +103,19 @@ public class GuildLoader {
 
 	@SuppressWarnings("unchecked")
 	public Guild buildGuild() {
-		// TO CHECK: voiceChannels, 
+		// TO CHECK: voiceChannels, categories
+		/*
 		return new Guild(shard, rawGuild.getString("name"), rawGuild.getLong("id"), rawGuild.getString("icon"), 
 				rawGuild.getLong("owner_id"), rawGuild.getLong("afk_channel_id"), rawGuild.getInt("afk_timeout"), 
 				rawGuild.getString("region"), rawGuild.getInt("verification_level"), (Cache<IRole>) rawGuild.get("roles"), 
 				(Cache<IChannel>) rawGuild.get("channels"), ( (Cache<IVoiceChannel>) rawGuild.get("voiceChannels") ), 
 				(Cache<IUser>) rawGuild.get("members"), ( (Cache<Guild.TimeStampHolder>) rawGuild.get("joined_at") ), 
 				( (Cache<ICategory>) rawGuild.get("categories") ) );
+		*/
+		
+		return new Guild(shard, rawGuild.getString("name"), rawGuild.getLong("id"), rawGuild.getString("icon"), 
+				rawGuild.getLong("owner_id"), rawGuild.getLong("afk_channel_id"), rawGuild.getInt("afk_timeout"), 
+				rawGuild.getString("region"), rawGuild.getInt("verification_level") );
 	}
 
 }
