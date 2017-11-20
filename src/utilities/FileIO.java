@@ -96,6 +96,10 @@ public class FileIO {
 		writers.put( dest, writers.get( first ) );
 	}
 	
+	public void copyReader( String first, String dest ) {
+		readers.put( dest, readers.get( first ) );
+	}
+	
 	// Check if the thing exists
 	
 	public boolean writerExists( String name ) {
@@ -173,6 +177,17 @@ public class FileIO {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	/* Return the raw reader or writer object */
+	// Don't know why you would need to, but you can
+	
+	public BufferedReader getReader( String name ) {
+		return readers.get( name );
+	}
+	
+	public BufferedWriter getWriter( String name ) {
+		return writers.get( name );
 	}
 	
 }

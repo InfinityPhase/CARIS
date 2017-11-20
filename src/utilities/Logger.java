@@ -1,12 +1,5 @@
 package utilities;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
@@ -22,7 +15,8 @@ public class Logger {
 	private final boolean INDENT_CONSOLE = true;
 
 	public Logger() {
-		Brain.files.newWriter( "logWriter", ( ( Constants.PREPENDDATE ? sdf.format( Calendar.getInstance().getTime() ) + "_" : "" ) + Constants.LOG_FILE_NAME + Constants.SAVEEXTENTION ), Constants.ENCODING );
+		Brain.files.newWriter(name, fileOut);
+		Brain.files.newWriter( "logWriter", ( Constants.PREPENDDATE ? sdf.format( Calendar.getInstance().getTime() ) + "_" : "" ) + Constants.LOG_FILE_NAME + Constants.SAVEEXTENTION, Constants.ENCODING );
 		// Sigh. Still needs fixing.
 		// Later will be used to split output. For now, is useless
 		Brain.files.copyWriter( "logWriter", "debugWriter" );
