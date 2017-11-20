@@ -12,5 +12,11 @@ public class Invoker extends Handler {
 		super.setup(event);
 		tokens.remove(0);
 	}
+	
+	@Override
+	protected void messageSetup(MessageReceivedEvent event) {
+		super.messageSetup(event);
+		tokens.remove(0);
+	}
 
 }
