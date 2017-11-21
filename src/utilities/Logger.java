@@ -96,6 +96,14 @@ public class Logger {
 	public void debugOut( int message, int indent ) {
 		debugOut( message + "", indent );
 	}
+	
+	public void debugOut( long message ) {
+		debugOut( message + "" );
+	}
+	
+	public void debugOut( long message, int indent ) {
+		debugOut( message + "", indent );
+	}
 
 	public void debugOut( boolean message ) {
 		debugOut( message + "" );
