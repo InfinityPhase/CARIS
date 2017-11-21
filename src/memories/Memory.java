@@ -26,6 +26,8 @@ public class Memory {
 	protected ArrayList<String> tokens;
 	protected GuildInfo variables;
 	
+	public Memory() {}
+	
 	public Thought ponder( MessageReceivedEvent event ) {
 		setup(event);
 		return think();

@@ -71,9 +71,7 @@ public class CommandHandler {
 		// Later use TreeMap, sort values better
 		Map< String, Thought > thoughts = new HashMap< String, Thought >();
 
-		// Time to think
 		for( Memory h : Brain.memories.values() ) {
-			// Think
 			Brain.log.debugOut("Recording Message...");
 			Thought t = h.ponder(event);
 			if( !t.name.isEmpty() && ( !t.text.isEmpty() /*|| !t.equals(null) */) ) {
