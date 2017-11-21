@@ -55,9 +55,6 @@ public class Brain {
 	/* Admin Controllers */
 	public static ModuleController moduleController = new ModuleController();
 	
-	/* Gigantic Variable Library */
-	public static HashMap<IGuild, GuildInfo> guildIndex = new HashMap<IGuild, GuildInfo>();
-	
 	public static CalendarHandler calendarHandler = new CalendarHandler();
 	public static Calendar current = Calendar.getInstance();
 	

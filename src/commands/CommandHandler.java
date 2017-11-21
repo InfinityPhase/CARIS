@@ -5,10 +5,11 @@ import java.util.Arrays;
 
 import controller.Controller;
 import invokers.Invoker;
+import library.Constants;
+import library.Variables;
 import main.Brain;
 import main.GuildInfo;
 import responders.Responder;
-import library.Constants;
 import sx.blah.discord.api.events.EventSubscriber;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import tokens.Response;
@@ -20,11 +21,11 @@ public class CommandHandler {
 	@EventSubscriber
 	public void onMessageRecieved(MessageReceivedEvent event) {
 		Brain.log.debugOut("Message received: \"" + event.getMessage().getContent() + "\" from User \"" + event.getAuthor().getName() + "\" on Guild \"" + event.getGuild().getName() + "\".", 1);
-		if( !Brain.guildIndex.containsKey(event.getGuild()) ) {
-			Brain.guildIndex.put(event.getGuild(), new GuildInfo(event.getGuild().getName()));
+		if( !Variables.guildIndex.containsKey(event.getGuild()) ) {
+			Variables.guildIndex.put(event.getGuild(), new GuildInfo(event.getGuild().getName()));
 			Brain.log.debugOut("Creating new Guild Object \"" + event.getGuild().getName() + "\".", 1);
 		}
-		GuildInfo gi = Brain.guildIndex.get(event.getGuild());
+		GuildInfo gi = Variables.guildIndex.get(event.getGuild());
 		if( !gi.userIndex.containsKey(event.getAuthor().getName()) ) {
 			gi.userIndex.put(event.getAuthor().getName(), new UserData(event.getAuthor().getLongID()));
 			Brain.log.debugOut("Adding new User \"" + event.getAuthor().getName() + "\" to Guild " + event.getGuild().getName() + ".", 1);
