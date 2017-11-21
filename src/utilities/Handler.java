@@ -1,16 +1,13 @@
 package utilities;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
 
 import main.Brain;
 import main.GuildInfo;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
-import sx.blah.discord.handle.obj.IMessage;
 import sx.blah.discord.util.EmbedBuilder;
 import tokens.Response;
-import tokens.Thought;
 
 public class Handler {
 	// The base handler class. Extend this into other classes.

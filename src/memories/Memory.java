@@ -8,7 +8,6 @@ import main.GuildInfo;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import sx.blah.discord.handle.obj.IMessage;
 import tokens.Thought;
-import utilities.Handler;
 
 public class Memory {
 	// Base Memory class
@@ -18,8 +17,8 @@ public class Memory {
 	// Prob. shouldn't extend handler, bc handler is about messaging
 	// But I want to share some functions, so maybe do extend?
 	
-	// Things for thinking
-	protected List<String> text = new ArrayList<String>();
+	// reponses for thinking
+	protected List<String> text;
 	protected IMessage message;
 	protected String name;
 
@@ -39,6 +38,7 @@ public class Memory {
 		
 		text.clear();
 		message = null;
+		name = "";
 	}
 	
 	protected Thought think() {

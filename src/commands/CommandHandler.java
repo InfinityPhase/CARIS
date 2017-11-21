@@ -3,15 +3,15 @@ package commands;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import controller.Controller;
 import invokers.Invoker;
+import library.Constants;
 import main.Brain;
 import main.GuildInfo;
+import memories.Memory;
 import responders.Responder;
-import library.Constants;
 import sx.blah.discord.api.events.EventSubscriber;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import tokens.Response;
@@ -72,7 +72,7 @@ public class CommandHandler {
 		Map< String, Thought > thoughts = new HashMap< String, Thought >();
 
 		// Time to think
-		for( Handler h : Brain.memories ) {
+		for( Memory h : Brain.memories.values() ) {
 			// Think
 			Brain.log.debugOut("Recording Message...");
 			Thought t = h.ponder(event);

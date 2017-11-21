@@ -1,7 +1,6 @@
 package memories;
 
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
-import tokens.Response;
 import tokens.Thought;
 
 public class AuthorMemory extends Memory {

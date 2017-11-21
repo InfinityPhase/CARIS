@@ -1,8 +1,8 @@
 package main;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Map;
 
 import commands.CalendarHandler;
 import commands.CommandHandler;
@@ -16,6 +16,7 @@ import invokers.NicknameInvoker;
 import invokers.VoteInvoker;
 import invokers._8BallInvoker;
 import memories.AuthorMemory;
+import memories.Memory;
 import responders.LocationResponder;
 import responders.MentionResponder;
 import responders.NicknameResponder;
@@ -24,7 +25,6 @@ import responders.Responder;
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.obj.IGuild;
 import utilities.BotUtils;
-import utilities.Handler;
 import utilities.Logger;
 import utilities.TokenParser;
 
@@ -37,7 +37,7 @@ public class Brain {
 	public static TokenParser tp = new TokenParser();
 	public static Logger log = new Logger();
 
-	public static ArrayList<Handler> memories = new ArrayList<Handler>();
+	public static Map<String, Memory> memories = new HashMap<String, Memory>();
 
 	public static HashMap<String, Invoker> invokerModules = new HashMap<String, Invoker>();
 	public static HashMap<String, Responder> responderModules = new HashMap<String, Responder>();
@@ -100,7 +100,7 @@ public class Brain {
 	public static void init() { // add handlers to their appropriate categories here
 		log.debugOut("Initializing.");
 		
-		memories.add(authorMemory);
+		memories.put("Author Memory", authorMemory);
 
 		invokerModules.put("Echo Invoker", echoInvoker);
 		invokerModules.put("Vote Invoker", voteInvoker);
