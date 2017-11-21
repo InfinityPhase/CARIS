@@ -2,30 +2,28 @@ package tokens;
 
 import java.util.HashMap;
 
-import sx.blah.discord.handle.impl.obj.User;
-import sx.blah.discord.handle.obj.IUser;
-
 public class UserData {
-	
-	public String lastMessage;
-	
+		
 	// THESE ARE REQUIRED
 	public int karma;
-	public User user;
+	public long id;
 	
 	// Extended Variables
 	public HashMap< String, String > contactInfo;
 	public String location;
+
+	public String lastMessage;
+
 		
-	public UserData ( User user) {
-		this.user = user;
-		karma = 0;
-		new HashMap< String, String >();
-		location = "";
-		lastMessage = "";
+	public UserData( long id ) {
+		this(id, 0, new HashMap<String, String>(), "", "");
 	}
 	
-	public UserData ( IUser user ) {
-		this((User) user);
+	public UserData( long id, int karma, HashMap<String, String> contactInfo, String location, String lastMessage ) {
+		this.id = id;
+		this.karma = karma;
+		this.contactInfo = contactInfo;
+		this.location = location;
+		this.lastMessage = lastMessage;
 	}
 }
