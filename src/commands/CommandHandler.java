@@ -42,12 +42,12 @@ public class CommandHandler {
 	public void onMessageRecieved(MessageReceivedEvent event) {
 		Brain.log.debugOut("Message received: \"" + event.getMessage().getContent() + "\" from User \"" + event.getAuthor().getName() + "\" on Guild \"" + event.getGuild().getName() + "\".", 1);
 		if( !Brain.guildIndex.containsKey(event.getGuild()) ) {
-			Brain.guildIndex.put(event.getGuild(), new GuildInfo());
+			Brain.guildIndex.put(event.getGuild(), new GuildInfo(event.getGuild().getName()));
 			Brain.log.debugOut("Creating new Guild Object \"" + event.getGuild().getName() + "\".", 1);
 		}
 		GuildInfo gi = Brain.guildIndex.get(event.getGuild());
 		if( !gi.userIndex.containsKey(event.getAuthor().getName()) ) {
-			gi.userIndex.put(event.getAuthor().getName(), new UserData(event.getAuthor()));
+			gi.userIndex.put(event.getAuthor().getName(), new UserData(event.getAuthor().getLongID()));
 			Brain.log.debugOut("Adding new User \"" + event.getAuthor().getName() + "\" to Guild " + event.getGuild().getName() + ".", 1);
 			Brain.log.debugOut(event.getAuthor().getLongID(), 1);
 		}
