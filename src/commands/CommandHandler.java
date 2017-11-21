@@ -40,16 +40,16 @@ public class CommandHandler {
 
 	@EventSubscriber
 	public void onMessageRecieved(MessageReceivedEvent event) {
-		Brain.log.debugOut("\tMessage received: \"" + event.getMessage().getContent() + "\" from User \"" + event.getAuthor().getName() + "\" on Guild \"" + event.getGuild().getName() + "\".");
+		Brain.log.debugOut("Message received: \"" + event.getMessage().getContent() + "\" from User \"" + event.getAuthor().getName() + "\" on Guild \"" + event.getGuild().getName() + "\".", 1);
 		if( !Brain.guildIndex.containsKey(event.getGuild()) ) {
 			Brain.guildIndex.put(event.getGuild(), new GuildInfo());
-			Brain.log.debugOut("\tCreating new Guild Object \"" + event.getGuild().getName() + "\".");
+			Brain.log.debugOut("Creating new Guild Object \"" + event.getGuild().getName() + "\".", 1);
 		}
 		GuildInfo gi = Brain.guildIndex.get(event.getGuild());
 		if( !gi.userIndex.containsKey(event.getAuthor().getName()) ) {
 			gi.userIndex.put(event.getAuthor().getName(), new UserData(event.getAuthor()));
-			Brain.log.debugOut("\tAdding new User \"" + event.getAuthor().getName() + "\" to Guild " + event.getGuild().getName() + ".");
-			Brain.log.debugOut("\t"+event.getAuthor().getLongID());
+			Brain.log.debugOut("Adding new User \"" + event.getAuthor().getName() + "\" to Guild " + event.getGuild().getName() + ".", 1);
+			Brain.log.debugOut(event.getAuthor().getLongID(), 1);
 		}
 
 		String messageText = event.getMessage().getContent();
@@ -65,19 +65,19 @@ public class CommandHandler {
 
 		// Checks if a message begins with the bot command prefix
 		if ( messageText.startsWith( Constants.ADMIN_PREFIX ) && admin ) {
-			Brain.log.debugOut("\tAdmin detected.");
+			Brain.log.debugOut("Admin detected.", 1);
 			for( String s : Brain.controllerModules.keySet() ) { // try each invocation handler
 				Controller h = Brain.controllerModules.get(s);
 				Response r = h.process(event);
 				if( r.embed ) {
-					Brain.log.debugOut("\t\tResponse embed option generated.");
+					Brain.log.debugOut("Response embed option generated.", 2);
 					responses.add(r);
 				} if( !r.text.equals("") ) { // if this produces a result
-					Brain.log.debugOut("\t\tResponse option generated: \"" + r.text + "\"");
+					Brain.log.debugOut("Response option generated: \"" + r.text + "\"", 2);
 					responses.add( r ); // add it to the list of potential responses
 				}
 				else {
-					Brain.log.debugOut("\t\tNo response generated.");
+					Brain.log.debugOut("No response generated.", 2);
 				}
 			}
 		} else if( messageText.startsWith("==>") && !admin ) {
@@ -92,19 +92,19 @@ public class CommandHandler {
 					Invoker h = Brain.invokerModules.get(s);
 					Response r = h.process(event);
 					if( r.embed ) {
-						Brain.log.debugOut("\t\tResponse embed option generated.");
+						Brain.log.debugOut("Response embed option generated.", 2);
 						responses.add(r);
 					} if( !r.text.equals("") ) { // if this produces a result
-						Brain.log.debugOut("\t\tResponse option generated: \"" + r.text + "\"");
+						Brain.log.debugOut("Response option generated: \"" + r.text + "\"", 2);
 						responses.add( r ); // add it to the list of potential responses
 					}
 					else {
-						Brain.log.debugOut("\t\tNo response generated.");
+						Brain.log.debugOut("No response generated.", 2);
 					}
 				}
 			}
 		} else { // if not being invoked
-			Brain.log.debugOut("\tGenerating automatic response.");
+			Brain.log.debugOut("Generating automatic response.", 1);
 			for( String s : Brain.responderModules.keySet() ) { // then try each auto handler
 				boolean check = gi.modules.keySet().contains(s);
 				if( !check ) {
@@ -113,26 +113,26 @@ public class CommandHandler {
 					Responder h = Brain.responderModules.get(s);
 					Response r = h.process(event);
 					if( r.embed ) {
-						Brain.log.debugOut("\t\tResponse embed option generated.");
+						Brain.log.debugOut("Response embed option generated.", 2);
 						responses.add(r);
 					} if( !r.text.equals("") ) { // if this produces a result
-						Brain.log.debugOut("\t\tResponse option generated: \"" + r.text + "\"");
+						Brain.log.debugOut("Response option generated: \"" + r.text + "\"", 2);
 						responses.add( r ); // add it to the list of potential responses
 					}
 					else {
-						Brain.log.debugOut("\t\tNo response generated.");
+						Brain.log.debugOut("No response generated.", 2);
 					}
 				}
 			}
 		}
 		if( responses.size() != 0 ) { // if any response exists
-			if( Constants.DEBUG ) {System.out.println("\tSelecting optimal response.");
+			Brain.log.debugOut("Selecting optimal response.", 1);
 			Response[] options = new Response[responses.size()]; // create a static array of response options
 			for( int f=0; f<responses.size(); f++ ) {
 				options[f] = responses.get(f);
 			}
 			Arrays.sort(options); // sort these options
-			Brain.log.debugOut("\tOptimal response selected.");
+			Brain.log.debugOut("Optimal response selected.", 1);
 			if( options[0].embed ) {
 				event.getChannel().sendMessage(options[0].builder.build());
 			} else {
@@ -142,9 +142,6 @@ public class CommandHandler {
 					event.getGuild().setUserNickname(event.getAuthor(), options[0].text.substring(index1, index2));
 				}
 				BotUtils.sendMessage( event.getChannel(), options[0].text ); // print out highest priority response option 
-			}
-			} else {
-				Brain.log.debugOut("\tNo responses available.");
 			}
 			gi.userIndex.get(event.getAuthor().getName()).lastMessage = messageText;
 		}
