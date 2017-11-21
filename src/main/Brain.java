@@ -98,9 +98,11 @@ public class Brain {
 		invokerModules.put("8ball Invoker", _8ballInvoker);
 		invokerModules.put("Nickname Invoker", nicknameInvoker);
 		invokerModules.put("Fortune Invoker", fortuneInvoker);
+		invokerModules.put("Location Invoker", locationInvoker);
 		responderModules.put("Mention Responder", mentionResponder);
 		responderModules.put("Nickname Responder", nicknameResponder);
 		responderModules.put("Reminder Responder", reminderResponder);
+		responderModules.put("Location Responder", locationResponder);
 		controllerModules.put("Module Controller", moduleController);
 	}
 }
