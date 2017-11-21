@@ -4,23 +4,39 @@ import java.util.ArrayList;
 import java.util.List;
 
 import main.Brain;
+import main.GuildInfo;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import sx.blah.discord.handle.obj.IMessage;
 import tokens.Thought;
 import utilities.Handler;
 
-public class Memory extends Handler {
+public class Memory {
 	// Base Memory class
 	// Doesn't return a message, returns a "thought"
 	// Thoughts represent info about message
-		
+	
+	// Prob. shouldn't extend handler, bc handler is about messaging
+	// But I want to share some functions, so maybe do extend?
+	
+	// Things for thinking
 	protected List<String> text = new ArrayList<String>();
 	protected IMessage message;
 	protected String name;
+
+	protected String messageText;
+	protected ArrayList<String> tokens;
+	protected GuildInfo variables;
+	
+	public Thought ponder( MessageReceivedEvent event ) {
+		setup(event);
+		return think();
+	}
 		
-	@Override
 	protected void setup(MessageReceivedEvent event) {
-		super.setup(event);
+		messageText = format(event);
+		tokens = Brain.tp.parse(event.getMessage().getContent());
+		variables = Brain.guildIndex.get(event.getGuild());
+		
 		text.clear();
 		message = null;
 	}
@@ -41,5 +57,11 @@ public class Memory extends Handler {
 			}
 		}
 	}
-
+	
+	protected String format(MessageReceivedEvent event) {
+		// Copied from handler
+		String messageText = event.getMessage().getContent();
+		messageText = " " + messageText + " ";
+		return messageText;
+	}
 }

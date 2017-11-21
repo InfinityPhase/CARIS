@@ -22,21 +22,11 @@ public class Handler {
 	protected ArrayList<String> tokens;
 	protected GuildInfo variables;
 	
-	// Things for thinking
-	public List< String > text = new ArrayList< String >();
-	public IMessage message;
-	public String name;
-	
 	public Handler() {}
 	
 	public Response process(MessageReceivedEvent event) {
 		setup(event);
 		return build();
-	}
-	
-	public Thought ponder( MessageReceivedEvent event ) {
-		setup(event);
-		return think();
 	}
 	
 	protected void setup(MessageReceivedEvent event) {
@@ -96,23 +86,6 @@ public class Handler {
 			return buildResponse();
 		} else {
 			return buildEmbed();
-		}
-	}
-	
-	protected Thought think() {
-		if( text.isEmpty() ) {
-			if( message != null ) {
-				return new Thought(message, name);
-			} else {
-				Brain.log.debugOut("Nothing to think about");
-				return null;
-			}
-		} else {
-			if( message != null ) {
-				return new Thought(text, message, name);
-			} else {
-				return new Thought(text, name);
-			}
 		}
 	}
 	
