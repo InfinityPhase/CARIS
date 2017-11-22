@@ -16,12 +16,11 @@ import invokers.LocationInvoker;
 import invokers.NicknameInvoker;
 import invokers.VoteInvoker;
 import invokers._8BallInvoker;
-<<<<<<< HEAD
+
 import memories.AuthorMemory;
 import memories.Memory;
-=======
 import library.Variables;
->>>>>>> master
+
 import responders.LocationResponder;
 import responders.MentionResponder;
 import responders.NicknameResponder;
@@ -64,16 +63,12 @@ public class Brain {
 	
 	/* Admin Controllers */
 	public static ModuleController moduleController = new ModuleController();
-<<<<<<< HEAD
 	
 	/* Things that think */
 	public static AuthorMemory authorMemory = new AuthorMemory();
 	
 	/* Gigantic Variable Library */
-	public static HashMap<IGuild, GuildInfo> guildIndex = new HashMap<IGuild, GuildInfo>();
-=======
 	public static SaveController saveController = new SaveController();
->>>>>>> master
 	
 	public static CalendarHandler calendarHandler = new CalendarHandler();
 	public static Calendar current = Calendar.getInstance();
@@ -119,11 +114,8 @@ public class Brain {
 	public static void init() { // add handlers to their appropriate categories here
 		log.debugOut("Initializing.");
 		
-<<<<<<< HEAD
 		memories.put("Author Memory", authorMemory);
 
-=======
->>>>>>> master
 		invokerModules.put("Echo Invoker", echoInvoker);
 		invokerModules.put("Vote Invoker", voteInvoker);
 		invokerModules.put("8ball Invoker", _8ballInvoker);

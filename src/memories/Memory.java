@@ -3,6 +3,7 @@ package memories;
 import java.util.ArrayList;
 import java.util.List;
 
+import library.Variables;
 import main.Brain;
 import main.GuildInfo;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
@@ -36,7 +37,7 @@ public class Memory {
 	protected void setup(MessageReceivedEvent event) {
 		messageText = format(event);
 		tokens = Brain.tp.parse(event.getMessage().getContent());
-		variables = Brain.guildIndex.get(event.getGuild());
+		variables = Variables.guildIndex.get(event.getGuild());
 		
 		text.clear();
 		message = null;
