@@ -10,9 +10,9 @@ public class AuthorMemory extends Memory {
 		setup(event);
 		name = "Author";
 		
-		text.add("Message Author: ");
+		text.add("Author Username: ");
 		text.add( event.getAuthor().getName() );
-		text.add("Author Display Name: ");
+		text.add("Author Nickname: ");
 		text.add( event.getAuthor().getDisplayName( event.getGuild() ) );
 		
 		return think();

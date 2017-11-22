@@ -42,8 +42,6 @@ public class Memory {
 		text = new ArrayList<String>();
 		message = null;
 		name = "";
-		Brain.log.debugOut( name.isEmpty() );
-		Brain.log.debugOut( text.isEmpty() );
 	}
 	
 	protected Thought think() {
