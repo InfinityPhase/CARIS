@@ -19,10 +19,11 @@ import tokens.Thought;
 import tokens.UserData;
 import utilities.BotUtils;
 
-public class CommandHandler {
+public class CommandHandler extends SuperEvent {
 
 	@EventSubscriber
-	public void onMessageRecieved(MessageReceivedEvent event) {
+	@Override
+	public void onMessageReceived( MessageReceivedEvent event ) {
 		Brain.log.debugOut("Message received: \"" + event.getMessage().getContent() + "\" from User \"" + event.getAuthor().getName() + "\" on Guild \"" + event.getGuild().getName() + "\".", 1);
 		if( !Brain.guildIndex.containsKey(event.getGuild()) ) {
 			Brain.guildIndex.put(event.getGuild(), new GuildInfo(event.getGuild().getName()));
