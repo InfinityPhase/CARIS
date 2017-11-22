@@ -8,12 +8,16 @@ import java.util.Map;
 import controller.Controller;
 import invokers.Invoker;
 import library.Constants;
+
+import library.Variables;
 import main.Brain;
 import main.GuildInfo;
 import memories.Memory;
 import responders.Responder;
 import sx.blah.discord.api.events.EventSubscriber;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
+import sx.blah.discord.handle.obj.IChannel;
+import sx.blah.discord.handle.obj.IGuild;
 import tokens.Response;
 import tokens.Thought;
 import tokens.UserData;
@@ -25,11 +29,16 @@ public class CommandHandler extends SuperEvent {
 	@Override
 	public void onMessageReceived( MessageReceivedEvent event ) {
 		Brain.log.debugOut("Message received: \"" + event.getMessage().getContent() + "\" from User \"" + event.getAuthor().getName() + "\" on Guild \"" + event.getGuild().getName() + "\".", 1);
-		if( !Brain.guildIndex.containsKey(event.getGuild()) ) {
-			Brain.guildIndex.put(event.getGuild(), new GuildInfo(event.getGuild().getName()));
-			Brain.log.debugOut("Creating new Guild Object \"" + event.getGuild().getName() + "\".", 1);
+		IGuild getGuild = event.getGuild();
+		IChannel getChannel = event.getChannel();
+		if( !Variables.guildIndex.containsKey(getGuild) ) {
+			Variables.guildIndex.put(event.getGuild(), new GuildInfo(getGuild.getName()));
+			Brain.log.debugOut("Creating new Guild Object \"" + getGuild.getName() + "\".", 1);
 		}
-		GuildInfo gi = Brain.guildIndex.get(event.getGuild());
+		if( !Variables.channelMap.containsKey(getChannel.getStringID()) ) {
+			Variables.channelMap.put(getChannel.getStringID(), getChannel);
+		}
+		GuildInfo gi = Variables.guildIndex.get(event.getGuild());
 		if( !gi.userIndex.containsKey(event.getAuthor().getName()) ) {
 			gi.userIndex.put(event.getAuthor().getName(), new UserData(event.getAuthor().getLongID()));
 			Brain.log.debugOut("Adding new User \"" + event.getAuthor().getName() + "\" to Guild " + event.getGuild().getName() + ".", 1);

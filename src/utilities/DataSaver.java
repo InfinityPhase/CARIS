@@ -1,35 +1,49 @@
 package utilities;
 
 import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
+import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Calendar;
 
 import org.json.JSONObject;
 
+import library.Variables;
 import main.Brain;
 import main.GuildInfo;
 import sx.blah.discord.handle.obj.IGuild;
 import tokens.Poll;
+import tokens.Reminder;
 import tokens.UserData;
 
 public class DataSaver {
 
-	public DataSaver(HashMap<IGuild, GuildInfo> guildIndex) {
-		ArrayList<String> ids = new ArrayList<String>();
-		ArrayList<String> jsons = new ArrayList<String>();
-		for( IGuild iGuild : guildIndex.keySet() ) {
+	public DataSaver() {}
+	
+	public void save() {
+		reset();
+		for( IGuild iGuild : Variables.guildIndex.keySet() ) {
 			String id = iGuild.getStringID();
-			GuildInfo guildInfo = guildIndex.get(iGuild);
+			GuildInfo guildInfo = Variables.guildIndex.get(iGuild);
 			String converted = convert(guildInfo);
-			ids.add(id);
-			jsons.add(converted);
-			
+			write(id);
+			write(converted);
+			write("");
 		}
 	}
 	
-	public String convert(GuildInfo guildInfo) {
-		String ret = "";
+	private void reset() {
+		PrintWriter pw;
+		try {
+			pw = new PrintWriter("save.save");
+			pw.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private String convert(GuildInfo guildInfo) {
 		JSONObject json = new JSONObject();
 		JSONObject modules = new JSONObject();
 		for( String s : guildInfo.modules.keySet() ) {
@@ -86,6 +100,16 @@ public class DataSaver {
 			userData.put("lastMessage", d.lastMessage);
 			userIndex.put(s, userData);
 		}
+		JSONObject reminders = new JSONObject();
+		for( Calendar c : guildInfo.reminders.keySet() ) {
+			String date = c.toString();
+			Reminder r = guildInfo.reminders.get(c);
+			JSONObject reminder = new JSONObject();
+			reminder.put("message", r.message);
+			reminder.put("author", r.author);
+			reminder.put("channelID", r.channelID);
+			reminders.put(date, reminder);
+		}
 		json.put("name", guildInfo.name);
 		json.put("modules", modules);
 		json.put("polls", polls);
@@ -93,13 +117,14 @@ public class DataSaver {
 		json.put("people", people);
 		json.put("translator", translator);
 		json.put("userIndex", userIndex);
+		json.put("reminders", reminders);
 		
-		return ret;
+		return json.toString(2);
 	}
 	
-	public void write(String string) {
+	private void write(String string) {
 		try {
-			FileWriter fstream = new FileWriter("save.txt", true);
+			FileWriter fstream = new FileWriter("save.save", true);
 			BufferedWriter fbw = new BufferedWriter(fstream);
 			if(string != null) {
 				fbw.write(string);

@@ -4,10 +4,12 @@ import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedE
 
 public class Reminder {
 	public String message;
-	public MessageReceivedEvent origin;
+	public String author;
+	public String channelID;
 	
-	public Reminder(String message, MessageReceivedEvent origin) {
+	public Reminder(String message, MessageReceivedEvent event) {
 		this.message = message;
-		this.origin = origin;
+		this.author = event.getAuthor().mention();
+		this.channelID = event.getChannel().getStringID();
 	}
 }

@@ -2,6 +2,7 @@ package commands;
 
 import java.util.Calendar;
 
+import library.Variables;
 import main.Brain;
 import main.GuildInfo;
 import sx.blah.discord.handle.obj.IGuild;
@@ -11,14 +12,14 @@ import utilities.BotUtils;
 public class CalendarHandler {
 	
 	public void check() {
-		for( IGuild guild : Brain.guildIndex.keySet() ) {
-			GuildInfo info = Brain.guildIndex.get(guild);
+		for( IGuild guild : Variables.guildIndex.keySet() ) {
+			GuildInfo info = Variables.guildIndex.get(guild);
 			for( Calendar c : info.reminders.keySet() ) {
 				Reminder reminder = info.reminders.get(c);
 				if( Brain.current.after(c) ) {
 					System.out.println(Brain.current.toString());
 					String send = "";
-					send += reminder.origin.getAuthor().mention();
+					send += reminder.author;
 					send += ", here's your reminder";
 					if( reminder.message.isEmpty() ) {
 						send += ".";
@@ -27,7 +28,7 @@ public class CalendarHandler {
 						send += reminder.message;
 						send += "\".";
 					}
-					BotUtils.sendMessage( reminder.origin.getChannel(), send );
+					BotUtils.sendMessage( Variables.channelMap.get(reminder.channelID), send );
 					info.reminders.remove(c);
 				}
 			}
