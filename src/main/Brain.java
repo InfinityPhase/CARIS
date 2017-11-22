@@ -7,6 +7,7 @@ import commands.CalendarHandler;
 import commands.CommandHandler;
 import controller.Controller;
 import controller.ModuleController;
+import controller.SaveController;
 import invokers.EchoInvoker;
 import invokers.FortuneInvoker;
 import invokers.Invoker;
@@ -14,13 +15,14 @@ import invokers.LocationInvoker;
 import invokers.NicknameInvoker;
 import invokers.VoteInvoker;
 import invokers._8BallInvoker;
+import library.Variables;
 import responders.LocationResponder;
 import responders.MentionResponder;
 import responders.NicknameResponder;
 import responders.ReminderResponder;
 import responders.Responder;
 import sx.blah.discord.api.IDiscordClient;
-import sx.blah.discord.handle.obj.IGuild;
+import sx.blah.discord.handle.obj.IChannel;
 import utilities.BotUtils;
 import utilities.Logger;
 import utilities.TokenParser;
@@ -54,6 +56,7 @@ public class Brain {
 	
 	/* Admin Controllers */
 	public static ModuleController moduleController = new ModuleController();
+	public static SaveController saveController = new SaveController();
 	
 	public static CalendarHandler calendarHandler = new CalendarHandler();
 	public static Calendar current = Calendar.getInstance();
@@ -81,13 +84,24 @@ public class Brain {
 		cli.login();
 		log.debugOut("Client logged in.");
 		
+		load(cli);
+		log.debugOut("Loaded Channel Map.");
+		
 		while( true ) {
 			current = Calendar.getInstance();
 			calendarHandler.check();
 		}
 	}
+	
+	public static void load(IDiscordClient cli) {
+		for( IChannel channel : cli.getChannels() ) {
+			Variables.channelMap.put(channel.getStringID(), channel);
+		}
+	}
+	
 	public static void init() { // add handlers to their appropriate categories here
 		log.debugOut("Initializing.");
+		
 		invokerModules.put("Echo Invoker", echoInvoker);
 		invokerModules.put("Vote Invoker", voteInvoker);
 		invokerModules.put("8ball Invoker", _8ballInvoker);
@@ -99,5 +113,6 @@ public class Brain {
 		responderModules.put("Reminder Responder", reminderResponder);
 		responderModules.put("Location Responder", locationResponder);
 		controllerModules.put("Module Controller", moduleController);
+		controllerModules.put("Save Controller", saveController);
 	}
 }

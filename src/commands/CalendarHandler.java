@@ -19,7 +19,7 @@ public class CalendarHandler {
 				if( Brain.current.after(c) ) {
 					System.out.println(Brain.current.toString());
 					String send = "";
-					send += reminder.origin.getAuthor().mention();
+					send += reminder.author;
 					send += ", here's your reminder";
 					if( reminder.message.isEmpty() ) {
 						send += ".";
@@ -28,7 +28,7 @@ public class CalendarHandler {
 						send += reminder.message;
 						send += "\".";
 					}
-					BotUtils.sendMessage( reminder.origin.getChannel(), send );
+					BotUtils.sendMessage( Variables.channelMap.get(reminder.channelID), send );
 					info.reminders.remove(c);
 				}
 			}
