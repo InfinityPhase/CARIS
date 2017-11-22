@@ -25,6 +25,7 @@ import utilities.BotUtils;
 
 public class MessageReceived extends SuperEvent {
 
+
 	@EventSubscriber
 	@Override
 	public void onMessageReceived( MessageReceivedEvent event ) {

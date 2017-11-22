@@ -7,6 +7,7 @@ import java.util.Map;
 import commands.CalendarHandler;
 import commands.MessageReceived;
 import commands.SuperEvent;
+
 import controller.Controller;
 import controller.ModuleController;
 import controller.SaveController;
@@ -98,7 +99,7 @@ public class Brain {
 			Memory m = memoryModules.get( s );
 			cli.getDispatcher().registerListener( m );
 		}
-		
+
 		log.debugOut("Listener established successfully.");
 		
 		// Only login after all event registering is done
