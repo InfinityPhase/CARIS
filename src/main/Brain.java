@@ -4,28 +4,12 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
-import commands.CalendarHandler;
-import commands.MessageReceived;
-import commands.SuperEvent;
-
-import controller.Controller;
-import controller.ModuleController;
-import controller.SaveController;
-import invokers.EchoInvoker;
-import invokers.FortuneInvoker;
-import invokers.Invoker;
-import invokers.LocationInvoker;
-import invokers.NicknameInvoker;
-import invokers.VoteInvoker;
-import invokers._8BallInvoker;
+import commands.*;
+import controller.*;
+import invokers.*;
 import library.Variables;
-import memories.AuthorMemory;
-import memories.Memory;
-import responders.LocationResponder;
-import responders.MentionResponder;
-import responders.NicknameResponder;
-import responders.ReminderResponder;
-import responders.Responder;
+import memories.*;
+import responders.*;
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.obj.IChannel;
 import utilities.BotUtils;
@@ -63,6 +47,7 @@ public class Brain {
 	
 	/* Things that think */
 	public static AuthorMemory authorMemory = new AuthorMemory();
+	public static TimeMemory timeMemory = new TimeMemory();
 	
 	/* Admin Controllers */
 	public static ModuleController moduleController = new ModuleController();
@@ -129,6 +114,7 @@ public class Brain {
 		
 		// Memory Map
 		memoryModules.put("Author Memory", authorMemory);
+		memoryModules.put("Time Memory", timeMemory);
 
 		// Invoker Map
 		invokerModules.put("Echo Invoker", echoInvoker);
