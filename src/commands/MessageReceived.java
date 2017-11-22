@@ -2,6 +2,8 @@ package commands;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 import controller.Controller;
 import invokers.Invoker;
@@ -9,19 +11,22 @@ import library.Constants;
 import library.Variables;
 import main.Brain;
 import main.GuildInfo;
+import memories.Memory;
 import responders.Responder;
 import sx.blah.discord.api.events.EventSubscriber;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import sx.blah.discord.handle.obj.IChannel;
 import sx.blah.discord.handle.obj.IGuild;
 import tokens.Response;
+import tokens.Thought;
 import tokens.UserData;
 import utilities.BotUtils;
 
-public class MessageReceived {
+public class MessageReceived extends SuperEvent {
 
 	@EventSubscriber
-	public void onMessageRecieved(MessageReceivedEvent event) {
+	@Override
+	public void onMessageReceived( MessageReceivedEvent event ) {
 		Brain.log.debugOut("Message received: \"" + event.getMessage().getContent() + "\" from User \"" + event.getAuthor().getName() + "\" on Guild \"" + event.getGuild().getName() + "\".", 1);
 		IGuild getGuild = event.getGuild();
 		IChannel getChannel = event.getChannel();
@@ -49,6 +54,37 @@ public class MessageReceived {
 		}
 		
 		ArrayList<Response> responses = new ArrayList<Response>();
+
+		// Name of thought, the actual thoughts
+		// Later use TreeMap, sort values better
+		Map< String, Thought > thoughts = new HashMap< String, Thought >();
+		Brain.log.debugOut("Recording Message...");
+		for( String s : Brain.memoryModules.keySet() ) {
+			Memory h = Brain.memoryModules.get( s );
+			Thought t = h.remember(event);
+			
+			if( !t.name.isEmpty() && ( !t.text.isEmpty() /*|| !t.equals(null) */) ) {
+				thoughts.put( t.name, t );
+			} else {
+				Brain.log.debugOut("No thought generated");
+			}
+		}
+
+		if( !thoughts.isEmpty() ) {
+			// Say what you think
+			for( String name : thoughts.keySet() ) {
+				// Compile thoughts in order
+				for( int i = 0; i < Constants.THOUGHT_ORDER.length; i++ ) {
+					if( Constants.THOUGHT_ORDER[i].equalsIgnoreCase( name ) ) {
+						for( int j = 0; j < thoughts.get(name).text.size(); j++ ) {
+							Brain.log.out( thoughts.get(name).text.get( j ) );
+						}
+					}
+				}
+			}
+		} else {
+			Brain.log.debugOut("Nothing to think about");
+		}
 
 		// Checks if a message begins with the bot command prefix
 		if ( messageText.startsWith( Constants.ADMIN_PREFIX ) && admin ) {
