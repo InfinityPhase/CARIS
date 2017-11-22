@@ -39,7 +39,7 @@ public class Memory {
 		tokens = Brain.tp.parse(event.getMessage().getContent());
 		variables = Variables.guildIndex.get(event.getGuild());
 		
-		text.clear();
+		text = null;
 		message = null;
 		name = "";
 	}

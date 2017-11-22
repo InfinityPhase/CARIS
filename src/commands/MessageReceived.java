@@ -23,7 +23,7 @@ import tokens.Thought;
 import tokens.UserData;
 import utilities.BotUtils;
 
-public class CommandHandler extends SuperEvent {
+public class MessageReceived extends SuperEvent {
 
 	@EventSubscriber
 	@Override
@@ -60,8 +60,8 @@ public class CommandHandler extends SuperEvent {
 		// Later use TreeMap, sort values better
 		Map< String, Thought > thoughts = new HashMap< String, Thought >();
 		Brain.log.debugOut("Recording Message...");
-		for( String s : Brain.memories.keySet() ) {
-			Memory h = Brain.memories.get( s );
+		for( String s : Brain.memoryModules.keySet() ) {
+			Memory h = Brain.memoryModules.get( s );
 			Thought t = h.ponder(event);
 			if( !t.name.isEmpty() && ( !t.text.isEmpty() /*|| !t.equals(null) */) ) {
 				thoughts.put( t.name, t );
