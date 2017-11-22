@@ -49,9 +49,9 @@ public class CommandHandler {
 		// Name of thought, the actual thoughts
 		// Later use TreeMap, sort values better
 		Map< String, Thought > thoughts = new HashMap< String, Thought >();
-
-		for( Memory h : Brain.memories.values() ) {
-			Brain.log.debugOut("Recording Message...");
+		Brain.log.debugOut("Recording Message...");
+		for( String s : Brain.memories.keySet() ) {
+			Memory h = Brain.memories.get( s );
 			Thought t = h.ponder(event);
 			if( !t.name.isEmpty() && ( !t.text.isEmpty() /*|| !t.equals(null) */) ) {
 				thoughts.put( t.name, t );
@@ -66,12 +66,8 @@ public class CommandHandler {
 				// Compile thoughts in order
 				for( int i = 0; i < Constants.THOUGHT_ORDER.length; i++ ) {
 					if( Constants.THOUGHT_ORDER[i].equalsIgnoreCase( name ) ) {
-						// Write to file
-						// Check if text array exists, and iterate over it
-						// Then, check for a message and print the text
 						for( int j = 0; j < thoughts.get(name).text.size(); j++ ) {
 							Brain.log.out( thoughts.get(name).text.get( j ) );
-							
 						}
 					}
 				}
