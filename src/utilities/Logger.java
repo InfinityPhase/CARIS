@@ -15,7 +15,6 @@ public class Logger {
 	private final boolean INDENT_CONSOLE = true;
 
 	public Logger() {
-		Brain.files.newWriter(name, fileOut);
 		Brain.files.newWriter( "logWriter", ( Constants.PREPENDDATE ? sdf.format( Calendar.getInstance().getTime() ) + "_" : "" ) + Constants.LOG_FILE_NAME + Constants.SAVEEXTENTION, Constants.ENCODING );
 		// Sigh. Still needs fixing.
 		// Later will be used to split output. For now, is useless
@@ -72,6 +71,14 @@ public class Logger {
 	public void debugOut( int message, int indent ) {
 		debugOut( message + "", indent );
 	}
+	
+	public void debugOut( long message ) {
+		debugOut( message + "" );
+	}
+	
+	public void debugOut( long message, int indent ) {
+		debugOut( message + "", indent );
+	}
 
 	public void debugOut( boolean message ) {
 		debugOut( message + "" );
@@ -86,16 +93,6 @@ public class Logger {
 		// Eg. -> if indent = 1
 		// > if indent = 0
 		// ----> if indent = 4
-
-		// For the lols:
-
-		/* I AM A FUCKING IDIOT.
-			So, what happened is this:
-			This class called the debugOut( String message) class.
-			Then, that class called this class, giving it an indent.
-			Cue recursive calls appending to the same stupid string ad infinium
-		 */
-		//debugOut( multiplyString( DEBUG_INDENT, indent ) + DEBUG_HEADER + " " + message );
 
 		if( Constants.DEBUG ) {
 			if( INDENT_CONSOLE ) {
