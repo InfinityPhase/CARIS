@@ -18,7 +18,7 @@ import tokens.Response;
 import tokens.UserData;
 import utilities.BotUtils;
 
-public class CommandHandler {
+public class MessageReceived {
 
 	@EventSubscriber
 	public void onMessageRecieved(MessageReceivedEvent event) {

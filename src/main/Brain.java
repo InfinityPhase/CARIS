@@ -4,7 +4,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 
 import commands.CalendarHandler;
-import commands.CommandHandler;
+import commands.MessageReceived;
 import controller.Controller;
 import controller.ModuleController;
 import controller.SaveController;
@@ -77,7 +77,7 @@ public class Brain {
 		IDiscordClient cli = BotUtils.getBuiltDiscordClient(token);
 		log.debugOut("Client built successfully.");
 		
-		cli.getDispatcher().registerListener(new CommandHandler());
+		cli.getDispatcher().registerListener(new MessageReceived());
 		log.debugOut("Listener established successfully.");
 		
 		// Only login after all event registering is done
