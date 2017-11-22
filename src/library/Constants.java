@@ -30,5 +30,5 @@ public class Constants {
         public static final String ENCODING = "UTF-8";
         
         // Controls the order of thoughts in the message log
-        public static final String[] THOUGHT_ORDER = { "Author" };
+        public static final String[] THOUGHT_ORDER = { "Author", "Time" };
 }

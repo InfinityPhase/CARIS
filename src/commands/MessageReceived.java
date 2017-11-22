@@ -8,7 +8,6 @@ import java.util.Map;
 import controller.Controller;
 import invokers.Invoker;
 import library.Constants;
-
 import library.Variables;
 import main.Brain;
 import main.GuildInfo;
@@ -24,7 +23,6 @@ import tokens.UserData;
 import utilities.BotUtils;
 
 public class MessageReceived extends SuperEvent {
-
 
 	@EventSubscriber
 	@Override

@@ -1,9 +1,6 @@
 package memories;
 
 import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeFormatterBuilder;
-import java.util.Calendar;
 
 import library.Constants;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
@@ -18,8 +15,7 @@ public class TimeMemory extends Memory {
 		name = "Time";
 		
 		text.add("Time Sent: ");
-		text.add( event.getMessage().getCreationDate().format( sdf.parse( Constants.DATEFORMAT ) ) );
-		
+		text.add( "" + event.getMessage().getCreationDate() );
 		return think();
 	}
 }
