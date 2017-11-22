@@ -5,6 +5,7 @@ import tokens.Thought;
 
 public class AuthorMemory extends Memory {
 	
+	@Override
 	public Thought remember( MessageReceivedEvent event ) {
 		setup(event);
 		name = "Author";

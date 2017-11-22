@@ -29,7 +29,7 @@ public class Memory {
 	
 	public Memory() {}
 	
-	public Thought ponder( MessageReceivedEvent event ) {
+	public Thought remember( MessageReceivedEvent event ) {
 		setup(event);
 		return think();
 	}
@@ -39,9 +39,11 @@ public class Memory {
 		tokens = Brain.tp.parse(event.getMessage().getContent());
 		variables = Variables.guildIndex.get(event.getGuild());
 		
-		text = null;
+		text = new ArrayList<String>();
 		message = null;
 		name = "";
+		Brain.log.debugOut( name.isEmpty() );
+		Brain.log.debugOut( text.isEmpty() );
 	}
 	
 	protected Thought think() {
@@ -49,8 +51,7 @@ public class Memory {
 			if( message != null ) {
 				return new Thought(message, name);
 			} else {
-				Brain.log.debugOut("Nothing to think about");
-				return null;
+				return new Thought();
 			}
 		} else {
 			if( message != null ) {

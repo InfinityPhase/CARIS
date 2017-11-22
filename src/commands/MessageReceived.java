@@ -63,7 +63,8 @@ public class MessageReceived extends SuperEvent {
 		Brain.log.debugOut("Recording Message...");
 		for( String s : Brain.memoryModules.keySet() ) {
 			Memory h = Brain.memoryModules.get( s );
-			Thought t = h.ponder(event);
+			Thought t = h.remember(event);
+			
 			if( !t.name.isEmpty() && ( !t.text.isEmpty() /*|| !t.equals(null) */) ) {
 				thoughts.put( t.name, t );
 			} else {

@@ -17,6 +17,12 @@ public class Thought {
 	// Title of the thought
 	public String name;
 	
+	public Thought() {
+		this.text.clear();
+		this.message = null;
+		this.name = "";
+	}
+	
 	public Thought( List<String> text, String name ) {
 		this.text = text;
 		this.message = null;
@@ -24,7 +30,7 @@ public class Thought {
 	}
 	
 	public Thought( IMessage message, String name ) {
-		this.text = null;
+		this.text.clear();
 		this.message = message;
 		this.name = name;
 	}
