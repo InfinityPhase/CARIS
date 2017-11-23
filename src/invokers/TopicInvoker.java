@@ -29,6 +29,7 @@ public class TopicInvoker extends Invoker {
 		setup( event );
 
 		/* Gets things from the wordlist */
+		Brain.log.debugOut( "Checking for impromptu topics...", 10);
 		if( containsIgnoreCase( keywords[0], tokens.get( 0 ) ) ) {
 			Brain.log.debugOut( "Impromptu topic generator invoked" );
 

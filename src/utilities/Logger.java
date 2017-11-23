@@ -15,7 +15,8 @@ public class Logger {
 	private final boolean INDENT_CONSOLE = true;
 
 	public Logger() {
-		Brain.files.newWriter( "logWriter", ( Constants.PREPENDDATE ? sdf.format( Calendar.getInstance().getTime() ) + "_" : "" ) + Constants.LOG_FILE_NAME + Constants.SAVEEXTENTION, Constants.ENCODING );
+		// NullPointerException, likely in adding to the map.
+		Brain.files.newWriter( "logWriter", ( ( Constants.PREPENDDATE ? ( sdf.format( Calendar.getInstance().getTime() ) + "_" ) : "" ) + Constants.LOG_FILE_NAME + Constants.SAVEEXTENTION ) );
 		// Sigh. Still needs fixing.
 		// Later will be used to split output. For now, is useless
 		Brain.files.copyWriter( "logWriter", "debugWriter" );

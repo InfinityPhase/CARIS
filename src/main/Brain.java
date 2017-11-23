@@ -27,8 +27,8 @@ public class Brain {
 	
 	/* Utilities */
 	public static TokenParser tp = new TokenParser();
+	public static FileIO files = new FileIO();	
 	public static Logger log = new Logger();
-	public static FileIO files = new FileIO();
 
 	public static Map<String, SuperEvent> eventModules = new HashMap<String, SuperEvent>();
 	public static Map<String, Memory> memoryModules = new HashMap<String, Memory>();
@@ -66,6 +66,7 @@ public class Brain {
 	public static Calendar current = Calendar.getInstance();
 	
 	public static void main(String[] args) {
+		files.newWriter("TEST", "TEST.caris");
 
 		init();
 
@@ -129,6 +130,7 @@ public class Brain {
 		invokerModules.put("Nickname Invoker", nicknameInvoker);
 		invokerModules.put("Fortune Invoker", fortuneInvoker);
 		invokerModules.put("Location Invoker", locationInvoker);
+		invokerModules.put("Topic Invoker", topicInvoker);
 		
 		// Responder Map
 		responderModules.put("Mention Responder", mentionResponder);

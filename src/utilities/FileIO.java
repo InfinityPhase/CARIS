@@ -20,10 +20,10 @@ public class FileIO {
 	// NOTE: Checking for the existence of a writer/reader
 	// is the user's responsibility
 	
-	private BufferedWriter writer;
-	private BufferedReader reader;
 	private static Map< String, BufferedWriter > writers = new HashMap< String, BufferedWriter >();
 	private static Map< String, BufferedReader > readers = new HashMap< String, BufferedReader >();
+	
+	public FileIO() { System.out.println("I AM HERE"); }
 	
 	// Okay, this is rediculous. They all do something really similar, just diffrent ways.
 	// Fucking overloading functions... Just let me set default values!
@@ -55,9 +55,10 @@ public class FileIO {
 	public void newReader( String name, File fileIn ) {
 		try {
 			readers.put( name, new BufferedReader( new InputStreamReader( new FileInputStream( fileIn ) ) ) );
-		} catch ( FileNotFoundException e) {
+		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
+
 	}
 	
 	public void newWriter( String name, String fileOut, String encoding ) {
@@ -122,26 +123,6 @@ public class FileIO {
 		try {
 			writers.get( name ).write( content );
 		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	public void writeTemp( File name, String content ) {
-		try {
-			writer = new BufferedWriter( new OutputStreamWriter( new FileOutputStream( name ) ) );
-			writer.write( content );
-			writer.close();
-		} catch ( IOException e ) {
-			e.printStackTrace();
-		}
-	}
-	
-	public void writeTemp( File name, String content, String encoding ) {
-		try {
-			writer = new BufferedWriter( new OutputStreamWriter( new FileOutputStream( name ), encoding ) );
-			writer.write( content );
-			writer.close();
-		} catch ( IOException e ) {
 			e.printStackTrace();
 		}
 	}
