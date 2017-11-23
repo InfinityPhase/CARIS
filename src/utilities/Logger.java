@@ -17,41 +17,42 @@ public class Logger {
 
 	BufferedWriter logWriter;
 	BufferedWriter debugWriter;
-
-	private final String DEBUG_HEADER = ">";
-	private final String DEBUG_INDENT = "-";
-	private final boolean INDENT_FILE = true;
-	private final boolean INDENT_CONSOLE = true;
+	
+	private int defaultIndent = Constants.DEFAULT_INDENT;
+	private String debugHeader = Constants.DEFAULT_HEADER;
+	private boolean time = Constants.OUTPUT_TIME;
+	private boolean writeType = Constants.OUTPUT_TYPE;
 
 	public Logger() {
 		try {
 			this.logWriter = new BufferedWriter( new OutputStreamWriter( new FileOutputStream( 
 					new File( ( Constants.PREPENDDATE ? sdf.format( Calendar.getInstance().getTime() ) + "_" : "" ) + Constants.LOG_FILE_NAME + Constants.SAVEEXTENTION ) ), Constants.ENCODING));
-			// You know what? Shut up.
-			// This is still stupid. Fix it.
 			this.debugWriter = this.logWriter;
 		} catch (UnsupportedEncodingException | FileNotFoundException e) {
 			e.printStackTrace();
 		}
 	}
-
-	public Logger(boolean happy) {
-		try {
-			this.logWriter = new BufferedWriter( new OutputStreamWriter( new FileOutputStream( 
-					new File( ( Constants.PREPENDDATE ? sdf.format( Calendar.getInstance().getTime() ) + "_" : "" ) + Constants.LOG_FILE_NAME + Constants.SAVEEXTENTION ) ), Constants.ENCODING));
-			// You know what? Shut up.
-			this.debugWriter = this.logWriter;
-		} catch (UnsupportedEncodingException | FileNotFoundException e) {
-			e.printStackTrace();
-		}
-
-		if( happy ) {
-			toConsole("============================================================");
-			toConsole(" :] :) :P ^^ ");
-			toConsole("============================================================");
-		}
+	
+	// Change settings
+	
+	void setDefaultIndent( int defaultIndent ) {
+		this.defaultIndent = defaultIndent;
 	}
-
+	
+	void setDebugHeader( String debugHeader ) {
+		this.debugHeader = debugHeader;
+	}
+	
+	void setTime( boolean time ) {
+		this.time = time;
+	}
+	
+	void setWriteType( boolean writeType ) {
+		this.writeType = writeType;
+	}
+	
+	// Use the logger that has been created
+	
 	public void toConsole(String message) {
 		System.out.println(message);
 
@@ -130,13 +131,13 @@ public class Logger {
 		//debugOut( multiplyString( DEBUG_INDENT, indent ) + DEBUG_HEADER + " " + message );
 
 		if( Constants.DEBUG ) {
-			if( INDENT_CONSOLE ) {
-				toConsole( multiplyString( DEBUG_INDENT, indent ) + DEBUG_HEADER + " " + message );
+			if( Constants.INDENT_CONSOLE ) {
+				toConsole( multiplyString( debugHeader, indent + defaultIndent ) + debugHeader + " " + message );
 			} else {
 				toConsole(message);
 			}
-			if( INDENT_FILE ) {
-				debugLog( multiplyString( DEBUG_INDENT, indent ) + DEBUG_HEADER + " " + message );
+			if( Constants.INDENT_FILE ) {
+				debugLog( multiplyString( debugHeader, indent + defaultIndent ) + debugHeader + " " + message );
 			} else {
 				debugLog(message);
 			}
@@ -145,14 +146,8 @@ public class Logger {
 
 	/* Utilities */
 	private String multiplyString( String str, int times ) {
-		// Perhaps replace with this:
-		// Well, we are trying it now.
+		// Creates a string of length 'times' full of "\0", and replaces them all with 'str'
 		String sb = new String( new char[ times ] ).replace( "\0", str );
-		/*StringBuilder sb = new StringBuilder();
-		for( int i = 0; i < times; i++ ) {
-			sb.append( str );
-		}*/
-
 		return sb.toString();
 	}
 

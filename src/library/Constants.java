@@ -31,4 +31,13 @@ public class Constants {
         
         // Controls the order of thoughts in the message log
         public static final String[] THOUGHT_ORDER = { "Author", "Time" };
+        
+        // Logger constants
+    	public final static String INDENT = "-";
+    	public final static String DEFAULT_HEADER = ">";
+    	public final static int DEFAULT_INDENT = 0;
+    	public final static boolean INDENT_FILE = true;
+    	public final static boolean INDENT_CONSOLE = true;
+    	public final static boolean OUTPUT_TIME = true;
+    	public final static boolean OUTPUT_TYPE = true;
 }
