@@ -16,21 +16,32 @@ public class Logger {
 	SimpleDateFormat sdf = new SimpleDateFormat( Constants.DATEFORMAT );
 
 	BufferedWriter logWriter;
-	BufferedWriter debugWriter;
-	BufferedWriter statusWriter;
 
 	private int defaultIndent = Constants.DEFAULT_INDENT;
 	private int baseIndent = Constants.DEFAULT_BASE_INDENT;
 	private String debugHeader = Constants.DEFAULT_HEADER;
 	private String defaultIndentString = Constants.INDENT_STRING;
-	private boolean time = Constants.OUTPUT_TIME;
-	private boolean writeType = Constants.OUTPUT_TYPE;
+	private boolean defaultShouldAppendTime = Constants.OUTPUT_TIME;
+	private boolean defaultShouldAppendLevel = Constants.OUTPUT_TYPE;
 	private boolean defaultShouldIndent = Constants.DEFAULT_SHOULD_INDENT;
 	private level defaultLevel = Constants.DEFAULT_LEVEL;
+	private output defaultOutput = Constants.DEFUALT_OUTPUT;
+	
+	// TODO: Logging Features
+	// Custom header
+	// Custom indent symbol
+	// Custom Time Format
+	// Multiple data types
+	// Colour (If supported)
 
 	// Enum for debug levels
 	public enum level {
 		DEBUG, INFO, STATUS
+	}
+	
+	// Enumb for possible output locations
+	public enum output {
+		CONSOLE, FILE, ALL
 	}
 
 	/* Builder Variables */
@@ -39,8 +50,10 @@ public class Logger {
 	private String indentString = "";
 	private int indent;
 	private boolean shouldIndent;
+	private boolean shouldAppendTime;
+	private boolean shouldAppendLevel;
 	private level messageLevel;
-
+	private output messageOutput;
 	
 	private boolean happy = false;
 
@@ -50,7 +63,6 @@ public class Logger {
 		try {
 			this.logWriter = new BufferedWriter( new OutputStreamWriter( new FileOutputStream( 
 					new File( ( Constants.PREPENDDATE ? sdf.format( Calendar.getInstance().getTime() ) + "_" : "" ) + Constants.LOG_FILE_NAME + Constants.SAVEEXTENTION ) ), Constants.ENCODING));
-			this.debugWriter = this.statusWriter = this.logWriter;
 		} catch (UnsupportedEncodingException | FileNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -78,13 +90,13 @@ public class Logger {
 		return this;
 	}
 
-	public Logger setTime( boolean time ) {
-		this.time = time;
+	public Logger setDefaultShouldAppendTime( boolean defaultShouldAppendTime ) {
+		this.defaultShouldAppendTime = defaultShouldAppendTime;
 		return this;
 	}
 
-	public Logger setWriteType( boolean writeType ) {
-		this.writeType = writeType;
+	public Logger setDefaultShouldAppendLevel( boolean defaultShouldAppendLevel ) {
+		this.defaultShouldAppendLevel = defaultShouldAppendLevel;
 		return this;
 	}
 
@@ -99,9 +111,23 @@ public class Logger {
 	}
 
 	// Use the logger that has been created
+	// All options override the defaults
 
 	public void out( String message ) {
+		// Maybe combine with the last thing, log()
 		this.message = message;
+	}
+	
+	public void out( boolean message ) {
+		out( "" + message );
+	}
+	
+	public void out( int message ) {
+		out( "" + message );
+	}
+	
+	public void out( long message ) {
+		out( "" + message );
 	}
 
 	public void level( level messageLevel ) {
@@ -147,17 +173,91 @@ public class Logger {
 		reset();
 	}
 
-	// Sned messages places
+	// Send messages places
+	
 	private void debug( String message ) {
+		if( shouldAppendLevel ) {
+			message = "[DEBUG] " + message;
+		}
 		
+		if( shouldAppendTime ) {
+			message = appendTime( message );
+		}
+		
+		switch( messageOutput ) {
+			case ALL:
+				all( message );
+				break;
+			case FILE:
+				file( message );
+				break;
+			case CONSOLE:
+				console( message );
+				break;
+		}
 	}
 
 	private void status( String message ) {
-
+		if( shouldAppendLevel ) {
+			message = "[STATUS] " + message;
+		}
+		
+		if( shouldAppendTime ) {
+			message = appendTime( message );
+		}
+		
+		switch( messageOutput ) {
+			case ALL:
+				all( message );
+				break;
+			case FILE:
+				file( message );
+				break;
+			case CONSOLE:
+				console( message );
+				break;
+		}
 	}
 
 	private void info( String message ) {
-
+		if( shouldAppendLevel ) {
+			message = "[INFO] " + message;
+		}
+		
+		if( shouldAppendTime ) {
+			message = appendTime( message );
+		}
+		
+		switch( messageOutput ) {
+			case ALL:
+				all( message );
+				break;
+			case FILE:
+				file( message );
+				break;
+			case CONSOLE:
+				console( message );
+				break;
+		}
+	}
+	
+	// Places to send messages
+	
+	private void file( String message ) {
+		try {
+			logWriter.write( message );
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private void console( String message ) {
+		System.out.println( message );
+	}
+	
+	private void all( String message ) {
+		file( message );
+		console( message );
 	}
 
 	/* Utilities */
@@ -172,22 +272,17 @@ public class Logger {
 		message = "";
 		indentString = defaultIndentString;
 		messageLevel = defaultLevel;
+		messageOutput = defaultOutput;
 		indent = defaultIndent;
 		shouldIndent = defaultShouldIndent;
+		shouldAppendTime = defaultShouldAppendTime;
+		shouldAppendLevel = defaultShouldAppendLevel;
 		
 		happy = false;
 	}
 
-	private String process( String message ) {
-		if( time ) {
-			message = "[" + sdf.format( Constants.DATEFORMAT ) + "] " + message;
-		}
-
-		if( writeType ) {
-			message = "[" + /*The type of log*/ "" + "] " + message;
-		}
-
-		return message;
+	private String appendTime( String message ) {
+		return "[" + sdf.format( Constants.DATEFORMAT ) + "] " + message;
 	}
-
+	
 }

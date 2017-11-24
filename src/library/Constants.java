@@ -1,6 +1,7 @@
 package library;
 
 import utilities.Logger.level;
+import utilities.Logger.output;
 
 public class Constants {
         public static final String COMMAND_PREFIX = ".c ";
@@ -46,4 +47,6 @@ public class Constants {
     	public final static boolean DEFAULT_SHOULD_INDENT = true;
     	// Maybe move the declaration of the eval here, so that the logger isn't imported here
     	public final static level DEFAULT_LEVEL = level.STATUS;
+    	public final static output DEFUALT_OUTPUT = output.ALL;
+    	
 }
