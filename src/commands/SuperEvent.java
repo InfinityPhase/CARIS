@@ -48,6 +48,7 @@ public class SuperEvent {
 	//Guild Channel Message Events
 	@EventSubscriber public void onMention( MentionEvent event ) {}
 	@EventSubscriber public void onMessageDelete( MessageDeleteEvent event ) {}
+	@EventSubscriber public void onMessageEdit( MessageEditEvent event ) {}
 	@EventSubscriber public void onMessageEmbed( MessageEmbedEvent event ) {}
 	@EventSubscriber public void onMessage( MessageEvent event ) {}
 	@EventSubscriber public void onMessagePin( MessagePinEvent event ) {}
