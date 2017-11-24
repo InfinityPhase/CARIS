@@ -23,7 +23,7 @@ public class Brain {
 	 */
 	
 	public static TokenParser tp = new TokenParser();
-	public static Logger log = new Logger();
+	public static Logger log = new Logger().setDefaultIndent(0).setTime(true).setWriteType(true).build();
 
 	public static Map<String, SuperEvent> eventModules = new HashMap<String, SuperEvent>();
 	public static Map<String, Memory> memoryModules = new HashMap<String, Memory>();

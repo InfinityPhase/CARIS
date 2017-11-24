@@ -33,7 +33,7 @@ public class Constants {
         public static final String[] THOUGHT_ORDER = { "Author", "Time" };
         
         // Logger constants
-    	public final static String INDENT = "-";
+    	public final static String INDENT_STRING = "-";
     	public final static String DEFAULT_HEADER = ">";
     	public final static int DEFAULT_INDENT = 0;
     	public final static boolean INDENT_FILE = true;

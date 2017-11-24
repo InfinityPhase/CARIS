@@ -20,6 +20,7 @@ public class Logger {
 	
 	private int defaultIndent = Constants.DEFAULT_INDENT;
 	private String debugHeader = Constants.DEFAULT_HEADER;
+	private String indentString = Constants.INDENT_STRING;
 	private boolean time = Constants.OUTPUT_TIME;
 	private boolean writeType = Constants.OUTPUT_TYPE;
 
@@ -35,20 +36,33 @@ public class Logger {
 	
 	// Change settings
 	
-	void setDefaultIndent( int defaultIndent ) {
+	public Logger setDefaultIndent( int defaultIndent ) {
 		this.defaultIndent = defaultIndent;
+		return this;
 	}
 	
-	void setDebugHeader( String debugHeader ) {
+	public Logger setDebugHeader( String debugHeader ) {
 		this.debugHeader = debugHeader;
+		return this;
 	}
 	
-	void setTime( boolean time ) {
+	public Logger setIndentString( String indentString ) {
+		this.indentString = indentString;
+		return this;
+	}
+	
+	public Logger setTime( boolean time ) {
 		this.time = time;
+		return this;
 	}
 	
-	void setWriteType( boolean writeType ) {
+	public Logger setWriteType( boolean writeType ) {
 		this.writeType = writeType;
+		return this;
+	}
+	
+	public Logger build() {
+		return this;
 	}
 	
 	// Use the logger that has been created
@@ -132,12 +146,12 @@ public class Logger {
 
 		if( Constants.DEBUG ) {
 			if( Constants.INDENT_CONSOLE ) {
-				toConsole( multiplyString( debugHeader, indent + defaultIndent ) + debugHeader + " " + message );
+				toConsole( multiplyString( indentString, indent + defaultIndent ) + debugHeader + " " + message );
 			} else {
 				toConsole(message);
 			}
 			if( Constants.INDENT_FILE ) {
-				debugLog( multiplyString( debugHeader, indent + defaultIndent ) + debugHeader + " " + message );
+				debugLog( multiplyString( indentString, indent + defaultIndent ) + debugHeader + " " + message );
 			} else {
 				debugLog(message);
 			}
@@ -149,6 +163,18 @@ public class Logger {
 		// Creates a string of length 'times' full of "\0", and replaces them all with 'str'
 		String sb = new String( new char[ times ] ).replace( "\0", str );
 		return sb.toString();
+	}
+	
+	private String process( String message ) {
+		if( time ) {
+			message = "[" + sdf.format( Constants.DATEFORMAT ) + "] " + message;
+		}
+		
+		if( writeType ) {
+			message = "[" + /*The type of log*/ "" + "] " + message;
+		}
+		
+		return message;
 	}
 
 }
