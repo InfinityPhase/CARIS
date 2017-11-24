@@ -20,8 +20,9 @@ public class Logger {
 	BufferedWriter statusWriter;
 
 	private int defaultIndent = Constants.DEFAULT_INDENT;
+	private int baseIndent = Constants.DEFAULT_BASE_INDENT;
 	private String debugHeader = Constants.DEFAULT_HEADER;
-	private String indentString = Constants.INDENT_STRING;
+	private String defaultIndentString = Constants.INDENT_STRING;
 	private boolean time = Constants.OUTPUT_TIME;
 	private boolean writeType = Constants.OUTPUT_TYPE;
 	private boolean defaultShouldIndent = Constants.DEFAULT_SHOULD_INDENT;
@@ -35,10 +36,13 @@ public class Logger {
 	/* Builder Variables */
 
 	private String message = "";
-	private level messageLevel;
+	private String indentString = "";
 	private int indent;
-	private boolean happy = false;
 	private boolean shouldIndent;
+	private level messageLevel;
+
+	
+	private boolean happy = false;
 
 	/* Create the Logger things */
 
@@ -64,8 +68,8 @@ public class Logger {
 		return this;
 	}
 
-	public Logger setIndentString( String indentString ) {
-		this.indentString = indentString;
+	public Logger setIndentString( String defaultIndentString ) {
+		this.defaultIndentString = defaultIndentString;
 		return this;
 	}
 	
@@ -107,12 +111,24 @@ public class Logger {
 	public void indent( int indent ) {
 		this.indent = indent;
 	}
+	
+	public void indentString( String indentString ) {
+		this.indentString = indentString;
+	}
 
 	public void happy( boolean happy ) {
 		this.happy = happy;
 	}
 
 	public void log() {
+		if( shouldIndent ) {
+			message = multiplyString( indentString, indent + baseIndent ) + debugHeader + " " + message;
+		}
+		
+		if( happy ) {
+			message.concat(" :)");
+		}
+		
 		switch( messageLevel ) {
 			case DEBUG:
 				debug( message );
@@ -133,7 +149,7 @@ public class Logger {
 
 	// Sned messages places
 	private void debug( String message ) {
-
+		
 	}
 
 	private void status( String message ) {
@@ -143,28 +159,6 @@ public class Logger {
 	private void info( String message ) {
 
 	}
-
-	/* For posterity
-	public void debugOut( String message, int indent ) {
-		// Adds the symbols specified to the beginning of the message
-		// Eg. -> if indent = 1
-		// > if indent = 0
-		// ----> if indent = 4
-
-		if( Constants.DEBUG ) {
-			if( Constants.INDENT_CONSOLE ) {
-				toConsole( multiplyString( indentString, indent + defaultIndent ) + debugHeader + " " + message );
-			} else {
-				toConsole(message);
-			}
-			if( Constants.INDENT_FILE ) {
-				debugLog( multiplyString( indentString, indent + defaultIndent ) + debugHeader + " " + message );
-			} else {
-				debugLog(message);
-			}
-		}
-	}
-	 */
 
 	/* Utilities */
 	private String multiplyString( String str, int times ) {
@@ -176,6 +170,7 @@ public class Logger {
 	private void reset() {
 		// NOTE: Remember to keep updated
 		message = "";
+		indentString = defaultIndentString;
 		messageLevel = defaultLevel;
 		indent = defaultIndent;
 		shouldIndent = defaultShouldIndent;

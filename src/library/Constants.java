@@ -38,6 +38,7 @@ public class Constants {
     	public final static String INDENT_STRING = "-";
     	public final static String DEFAULT_HEADER = ">";
     	public final static int DEFAULT_INDENT = 0;
+    	public final static int DEFAULT_BASE_INDENT = 0;
     	public final static boolean INDENT_FILE = true;
     	public final static boolean INDENT_CONSOLE = true;
     	public final static boolean OUTPUT_TIME = true;
