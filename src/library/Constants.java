@@ -1,5 +1,7 @@
 package library;
 
+import utilities.Logger.level;
+
 public class Constants {
         public static final String COMMAND_PREFIX = ".c ";
         public static final String ADMIN_PREFIX = "==> ";
@@ -40,4 +42,6 @@ public class Constants {
     	public final static boolean INDENT_CONSOLE = true;
     	public final static boolean OUTPUT_TIME = true;
     	public final static boolean OUTPUT_TYPE = true;
+    	// Maybe move the declaration of the eval here, so that the logger isn't imported here
+    	public final static level DEFAULT_LEVEL = level.STATUS;
 }

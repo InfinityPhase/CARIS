@@ -23,6 +23,12 @@ public class Logger {
 	private String indentString = Constants.INDENT_STRING;
 	private boolean time = Constants.OUTPUT_TIME;
 	private boolean writeType = Constants.OUTPUT_TYPE;
+	private level defaultLevel = Constants.DEFAULT_LEVEL;
+	
+	// Enum for debug levels
+	public enum level {
+		DEBUG, INFO, STATUS
+	}
 
 	public Logger() {
 		try {
@@ -58,6 +64,11 @@ public class Logger {
 	
 	public Logger setWriteType( boolean writeType ) {
 		this.writeType = writeType;
+		return this;
+	}
+	
+	public Logger setDefaultLevel( level defaultLevel ) {
+		this.defaultLevel = defaultLevel;
 		return this;
 	}
 	
