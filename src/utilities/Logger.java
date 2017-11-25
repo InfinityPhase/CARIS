@@ -36,7 +36,7 @@ public class Logger {
 
 	// Enum for debug levels
 	public enum level {
-		DEBUG, INFO, STATUS
+		DEBUG, INFO, STATUS, ERROR
 	}
 	
 	// Enumb for possible output locations
@@ -174,6 +174,9 @@ public class Logger {
 			case STATUS:
 				status( message );
 				break;
+			case ERROR:
+				error( message );
+				break;
 			default:
 				// WTF? YOu shouldn't be here...
 				break;
@@ -231,6 +234,28 @@ public class Logger {
 	private void info( String message ) {
 		if( shouldAppendLevel ) {
 			message = "[INFO] " + message;
+		}
+		
+		if( shouldAppendTime ) {
+			message = appendTime( message );
+		}
+		
+		switch( messageOutput ) {
+			case ALL:
+				all( message );
+				break;
+			case FILE:
+				file( message );
+				break;
+			case CONSOLE:
+				console( message );
+				break;
+		}
+	}
+	
+	private void error( String message ) {
+		if( shouldAppendLevel ) {
+			message = "[ERROR] " + message;
 		}
 		
 		if( shouldAppendTime ) {
