@@ -316,7 +316,7 @@ public class Logger {
 	}
 
 	private String appendTime( String message ) {
-		return "[" + sdf.format( Constants.DATEFORMAT ) + "] " + message;
+		return "[" + sdf.format( Calendar.getInstance().getTime() ) + "] " + message;
 	}
 	
 }

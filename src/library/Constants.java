@@ -42,8 +42,8 @@ public class Constants {
     	public final static int DEFAULT_BASE_INDENT = 0;
     	public final static boolean INDENT_FILE = true;
     	public final static boolean INDENT_CONSOLE = true;
-    	public final static boolean OUTPUT_TIME = true;
-    	public final static boolean OUTPUT_TYPE = true;
+    	public final static boolean OUTPUT_TIME = false;
+    	public final static boolean OUTPUT_TYPE = false;
     	public final static boolean DEFAULT_SHOULD_INDENT = true;
     	// Maybe move the declaration of the eval here, so that the logger isn't imported here
     	public final static level DEFAULT_LEVEL = level.STATUS;
