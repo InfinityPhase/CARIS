@@ -23,7 +23,7 @@ public class Brain {
 	 */
 	
 	public static TokenParser tp = new TokenParser();
-	public static Logger log = new Logger().setDefaultIndent(0).setTime(true).setWriteType(true).build();
+	public static Logger log = new Logger().setDefaultIndent(0).build();
 
 	public static Map<String, SuperEvent> eventModules = new HashMap<String, SuperEvent>();
 	public static Map<String, Memory> memoryModules = new HashMap<String, Memory>();
@@ -73,7 +73,7 @@ public class Brain {
 		String token = args[0];
 
 		IDiscordClient cli = BotUtils.getBuiltDiscordClient(token);
-		log.debugOut("Client built successfully.");
+		log.out("Client built successfully.").log();
 		
 		for( String s : eventModules.keySet() ) {
 			SuperEvent e = eventModules.get( s );
@@ -85,11 +85,11 @@ public class Brain {
 			cli.getDispatcher().registerListener( m );
 		}
 
-		log.debugOut("Listener established successfully.");
+		log.out("Listener established successfully.").log();
 		
 		// Only login after all event registering is done
 		cli.login();
-		log.debugOut("Client logged in.");
+		log.out("Client logged in.").log();
 		
 		load(cli);
 		log.debugOut("Loaded Channel Map.");

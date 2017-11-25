@@ -13,6 +13,8 @@ import tokens.Response;
 public class Handler {
 	// The base handler class. Extend this into other classes.
 	
+	protected Logger log = new Logger().setDefaultIndent( 2 ).build();
+	
 	protected String response;
 	protected String message;
 	protected EmbedBuilder embed;
@@ -20,7 +22,9 @@ public class Handler {
 	protected ArrayList<String> tokens;
 	protected GuildInfo variables;
 	
-	public Handler() {}
+	public Handler() {
+		
+	}
 	
 	public Response process(MessageReceivedEvent event) {
 		setup(event);

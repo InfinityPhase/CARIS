@@ -113,38 +113,47 @@ public class Logger {
 	// Use the logger that has been created
 	// All options override the defaults
 
-	public void out( String message ) {
+	public Logger level( level messageLevel ) {
+		this.messageLevel = messageLevel;
+		return this;
+	}
+
+	public Logger indent( int indent ) {
+		this.indent = indent;
+		return this;
+	}
+	
+	public Logger indentString( String indentString ) {
+		this.indentString = indentString;
+		return this;
+	}
+
+	public Logger happy( boolean happy ) {
+		this.happy = happy;
+		return this;
+	}
+	
+	// Diffrent accepted types to log
+	
+	public void log( String message ) {
 		// Maybe combine with the last thing, log()
 		this.message = message;
+		log();
 	}
 	
-	public void out( boolean message ) {
-		out( "" + message );
+	public void log( boolean message ) {
+		log( "" + message );
 	}
 	
-	public void out( int message ) {
-		out( "" + message );
+	public void log( int message ) {
+		log( "" + message );
 	}
 	
-	public void out( long message ) {
-		out( "" + message );
-	}
-
-	public void level( level messageLevel ) {
-		this.messageLevel = messageLevel;
-	}
-
-	public void indent( int indent ) {
-		this.indent = indent;
+	public void log( long message ) {
+		log( "" + message );
 	}
 	
-	public void indentString( String indentString ) {
-		this.indentString = indentString;
-	}
-
-	public void happy( boolean happy ) {
-		this.happy = happy;
-	}
+	// Actually do the thing
 
 	public void log() {
 		if( shouldIndent ) {
