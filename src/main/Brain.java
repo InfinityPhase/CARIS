@@ -1,30 +1,18 @@
 package main;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Map;
 
-import commands.CalendarHandler;
-import commands.CommandHandler;
-import controller.Controller;
-import controller.ModuleController;
-import invokers.EchoInvoker;
-import invokers.FortuneInvoker;
-import invokers.Invoker;
-import invokers.LocationInvoker;
-import invokers.NicknameInvoker;
-import invokers.VoteInvoker;
-import invokers._8BallInvoker;
-import responders.LocationResponder;
-import responders.MentionResponder;
-import responders.NicknameResponder;
-import responders.RasaTestResponder;
-import responders.ReminderResponder;
-import responders.Responder;
+import commands.*;
+import controller.*;
+import invokers.*;
+import library.Variables;
+import memories.*;
+import responders.*;
 import sx.blah.discord.api.IDiscordClient;
-import sx.blah.discord.handle.obj.IGuild;
+import sx.blah.discord.handle.obj.IChannel;
 import utilities.BotUtils;
-import utilities.Handler;
 import utilities.Logger;
 import utilities.RasaParser;
 import utilities.TokenParser;
@@ -39,6 +27,8 @@ public class Brain {
 	public static Logger log = new Logger();
 	public static RasaParser rasa = new RasaParser();
 
+	public static Map<String, SuperEvent> eventModules = new HashMap<String, SuperEvent>();
+	public static Map<String, Memory> memoryModules = new HashMap<String, Memory>();
 	public static HashMap<String, Invoker> invokerModules = new HashMap<String, Invoker>();
 	public static HashMap<String, Responder> responderModules = new HashMap<String, Responder>();
 	public static HashMap<String, Controller> controllerModules = new HashMap<String, Controller>();
@@ -58,11 +48,16 @@ public class Brain {
 	public static ReminderResponder reminderResponder = new ReminderResponder();
 	public static RasaTestResponder rasaTestResponder = new RasaTestResponder();
 	
+	/* Things that think */
+	public static AuthorMemory authorMemory = new AuthorMemory();
+	public static TimeMemory timeMemory = new TimeMemory();
+	
 	/* Admin Controllers */
 	public static ModuleController moduleController = new ModuleController();
+	public static MessageReceived commandHandler = new MessageReceived();
 	
 	/* Gigantic Variable Library */
-	public static HashMap<IGuild, GuildInfo> guildIndex = new HashMap<IGuild, GuildInfo>();
+	public static SaveController saveController = new SaveController();
 	
 	public static CalendarHandler calendarHandler = new CalendarHandler();
 	public static Calendar current = Calendar.getInstance();
@@ -83,29 +78,64 @@ public class Brain {
 		IDiscordClient cli = BotUtils.getBuiltDiscordClient(token);
 		log.debugOut("Client built successfully.");
 		
-		cli.getDispatcher().registerListener(new CommandHandler());
+		for( String s : eventModules.keySet() ) {
+			SuperEvent e = eventModules.get( s );
+			cli.getDispatcher().registerListener( e );
+		}
+		
+		for( String s : memoryModules.keySet() ) {
+			Memory m = memoryModules.get( s );
+			cli.getDispatcher().registerListener( m );
+		}
+
 		log.debugOut("Listener established successfully.");
 		
 		// Only login after all event registering is done
 		cli.login();
 		log.debugOut("Client logged in.");
 		
+		load(cli);
+		log.debugOut("Loaded Channel Map.");
+		
 		while( true ) {
 			current = Calendar.getInstance();
 			calendarHandler.check();
 		}
 	}
+	
+	public static void load(IDiscordClient cli) {
+		for( IChannel channel : cli.getChannels() ) {
+			Variables.channelMap.put(channel.getStringID(), channel);
+		}
+	}
+	
 	public static void init() { // add handlers to their appropriate categories here
 		log.debugOut("Initializing.");
+		
+		// Event Map
+		eventModules.put("Command Handler", commandHandler);
+		
+		// Memory Map
+		memoryModules.put("Author Memory", authorMemory);
+		memoryModules.put("Time Memory", timeMemory);
+
+		// Invoker Map
 		invokerModules.put("Echo Invoker", echoInvoker);
 		invokerModules.put("Vote Invoker", voteInvoker);
 		invokerModules.put("8ball Invoker", _8ballInvoker);
 		invokerModules.put("Nickname Invoker", nicknameInvoker);
 		invokerModules.put("Fortune Invoker", fortuneInvoker);
+		invokerModules.put("Location Invoker", locationInvoker);
+		
+		// Responder Map
 		responderModules.put("Mention Responder", mentionResponder);
 		responderModules.put("Nickname Responder", nicknameResponder);
 		responderModules.put("Reminder Responder", reminderResponder);
 		responderModules.put("Rasa Test Responder", rasaTestResponder);
+		responderModules.put("Location Responder", locationResponder);
+		
+		// Controller Map
 		controllerModules.put("Module Controller", moduleController);
+		controllerModules.put("Save Controller", saveController);
 	}
 }
