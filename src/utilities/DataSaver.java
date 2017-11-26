@@ -10,14 +10,15 @@ import java.util.Calendar;
 import org.json.JSONObject;
 
 import library.Variables;
-import main.Brain;
 import main.GuildInfo;
 import sx.blah.discord.handle.obj.IGuild;
 import tokens.Poll;
 import tokens.Reminder;
 import tokens.UserData;
+import utilities.Logger.level;
 
 public class DataSaver {
+	private Logger log = new Logger().indent(2).setDefaultLevel( level.INFO ).build();
 
 	public DataSaver() {}
 	
@@ -132,7 +133,7 @@ public class DataSaver {
 				fbw.close();
 			}
 		} catch(Exception e) {
-			Brain.log.debugOut("Couldn't print to the file");
+			log.level( level.ERROR ).log("Couldn't print to the file");
 		}
 	}
 }
