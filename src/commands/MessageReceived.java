@@ -32,6 +32,7 @@ public class MessageReceived extends SuperEvent {
 		log.log("Message received: \"" + event.getMessage().getContent() + "\" from User \"" + event.getAuthor().getName() + "\" on Guild \"" + event.getGuild().getName() + "\".");
 		IGuild getGuild = event.getGuild();
 		IChannel getChannel = event.getChannel();
+		
 		if( !Variables.guildIndex.containsKey(getGuild) ) {
 			Variables.guildIndex.put(event.getGuild(), new GuildInfo(getGuild.getName()));
 			log.log("Creating new Guild Object \"" + getGuild.getName() + "\".");
@@ -39,6 +40,10 @@ public class MessageReceived extends SuperEvent {
 		if( !Variables.channelMap.containsKey(getChannel.getStringID()) ) {
 			Variables.channelMap.put(getChannel.getStringID(), getChannel);
 		}
+		if( !Variables.guildIndex.get( event.getGuild() ).settings.containsKey( event.getChannel() ) ) {
+			Variables.guildIndex.get( event.getGuild() ).settings.put( event.getChannel(), null );
+		}
+		
 		GuildInfo gi = Variables.guildIndex.get(event.getGuild());
 		if( !gi.userIndex.containsKey(event.getAuthor().getName()) ) {
 			gi.userIndex.put(event.getAuthor().getName(), new UserData(event.getAuthor().getLongID()));
