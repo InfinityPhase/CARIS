@@ -41,7 +41,11 @@ public class MessageReceived extends SuperEvent {
 			Variables.channelMap.put(getChannel.getStringID(), getChannel);
 		}
 		if( !Variables.guildIndex.get( event.getGuild() ).settings.containsKey( event.getChannel() ) ) {
-			Variables.guildIndex.get( event.getGuild() ).settings.put( event.getChannel(), null );
+			log.indent(0).log("Adding channel to settings list: " + event.getChannel().getName() );
+			Variables.guildIndex.get( event.getGuild() ).settings.put( event.getChannel(), new HashMap<String, Object>() );
+			log.indent(1).log("Checking validity of settings map: ");
+			log.indent(2).log( Variables.guildIndex.get( event.getGuild() ).settings.get( event.getChannel() ).size() );
+			log.indent(1).log("Validated.");
 		}
 		
 		GuildInfo gi = Variables.guildIndex.get(event.getGuild());

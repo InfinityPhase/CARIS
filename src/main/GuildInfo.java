@@ -38,7 +38,7 @@ public class GuildInfo {
 	public long logChannel;
 	public List< IChannel > blacklist;
 	public List< IChannel > whitelist;
-	public Map< IChannel, HashMap< String, Object > > settings; // For extendibility, can set a channel to have any number of things
+	public HashMap< IChannel, HashMap< String, Object > > settings; // For extendibility, can set a channel to have any number of things
 	
 	public GuildInfo() {
 		this("");
@@ -58,7 +58,7 @@ public class GuildInfo {
 			HashMap<String, String> translator, HashMap<String, UserData> userIndex, 
 			HashMap<Calendar, Reminder> reminders, ArrayList<IChannel> blacklist,
 			ArrayList<IChannel> whitelist, long logChannel,
-			Map<IChannel, HashMap<String, Object>> settings ) {
+			HashMap<IChannel, HashMap<String, Object>> settings ) {
 		
 		this.name = name;
 		this.modules = modules;
