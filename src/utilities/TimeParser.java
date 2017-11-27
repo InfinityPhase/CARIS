@@ -3,9 +3,10 @@ package utilities;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-import main.Brain;
+import utilities.Logger.level;
 
 public class TimeParser {
+	private Logger log = new Logger().setDefaultIndent(2).setDefaultLevel( level.DEBUG ).setDefaultIndent(2).build();
 	
 	public Calendar parseTimer(ArrayList<String> tokens) {
 		Calendar previous = Calendar.getInstance();
@@ -107,7 +108,7 @@ public class TimeParser {
 				day = order;
 				dayChange = true;
 			} else if( isInteger(token) ) {
-				Brain.log.debugOut(token);
+				log.log(token);
 				int possibleYear = Integer.parseInt(token);
 				if( possibleYear >= target.get(Calendar.YEAR) ) {
 					year = possibleYear;
@@ -116,8 +117,8 @@ public class TimeParser {
 			} else if( token.contains(":") ) {
 				int posHour = parseHour(token);
 				int posMinute = parseMinute(token);
-				Brain.log.debugOut( posHour );
-				Brain.log.debugOut( posMinute);
+				log.log( posHour );
+				log.log( posMinute);
 				if( hour != -1 ) {
 					hour = posHour;
 					hourChange = true;
@@ -127,7 +128,7 @@ public class TimeParser {
 					minuteChange = true;
 				}
 			} else if( token.equalsIgnoreCase("PM") ) {
-				Brain.log.debugOut("pm");
+				log.log("pm");
 				pm = true;
 			}
 		}

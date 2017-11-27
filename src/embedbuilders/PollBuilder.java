@@ -34,6 +34,7 @@ public class PollBuilder {
 		return builder;
 	}
 	
+	@SuppressWarnings("unlikely-arg-type")
 	public EmbedBuilder end(Poll p) {
 		EmbedBuilder builder = new EmbedBuilder();
 		builder.withTitle("**__" + p.name + "__**");

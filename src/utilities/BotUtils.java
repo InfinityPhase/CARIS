@@ -1,13 +1,15 @@
 package utilities;
 
-import main.Brain;
 import sx.blah.discord.api.ClientBuilder;
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.obj.IChannel;
 import sx.blah.discord.util.DiscordException;
 import sx.blah.discord.util.RequestBuffer;
+import utilities.Logger.level;
 
 public class BotUtils {
+	private static Logger log = new Logger().setDefaultIndent(0).setDefaultLevel( level.INFO );
+	
 	// Constants:
 	
 	// Actually creates the client object.
@@ -39,7 +41,7 @@ public class BotUtils {
 			catch (DiscordException e) {
 				// Reports errors without crashing
 				// This is also the place to log errors
-				Brain.log.debugOut("Message could not be sent with error: ");
+				log.log("Message could not be sent with error: ");
 				e.printStackTrace();
 			}
 		});

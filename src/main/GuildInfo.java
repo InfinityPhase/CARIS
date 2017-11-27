@@ -39,20 +39,31 @@ public class GuildInfo implements Serializable {
 		this("");
 	}
 	
-	public GuildInfo(String name) {		
+	public GuildInfo(String name) {	
+		this(name, new HashMap<String, Boolean>(), new HashMap<String, Poll>(), 
+				new HashMap<String, ArrayList<String>>(), new HashMap<String, String>(), 
+				new HashMap<String, String>(), new HashMap<String, UserData>(), 
+				new HashMap<Calendar, Reminder>());
+	}
+	
+	public GuildInfo(String name, HashMap<String, Boolean> modules, HashMap<String, Poll> polls, 
+			HashMap<String, ArrayList<String>> locations, HashMap<String, String> people, 
+			HashMap<String, String> translator, HashMap<String, UserData> userIndex, 
+			HashMap<Calendar, Reminder> reminders ) {
+		
 		this.name = name;
-
-		modules = new HashMap<String, Boolean>();
+		this.modules = modules;
+		this.polls = polls;
+		this.translator = translator;
+		this.locations = locations;
+		this.people = people;
+		this.translator = translator;
+		this.userIndex = userIndex;
+		this.reminders = reminders;
 		
 		pollBuilder = new PollBuilder();
 		moduleStatusBuilder = new ModuleStatusBuilder();
-		polls = new HashMap<String, Poll>();
-		locations = new HashMap<String, ArrayList<String>>();
-		people = new HashMap<String, String>();
-		translator = new HashMap<String, String>();
-		userIndex = new HashMap<String, UserData>();
-		reminders = new HashMap<Calendar, Reminder>();
-				
+		
 		init();
 	}
 	

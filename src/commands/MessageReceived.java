@@ -2,55 +2,51 @@ package commands;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 import controller.Controller;
 import invokers.Invoker;
-import main.Brain;
-import main.GuildInfo;
-import responders.Responder;
 import library.Constants;
 import library.Variables;
+import main.Brain;
+import main.GuildInfo;
+import memories.Memory;
+import responders.Responder;
+
 import sx.blah.discord.api.events.EventSubscriber;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
+import sx.blah.discord.handle.obj.IChannel;
+import sx.blah.discord.handle.obj.IGuild;
 import tokens.Response;
+import tokens.Thought;
 import tokens.UserData;
 import utilities.BotUtils;
+import utilities.Logger;
 
-public class CommandHandler {
-
-	// Deals with events
-
-	// You know what? Ignore this crap. I don't care right now.
-	// Go to https://github.com/decyg/d4jexamplebot/blob/master/src/main/java/com/github/decyg/CommandHandler.java
-	// When you do.
-	/*
-	// Maps command strings to the command implementations
-	// So, a command becomes functional
-	private static Map<String, Command> commandMap = new HashMap<>();
-
-	// Hum. We now deviate from the tutorial, because I do my own thing
-	// Also, I don't want to add more dependencies. Eh.
-
-	// Populate commandMap with functionality
-	// From tutorial:
-	// "Might be better practise to do this from an instantiated objects constructor"
-	static {
-		// TODO: STUFF HERE
-	}
-	 */
+public class MessageReceived extends SuperEvent {
+	private Logger log = new Logger().setDefaultIndent(1).build();
 
 	@EventSubscriber
-	public void onMessageRecieved(MessageReceivedEvent event) {
-		Brain.log.debugOut("Message received: \"" + event.getMessage().getContent() + "\" from User \"" + event.getAuthor().getName() + "\" on Guild \"" + event.getGuild().getName() + "\".", 1);
-		if( !Brain.guildIndex.containsKey(event.getGuild()) ) {
-			Brain.guildIndex.put(event.getGuild(), new GuildInfo());
-			Brain.log.debugOut("Creating new Guild Object \"" + event.getGuild().getName() + "\".", 1);
+	@Override
+	public void onMessageReceived( MessageReceivedEvent event ) {
+		log.log("Message received: \"" + event.getMessage().getContent() + "\" from User \"" + event.getAuthor().getName() + "\" on Guild \"" + event.getGuild().getName() + "\".");
+		IGuild getGuild = event.getGuild();
+		IChannel getChannel = event.getChannel();
+		if( !Variables.guildIndex.containsKey(getGuild) ) {
+			Variables.guildIndex.put(event.getGuild(), new GuildInfo(getGuild.getName()));
+			log.log("Creating new Guild Object \"" + getGuild.getName() + "\".");
 		}
+
+		if( !Variables.channelMap.containsKey(getChannel.getStringID()) ) {
+			Variables.channelMap.put(getChannel.getStringID(), getChannel);
+		}
+
 		GuildInfo gi = Variables.guildIndex.get(event.getGuild());
 		if( !gi.userIndex.containsKey(event.getAuthor().getName()) ) {
-			gi.userIndex.put(event.getAuthor().getName(), new UserData(event.getAuthor()));
-			Brain.log.debugOut("Adding new User \"" + event.getAuthor().getName() + "\" to Guild " + event.getGuild().getName() + ".", 1);
-			Brain.log.debugOut(event.getAuthor().getLongID(), 1);
+			gi.userIndex.put(event.getAuthor().getName(), new UserData(event.getAuthor().getLongID()));
+			log.log("Adding new User \"" + event.getAuthor().getName() + "\" to Guild " + event.getGuild().getName() + ".");
+			log.log(event.getAuthor().getLongID());
 		}
 
 		String messageText = event.getMessage().getContent();
@@ -61,30 +57,59 @@ public class CommandHandler {
 				admin = true;
 			}
 		}
-		
+
 		ArrayList<Response> responses = new ArrayList<Response>();
+
+		// Name of thought, the actual thoughts
+		// Later use TreeMap, sort values better
+		Map< String, Thought > thoughts = new HashMap< String, Thought >();
+		log.log("Recording Message...");
+		for( String s : Brain.memoryModules.keySet() ) {
+			Memory h = Brain.memoryModules.get( s );
+			Thought t = h.remember(event);
+
+			if( !t.name.isEmpty() && ( !t.text.isEmpty() /*|| !t.equals(null) */) ) {
+				thoughts.put( t.name, t );
+			}
+		}
+
+		if( !thoughts.isEmpty() ) {
+			// Say what you think
+			for( String name : thoughts.keySet() ) {
+				// Compile thoughts in order
+				for( int i = 0; i < Constants.THOUGHT_ORDER.length; i++ ) {
+					if( Constants.THOUGHT_ORDER[i].equalsIgnoreCase( name ) ) {
+						for( int j = 0; j < thoughts.get(name).text.size(); j++ ) {
+							log.indent(2).log( thoughts.get(name).text.get( j ) );
+						}
+					}
+				}
+			}
+		} else {
+			log.indent(0).log("Nothing to think about");
+		}
 
 		// Checks if a message begins with the bot command prefix
 		if ( messageText.startsWith( Constants.ADMIN_PREFIX ) && admin ) {
-			Brain.log.debugOut("Admin detected.", 1);
+			log.log("Admin detected.");
 			for( String s : Brain.controllerModules.keySet() ) { // try each invocation handler
 				Controller h = Brain.controllerModules.get(s);
 				Response r = h.process(event);
 				if( r.embed ) {
-					Brain.log.debugOut("Response embed option generated.", 2);
+					log.indent(1).log("Response embed option generated.");
 					responses.add(r);
 				} if( !r.text.equals("") ) { // if this produces a result
-					Brain.log.debugOut("Response option generated: \"" + r.text + "\"", 2);
+					log.indent(1).log("Response option generated: \"" + r.text + "\"");
 					responses.add( r ); // add it to the list of potential responses
 				}
 				else {
-					Brain.log.debugOut("No response generated.", 2);
+					log.indent(1).log("No response generated.");
 				}
 			}
 		} else if( messageText.startsWith("==>") && !admin ) {
 			responses.add( new Response("The \"==>\" command invoker is now deprecated. Please use \".c\" instead.", 0) );
 		} else if ( messageText.startsWith( Constants.COMMAND_PREFIX ) ) { // if invoked
-			Brain.log.debugOut("\tInvocation detected.");
+			log.log("Invocation detected.");
 			for( String s : Brain.invokerModules.keySet() ) { // try each invocation handler
 				boolean check = gi.modules.keySet().contains(s);
 				if( !check ) {
@@ -93,19 +118,19 @@ public class CommandHandler {
 					Invoker h = Brain.invokerModules.get(s);
 					Response r = h.process(event);
 					if( r.embed ) {
-						Brain.log.debugOut("Response embed option generated.", 2);
+						log.indent(1).log("Response embed option generated.");
 						responses.add(r);
 					} if( !r.text.equals("") ) { // if this produces a result
-						Brain.log.debugOut("Response option generated: \"" + r.text + "\"", 2);
+						log.indent(1).log("Response option generated: \"" + r.text + "\"");
 						responses.add( r ); // add it to the list of potential responses
 					}
 					else {
-						Brain.log.debugOut("No response generated.", 2);
+						log.indent(1).log("No response generated.");
 					}
 				}
 			}
 		} else { // if not being invoked
-			Brain.log.debugOut("Generating automatic response.", 1);
+			log.log("Generating automatic response.");
 			for( String s : Brain.responderModules.keySet() ) { // then try each auto handler
 				boolean check = gi.modules.keySet().contains(s);
 				if( !check ) {
@@ -114,26 +139,26 @@ public class CommandHandler {
 					Responder h = Brain.responderModules.get(s);
 					Response r = h.process(event);
 					if( r.embed ) {
-						Brain.log.debugOut("Response embed option generated.", 2);
+						log.indent(1).log("Response embed option generated.");
 						responses.add(r);
 					} if( !r.text.equals("") ) { // if this produces a result
-						Brain.log.debugOut("Response option generated: \"" + r.text + "\"", 2);
+						log.indent(1).log("Response option generated: \"" + r.text + "\"");
 						responses.add( r ); // add it to the list of potential responses
 					}
 					else {
-						Brain.log.debugOut("No response generated.", 2);
+						log.indent(1).log("No response generated.");
 					}
 				}
 			}
 		}
 		if( responses.size() != 0 ) { // if any response exists
-			Brain.log.debugOut("Selecting optimal response.", 1);
+			log.log("Selecting optimal response.");
 			Response[] options = new Response[responses.size()]; // create a static array of response options
 			for( int f=0; f<responses.size(); f++ ) {
 				options[f] = responses.get(f);
 			}
 			Arrays.sort(options); // sort these options
-			Brain.log.debugOut("Optimal response selected.", 1);
+			log.log("Optimal response selected.");
 			if( options[0].embed ) {
 				event.getChannel().sendMessage(options[0].builder.build());
 			} else {

@@ -2,8 +2,6 @@ package responders;
 
 import java.util.ArrayList;
 
-import library.Constants;
-import main.Brain;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import tokens.Response;
 
@@ -17,33 +15,33 @@ public class LocationResponder extends Responder {
 		setup(event);
 
 		if( hasIgnoreCase(tokens, "where's") || containsIgnoreCase(tokens, "where") || hasIgnoreCase(tokens, "wheres") ) {
-			Brain.log.debugOut("Location query detected.", 4);
+			log.indent(2).log("Location query detected.");
 			for( String person : variables.people.keySet() ) {
 				if( containsIgnoreCase(messageText, person) ) {
-					Brain.log.debugOut("Name \"" + person + "\" detected.", 5);
-					Brain.log.debugOut("LocationResponder triggered.", 5);
+					log.indent(3).log("Name \"" + person + "\" detected.");
+					log.indent(3).log("LocationResponder triggered.");
 					response = person + " is at " + variables.people.get(person) + ".";
 					break;
 				}
 			}
 		} else if( hasIgnoreCase(tokens, "who") && hasIgnoreCase(tokens, "is") && hasIgnoreCase(tokens, "at") || (hasIgnoreCase(tokens, "whos") || hasIgnoreCase(tokens, "who's")) && hasIgnoreCase(tokens, "at") ) {
-			Brain.log.debugOut("Person query detected.", 4);
+			log.indent(2).log("Person query detected.");
 			for( String location : variables.locations.keySet() ) {
 				if( containsIgnoreCase(messageText, location) ) {
-					Brain.log.debugOut("Location \"" + location + "\" detected.", 5);
+					log.indent(3).log("Location \"" + location + "\" detected.");
 					if( !hasIgnoreCase(variables.locations.keySet(), location) ) {
-						Brain.log.debugOut("Location not set.", 5);
-						Brain.log.debugOut("LocationResponder triggered.", 5);
+						log.indent(3).log("Location not set.");
+						log.indent(3).log("LocationResponder triggered.");
 						response = location + " is not a set location.";
 						return build();
 					}
 					ArrayList<String> locals = variables.locations.get(location);
 					if( locals.size() == 0 ) {
-						Brain.log.debugOut("Location \t" + location + "\" empty.", 5);
-						Brain.log.debugOut("LocationResponder triggered.", 5);
+						log.indent(3).log("Location \t" + location + "\" empty.");
+						log.indent(3).log("LocationResponder triggered.");
 						response = "No one is at " + location + ".";
 					} else {
-						Brain.log.debugOut("People detected at location.", 5);
+						log.indent(3).log("People detected at location.");
 						response = "The following people are at " + location + ": ";
 						for( int f=0; f<locals.size(); f++ ) {
 							response += locals.get(f);
@@ -53,15 +51,15 @@ public class LocationResponder extends Responder {
 								response += ".";
 							}
 						}
-						Brain.log.debugOut("LocaationResponder triggered.", 5);
+						log.indent(3).log("LocaationResponder triggered.");
 					}
 					break;
 				}
 			}
 		} else { 
-			Brain.log.debugOut("LocationResponder unactivated.", 4);
+			log.indent(2).log("LocationResponder unactivated.");
 		}
-		Brain.log.debugOut("LocationResponder processed.", 3);
+		log.indent(1).log("LocationResponder processed.");
 		return build();
 	}
 
