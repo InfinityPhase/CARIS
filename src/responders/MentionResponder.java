@@ -1,7 +1,6 @@
 package responders;
 
 import library.Constants;
-import main.Brain;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import tokens.Response;
 
@@ -14,11 +13,11 @@ public class MentionResponder extends Responder {
 
 		if( containsIgnoreCase(messageText, " " + Constants.NAME + " ") ) {
 			response = "What is it?";
-			Brain.log.debugOut("MentionResponder triggered.", 4);
+			log.indent(2).log("MentionResponder triggered.");
 		} else {
-			Brain.log.debugOut("MentionResponder unactivated.", 4); 
+			log.indent(2).log("MentionResponder unactivated."); 
 		}
-		Brain.log.debugOut("MentionResponder processed.", 3);
+		log.indent(1).log("MentionResponder processed.");
 		return build();
 	}
 

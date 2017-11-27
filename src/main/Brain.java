@@ -28,7 +28,7 @@ public class Brain {
 	/* Utilities */
 	public static TokenParser tp = new TokenParser();
 	public static FileIO files = new FileIO();	
-	public static Logger log = new Logger();
+	public static Logger log = new Logger().setDefaultIndent(0).build();
 
 	public static Map<String, SuperEvent> eventModules = new HashMap<String, SuperEvent>();
 	public static Map<String, Memory> memoryModules = new HashMap<String, Memory>();
@@ -71,8 +71,8 @@ public class Brain {
 		init();
 
 		if (!(args.length >= 1)) {
-			log.out("Please pass the TOKEN as the first argument.");
-			log.out("# java -jar SimpleResponder.jar TOKEN");
+			log.log("Please pass the TOKEN as the first argument.");
+			log.log("# java -jar SimpleResponder.jar TOKEN");
 			System.exit(0);
 		}
 		
@@ -80,7 +80,7 @@ public class Brain {
 		String token = args[0];
 
 		IDiscordClient cli = BotUtils.getBuiltDiscordClient(token);
-		log.debugOut("Client built successfully.");
+		log.log("Client built successfully.");
 		
 		for( String s : eventModules.keySet() ) {
 			SuperEvent e = eventModules.get( s );
@@ -92,14 +92,14 @@ public class Brain {
 			cli.getDispatcher().registerListener( m );
 		}
 
-		log.debugOut("Listener established successfully.");
+		log.log("Listener established successfully.");
 		
 		// Only login after all event registering is done
 		cli.login();
-		log.debugOut("Client logged in.");
+		log.log("Client logged in.");
 		
 		load(cli);
-		log.debugOut("Loaded Channel Map.");
+		log.log("Loaded Channel Map.");
 		
 		while( true ) {
 			current = Calendar.getInstance();
@@ -114,7 +114,7 @@ public class Brain {
 	}
 	
 	public static void init() { // add handlers to their appropriate categories here
-		log.debugOut("Initializing.");
+		log.log("Initializing.");
 
 		// Event Map
 		eventModules.put("Command Handler", commandHandler);

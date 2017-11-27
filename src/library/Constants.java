@@ -1,5 +1,8 @@
 package library;
 
+import utilities.Logger.level;
+import utilities.Logger.output;
+
 public class Constants {
         public static final String COMMAND_PREFIX = ".c ";
         public static final String ADMIN_PREFIX = "==> ";
@@ -31,4 +34,19 @@ public class Constants {
         
         // Controls the order of thoughts in the message log
         public static final String[] THOUGHT_ORDER = { "Author", "Time" };
+        
+        // Logger constants
+    	public final static String INDENT_STRING = "-";
+    	public final static String DEFAULT_HEADER = ">";
+    	public final static int DEFAULT_INDENT = 0;
+    	public final static int DEFAULT_BASE_INDENT = 0;
+    	public final static boolean INDENT_FILE = true;
+    	public final static boolean INDENT_CONSOLE = true;
+    	public final static boolean OUTPUT_TIME = false;
+    	public final static boolean OUTPUT_TYPE = false;
+    	public final static boolean DEFAULT_SHOULD_INDENT = true;
+    	// Maybe move the declaration of the eval here, so that the logger isn't imported here
+    	public final static level DEFAULT_LEVEL = level.STATUS;
+    	public final static output DEFUALT_OUTPUT = output.ALL;
+    	
 }
