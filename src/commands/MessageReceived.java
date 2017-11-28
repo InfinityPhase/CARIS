@@ -11,7 +11,7 @@ import library.Constants;
 import library.Variables;
 import main.Brain;
 import main.GuildInfo;
-import main.UserData;
+import main.UserInfo;
 import memories.Memory;
 import responders.Responder;
 import sx.blah.discord.api.events.EventSubscriber;
@@ -34,7 +34,7 @@ public class MessageReceived extends SuperEvent {
 		IChannel getChannel = event.getChannel();
 		
 		if( !Variables.guildIndex.containsKey(getGuild) ) {
-			Variables.guildIndex.put(event.getGuild(), new GuildInfo(getGuild.getName()));
+			Variables.guildIndex.put(event.getGuild(), new GuildInfo(getGuild.getName(), getGuild));
 			log.log("Creating new Guild Object \"" + getGuild.getName() + "\".");
 		}
 		if( !Variables.channelMap.containsKey(getChannel.getStringID()) ) {
@@ -50,9 +50,9 @@ public class MessageReceived extends SuperEvent {
 		
 		GuildInfo gi = Variables.guildIndex.get(event.getGuild());
 		if( !gi.userIndex.containsKey(event.getAuthor().getName()) ) {
-			gi.userIndex.put(event.getAuthor().getName(), new UserData(event.getAuthor().getLongID()));
+			gi.userIndex.put( event.getAuthor().getName(), new UserInfo( event.getAuthor() ) );
 			log.log("Adding new User \"" + event.getAuthor().getName() + "\" to Guild " + event.getGuild().getName() + ".");
-			log.log(event.getAuthor().getLongID());
+			log.log( event.getAuthor().getLongID() );
 		}
 
 		String messageText = event.getMessage().getContent();
@@ -175,7 +175,7 @@ public class MessageReceived extends SuperEvent {
 				}
 				BotUtils.sendMessage( event.getChannel(), options[0].text ); // print out highest priority response option 
 			}
-			gi.userIndex.get(event.getAuthor().getName()).lastMessage = messageText;
+			gi.userIndex.get(event.getAuthor().getName()).lastMessage = event.getMessage();
 		}
 	}
 }

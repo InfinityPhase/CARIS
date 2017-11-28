@@ -11,7 +11,7 @@ import org.json.JSONObject;
 
 import library.Variables;
 import main.GuildInfo;
-import main.UserData;
+import main.UserInfo;
 import sx.blah.discord.handle.obj.IGuild;
 import tokens.Poll;
 import tokens.Reminder;
@@ -87,7 +87,7 @@ public class DataSaver {
 		}
 		JSONObject userIndex = new JSONObject();
 		for( String s : guildInfo.userIndex.keySet() ) {
-			UserData d = guildInfo.userIndex.get(s);
+			UserInfo d = guildInfo.userIndex.get(s);
 			JSONObject userData = new JSONObject();
 			JSONObject contactInfo = new JSONObject();
 			for( String t : d.contactInfo.keySet() ) {
