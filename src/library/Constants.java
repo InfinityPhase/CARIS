@@ -36,7 +36,7 @@ public class Constants {
         public static final String[] THOUGHT_ORDER = { "Author", "Time" };
         
         // Logger constants
-    	public final static String INDENT_STRING = "-";
+    	public final static String INDENT_STRING = "=";
     	public final static String DEFAULT_HEADER = ">";
     	public final static int DEFAULT_INDENT = 0;
     	public final static int DEFAULT_BASE_INDENT = 0;
@@ -48,5 +48,11 @@ public class Constants {
     	// Maybe move the declaration of the eval here, so that the logger isn't imported here
     	public final static level DEFAULT_LEVEL = level.STATUS;
     	public final static output DEFUALT_OUTPUT = output.ALL;
+    	
+    	// Channel Setting Constants
+    	public static final boolean LISTEN_BLACKLIST = false;
+    	public static final boolean LISTEN_NOT_WHITELIST = false;
+    	public static final String BLACKLIST_HEADER = "NOBOT";
+    	public static final String WHITELIST_HEADER = "BOT";
     	
 }
