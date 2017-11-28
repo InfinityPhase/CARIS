@@ -35,7 +35,7 @@ public class GuildInfo {
 	public HashMap<Calendar, Reminder> reminders;
 	
 	// Channel settings
-	public long logChannel;
+	public long logChannel; // Perhaps should be the actual channel? Probably?
 	public List< IChannel > blacklist;
 	public List< IChannel > whitelist;
 	public HashMap< IChannel, HashMap< String, Object > > settings; // For extendibility, can set a channel to have any number of things
