@@ -38,7 +38,7 @@ public class Brain {
 	public static _8BallInvoker _8ballInvoker = new _8BallInvoker();
 	public static NicknameInvoker nicknameInvoker = new NicknameInvoker();
 	public static FortuneInvoker fortuneInvoker = new FortuneInvoker();
-	public static BlacklistInvoker blacklistInvoker = new BlacklistInvoker();
+	public static ChannelListInvoker channelListInvoker = new ChannelListInvoker();
 	
 	/* Auto Handlers */
 	public static MentionResponder mentionResponder = new MentionResponder();
@@ -124,7 +124,7 @@ public class Brain {
 		invokerModules.put("Nickname Invoker", nicknameInvoker);
 		invokerModules.put("Fortune Invoker", fortuneInvoker);
 		invokerModules.put("Location Invoker", locationInvoker);
-		invokerModules.put("Blacklist Invoker", blacklistInvoker);
+		invokerModules.put("Channel List Invoker", channelListInvoker);
 		
 		// Responder Map
 		responderModules.put("Mention Responder", mentionResponder);

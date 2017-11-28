@@ -8,7 +8,7 @@ import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedE
 import sx.blah.discord.handle.obj.IChannel;
 import tokens.Response;
 
-public class BlacklistInvoker extends Invoker {
+public class ChannelListInvoker extends Invoker {
 
 	private String[] sameChannel = { "here", "this" };
 
