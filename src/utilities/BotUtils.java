@@ -1,17 +1,21 @@
 package utilities;
 
+import java.util.List;
+
+import library.Variables;
 import sx.blah.discord.api.ClientBuilder;
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.obj.IChannel;
+import sx.blah.discord.handle.obj.IGuild;
 import sx.blah.discord.util.DiscordException;
 import sx.blah.discord.util.RequestBuffer;
 import utilities.Logger.level;
 
 public class BotUtils {
 	private static Logger log = new Logger().setDefaultIndent(0).setDefaultLevel( level.INFO );
-	
+
 	// Constants:
-	
+
 	// Actually creates the client object.
 	// Magic!
 	public static IDiscordClient getBuiltDiscordClient(String token) {
@@ -24,27 +28,64 @@ public class BotUtils {
 				.withRecommendedShardCount()
 				.build();
 	}
-	
+
 	public static void sendMessage(IChannel channel, String message) {
-		// Will send a string to a given channel
-		// For ease of use.
-		// YOu can create tons of these things, for everything.
-		// Cool, huh?
-		
-		// Whoa, arrow notation!
+		// Yeah, its long, but it works
+		if( !Variables.guildIndex.get( channel.getGuild() ).blacklist.contains( channel ) && ( Variables.guildIndex.get( channel.getGuild() ).whitelist.isEmpty() || Variables.guildIndex.get( channel.getGuild() ).whitelist.contains( channel ) ) ) {
+			RequestBuffer.request(() -> {
+				try {
+					channel.sendMessage(message);
+				}
+				catch (DiscordException e) {
+					log.log("Message could not be sent with error: ");
+					e.printStackTrace();
+				}
+			});
+		}
+	}
+
+	public static void sendMessage( List<IChannel> channel, String message ) {
+		for( IChannel c : channel ) {
+			// Channel is not in the blacklist
+			if( !Variables.guildIndex.get( c.getGuild() ).blacklist.contains( c ) ) {
+				if( Variables.guildIndex.get( c.getGuild() ).whitelist.isEmpty() || !Variables.guildIndex.get( c.getGuild() ).whitelist.contains( c ) ) {
+					forceSendMessage( c, message );
+				}
+			}
+		}
+	}
+
+	public static void forceSendMessage( IChannel channel, String message ) {
 		RequestBuffer.request(() -> {
-			// Try/catch block to check sending the message
 			try {
-				// Actually send the message
 				channel.sendMessage(message);
 			}
 			catch (DiscordException e) {
-				// Reports errors without crashing
-				// This is also the place to log errors
 				log.log("Message could not be sent with error: ");
 				e.printStackTrace();
 			}
 		});
+	}
+
+	public static void forceSendMessage( List<IChannel> channels, String message ) {
+		for( IChannel c : channels ) {
+			RequestBuffer.request(() -> {
+				try {
+					c.sendMessage(message);
+				}
+				catch (DiscordException e) {
+					log.log("Message could not be sent with error: ");
+					e.printStackTrace();
+				}
+			});
+		}
+	}
+
+	public static void sendLog( IGuild guild, String message ) {
+		// Send the message to the guild's log channel, if it exists
+		if( Variables.guildIndex.get( guild ).logChannel != -1 ) {
+			forceSendMessage( guild.getChannelByID( Variables.guildIndex.get( guild ).logChannel ), message );
+		}
 	}
 
 }

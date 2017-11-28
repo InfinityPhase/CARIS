@@ -3,9 +3,12 @@ package main;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import embedbuilders.ModuleStatusBuilder;
 import embedbuilders.PollBuilder;
+import sx.blah.discord.handle.obj.IChannel;
 import tokens.Poll;
 import tokens.Reminder;
 import tokens.UserData;
@@ -27,9 +30,15 @@ public class GuildInfo {
 	public ModuleStatusBuilder moduleStatusBuilder;
 	
 	// Creates Map of Username-human to User user
-	public HashMap<String, String> translator; // we might not need this if people just @ everyone else
+	public HashMap<String, String> translator; // we might not need this if people just @ everyone else // Yeah right.
 	public HashMap<String, UserData> userIndex;
 	public HashMap<Calendar, Reminder> reminders;
+	
+	// Channel settings
+	public long logChannel; // Perhaps should be the actual channel? Probably?
+	public List< IChannel > blacklist;
+	public List< IChannel > whitelist;
+	public HashMap< IChannel, HashMap< String, Object > > settings; // For extendibility, can set a channel to have any number of things
 	
 	public GuildInfo() {
 		this("");
@@ -39,13 +48,17 @@ public class GuildInfo {
 		this(name, new HashMap<String, Boolean>(), new HashMap<String, Poll>(), 
 				new HashMap<String, ArrayList<String>>(), new HashMap<String, String>(), 
 				new HashMap<String, String>(), new HashMap<String, UserData>(), 
-				new HashMap<Calendar, Reminder>());
+				new HashMap<Calendar, Reminder>(), new ArrayList<IChannel>(),
+				new ArrayList<IChannel>(), -1,
+				new HashMap< IChannel, HashMap< String, Object > >() );
 	}
 	
 	public GuildInfo(String name, HashMap<String, Boolean> modules, HashMap<String, Poll> polls, 
 			HashMap<String, ArrayList<String>> locations, HashMap<String, String> people, 
 			HashMap<String, String> translator, HashMap<String, UserData> userIndex, 
-			HashMap<Calendar, Reminder> reminders ) {
+			HashMap<Calendar, Reminder> reminders, ArrayList<IChannel> blacklist,
+			ArrayList<IChannel> whitelist, long logChannel,
+			HashMap<IChannel, HashMap<String, Object>> settings ) {
 		
 		this.name = name;
 		this.modules = modules;
@@ -56,6 +69,10 @@ public class GuildInfo {
 		this.translator = translator;
 		this.userIndex = userIndex;
 		this.reminders = reminders;
+		this.blacklist = blacklist;
+		this.whitelist = whitelist;
+		this.logChannel = logChannel;
+		this.settings = settings;
 		
 		pollBuilder = new PollBuilder();
 		moduleStatusBuilder = new ModuleStatusBuilder();
