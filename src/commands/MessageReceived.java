@@ -11,6 +11,7 @@ import library.Constants;
 import library.Variables;
 import main.Brain;
 import main.GuildInfo;
+import main.UserData;
 import memories.Memory;
 import responders.Responder;
 import sx.blah.discord.api.events.EventSubscriber;
@@ -19,7 +20,6 @@ import sx.blah.discord.handle.obj.IChannel;
 import sx.blah.discord.handle.obj.IGuild;
 import tokens.Response;
 import tokens.Thought;
-import tokens.UserData;
 import utilities.BotUtils;
 import utilities.Logger;
 

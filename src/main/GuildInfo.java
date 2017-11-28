@@ -11,7 +11,6 @@ import embedbuilders.PollBuilder;
 import sx.blah.discord.handle.obj.IChannel;
 import tokens.Poll;
 import tokens.Reminder;
-import tokens.UserData;
 
 public class GuildInfo {
 	/* Basic Information */

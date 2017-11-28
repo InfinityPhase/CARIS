@@ -11,10 +11,10 @@ import org.json.JSONObject;
 
 import library.Variables;
 import main.GuildInfo;
+import main.UserData;
 import sx.blah.discord.handle.obj.IGuild;
 import tokens.Poll;
 import tokens.Reminder;
-import tokens.UserData;
 import utilities.Logger.level;
 
 public class DataSaver {

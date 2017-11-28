@@ -1,4 +1,4 @@
-package tokens;
+package main;
 
 import java.util.HashMap;
 
@@ -13,6 +13,9 @@ public class UserData {
 	public String location;
 
 	public String lastMessage;
+	
+	public boolean admin;
+	public boolean ban;
 
 		
 	public UserData( long id ) {
