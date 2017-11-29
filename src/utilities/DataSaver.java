@@ -13,6 +13,7 @@ import library.Variables;
 import main.GuildInfo;
 import main.UserInfo;
 import sx.blah.discord.handle.obj.IGuild;
+import sx.blah.discord.handle.obj.IUser;
 import tokens.Poll;
 import tokens.Reminder;
 import utilities.Logger.level;
@@ -86,20 +87,22 @@ public class DataSaver {
 			translator.put(s, guildInfo.translator.get(s));
 		}
 		JSONObject userIndex = new JSONObject();
-		for( String s : guildInfo.userIndex.keySet() ) {
+		for( IUser s : guildInfo.userIndex.keySet() ) {
 			UserInfo d = guildInfo.userIndex.get(s);
 			JSONObject userData = new JSONObject();
 			JSONObject contactInfo = new JSONObject();
 			for( String t : d.contactInfo.keySet() ) {
 				contactInfo.put(t, d.contactInfo.get(t));
 			}
+			// TODO: Find way to iterate over the variables automagically.
+			// This is rediculous.
 			userData.put("karma", d.karma);
 			userData.put("id", d.id);
 			userData.put("location", d.location);
 			userData.put("contactInfo", contactInfo);
 			userData.put("location", d.location);
 			userData.put("lastMessage", d.lastMessage);
-			userIndex.put(s, userData);
+			userIndex.put(s.toString(), userData); // TODO: Make sure this works the way it should
 		}
 		JSONObject reminders = new JSONObject();
 		for( Calendar c : guildInfo.reminders.keySet() ) {

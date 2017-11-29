@@ -56,6 +56,7 @@ public class Brain {
 	/* Event Handlers */
 	public static MessageReceived nessageReceived = new MessageReceived();
 	public static GuildCreate guildCreate = new GuildCreate();
+	public static UserJoin userJoin = new UserJoin();
 	
 	
 	/* Gigantic Variable Library */
@@ -117,6 +118,7 @@ public class Brain {
 		// Event Map
 		eventModules.put("Message Received", nessageReceived);
 		eventModules.put("Guild Create", guildCreate);
+		eventModules.put("User Join", userJoin);
 		
 		// Memory Map
 		memoryModules.put("Author Memory", authorMemory);

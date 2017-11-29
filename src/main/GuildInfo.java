@@ -32,7 +32,7 @@ public class GuildInfo {
 	
 	// Creates Map of Username-human to User user
 	public HashMap<String, String> translator; // we might not need this if people just @ everyone else // Yeah right.
-	public HashMap<String, UserInfo> userIndex;
+	public HashMap<IUser, UserInfo> userIndex;
 	public HashMap<Calendar, Reminder> reminders;
 	
 	// Channel settings
@@ -58,7 +58,7 @@ public class GuildInfo {
 	public GuildInfo(String name, IGuild guild) {	
 		this(name, guild, new HashMap<String, Boolean>(), new HashMap<String, Poll>(), 
 				new HashMap<String, ArrayList<String>>(), new HashMap<String, String>(), 
-				new HashMap<String, String>(), new HashMap<String, UserInfo>(), 
+				new HashMap<String, String>(), new HashMap<IUser, UserInfo>(), 
 				new HashMap<Calendar, Reminder>(), new ArrayList<IChannel>(),
 				new ArrayList<IChannel>(), -1,
 				new HashMap< IChannel, HashMap< String, Object > >() );
@@ -66,7 +66,7 @@ public class GuildInfo {
 	
 	public GuildInfo(String name, IGuild guild, HashMap<String, Boolean> modules, HashMap<String, Poll> polls, 
 			HashMap<String, ArrayList<String>> locations, HashMap<String, String> people, 
-			HashMap<String, String> translator, HashMap<String, UserInfo> userIndex, 
+			HashMap<String, String> translator, HashMap<IUser, UserInfo> userIndex, 
 			HashMap<Calendar, Reminder> reminders, ArrayList<IChannel> blacklist,
 			ArrayList<IChannel> whitelist, long logChannel,
 			HashMap<IChannel, HashMap<String, Object>> settings ) {
@@ -100,11 +100,11 @@ public class GuildInfo {
 			modules.put(s, true);
 		}
 		for( IUser u : guild.getUsers() ) {
-			userIndex.put( u.getName(), new UserInfo(u) );
+			userIndex.put( u, new UserInfo(u) );
 		}
 	}
 	
 	public void addUser( IUser u ) {
-		userIndex.put( u.getName(), new UserInfo(u) );
+		userIndex.put( u, new UserInfo(u) );
 	}
 }

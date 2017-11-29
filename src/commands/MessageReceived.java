@@ -16,8 +16,6 @@ import memories.Memory;
 import responders.Responder;
 import sx.blah.discord.api.events.EventSubscriber;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
-import sx.blah.discord.handle.obj.IChannel;
-import sx.blah.discord.handle.obj.IGuild;
 import tokens.Response;
 import tokens.Thought;
 import utilities.BotUtils;
@@ -42,14 +40,11 @@ public class MessageReceived extends SuperEvent {
 		if( !Variables.guildIndex.get( event.getGuild() ).settings.containsKey( event.getChannel() ) ) {
 			log.indent(0).log("Adding channel to settings list: " + event.getChannel().getName() );
 			Variables.guildIndex.get( event.getGuild() ).settings.put( event.getChannel(), new HashMap<String, Object>() );
-			log.indent(1).log("Checking validity of settings map: ");
-			log.indent(2).log( Variables.guildIndex.get( event.getGuild() ).settings.get( event.getChannel() ).size() );
-			log.indent(1).log("Validated.");
 		}
 		
 		GuildInfo gi = Variables.guildIndex.get(event.getGuild());
-		if( !gi.userIndex.containsKey(event.getAuthor().getName()) ) {
-			gi.userIndex.put( event.getAuthor().getName(), new UserInfo( event.getAuthor() ) );
+		if( !gi.userIndex.containsKey( event.getAuthor() ) ) {
+			gi.userIndex.put( event.getAuthor(), new UserInfo( event.getAuthor() ) );
 			log.log("Adding new User \"" + event.getAuthor().getName() + "\" to Guild " + event.getGuild().getName() + ".");
 			log.log( event.getAuthor().getLongID() );
 		}
@@ -174,7 +169,7 @@ public class MessageReceived extends SuperEvent {
 				}
 				BotUtils.sendMessage( event.getChannel(), options[0].text ); // print out highest priority response option 
 			}
-			gi.userIndex.get(event.getAuthor().getName()).lastMessage = event.getMessage();
+			gi.userIndex.get( event.getAuthor() ).lastMessage = event.getMessage();
 		}
 	}
 }
