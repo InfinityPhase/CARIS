@@ -30,16 +30,15 @@ public class MessageReceived extends SuperEvent {
 	@Override
 	public void onMessageReceived( MessageReceivedEvent event ) {
 		log.log("Message received: \"" + event.getMessage().getContent() + "\" from User \"" + event.getAuthor().getName() + "\" on Guild \"" + event.getGuild().getName() + "\".");
-		IGuild getGuild = event.getGuild();
-		IChannel getChannel = event.getChannel();
 		
-		if( !Variables.guildIndex.containsKey(getGuild) ) {
+		/*if( !Variables.guildIndex.containsKey(getGuild) ) {
 			Variables.guildIndex.put(event.getGuild(), new GuildInfo(getGuild.getName(), getGuild));
 			log.log("Creating new Guild Object \"" + getGuild.getName() + "\".");
+		}*/
+		if( !Variables.channelMap.containsKey( event.getChannel().getStringID() ) ) {
+			Variables.channelMap.put( event.getChannel().getStringID(), event.getChannel() );
 		}
-		if( !Variables.channelMap.containsKey(getChannel.getStringID()) ) {
-			Variables.channelMap.put(getChannel.getStringID(), getChannel);
-		}
+		
 		if( !Variables.guildIndex.get( event.getGuild() ).settings.containsKey( event.getChannel() ) ) {
 			log.indent(0).log("Adding channel to settings list: " + event.getChannel().getName() );
 			Variables.guildIndex.get( event.getGuild() ).settings.put( event.getChannel(), new HashMap<String, Object>() );

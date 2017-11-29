@@ -103,4 +103,8 @@ public class GuildInfo {
 			userIndex.put( u.getName(), new UserInfo(u) );
 		}
 	}
+	
+	public void addUser( IUser u ) {
+		userIndex.put( u.getName(), new UserInfo(u) );
+	}
 }

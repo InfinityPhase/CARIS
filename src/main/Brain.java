@@ -52,7 +52,11 @@ public class Brain {
 	
 	/* Admin Controllers */
 	public static ModuleController moduleController = new ModuleController();
-	public static MessageReceived commandHandler = new MessageReceived();
+	
+	/* Event Handlers */
+	public static MessageReceived nessageReceived = new MessageReceived();
+	public static GuildCreate guildCreate = new GuildCreate();
+	
 	
 	/* Gigantic Variable Library */
 	public static SaveController saveController = new SaveController();
@@ -111,7 +115,8 @@ public class Brain {
 		log.log("Initializing.");
 		
 		// Event Map
-		eventModules.put("Command Handler", commandHandler);
+		eventModules.put("Message Received", nessageReceived);
+		eventModules.put("Guild Create", guildCreate);
 		
 		// Memory Map
 		memoryModules.put("Author Memory", authorMemory);
