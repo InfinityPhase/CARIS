@@ -20,7 +20,7 @@ public class Constants {
         /* Settings for saving the state of CARIS */
         // SAVETIME uses milliseconds
         // Default is 6000000 ms
-        public static final int SAVETIME = 20000;
+        public static final int SAVETIME = 5000;
         public static final boolean PREPENDDATE = true;
         public static final boolean SAVESTATE = false;
         public static final boolean LOG_FILE = false;

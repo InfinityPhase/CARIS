@@ -5,8 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import sx.blah.discord.handle.impl.obj.Guild;
-import sx.blah.discord.handle.impl.obj.User;
 import sx.blah.discord.handle.obj.IGuild;
 import sx.blah.discord.handle.obj.IUser;
 
@@ -14,6 +12,8 @@ public class TestCereal {
 	public String one = "Neo";
 	public int five = 5;
 	public boolean happy = false;
+	
+	protected long tiny = 123456789;
 	
 	int level;
 	String comment;

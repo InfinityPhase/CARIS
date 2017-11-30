@@ -20,6 +20,7 @@ import commands.*;
 import controller.*;
 import invokers.*;
 import library.Variables;
+import library.TestCereal;
 import memories.*;
 import responders.*;
 
@@ -85,6 +86,8 @@ public class Brain implements Serializable {
 	// Because we tend to alter the Constants.SAVESTATE variable
 	@SuppressWarnings("unused")
 	public static void main(String[] args) {
+		
+		TestCereal testCereal = new TestCereal(9001, "Love and Hate");
 
 		init();
 
@@ -153,11 +156,13 @@ log.log("Client built successfully.");
 
 			if( ( ( System.currentTimeMillis() - startTime ) >= Constants.SAVETIME ) && Constants.SAVESTATE ) {
 
-				if( Constants.DEBUG ) { System.out.println("Saving CARIS State..."); }
+				log.log("Saving CARIS State...");
 
 				File fileName = new File( ( Constants.PREPENDDATE ? sdf.format( Calendar.getInstance().getTime() ) + "_" : "" ) + Constants.SAVEFILE + Constants.SAVEEXTENTION );
+				
+				saveState(fileName, testCereal);
 
-				ObjectWriter out = new ObjectMapper().setVisibility(PropertyAccessor.FIELD, Visibility.ANY).writer().withDefaultPrettyPrinter();
+				/*ObjectWriter out = new ObjectMapper().setVisibility(PropertyAccessor.FIELD, Visibility.ANY).writer().withDefaultPrettyPrinter();
 
 				// TODO: create array of things that need to be stored
 				// Include the invokers map, responders map, and anything else
@@ -176,7 +181,7 @@ log.log("Client built successfully.");
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
-				}
+				}*/
 
 				// Reset the timer
 				startTime = System.currentTimeMillis();
@@ -221,7 +226,8 @@ log.log("Client built successfully.");
 		controllerModules.put("Save Controller", saveController);
 	}
 
-	static void saveState( File fileOut ) {
+	static void saveState( File fileOut, Object testCereal ) {
+		// Perfect world, we pass the maps of things here, iterate over. Should work.
 		try( ObjectOutputStream out = new ObjectOutputStream( new FileOutputStream( fileOut ) ); ){
 			// Open JSON file
 			// Clear contents if exists
@@ -229,7 +235,7 @@ log.log("Client built successfully.");
 			// Save stream to JSON file
 
 			log.log("Test after out, before write");
-
+			out.writeObject( testCereal );
 			out.defaultWriteObject();
 
 			log.log("Test after write");
