@@ -74,6 +74,11 @@ public class Logger {
 		this.defaultIndent = defaultIndent;
 		return this;
 	}
+	
+	public Logger setBaseIndent( int baseIndent ) {
+		this.baseIndent = baseIndent;
+		return this;
+	}
 
 	public Logger setDebugHeader( String debugHeader ) {
 		this.debugHeader = debugHeader;
@@ -157,7 +162,7 @@ public class Logger {
 
 	public void log() {
 		if( shouldIndent ) {
-			message = multiplyString( indentString, indent + baseIndent ) + debugHeader + " " + message;
+			message = multiplyString( indentString, (indent + baseIndent) ) + debugHeader + " " + message;
 		}
 		
 		if( happy ) {

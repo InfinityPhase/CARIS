@@ -57,10 +57,8 @@ public class Brain implements Serializable {
 	public static VoteInvoker voteInvoker = new VoteInvoker();
 	public static _8BallInvoker _8ballInvoker = new _8BallInvoker();
 	public static NicknameInvoker nicknameInvoker = new NicknameInvoker();
-
-	public static DebugInvoker debugInvoker = new DebugInvoker();
-
 	public static FortuneInvoker fortuneInvoker = new FortuneInvoker();
+	public static ChannelListInvoker channelListInvoker = new ChannelListInvoker();
 
 	/* Auto Handlers */
 	public static MentionResponder mentionResponder = new MentionResponder();
@@ -210,6 +208,7 @@ log.log("Client built successfully.");
 		invokerModules.put("Nickname Invoker", nicknameInvoker);
 		invokerModules.put("Fortune Invoker", fortuneInvoker);
 		invokerModules.put("Location Invoker", locationInvoker);
+		invokerModules.put("Channel List Invoker", channelListInvoker);
 		
 		// Responder Map
 		responderModules.put("Mention Responder", mentionResponder);

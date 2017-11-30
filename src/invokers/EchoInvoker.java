@@ -14,12 +14,12 @@ public class EchoInvoker extends Invoker {
 		setup(event);
 		
 		if( tokens.get(0).equals("echo") ) {
-			log.indent(3).log("EchoInvoker triggered.");
+			log.indent(1).log("EchoInvoker triggered.");
 			response = tokens.get(1);;
 		} else {
-			log.indent(3).log("EchoInvoker unactivated.");
+			log.indent(2).log("EchoInvoker unactivated.");
 		}
-		log.indent(2).log("EchoInvoker processed.");
+		log.indent(1).log("EchoInvoker processed.");
 		return build();
 	}
 	
