@@ -1,7 +1,14 @@
 package library;
 
+import java.io.File;
+import java.io.IOException;
 import java.io.Serializable;
+import java.lang.reflect.Field;
 import java.util.HashMap;
+
+import org.eclipse.jetty.util.Fields;
+
+import com.fasterxml.jackson.databind.ObjectWriter;
 
 import main.GuildInfo;
 import sx.blah.discord.handle.obj.IChannel;
@@ -19,4 +26,16 @@ public class Variables implements Serializable{
 	
 	/* Global Utilities */
 	public static DataSaver ds = new DataSaver();
+	
+	public void writeObject( ObjectWriter out, File fileName ) {
+		try {
+			// Fuck. This doesn't work.
+			out.writeValue( fileName, new Variables() );
+			for( Field f : Variables.class.getDeclaredFields() ) {
+				out.writeValue( fileName, f );
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 }

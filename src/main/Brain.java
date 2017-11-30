@@ -205,10 +205,8 @@ public class Brain implements Serializable {
 
 				log.log("Saving CARIS State...");
 
-				File fileName = new File( ( Constants.PREPENDDATE ? sdf.format( Calendar.getInstance().getTime() ) + "_" : "" ) + Constants.SAVEFILE + Constants.SAVEEXTENTION );
+				File fileName2 = new File( ( Constants.PREPENDDATE ? sdf.format( Calendar.getInstance().getTime() ) + "_" : "" ) + Constants.SAVEFILE + Constants.SAVEEXTENTION );
 				
-				File fileName2 = new File( ( Constants.PREPENDDATE ? sdf.format( Calendar.getInstance().getTime() ) + "_" : "" ) + Constants.SAVEFILE + Constants.SAVEEXTENTION + ".jackson" );
-
 				ObjectWriter out = new ObjectMapper().setVisibility( PropertyAccessor.FIELD, Visibility.ANY ).writer().withDefaultPrettyPrinter();
 
 				try {
@@ -216,7 +214,6 @@ public class Brain implements Serializable {
 					out.writeValue( fileName2, responderModules );
 					out.writeValue( fileName2, memoryModules);
 					out.writeValue( fileName2, eventModules);
-					out.writeValue( fileName2, library.Variables);
 					out.writeValue( fileName2, testCereal );
 				} catch (IOException e1) {
 					e1.printStackTrace();
