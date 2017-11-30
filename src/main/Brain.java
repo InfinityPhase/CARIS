@@ -1,16 +1,13 @@
 package main;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
@@ -18,15 +15,31 @@ import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 
+import commands.CalendarHandler;
+import commands.MessageReceived;
+import commands.SuperEvent;
+import controller.Controller;
+import controller.ModuleController;
+import controller.SaveController;
+import invokers.ChannelListInvoker;
+import invokers.EchoInvoker;
+import invokers.FortuneInvoker;
+import invokers.Invoker;
+import invokers.LocationInvoker;
+import invokers.NicknameInvoker;
+import invokers.VoteInvoker;
+import invokers._8BallInvoker;
 import library.Constants;
-import commands.*;
-import controller.*;
-import invokers.*;
-import library.Variables;
 import library.TestCereal;
-import memories.*;
-import responders.*;
-
+import library.Variables;
+import memories.AuthorMemory;
+import memories.Memory;
+import memories.TimeMemory;
+import responders.LocationResponder;
+import responders.MentionResponder;
+import responders.NicknameResponder;
+import responders.ReminderResponder;
+import responders.Responder;
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.obj.IChannel;
 import utilities.BotUtils;
@@ -54,6 +67,7 @@ public class Brain implements Serializable {
 	public static HashMap<String, Invoker> invokerModules = new HashMap<String, Invoker>();
 	public static HashMap<String, Responder> responderModules = new HashMap<String, Responder>();
 	public static HashMap<String, Controller> controllerModules = new HashMap<String, Controller>();
+	public static List<Memory> libraryVariables = new ArrayList<Memory>();
 
 	/* Invoked Handlers */
 	public static EchoInvoker echoInvoker = new EchoInvoker();
@@ -140,7 +154,8 @@ public class Brain implements Serializable {
 
 				if( saveFile.exists() ) {
 					log.indent(2).log("SAve found. Loading classes...");
-					testCereal = (TestCereal) loadState(saveFile, testCereal);
+					
+					log.indent(9).log("NOT IMPLEMENTED");
 										
 					log.indent(2).log("Loading finished.");
 				} else {
@@ -191,8 +206,6 @@ public class Brain implements Serializable {
 				log.log("Saving CARIS State...");
 
 				File fileName = new File( ( Constants.PREPENDDATE ? sdf.format( Calendar.getInstance().getTime() ) + "_" : "" ) + Constants.SAVEFILE + Constants.SAVEEXTENTION );
-
-				saveState(fileName, testCereal);
 				
 				File fileName2 = new File( ( Constants.PREPENDDATE ? sdf.format( Calendar.getInstance().getTime() ) + "_" : "" ) + Constants.SAVEFILE + Constants.SAVEEXTENTION + ".jackson" );
 
@@ -201,6 +214,9 @@ public class Brain implements Serializable {
 				try {
 					out.writeValue( fileName2, invokerModules );
 					out.writeValue( fileName2, responderModules );
+					out.writeValue( fileName2, memoryModules);
+					out.writeValue( fileName2, eventModules);
+					out.writeValue( fileName2, library.Variables);
 					out.writeValue( fileName2, testCereal );
 				} catch (IOException e1) {
 					e1.printStackTrace();
@@ -248,36 +264,6 @@ public class Brain implements Serializable {
 		// Controller Map
 		controllerModules.put("Module Controller", moduleController);
 		controllerModules.put("Save Controller", saveController);
-	}
-
-	static void saveState( File fileOut, Object testCereal ) {
-		// Perfect world, we pass the maps of things here, iterate over. Should work.
-		try( ObjectOutputStream out = new ObjectOutputStream( new FileOutputStream( fileOut ) ); ){
-
-			log.indent(1).log("Preparing to write...");
-			out.writeObject( testCereal );
-
-			log.indent(1).log("Flushing...");
-			out.flush();
-		} catch (IOException e) {
-			log.indent(1).log( "Failed to write to CARIS save file: " + fileOut.getPath() );
-			e.printStackTrace();
-		}
-	}
-
-	static Object loadState( File load, Object testCereal ) {
-		Object out = null;
-		try( ObjectInputStream in = new ObjectInputStream( new FileInputStream( load ) ) ) {
-			// Load object state
-			out = in.readObject();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-		return out;
 	}
 	
 }

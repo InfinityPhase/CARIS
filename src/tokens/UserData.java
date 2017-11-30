@@ -1,9 +1,12 @@
 package tokens;
 
+import java.io.Serializable;
 import java.util.HashMap;
 
-public class UserData {
+public class UserData implements Serializable {
 		
+	/* This is nessessary */
+	private static final long serialVersionUID = 1718558994418657324L;
 	// THESE ARE REQUIRED
 	public int karma;
 	public long id;
