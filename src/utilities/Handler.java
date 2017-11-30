@@ -13,7 +13,7 @@ import tokens.Response;
 public class Handler {
 	// The base handler class. Extend this into other classes.
 	
-	protected Logger log = new Logger().setDefaultIndent( 0 ).setBaseIndent( 2 ).build();
+	static protected Logger log = new Logger().setDefaultIndent( 0 ).setBaseIndent( 2 ).build();
 	
 	protected String response;
 	protected String message;

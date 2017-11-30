@@ -13,7 +13,10 @@ import utilities.TimeParser;
 
 public class ReminderResponder extends Responder {
 	
-	private TimeParser timeParser = new TimeParser();
+	/* YOU NEED THIS */
+	private static final long serialVersionUID = 5167749352820170453L;
+	
+	static private TimeParser timeParser = new TimeParser();
 	
 	@Override
 	public Response process(MessageReceivedEvent event) {

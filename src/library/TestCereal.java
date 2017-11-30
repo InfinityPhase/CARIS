@@ -1,5 +1,6 @@
 package library;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -8,7 +9,13 @@ import java.util.Map;
 import sx.blah.discord.handle.obj.IGuild;
 import sx.blah.discord.handle.obj.IUser;
 
-public class TestCereal {
+public class TestCereal implements Serializable {
+	
+	/**
+	 * Auto generated. Yup. I'm lazy that way.
+	 */
+	private static final long serialVersionUID = -2806283937847840489L;
+	
 	public String one = "Neo";
 	public int five = 5;
 	public boolean happy = false;

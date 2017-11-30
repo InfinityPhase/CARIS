@@ -1,8 +1,11 @@
 package main;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
@@ -43,7 +46,7 @@ public class Brain implements Serializable {
 	private static final long serialVersionUID = 653133840606620696L;
 
 	public static TokenParser tp = new TokenParser();
-	public static SimpleDateFormat sdf = new SimpleDateFormat();
+	public static SimpleDateFormat sdf = new SimpleDateFormat( Constants.DATEFORMAT );
 	public static Logger log = new Logger().setDefaultIndent(0).build();
 
 	public static Map<String, SuperEvent> eventModules = new HashMap<String, SuperEvent>();
@@ -66,28 +69,35 @@ public class Brain implements Serializable {
 	public static LocationResponder locationResponder = new LocationResponder();
 	public static NicknameResponder nicknameResponder = new NicknameResponder();
 	public static ReminderResponder reminderResponder = new ReminderResponder();
-	
+
 	/* Things that think */
 	public static AuthorMemory authorMemory = new AuthorMemory();
 	public static TimeMemory timeMemory = new TimeMemory();
-	
+
 	/* Admin Controllers */
 	public static ModuleController moduleController = new ModuleController();
-	public static MessageReceived commandHandler = new MessageReceived();
-	
+	public static MessageReceived messageReceived = new MessageReceived();
+
 	/* Gigantic Variable Library */
 	public static SaveController saveController = new SaveController();
-	
+
 	public static CalendarHandler calendarHandler = new CalendarHandler();
 	public static Calendar current = Calendar.getInstance();
-	
+
 	public static String token = null;
 
 	// Because we tend to alter the Constants.SAVESTATE variable
 	@SuppressWarnings("unused")
 	public static void main(String[] args) {
-		
+
+		File saveFile = null;
+
 		TestCereal testCereal = new TestCereal(9001, "Love and Hate");
+		testCereal.putNumbers(15);
+		testCereal.putNumbers( 201456845);
+		testCereal.putPhrases("John", "Jane");
+		testCereal.putPhrases("Happy", "Sad");
+		testCereal.putPhrases("Up", "Down");		
 
 		init();
 
@@ -107,8 +117,6 @@ public class Brain implements Serializable {
 			}
 		}
 
-		// Gets token from arguments
-
 		// Get the encryption password
 		if( Constants.SAVESTATE && ( System.console() != null ) ) {
 			char password[] = System.console().readPassword("Save file password: ");
@@ -121,34 +129,58 @@ public class Brain implements Serializable {
 			char password[] = {};
 		}
 
+		if( System.console() != null ) {
+			log.log("Requesting save file...");
+			String temp = "";
+			temp = System.console().readLine("Save file: ");
+
+			if( !temp.isEmpty() ) {
+				saveFile = new File( temp );
+				log.indent(1).log("Loading save file...");
+
+				if( saveFile.exists() ) {
+					log.indent(2).log("SAve found. Loading classes...");
+					testCereal = (TestCereal) loadState(saveFile, testCereal);
+										
+					log.indent(2).log("Loading finished.");
+				} else {
+					log.indent(2).log("File does not exist.");
+				}
+			} else {
+				log.indent(1).log("No save file given.");
+			}
+
+		}
+
 		IDiscordClient cli = BotUtils.getBuiltDiscordClient(token);
-		
-log.log("Client built successfully.");
-		
+
+		log.log("Client built successfully.");
+
 		for( String s : eventModules.keySet() ) {
 			SuperEvent e = eventModules.get( s );
 			cli.getDispatcher().registerListener( e );
 		}
 		
+		log.log("Listener established successfully.");
+
 		for( String s : memoryModules.keySet() ) {
 			Memory m = memoryModules.get( s );
 			cli.getDispatcher().registerListener( m );
 		}
 
-		log.log("Listener established successfully.");
-		
 		// Only login after all event registering is done
 		cli.login();
 		log.log("Client logged in.");
-		
+
 		load(cli);
 		log.log("Loaded Channel Map.");
 
 		// This should run last, after everything else
 		// Designed to run tasks based on time
 		long startTime = System.currentTimeMillis();
-		
-		
+
+		log.log("Starting timer...");
+		log.indent(1).log("Timer set to: " + Constants.SAVETIME);
 		while( true ) {
 
 			current = Calendar.getInstance();
@@ -159,49 +191,41 @@ log.log("Client built successfully.");
 				log.log("Saving CARIS State...");
 
 				File fileName = new File( ( Constants.PREPENDDATE ? sdf.format( Calendar.getInstance().getTime() ) + "_" : "" ) + Constants.SAVEFILE + Constants.SAVEEXTENTION );
-				
+
 				saveState(fileName, testCereal);
+				
+				File fileName2 = new File( ( Constants.PREPENDDATE ? sdf.format( Calendar.getInstance().getTime() ) + "_" : "" ) + Constants.SAVEFILE + Constants.SAVEEXTENTION + ".jackson" );
 
-				/*ObjectWriter out = new ObjectMapper().setVisibility(PropertyAccessor.FIELD, Visibility.ANY).writer().withDefaultPrettyPrinter();
+				ObjectWriter out = new ObjectMapper().setVisibility( PropertyAccessor.FIELD, Visibility.ANY ).writer().withDefaultPrettyPrinter();
 
-				// TODO: create array of things that need to be stored
-				// Include the invokers map, responders map, and anything else
-
-				for( Invoker h : invokerModules.values() ) {
-					try {
-						out.writeValue( fileName, h );
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
+				try {
+					out.writeValue( fileName2, invokerModules );
+					out.writeValue( fileName2, responderModules );
+					out.writeValue( fileName2, testCereal );
+				} catch (IOException e1) {
+					e1.printStackTrace();
 				}
 
-				for( Responder h : responderModules.values() ) {
-					try {
-						out.writeValue( fileName, h );
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-				}*/
-
 				// Reset the timer
+				log.log("State Saved.");
 				startTime = System.currentTimeMillis();
 			}
 		}
 
 	}
-	
+
 	public static void load(IDiscordClient cli) {
 		for( IChannel channel : cli.getChannels() ) {
 			Variables.channelMap.put(channel.getStringID(), channel);
 		}
 	}
-	
+
 	public static void init() { // add handlers to their appropriate categories here
 		log.log("Initializing.");
-		
+
 		// Event Map
-		eventModules.put("Command Handler", commandHandler);
-		
+		eventModules.put("Message Received", messageReceived);
+
 		// Memory Map
 		memoryModules.put("Author Memory", authorMemory);
 		memoryModules.put("Time Memory", timeMemory);
@@ -214,13 +238,13 @@ log.log("Client built successfully.");
 		invokerModules.put("Fortune Invoker", fortuneInvoker);
 		invokerModules.put("Location Invoker", locationInvoker);
 		invokerModules.put("Channel List Invoker", channelListInvoker);
-		
+
 		// Responder Map
 		responderModules.put("Mention Responder", mentionResponder);
 		responderModules.put("Nickname Responder", nicknameResponder);
 		responderModules.put("Reminder Responder", reminderResponder);
 		responderModules.put("Location Responder", locationResponder);
-		
+
 		// Controller Map
 		controllerModules.put("Module Controller", moduleController);
 		controllerModules.put("Save Controller", saveController);
@@ -229,23 +253,32 @@ log.log("Client built successfully.");
 	static void saveState( File fileOut, Object testCereal ) {
 		// Perfect world, we pass the maps of things here, iterate over. Should work.
 		try( ObjectOutputStream out = new ObjectOutputStream( new FileOutputStream( fileOut ) ); ){
-			// Open JSON file
-			// Clear contents if exists
-			// Stream data of objects to PGP
-			// Save stream to JSON file
 
-			log.log("Test after out, before write");
+			log.indent(1).log("Preparing to write...");
 			out.writeObject( testCereal );
-			out.defaultWriteObject();
 
-			log.log("Test after write");
-
-			out.flush();
-
+			log.indent(1).log("Flushing...");
 			out.flush();
 		} catch (IOException e) {
-			log.log( "Failed to write to CARIS save file: " + fileOut.getPath() );
+			log.indent(1).log( "Failed to write to CARIS save file: " + fileOut.getPath() );
 			e.printStackTrace();
 		}
 	}
+
+	static Object loadState( File load, Object testCereal ) {
+		Object out = null;
+		try( ObjectInputStream in = new ObjectInputStream( new FileInputStream( load ) ) ) {
+			// Load object state
+			out = in.readObject();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		return out;
+	}
+	
 }
+
