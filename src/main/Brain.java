@@ -3,6 +3,7 @@ package main;
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
+import java.lang.reflect.Field;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -14,6 +15,7 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
+import com.fasterxml.jackson.databind.SerializationFeature;
 
 import commands.CalendarHandler;
 import commands.MessageReceived;
@@ -107,13 +109,20 @@ public class Brain implements Serializable {
 	public static void main(String[] args) {
 
 		File saveFile = null;
-
+		
+		Map<String, Object> save = new HashMap<String, Object>();
+		
+		Variables variables = new Variables();
 		TestCereal testCereal = new TestCereal(9001, "Love and Hate");
 		testCereal.putNumbers(15);
 		testCereal.putNumbers( 201456845);
 		testCereal.putPhrases("John", "Jane");
 		testCereal.putPhrases("Happy", "Sad");
-		testCereal.putPhrases("Up", "Down");		
+		testCereal.putPhrases("Up", "Down");	
+		TestCereal tastyCereal = new TestCereal( 50, "The second version" );
+		tastyCereal.putNumbers(564);
+		tastyCereal.putNumbers(4875);
+		tastyCereal.putPhrases("TEMP", "TATION");
 
 		init();
 
@@ -209,16 +218,25 @@ public class Brain implements Serializable {
 
 				File fileName2 = new File( ( Constants.PREPENDDATE ? sdf.format( Calendar.getInstance().getTime() ) + "_" : "" ) + Constants.SAVEFILE + Constants.SAVEEXTENTION );
 				
-				ObjectWriter out = new ObjectMapper().setVisibility( PropertyAccessor.FIELD, Visibility.ANY ).writer().withDefaultPrettyPrinter();
-
+				ObjectWriter out = new ObjectMapper().setVisibility( PropertyAccessor.FIELD, Visibility.ANY ).writer().withDefaultPrettyPrinter().with(SerializationFeature.FAIL_ON_EMPTY_BEANS);
+				
+				/* The list of things to write */
+//				save.put("testCereal", testCereal);
+//				save.put("tastyCereal", tastyCereal);
+//				save.put("invokerModules", invokerModules);
+//				save.put("responderModules", responderModules);
+//				save.put("memoryModules", memoryModules);
+				save.put("variables", variables);
+				
+				/* Actually write stuff */
 				try {
-					out.writeValue( fileName2, invokerModules );
-					out.writeValue( fileName2, responderModules );
-					out.writeValue( fileName2, memoryModules);
-					out.writeValue( fileName2, eventModules);
-					out.writeValue( fileName2, testCereal );
-				} catch (IOException e1) {
-					e1.printStackTrace();
+					out.writeValue( fileName2, save );
+					//out.writeValue( fileName2, memoryModules);
+					//out.writeValue( fileName2, eventModules);
+					
+					//out.writeValue( fileName2, variables );	
+				} catch (IOException e) {
+					e.printStackTrace();
 				}
 
 				// Reset the timer
@@ -235,7 +253,7 @@ public class Brain implements Serializable {
 		}
 	}
 
-	public static void init() { // add handlers to their appropriate categories here
+	public static void init() { // add hananotherStringdlers to their appropriate categories here
 		log.log("Initializing.");
 
 		// Event Map

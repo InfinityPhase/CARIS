@@ -18,7 +18,7 @@ import tokens.UserData;
 import utilities.Logger.level;
 
 public class DataSaver {
-	private Logger log = new Logger().indent(2).setDefaultLevel( level.INFO ).build();
+	private static Logger log = new Logger().indent(2).setDefaultLevel( level.INFO ).build();
 
 	public DataSaver() {}
 	

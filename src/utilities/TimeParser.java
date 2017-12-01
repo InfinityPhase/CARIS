@@ -6,7 +6,7 @@ import java.util.Calendar;
 import utilities.Logger.level;
 
 public class TimeParser {
-	private Logger log = new Logger().setDefaultIndent(2).setDefaultLevel( level.DEBUG ).setDefaultIndent(2).build();
+	private static Logger log = new Logger().setDefaultIndent(2).setDefaultLevel( level.DEBUG ).setDefaultIndent(2).build();
 	
 	public Calendar parseTimer(ArrayList<String> tokens) {
 		Calendar previous = Calendar.getInstance();

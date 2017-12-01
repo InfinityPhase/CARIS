@@ -25,7 +25,7 @@ import utilities.BotUtils;
 import utilities.Logger;
 
 public class MessageReceived extends SuperEvent {
-	private Logger log = new Logger().setDefaultIndent(1).build();
+	static Logger log = new Logger().setDefaultIndent(1).build();
 
 	@EventSubscriber
 	@Override
