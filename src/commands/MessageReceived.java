@@ -54,7 +54,7 @@ public class MessageReceived extends SuperEvent {
 		boolean admin = false;
 		for( long l : Constants.ADMIN_IDS ) {
 			if( id == l ) {
-				admin = true;
+				admin = true; // TODO: Store this per user, per guild
 			}
 		}
 
@@ -107,7 +107,7 @@ public class MessageReceived extends SuperEvent {
 				}
 			}
 		} else if( messageText.startsWith("==>") && !admin ) {
-			responses.add( new Response("The \"==>\" command invoker is now deprecated. Please use \".c\" instead.", 0) );
+			responses.add( new Response("The \"==>\" command invoker is now deprecated. Please use \".c\" instead.", 0) ); // Do we still need this?
 		} else if ( messageText.startsWith( Constants.COMMAND_PREFIX ) ) { // if invoked
 			log.log("Invocation detected.");
 			for( String s : Brain.invokerModules.keySet() ) { // try each invocation handler

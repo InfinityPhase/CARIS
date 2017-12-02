@@ -38,7 +38,7 @@ public class Brain {
 	public static _8BallInvoker _8ballInvoker = new _8BallInvoker();
 	public static NicknameInvoker nicknameInvoker = new NicknameInvoker();
 	public static FortuneInvoker fortuneInvoker = new FortuneInvoker();
-	public static ChannelListInvoker channelListInvoker = new ChannelListInvoker();
+	public static ChannelListController channelListController = new ChannelListController();
 	
 	/* Auto Handlers */
 	public static MentionResponder mentionResponder = new MentionResponder();
@@ -131,7 +131,6 @@ public class Brain {
 		invokerModules.put("Nickname Invoker", nicknameInvoker);
 		invokerModules.put("Fortune Invoker", fortuneInvoker);
 		invokerModules.put("Location Invoker", locationInvoker);
-		invokerModules.put("Channel List Invoker", channelListInvoker);
 		
 		// Responder Map
 		responderModules.put("Mention Responder", mentionResponder);
@@ -142,5 +141,6 @@ public class Brain {
 		// Controller Map
 		controllerModules.put("Module Controller", moduleController);
 		controllerModules.put("Save Controller", saveController);
+		controllerModules.put("Channel List Controller", channelListController);
 	}
 }

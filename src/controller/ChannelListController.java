@@ -1,4 +1,4 @@
-package invokers;
+package controller;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,7 +8,7 @@ import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedE
 import sx.blah.discord.handle.obj.IChannel;
 import tokens.Response;
 
-public class ChannelListInvoker extends Invoker {
+public class ChannelListController extends Controller {
 
 	private String[] sameChannel = { "here", "this" };
 
