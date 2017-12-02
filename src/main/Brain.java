@@ -3,7 +3,6 @@ package main;
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
-import java.lang.reflect.Field;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -24,7 +23,6 @@ import controller.Controller;
 import controller.ModuleController;
 import controller.SaveController;
 import invokers.ChannelListInvoker;
-import invokers.DebugInvoker;
 import invokers.EchoInvoker;
 import invokers.FortuneInvoker;
 import invokers.Invoker;
@@ -80,7 +78,6 @@ public class Brain implements Serializable {
 	public static NicknameInvoker nicknameInvoker = new NicknameInvoker();
 	public static FortuneInvoker fortuneInvoker = new FortuneInvoker();
 	public static ChannelListInvoker channelListInvoker = new ChannelListInvoker();
-	public static DebugInvoker debugInvoker = new DebugInvoker();
 
 	/* Auto Handlers */
 	public static MentionResponder mentionResponder = new MentionResponder();
@@ -271,7 +268,6 @@ public class Brain implements Serializable {
 		invokerModules.put("Fortune Invoker", fortuneInvoker);
 		invokerModules.put("Location Invoker", locationInvoker);
 		invokerModules.put("Channel List Invoker", channelListInvoker);
-		invokerModules.put("debugInvoker", debugInvoker);
 
 		// Responder Map
 		responderModules.put("Mention Responder", mentionResponder);

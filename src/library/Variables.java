@@ -8,7 +8,7 @@ import sx.blah.discord.handle.obj.IChannel;
 import sx.blah.discord.handle.obj.IGuild;
 import utilities.DataSaver;
 
-public class Variables extends SuperLibrary implements Serializable{
+public class Variables implements Serializable{
 	// Dynamic global variables
 	
 	/* This is nessessary */
