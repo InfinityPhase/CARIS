@@ -11,15 +11,13 @@ import library.Constants;
 import library.Variables;
 import main.Brain;
 import main.GuildInfo;
+import main.UserInfo;
 import memories.Memory;
 import responders.Responder;
 import sx.blah.discord.api.events.EventSubscriber;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
-import sx.blah.discord.handle.obj.IChannel;
-import sx.blah.discord.handle.obj.IGuild;
 import tokens.Response;
 import tokens.Thought;
-import tokens.UserData;
 import utilities.BotUtils;
 import utilities.Logger;
 
@@ -30,29 +28,25 @@ public class MessageReceived extends SuperEvent {
 	@Override
 	public void onMessageReceived( MessageReceivedEvent event ) {
 		log.log("Message received: \"" + event.getMessage().getContent() + "\" from User \"" + event.getAuthor().getName() + "\" on Guild \"" + event.getGuild().getName() + "\".");
-		IGuild getGuild = event.getGuild();
-		IChannel getChannel = event.getChannel();
 		
-		if( !Variables.guildIndex.containsKey(getGuild) ) {
-			Variables.guildIndex.put(event.getGuild(), new GuildInfo(getGuild.getName()));
+		/*if( !Variables.guildIndex.containsKey(getGuild) ) {
+			Variables.guildIndex.put(event.getGuild(), new GuildInfo(getGuild.getName(), getGuild));
 			log.log("Creating new Guild Object \"" + getGuild.getName() + "\".");
+		}*/
+		if( !Variables.channelMap.containsKey( event.getChannel().getStringID() ) ) {
+			Variables.channelMap.put( event.getChannel().getStringID(), event.getChannel() );
 		}
-		if( !Variables.channelMap.containsKey(getChannel.getStringID()) ) {
-			Variables.channelMap.put(getChannel.getStringID(), getChannel);
-		}
+		
 		if( !Variables.guildIndex.get( event.getGuild() ).settings.containsKey( event.getChannel() ) ) {
 			log.indent(0).log("Adding channel to settings list: " + event.getChannel().getName() );
 			Variables.guildIndex.get( event.getGuild() ).settings.put( event.getChannel(), new HashMap<String, Object>() );
-			log.indent(1).log("Checking validity of settings map: ");
-			log.indent(2).log( Variables.guildIndex.get( event.getGuild() ).settings.get( event.getChannel() ).size() );
-			log.indent(1).log("Validated.");
 		}
 		
 		GuildInfo gi = Variables.guildIndex.get(event.getGuild());
-		if( !gi.userIndex.containsKey(event.getAuthor().getName()) ) {
-			gi.userIndex.put(event.getAuthor().getName(), new UserData(event.getAuthor().getLongID()));
+		if( !gi.userIndex.containsKey( event.getAuthor() ) ) {
+			gi.userIndex.put( event.getAuthor(), new UserInfo( event.getAuthor() ) );
 			log.log("Adding new User \"" + event.getAuthor().getName() + "\" to Guild " + event.getGuild().getName() + ".");
-			log.log(event.getAuthor().getLongID());
+			log.log( event.getAuthor().getLongID() );
 		}
 
 		String messageText = event.getMessage().getContent();
@@ -175,7 +169,7 @@ public class MessageReceived extends SuperEvent {
 				}
 				BotUtils.sendMessage( event.getChannel(), options[0].text ); // print out highest priority response option 
 			}
-			gi.userIndex.get(event.getAuthor().getName()).lastMessage = messageText;
+			gi.userIndex.get( event.getAuthor() ).lastMessage = event.getMessage();
 		}
 	}
 }
