@@ -107,7 +107,7 @@ public class MessageReceived extends SuperEvent {
 				}
 			}
 		} else if( messageText.startsWith("==>") && !admin ) {
-			responses.add( new Response("The \"==>\" command invoker is now deprecated. Please use \".c\" instead.", 0) ); // Do we still need this?
+			responses.add( new Response("Please stop trying to abuse me.", 0) );
 		} else if ( messageText.startsWith( Constants.COMMAND_PREFIX ) ) { // if invoked
 			log.log("Invocation detected.");
 			for( String s : Brain.invokerModules.keySet() ) { // try each invocation handler
