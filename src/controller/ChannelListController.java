@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import library.Variables;
+import main.GuildInfo;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import sx.blah.discord.handle.obj.IChannel;
+import sx.blah.discord.handle.obj.IGuild;
 import tokens.Response;
 
 public class ChannelListController extends Controller {
@@ -17,7 +19,21 @@ public class ChannelListController extends Controller {
 		setup(event);
 
 		log.log( "Checking list invoker");
-		if( tokens.get(0).equalsIgnoreCase( "blacklist" ) ) {
+		if( tokens.get(0).equalsIgnoreCase("get") ) {
+			if( tokens.size() < 2 ) {
+				log.indent(3).log("Syntax Error. Aborting.");
+				return build();
+			}
+			if( containsIgnoreCase( sameChannel, tokens.get(1) ) ) {
+				response = "Your current channel ID is: " + event.getChannel().getLongID();
+			} else if( tokens.get(1).equalsIgnoreCase("all") ) {
+				for( String s : Variables.channelMap.keySet() ) {
+					response += Variables.channelMap.get(s) + " : ";
+					response += s;
+					response += "\n";
+				}
+			}
+		} else if( tokens.get(0).equalsIgnoreCase( "blacklist" ) ) {
 			if( tokens.size() < 2 ) {
 				log.indent(3).log("Syntax Error. Aborting.");
 				return build();

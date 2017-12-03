@@ -16,6 +16,7 @@ import memories.Memory;
 import responders.Responder;
 import sx.blah.discord.api.events.EventSubscriber;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
+import sx.blah.discord.handle.obj.IChannel;
 import tokens.Response;
 import tokens.Thought;
 import utilities.BotUtils;
@@ -27,19 +28,20 @@ public class MessageReceived extends SuperEvent {
 	@EventSubscriber
 	@Override
 	public void onMessageReceived( MessageReceivedEvent event ) {
+		IChannel recipient = event.getChannel();
 		log.log("Message received: \"" + event.getMessage().getContent() + "\" from User \"" + event.getAuthor().getName() + "\" on Guild \"" + event.getGuild().getName() + "\".");
 		
 		/*if( !Variables.guildIndex.containsKey(getGuild) ) {
 			Variables.guildIndex.put(event.getGuild(), new GuildInfo(getGuild.getName(), getGuild));
 			log.log("Creating new Guild Object \"" + getGuild.getName() + "\".");
 		}*/
-		if( !Variables.channelMap.containsKey( event.getChannel().getStringID() ) ) {
-			Variables.channelMap.put( event.getChannel().getStringID(), event.getChannel() );
+		if( !Variables.channelMap.containsKey( recipient.getStringID() ) ) {
+			Variables.channelMap.put( recipient.getStringID(), recipient );
 		}
 		
-		if( !Variables.guildIndex.get( event.getGuild() ).settings.containsKey( event.getChannel() ) ) {
-			log.indent(0).log("Adding channel to settings list: " + event.getChannel().getName() );
-			Variables.guildIndex.get( event.getGuild() ).settings.put( event.getChannel(), new HashMap<String, Object>() );
+		if( !Variables.guildIndex.get( event.getGuild() ).settings.containsKey( recipient ) ) {
+			log.indent(0).log("Adding channel to settings list: " + recipient.getName() );
+			Variables.guildIndex.get( event.getGuild() ).settings.put( recipient, new HashMap<String, Object>() );
 		}
 		
 		GuildInfo gi = Variables.guildIndex.get(event.getGuild());
@@ -160,14 +162,17 @@ public class MessageReceived extends SuperEvent {
 			Arrays.sort(options); // sort these options
 			log.log("Optimal response selected.");
 			if( options[0].embed ) {
-				event.getChannel().sendMessage(options[0].builder.build());
+				recipient.sendMessage(options[0].builder.build());
 			} else {
 				if( options[0].text.startsWith("Nickname set to ") ) {
 					int index1 = options[0].text.indexOf('\"') + 1;
 					int index2 = options[0].text.lastIndexOf('\"');
 					event.getGuild().setUserNickname(event.getAuthor(), options[0].text.substring(index1, index2));
 				}
-				BotUtils.sendMessage( event.getChannel(), options[0].text ); // print out highest priority response option 
+				if( options[0].proxy ) {
+					recipient = options[0].recipient;
+				}
+				BotUtils.sendMessage( recipient, options[0].text ); // print out highest priority response option 
 			}
 			gi.userIndex.get( event.getAuthor() ).lastMessage = event.getMessage();
 		}

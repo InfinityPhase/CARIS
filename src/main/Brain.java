@@ -38,7 +38,6 @@ public class Brain {
 	public static _8BallInvoker _8ballInvoker = new _8BallInvoker();
 	public static NicknameInvoker nicknameInvoker = new NicknameInvoker();
 	public static FortuneInvoker fortuneInvoker = new FortuneInvoker();
-	public static ChannelListController channelListController = new ChannelListController();
 	
 	/* Auto Handlers */
 	public static MentionResponder mentionResponder = new MentionResponder();
@@ -52,6 +51,9 @@ public class Brain {
 	
 	/* Admin Controllers */
 	public static ModuleController moduleController = new ModuleController();
+	public static ChannelListController channelListController = new ChannelListController();
+	public static SaveController saveController = new SaveController();
+	public static SayController sayController = new SayController();
 	
 	/* Event Handlers */
 	public static MessageReceived nessageReceived = new MessageReceived();
@@ -59,9 +61,7 @@ public class Brain {
 	public static UserJoin userJoin = new UserJoin();
 	
 	
-	/* Gigantic Variable Library */
-	public static SaveController saveController = new SaveController();
-	
+	/* Gigantic Variable Library */	
 	public static CalendarHandler calendarHandler = new CalendarHandler();
 	public static Calendar current = Calendar.getInstance();
 	
@@ -142,5 +142,6 @@ public class Brain {
 		controllerModules.put("Module Controller", moduleController);
 		controllerModules.put("Save Controller", saveController);
 		controllerModules.put("Channel List Controller", channelListController);
+		controllerModules.put("Say Controller", sayController);
 	}
 }
