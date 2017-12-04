@@ -1,4 +1,4 @@
-package lavaplayer.demo.d4j;
+package music;
 
 import lavaplayer.player.AudioPlayer;
 import lavaplayer.player.event.AudioEventAdapter;
