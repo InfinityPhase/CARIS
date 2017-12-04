@@ -4,6 +4,12 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
+import lavaplayer.player.DefaultAudioPlayerManager;
+import lavaplayer.source.AudioSourceManagers;
+
+import music.GuildMusicManager;
+import lavaplayer.player.AudioPlayerManager;
+
 import commands.*;
 import controller.*;
 import invokers.*;
@@ -38,6 +44,7 @@ public class Brain {
 	public static _8BallInvoker _8ballInvoker = new _8BallInvoker();
 	public static NicknameInvoker nicknameInvoker = new NicknameInvoker();
 	public static FortuneInvoker fortuneInvoker = new FortuneInvoker();
+	public static MusicInvoker musicInvoker = new MusicInvoker();
 	
 	/* Auto Handlers */
 	public static MentionResponder mentionResponder = new MentionResponder();
@@ -60,10 +67,13 @@ public class Brain {
 	public static GuildCreate guildCreate = new GuildCreate();
 	public static UserJoin userJoin = new UserJoin();
 	
-	
 	/* Gigantic Variable Library */	
 	public static CalendarHandler calendarHandler = new CalendarHandler();
 	public static Calendar current = Calendar.getInstance();
+	
+	/* Music Stuff */
+	public static AudioPlayerManager playerManager;
+	public static Map<Long, GuildMusicManager> musicManagers;
 	
 	public static void main(String[] args) {
 
@@ -115,6 +125,13 @@ public class Brain {
 	public static void init() { // add handlers to their appropriate categories here
 		log.log("Initializing.");
 		
+		// Music
+		musicManagers = new HashMap<>();
+
+	    playerManager = new DefaultAudioPlayerManager();
+	    AudioSourceManagers.registerRemoteSources(playerManager);
+	    AudioSourceManagers.registerLocalSource(playerManager);
+		
 		// Event Map
 		eventModules.put("Message Received", nessageReceived);
 		eventModules.put("Guild Create", guildCreate);
@@ -131,6 +148,7 @@ public class Brain {
 		invokerModules.put("Nickname Invoker", nicknameInvoker);
 		invokerModules.put("Fortune Invoker", fortuneInvoker);
 		invokerModules.put("Location Invoker", locationInvoker);
+		invokerModules.put("Music Invoker", musicInvoker);
 		
 		// Responder Map
 		responderModules.put("Mention Responder", mentionResponder);
