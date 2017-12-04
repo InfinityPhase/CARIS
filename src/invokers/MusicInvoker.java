@@ -19,21 +19,27 @@ public class MusicInvoker extends Invoker {
 	public Response process(MessageReceivedEvent event) {
 		messageSetup(event);
 		if( tokens.get(0).equals("music") ) {
+			log.indent(1).log("MusicInvoker triggered.");
 			if( tokens.size() < 2 ) {
 				response = "Syntax Error: Command not specified.";
 				return build();
 			}
 			if( tokens.get(1).equals("play") ) {
+				log.indent(2).log("Play command detected.");
 				if( message.isEmpty() ) {
 					response = "Please put the song in quotes.";
 					return build();
 				}
+				log.indent(2).log("Attempting to play song " + message);
 				loadAndPlay(event.getChannel(), message);
+				log.indent(3).log("Attempt completed.");
 			}
 			else if( tokens.get(1).equals("skip") ) {
+				log.indent(2).log("Skip command detected.");
 				skipTrack(event.getChannel());
 			}
 			else if( tokens.get(1).equals("stop") ) {
+				log.indent(2).log("Stop command detected.");
 				leaveVoiceChannel(event);
 			}
 		}
@@ -56,17 +62,22 @@ public class MusicInvoker extends Invoker {
 	
 	private void loadAndPlay(final IChannel channel, final String trackUrl) {
 	    GuildMusicManager musicManager = getGuildAudioPlayer(channel.getGuild());
-
+	    if( musicManager != null ) {
+	    	log.indent(3).log("Music Manager initialized.");
+	    } else {
+	    	log.indent(3).log("Music Manager failed to initialize.");
+	    }
 	    Brain.playerManager.loadItemOrdered(musicManager, trackUrl, new AudioLoadResultHandler() {
 	      @Override
 	      public void trackLoaded(AudioTrack track) {
+	    	log.indent(3).log("Track loaded successfully.");
 	        response = "Adding to queue " + track.getInfo().title;
-
 	        play(channel.getGuild(), musicManager, track);
 	      }
 
 	      @Override
 	      public void playlistLoaded(AudioPlaylist playlist) {
+	    	log.indent(3).log("Playlist loaded successfully.");
 	        AudioTrack firstTrack = playlist.getSelectedTrack();
 
 	        if (firstTrack == null) {
@@ -80,11 +91,13 @@ public class MusicInvoker extends Invoker {
 
 	      @Override
 	      public void noMatches() {
+	    	log.indent(3).log("Nothing found.");
 	        response = "Nothing found by " + trackUrl;
 	      }
 
 	      @Override
 	      public void loadFailed(FriendlyException exception) {
+	    	log.indent(3).log("Load failed.");
 	        response = "Could not play: " + exception.getMessage();
 	      }
 	    });
@@ -103,17 +116,21 @@ public class MusicInvoker extends Invoker {
 	    response = "Skipped to next track.";
 	  }
 
-	  private static void connectToFirstVoiceChannel(IAudioManager audioManager) {
+	  private void connectToFirstVoiceChannel(IAudioManager audioManager) {
+		log.indent(3).log("Connecting to voice channel.");
 	    for (IVoiceChannel voiceChannel : audioManager.getGuild().getVoiceChannels()) {
 	      if (voiceChannel.isConnected()) {
+	    	log.indent(3).log("Already connected.");
 	        return;
 	      }
 	    }
 
 	    for (IVoiceChannel voiceChannel : audioManager.getGuild().getVoiceChannels()) {
 	      try {
+	    	log.indent(4).log("Attempting to join voice channel.");
 	        voiceChannel.join();
 	      } catch (MissingPermissionsException e) {
+	    	log.indent(4).log("Connection failed.");
 	        System.out.println("Cannot enter voice channel {}" + voiceChannel.getName());
 	      }
 	    }
