@@ -17,12 +17,15 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
 import commands.CalendarHandler;
+import commands.GuildCreate;
 import commands.MessageReceived;
+import commands.SayController;
 import commands.SuperEvent;
+import commands.UserJoin;
+import controller.ChannelListController;
 import controller.Controller;
 import controller.ModuleController;
 import controller.SaveController;
-import invokers.ChannelListInvoker;
 import invokers.EchoInvoker;
 import invokers.FortuneInvoker;
 import invokers.Invoker;
@@ -77,8 +80,7 @@ public class Brain implements Serializable {
 	public static _8BallInvoker _8ballInvoker = new _8BallInvoker();
 	public static NicknameInvoker nicknameInvoker = new NicknameInvoker();
 	public static FortuneInvoker fortuneInvoker = new FortuneInvoker();
-	public static ChannelListInvoker channelListInvoker = new ChannelListInvoker();
-
+	
 	/* Auto Handlers */
 	public static MentionResponder mentionResponder = new MentionResponder();
 	public static LocationResponder locationResponder = new LocationResponder();
@@ -91,11 +93,17 @@ public class Brain implements Serializable {
 
 	/* Admin Controllers */
 	public static ModuleController moduleController = new ModuleController();
-	public static MessageReceived messageReceived = new MessageReceived();
-
-	/* Gigantic Variable Library */
+	public static ChannelListController channelListController = new ChannelListController();
 	public static SaveController saveController = new SaveController();
-
+	public static SayController sayController = new SayController();
+	
+	/* Event Handlers */
+	public static MessageReceived messageReceived = new MessageReceived();
+	public static GuildCreate guildCreate = new GuildCreate();
+	public static UserJoin userJoin = new UserJoin();
+	
+	
+	/* Gigantic Variable Library */	
 	public static CalendarHandler calendarHandler = new CalendarHandler();
 	public static Calendar current = Calendar.getInstance();
 
@@ -255,7 +263,9 @@ public class Brain implements Serializable {
 
 		// Event Map
 		eventModules.put("Message Received", messageReceived);
-
+		eventModules.put("Guild Create", guildCreate);
+		eventModules.put("User Join", userJoin);
+		
 		// Memory Map
 		memoryModules.put("Author Memory", authorMemory);
 		memoryModules.put("Time Memory", timeMemory);
@@ -267,7 +277,6 @@ public class Brain implements Serializable {
 		invokerModules.put("Nickname Invoker", nicknameInvoker);
 		invokerModules.put("Fortune Invoker", fortuneInvoker);
 		invokerModules.put("Location Invoker", locationInvoker);
-		invokerModules.put("Channel List Invoker", channelListInvoker);
 
 		// Responder Map
 		responderModules.put("Mention Responder", mentionResponder);
@@ -278,6 +287,8 @@ public class Brain implements Serializable {
 		// Controller Map
 		controllerModules.put("Module Controller", moduleController);
 		controllerModules.put("Save Controller", saveController);
+		controllerModules.put("Channel List Controller", channelListController);
+		controllerModules.put("Say Controller", sayController);
 	}
 	
 }

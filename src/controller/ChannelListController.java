@@ -1,14 +1,16 @@
-package invokers;
+package controller;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import library.Variables;
+import main.GuildInfo;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import sx.blah.discord.handle.obj.IChannel;
+import sx.blah.discord.handle.obj.IGuild;
 import tokens.Response;
 
-public class ChannelListInvoker extends Invoker {
+public class ChannelListController extends Controller {
 
 	private String[] sameChannel = { "here", "this" };
 
@@ -17,8 +19,30 @@ public class ChannelListInvoker extends Invoker {
 		setup(event);
 
 		log.log( "Checking list invoker");
-		if( tokens.get(0).equalsIgnoreCase( "blacklist" ) ) {
+		if( tokens.get(0).equalsIgnoreCase("get") ) {
+			if( tokens.size() < 2 ) {
+				log.indent(3).log("Syntax Error. Aborting.");
+				return build();
+			}
+			if( containsIgnoreCase( sameChannel, tokens.get(1) ) ) {
+				response = "Your current channel ID is: " + event.getChannel().getLongID();
+			} else if( tokens.get(1).equalsIgnoreCase("all") ) {
+				for( String s : Variables.channelMap.keySet() ) {
+					response += Variables.channelMap.get(s) + " : ";
+					response += s;
+					response += "\n";
+				}
+			}
+		} else if( tokens.get(0).equalsIgnoreCase( "blacklist" ) ) {
+			if( tokens.size() < 2 ) {
+				log.indent(3).log("Syntax Error. Aborting.");
+				return build();
+			}
 			if( tokens.get(1).equalsIgnoreCase( "add" ) ) {
+				if( tokens.size() < 3 ) {
+					log.indent(3).log("Syntax Error. Aborting.");
+					return build();
+				}
 				if( containsIgnoreCase( sameChannel, tokens.get(2) ) ) {
 					Variables.guildIndex.get( event.getGuild() ).blacklist.add( event.getChannel() );
 					response = "I have blacklisted this channel from further communique.";
@@ -28,6 +52,10 @@ public class ChannelListInvoker extends Invoker {
 							listChannels( getChannels( event, tokens.get(2) ) );
 				}
 			} else if( tokens.get(1).equalsIgnoreCase( "remove" ) ) {
+				if( tokens.size() < 3 ) {
+					log.indent(3).log("Syntax Error. Aborting.");
+					return build();
+				}
 				if( containsIgnoreCase( sameChannel, tokens.get(2) ) ) {
 					Variables.guildIndex.get( event.getGuild() ).blacklist.remove( event.getChannel() );
 					response = "I have un-blacklisted this channel for further communique.";
@@ -43,7 +71,15 @@ public class ChannelListInvoker extends Invoker {
 				log.log("The size of the blacklist is: " + Variables.guildIndex.get( event.getGuild() ).blacklist.size());
 			}
 		} else if( tokens.get(0).equalsIgnoreCase( "whitelist" ) ) {
+			if( tokens.size() < 2 ) {
+				log.indent(3).log("Syntax Error. Aborting.");
+				return build();
+			}
 			if( tokens.get(1).equalsIgnoreCase( "add" ) ) {
+				if( tokens.size() < 3 ) {
+					log.indent(3).log("Syntax Error. Aborting.");
+					return build();
+				}
 				if( containsIgnoreCase( sameChannel, tokens.get(2) ) ) {
 					Variables.guildIndex.get( event.getGuild() ).whitelist.add( event.getChannel() );
 					response = "I have whitelisted this channel for further communique.";
@@ -53,6 +89,10 @@ public class ChannelListInvoker extends Invoker {
 							listChannels( getChannels( event, tokens.get(2) ) );
 				}
 			} else if( tokens.get(1).equalsIgnoreCase( "remove" ) ) {
+				if( tokens.size() < 3 ) {
+					log.indent(3).log("Syntax Error. Aborting.");
+					return build();
+				}
 				if( containsIgnoreCase( sameChannel, tokens.get(2) ) ) {
 					Variables.guildIndex.get( event.getGuild() ).whitelist.remove( event.getChannel() );
 					response = "I have un-whitelisted this channel from further communique.";

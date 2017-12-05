@@ -7,6 +7,7 @@ import library.Variables;
 import main.Brain;
 import main.GuildInfo;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
+import sx.blah.discord.handle.obj.IChannel;
 import sx.blah.discord.util.EmbedBuilder;
 import tokens.Response;
 
@@ -19,6 +20,7 @@ public class Handler {
 	protected String message;
 	protected EmbedBuilder embed;
 	protected String messageText;
+	protected IChannel recipient;
 	protected ArrayList<String> tokens;
 	protected GuildInfo variables;
 	
@@ -92,10 +94,18 @@ public class Handler {
 	}
 	
 	protected Response buildResponse() {
-		return new Response(response, getPriority());
+		if( recipient == null ) {
+			return new Response(response, getPriority());
+		} else {
+			return new Response(response, getPriority(), recipient, true);
+		}
 	}
 	protected Response buildEmbed() {
-		return new Response(embed, getPriority());
+		if( recipient == null ) {
+			return new Response(embed, getPriority());
+		} else {
+			return new Response(embed, getPriority(), recipient, true);
+		}
 	}
 	
 	protected boolean hasIgnoreCase(ArrayList<String> a, String b) {
