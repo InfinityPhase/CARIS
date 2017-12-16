@@ -13,6 +13,7 @@ import lavaplayer.player.AudioPlayerManager;
 import commands.*;
 import controller.*;
 import invokers.*;
+import library.Constants;
 import library.Variables;
 import memories.*;
 import responders.*;
@@ -124,6 +125,9 @@ public class Brain {
 	
 	public static void init() { // add handlers to their appropriate categories here
 		log.log("Initializing.");
+		
+		// Build Season Time
+		Constants.kickoff.set(2018, Calendar.JANUARY, 6, 7, 0, 0);
 		
 		// Music
 		musicManagers = new HashMap<>();

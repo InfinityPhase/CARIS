@@ -32,6 +32,26 @@ public class ReminderResponder extends Responder {
 				response = "Reminder set successfully.";
 				System.out.println(c.toString());
 			}
+		} else if( hasIgnoreCase( tokens, "countdown" ) ) {
+			
+			if( hasIgnoreCase( tokens, "build" ) && hasIgnoreCase( tokens, "season" ) ) { 
+				if( hasIgnoreCase( tokens, "off" ) || hasIgnoreCase( tokens, "deactivate" ) || hasIgnoreCase( tokens, "disable" ) ) {
+					if( Variables.guildIndex.get(event.getGuild()).buildSeasonCountdown ) {
+						response = "The countdown is not enabled.";
+					} else {
+						response = "Build Season Countdown deactivated.";
+					}
+					Variables.guildIndex.get(event.getGuild()).buildSeasonCountdown = false;
+				}
+				else {
+					if( Variables.guildIndex.get(event.getGuild()).buildSeasonCountdown ) {
+						response = "The countdown is already enabled!";
+					} else {
+						response = "Build Season Countdown activated!";
+					}
+					Variables.guildIndex.get(event.getGuild()).buildSeasonCountdown = true;
+				}
+			}
 		}
 		return build();
 	}

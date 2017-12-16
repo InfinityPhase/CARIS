@@ -1,11 +1,13 @@
 package library;
 
+import java.util.Calendar;
+
 import utilities.Logger.level;
 import utilities.Logger.output;
 
 public class Constants {
-        public static final String COMMAND_PREFIX = ".c ";
-        public static final String ADMIN_PREFIX = "==> ";
+        public static final String COMMAND_PREFIX = ".cp ";
+        public static final String ADMIN_PREFIX = "===> ";
         public static final String NAME = "CARIS";
         public static final boolean OFFLINE = false;
         
@@ -54,5 +56,8 @@ public class Constants {
     	public static final boolean LISTEN_NOT_WHITELIST = false;
     	public static final String BLACKLIST_HEADER = "NOBOT";
     	public static final String WHITELIST_HEADER = "BOT";
+    	
+    	// Build Season Clock
+    	public static Calendar kickoff = Calendar.getInstance();
     	
 }

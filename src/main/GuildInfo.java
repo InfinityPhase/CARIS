@@ -41,6 +41,47 @@ public class GuildInfo {
 	public List< IChannel > whitelist;
 	public HashMap< IChannel, HashMap< String, Object > > settings; // For extendibility, can set a channel to have any number of things
 	
+	public boolean buildSeasonCountdown = false;
+	public boolean[] checkpoints = new boolean[]{
+			false, // 25 days left
+			false, // 20 days left
+			false, // 15 days left
+			false, // 10 days left
+			false, // 7 days left
+			false, // 5 days left
+			false, // 4 days left
+			false, // 3 days left
+			false, // 2 days left
+			false, // 1 days left
+			false, // 24 hours left
+			false, // 12 hours left
+			false, // 3 hours left
+			false, // 2 hours left
+			false, // 1 hours left
+			false, // 45 minutes left
+			false, // 30 minutes left
+			false, // 15 minutes left
+			false, // 10 minutes left
+			false, // 5 minutes left
+			false, // 4 minutes left
+			false, // 3 minutes left
+			false, // 2 minutes left
+			false, // 1 minutes left
+			false, // 30 seconds left
+			false, // 15 seconds left
+			false, // 10 seconds left
+			false, // 9 seconds left
+			false, // 8 seconds left
+			false, // 7 seconds left
+			false, // 6 seconds left
+			false, // 5 seconds left
+			false, // 4 seconds left
+			false, // 3 seconds left
+			false, // 2 seconds left
+			false, // 1 seconds left
+			
+	};
+	
 	public GuildInfo() {
 		this("", null);
 	}

@@ -1,7 +1,9 @@
 package commands;
 
 import java.util.Calendar;
+import java.util.concurrent.TimeUnit;
 
+import library.Constants;
 import library.Variables;
 import main.Brain;
 import main.GuildInfo;
@@ -30,6 +32,15 @@ public class CalendarHandler {
 					}
 					BotUtils.sendMessage( Variables.channelMap.get(reminder.channelID), send );
 					info.reminders.remove(c);
+				}
+			}
+			if( info.buildSeasonCountdown ) {
+				long kickoffTime = Constants.kickoff.getTimeInMillis();
+				long currentTime = Brain.current.getTimeInMillis();
+				int dayDiff = (int) (TimeUnit.MILLISECONDS.toDays(kickoffTime-currentTime));
+				if( TimeUnit.MILLISECONDS.toDays(kickoffTime-currentTime) > 5 ) {
+					
+					
 				}
 			}
 		}
