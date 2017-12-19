@@ -55,4 +55,45 @@ Variables:
 			long logChannel
 			List blacklist
 			List whitelist
-			HashMap settings
+			
+	===============================================================================
+	Alternative: Make requests straight to the database, and have wrapper functions
+	===============================================================================
+	Variables:
+		channelMap
+			String : IChannel
+		guildIndex
+			IGuild : GuildInfo
+	GuildInfo:
+		name
+			String
+		guild
+			IGuild
+		modules
+			String : Boolean
+		polls
+			String : Poll
+		locations
+			String : 
+		people
+			String : String
+		pollBuilder
+			PollBuilder
+		moduleStatusBuilder
+			ModuleStatusBuilder
+		translator
+			String : String
+		userIndex
+			IUser : UserInfo
+		reminders
+			Calendar : Reminder
+		logChannel
+			long
+		blacklist
+			List IChannel
+		whitelist
+			List IChannel
+		settings
+			IChannel : ( String : Object )
+					
+			
