@@ -1,0 +1,58 @@
+Variables:
+	// This sucks, I hate this
+	
+	// An unholy merging of json serialization and databases
+	// My god, the horror
+	
+	TABLE <NAME>
+	<collumnName> | <CollumnName> | ect.
+	
+	TABLE variables
+	String variable | int id | data blob
+	channelMap | 1 | null
+	guildIndex | 2 | null
+	
+	// Stores hashmap of the channel map
+	// Converts IChannel to JSON string, then stores
+		// Maybe use BLOB instead
+	TABLE Variables_HashMap
+	int id | String key | String value
+	1 | "ChannelName" | "{id:05,name:"John",happy:false}"
+	2 | <IGUILD JSON> | "GUILDINDEX JSON" // Maybe link to actuall guildindex thing
+	
+	TABLE guildIndex
+	String name | int modules | int polls | int ... // Cont for all hashmaps, arraylists
+	
+	TABLE modules
+	//Argh...
+	int id | String json
+	
+	TABLE polls
+	int id | String json // Need to see if poll object OK
+	
+	TABLE GuildInfo
+	String variable | 
+	
+	// START OVER AGAIN...
+	
+	TABLE guildIndex
+	int id | int id
+	<GUILD ID THING> | <INT REPRESENTING GUILDOBJECT>
+	
+	TABLE GuildInfo
+	int id | // All the variables in the guildinfo object. Fuck me.
+		LIST OF NEEDED Columns:
+			String name
+			HashMap modules
+			HashMap polls
+			HashMap locations
+			HashMap people
+			PollBuilder pollBuilder
+			ModuleStatusBuilder moduleStatusBuilder
+			HashMap translator
+			HashMap userIndex
+			HashMap reminders
+			long logChannel
+			List blacklist
+			List whitelist
+			HashMap settings
