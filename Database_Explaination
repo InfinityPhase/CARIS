@@ -75,6 +75,7 @@ Variables:
 			String : Poll
 		locations
 			String : 
+			HashMap<String, ArrayList<String>> locations;
 		people
 			String : String
 		pollBuilder

@@ -51,6 +51,10 @@ public class Variables {
 			put("id","int"); put("name","String"); put("place","int"); // Need table for place:int
 		}});
 		
+		server.makeTable( "Location_P2", new HashMap<String, String>() {{
+			
+		}});
+		
 		server.makeTable( "Translator", new HashMap<String, String>() {{
 			put("id","int"); put("name","String"); put("otherName","String"); // Rename to be better
 		}});
@@ -64,7 +68,11 @@ public class Variables {
 		}});
 		
 		server.makeTable( "Blacklist", new HashMap<String, String>() {{
-			put("",""); 
+			put("id","int"); put("channelID","long"); 
+		}});
+		
+		server.makeTable( "Whitelist", new HashMap<String, String>() {{
+			put("id","int"); put("channelID","long");
 		}});
 	}
 
