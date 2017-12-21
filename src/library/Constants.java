@@ -57,5 +57,8 @@ public class Constants {
     	
     	/* SQL Constants */
 		public static final int DEFAULT_SQL_TIMEOUT = 30;
+		public static final boolean USE_MEMORY_DATABASE = false;
+		public static final String MEMORY_DATABASE = "jdbc:sqlite::memory:";
+		public static final String BACKUP_DATABASE = "backup.db";
     	
 }

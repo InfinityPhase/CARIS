@@ -18,7 +18,7 @@ import library.Constants;
 public class Database {
 	/* Wrapper for whatever it is y'all need to do */
 
-	File name;
+	String name;
 	Connection connection = null;
 	Statement statement = null;
 
@@ -28,22 +28,24 @@ public class Database {
 		this( sdf.format( Calendar.getInstance().getTime() ) );
 	}
 
-	public Database( String name ) {
-		this( new File( name ) );
-	}
-
-	public Database( File name ) {
-		/* Don't do any loading, just set variables */
-
+	public Database( String name ) {		
 		this.name = name;
+		
 		try {
-			connection = DriverManager.getConnection("jdbc:sqlite:sample.db");
+			if( !Constants.USE_MEMORY_DATABASE ) {
+				connection = DriverManager.getConnection( name );
+			} else {
+				connection = DriverManager.getConnection( Constants.MEMORY_DATABASE );
+			}
+			
 			statement = connection.createStatement();
 			statement.setQueryTimeout( Constants.DEFAULT_SQL_TIMEOUT );  // set timeout to 30 sec.
 		} catch( SQLException e ) {
 			e.printStackTrace();
 		}
 	}
+	
+	/* General Utils for Database stuff */
 
 	public void setQueryTimeout() {
 		/* Resets back to default */
@@ -61,10 +63,34 @@ public class Database {
 
 	public boolean exists() {
 		/* Probably not needed, but whatever */
-		return ( name.exists() && !name.isDirectory() );
+		File name_file = new File( this.name );
+		return ( name_file.exists() && !name_file.isDirectory() );
+	}
+	
+	public void backup() {
+		/* Useful if using a memory database */
+		try {
+			statement.executeUpdate( "backup to " + Constants.BACKUP_DATABASE  );
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void restore() {
+		restore( Constants.BACKUP_DATABASE );
+	}
+	
+	public void restore( String name ) {
+		/* Load database, useful for in-memory databases */
+		try {
+			statement.executeUpdate( "restore from " + name );
+		} catch( SQLException e ) {
+			e.printStackTrace();
+		}
 	}
 
 	public List<Object> convert( ResultSet input, String query ) {
+		/* Takes a single query and gives all results as list */
 		List<Object> result = new ArrayList<Object>();
 
 		try {
@@ -78,7 +104,7 @@ public class Database {
 
 		return result;
 	}
-	
+
 	public void close() {
 		try {
 			connection.close();
@@ -89,15 +115,16 @@ public class Database {
 
 	public Map< String, List<Object> > convert( ResultSet input, List<String> query ){
 		/* Gives the contents of the resultset as a map holding an arraylist of values for each query */
+		/* Because we can be lazy later in imports */
+		/* And procastinating other things is easy */
 		Map< String, List<Object> > result = new HashMap< String, List<Object> >();
 
 		try {
 			while( input.next() ) {
 				for( int i = 0; i < query.size(); i++ ) {
-					if( result.get( query.get( i ) ) == null ) {
+					if( result.get( query.get( i ) ) == null ) { // Replace with putIfAbsent
 						result.put( query.get( i ), new ArrayList<Object>() );
 					}
-					
 					result.get( query.get( i ) ).add( input.getObject( i ) );
 				}
 			}
