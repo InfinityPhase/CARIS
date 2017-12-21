@@ -1,20 +1,11 @@
 package main;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
-import com.fasterxml.jackson.annotation.PropertyAccessor;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectWriter;
-import com.fasterxml.jackson.databind.SerializationFeature;
 
 import commands.CalendarHandler;
 import commands.GuildCreate;
@@ -34,7 +25,6 @@ import invokers.NicknameInvoker;
 import invokers.VoteInvoker;
 import invokers._8BallInvoker;
 import library.Constants;
-import library.TestCereal;
 import library.Variables;
 import memories.AuthorMemory;
 import memories.Memory;
@@ -50,7 +40,7 @@ import utilities.BotUtils;
 import utilities.Logger;
 import utilities.TokenParser;
 
-public class Brain implements Serializable {
+public class Brain {
 
 	/*	IMPORTANT NOTES
 	 * 	- Responders ignore case by setting messages to lower case before parsing
@@ -58,9 +48,6 @@ public class Brain implements Serializable {
 	 *  - Variables should be mutable; Use for changing values
 	 *  - When a module is altered, update the ID with Eclipse
 	 */
-
-	/* Allows for versioning of the class Brain */
-	private static final long serialVersionUID = 653133840606620696L;
 
 	public static TokenParser tp = new TokenParser();
 	public static SimpleDateFormat sdf = new SimpleDateFormat( Constants.DATEFORMAT );
@@ -109,25 +96,7 @@ public class Brain implements Serializable {
 
 	public static String token = null;
 
-	// Because we tend to alter the Constants.SAVESTATE variable
-	@SuppressWarnings("unused")
-	public static void main(String[] args) {
-
-		File saveFile = null;
-		
-		Map<String, Object> save = new HashMap<String, Object>();
-		
-		Variables variables = new Variables();
-		TestCereal testCereal = new TestCereal(9001, "Love and Hate");
-		testCereal.putNumbers(15);
-		testCereal.putNumbers( 201456845);
-		testCereal.putPhrases("John", "Jane");
-		testCereal.putPhrases("Happy", "Sad");
-		testCereal.putPhrases("Up", "Down");	
-		TestCereal tastyCereal = new TestCereal( 50, "The second version" );
-		tastyCereal.putNumbers(564);
-		tastyCereal.putNumbers(4875);
-		tastyCereal.putPhrases("TEMP", "TATION");
+	public static void main(String[] args) {	
 
 		init();
 
@@ -165,18 +134,7 @@ public class Brain implements Serializable {
 			temp = System.console().readLine("Save file: ");
 
 			if( !temp.isEmpty() ) {
-				saveFile = new File( temp );
-				log.indent(1).log("Loading save file...");
-
-				if( saveFile.exists() ) {
-					log.indent(2).log("SAve found. Loading classes...");
-					
-					log.indent(9).log("NOT IMPLEMENTED");
-										
-					log.indent(2).log("Loading finished.");
-				} else {
-					log.indent(2).log("File does not exist.");
-				}
+				log.indent(1).log("Not implemented.");
 			} else {
 				log.indent(1).log("No save file given.");
 			}
@@ -206,48 +164,14 @@ public class Brain implements Serializable {
 		load(cli);
 		log.log("Loaded Channel Map.");
 
-		// This should run last, after everything else
-		// Designed to run tasks based on time
-		long startTime = System.currentTimeMillis();
-
 		log.log("Starting timer...");
 		log.indent(1).log("Timer set to: " + Constants.SAVETIME);
+		
 		while( true ) {
 
 			current = Calendar.getInstance();
 			calendarHandler.check();
 
-			if( ( ( System.currentTimeMillis() - startTime ) >= Constants.SAVETIME ) && Constants.SAVESTATE ) {
-
-				log.log("Saving CARIS State...");
-
-				File fileName2 = new File( ( Constants.PREPENDDATE ? sdf.format( Calendar.getInstance().getTime() ) + "_" : "" ) + Constants.SAVEFILE + Constants.SAVEEXTENTION );
-				
-				ObjectWriter out = new ObjectMapper().setVisibility( PropertyAccessor.FIELD, Visibility.ANY ).writer().withDefaultPrettyPrinter().with(SerializationFeature.FAIL_ON_EMPTY_BEANS);
-				
-				/* The list of things to write */
-//				save.put("testCereal", testCereal);
-//				save.put("tastyCereal", tastyCereal);
-//				save.put("invokerModules", invokerModules);
-//				save.put("responderModules", responderModules);
-//				save.put("memoryModules", memoryModules);
-				save.put("variables", variables);
-				
-				/* Actually write stuff */
-				try {
-					out.writeValue( fileName2, save );
-					//out.writeValue( fileName2, memoryModules);
-					//out.writeValue( fileName2, eventModules);
-					
-					//out.writeValue( fileName2, variables );	
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-
-				// Reset the timer
-				log.log("State Saved.");
-				startTime = System.currentTimeMillis();
-			}
 		}
 
 	}

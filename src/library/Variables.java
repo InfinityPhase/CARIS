@@ -1,6 +1,5 @@
 package library;
 
-import java.io.Serializable;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -26,15 +25,22 @@ public class Variables {
 	
 	public void init() {
 		// Connect to database
-		server = new Database();
+		server = new Database( Constants.DATABASE_FILE );
 	}
+	
+	public void init( String file ) {
+		server = new Database( file );
+	}
+	
+	// Maps the ID of a guild to the int id
+	private static Map< Long, Integer > guildID = new HashMap< Long, Integer >();
 	
 	/* Functions to get important shit from the database */
 	// Maybe should be private?
 	// Rename everything to be better
 	
 	public int getGuildIndex( IGuild guild ) {
-		return 0; // Gets the id for the database, pass to other functions
+		return guildID.get( guild.getLongID() ); // Gets the id for the database, pass to other functions
 	}
 	
 	public Map<String, Boolean> getGuildModules( int id ) {
