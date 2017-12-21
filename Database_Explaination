@@ -65,9 +65,9 @@ Variables:
 		guildIndex
 			IGuild : GuildInfo
 	GuildInfo:
-		name
+		name // Dont need
 			String
-		guild
+		guild // Dont need
 			IGuild
 		modules
 			String : Boolean
