@@ -1,8 +1,6 @@
 package invokers;
 
 
-import java.io.Serializable;
-
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import utilities.Handler;
 

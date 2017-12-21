@@ -36,9 +36,9 @@ public class MessageReceived extends SuperEvent {
 			Variables.guildIndex.put(event.getGuild(), new GuildInfo(getGuild.getName(), getGuild));
 			log.log("Creating new Guild Object \"" + getGuild.getName() + "\".");
 		}*/
-		if( !Variables.channelMap.containsKey( recipient.getStringID() ) ) {
-			Variables.channelMap.put( recipient.getStringID(), recipient );
-		}
+		/*if( !Variables.channelMap.containsKey( recipient.getStringID() ) ) {
+			Variables.channelMap.put( recipient.getStringID(), recipient ); // Don't need this anymore
+		}*/
 		
 		if( !Variables.guildIndex.get( event.getGuild() ).settings.containsKey( recipient ) ) {
 			log.indent(0).log("Adding channel to settings list: " + recipient.getName() );

@@ -93,7 +93,7 @@ Variables:
 			List IChannel
 		whitelist
 			List IChannel
-		settings
+		settings // Yeah, I'll do that later...
 			IChannel : ( String : Object )
 					
 			

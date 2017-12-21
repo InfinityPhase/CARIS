@@ -25,7 +25,6 @@ import invokers.NicknameInvoker;
 import invokers.VoteInvoker;
 import invokers._8BallInvoker;
 import library.Constants;
-import library.Variables;
 import memories.AuthorMemory;
 import memories.Memory;
 import memories.TimeMemory;
@@ -35,7 +34,6 @@ import responders.NicknameResponder;
 import responders.ReminderResponder;
 import responders.Responder;
 import sx.blah.discord.api.IDiscordClient;
-import sx.blah.discord.handle.obj.IChannel;
 import utilities.BotUtils;
 import utilities.Logger;
 import utilities.TokenParser;
@@ -95,7 +93,10 @@ public class Brain {
 	public static Calendar current = Calendar.getInstance();
 
 	public static String token = null;
+	
+	public static IDiscordClient cli = BotUtils.getBuiltDiscordClient(token); // Public so that other classes can use it...
 
+	@SuppressWarnings("unused")
 	public static void main(String[] args) {	
 
 		init();
@@ -140,9 +141,7 @@ public class Brain {
 			}
 
 		}
-
-		IDiscordClient cli = BotUtils.getBuiltDiscordClient(token);
-
+		
 		log.log("Client built successfully.");
 
 		for( String s : eventModules.keySet() ) {
@@ -177,9 +176,9 @@ public class Brain {
 	}
 
 	public static void load(IDiscordClient cli) {
-		for( IChannel channel : cli.getChannels() ) {
-			Variables.channelMap.put(channel.getStringID(), channel);
-		}
+		/*for( IChannel channel : cli.getChannels() ) {
+			Variables.channelMap.put(channel.getStringID(), channel); // Don't need this anymore
+		}*/
 	}
 
 	public static void init() { // add hananotherStringdlers to their appropriate categories here

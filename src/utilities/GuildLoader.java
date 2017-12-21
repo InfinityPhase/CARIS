@@ -15,13 +15,12 @@ import main.Brain;
 import sx.blah.discord.api.IShard;
 import sx.blah.discord.handle.impl.obj.Guild;
 import sx.blah.discord.handle.obj.ICategory;
-import sx.blah.discord.handle.obj.IChannel;
-import sx.blah.discord.handle.obj.IRole;
 import sx.blah.discord.handle.obj.IUser;
 import sx.blah.discord.handle.obj.IVoiceChannel;
 import sx.blah.discord.util.cache.Cache;
 
 public class GuildLoader {
+	/* AAAHHHH This need to be completed. Maybe. */
 
 	// From the discord api website
 	Emoji[] emojis;	
@@ -101,7 +100,6 @@ public class GuildLoader {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	public Guild buildGuild() {
 		// TO CHECK: voiceChannels, categories
 		/*
