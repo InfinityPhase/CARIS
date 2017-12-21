@@ -55,4 +55,7 @@ public class Constants {
     	public static final String BLACKLIST_HEADER = "NOBOT";
     	public static final String WHITELIST_HEADER = "BOT";
     	
+    	/* SQL Constants */
+		public static final int DEFAULT_SQL_TIMEOUT = 30;
+    	
 }

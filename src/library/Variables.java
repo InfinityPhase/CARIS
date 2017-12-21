@@ -13,11 +13,13 @@ public class Variables implements Serializable{
 	
 	/* This is nessessary */
 	private static final long serialVersionUID = 5666750084753825282L;
+	
 	/* Gigantic Variable Library */
-	public static HashMap<String, IChannel> channelMap = new HashMap<String, IChannel>();
-	public static HashMap<IGuild, GuildInfo> guildIndex = new HashMap<IGuild, GuildInfo>();
+	public static HashMap<String, IChannel> channelMap = new HashMap<String, IChannel>(); /* Replace String with Long, needed to link id of channel to channel */
+	public static HashMap<IGuild, GuildInfo> guildIndex = new HashMap<IGuild, GuildInfo>(); /* Stores info about each guild for caris */
 	
 	/* Global Utilities */
 	public static DataSaver ds = new DataSaver();
-
+	
 }
+
