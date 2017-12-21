@@ -17,6 +17,8 @@ import library.Constants;
 
 public class Database {
 	/* Wrapper for whatever it is y'all need to do */
+	
+	/* Oh wow debugging this will be painful... */
 
 	String name;
 	Connection connection = null;
@@ -115,8 +117,6 @@ public class Database {
 
 	public Map< String, List<Object> > convert( ResultSet input, List<String> query ){
 		/* Gives the contents of the resultset as a map holding an arraylist of values for each query */
-		/* Because we can be lazy later in imports */
-		/* And procastinating other things is easy */
 		Map< String, List<Object> > result = new HashMap< String, List<Object> >();
 
 		try {
@@ -168,6 +168,49 @@ public class Database {
 		} catch( SQLException e ) {
 			e.printStackTrace();
 		}
+	}
+	
+	public void makeTable( String table ) {
+		/* Creates the table if it doesn't exist */
+		
+	}
+	
+	public void makeTable( String table, Map<String, String> collumns ) {
+		/* Create table with given collumns */
+		String collumns_string = "";
+		
+		for( String name : collumns.keySet() ) {
+			collumns_string = collumns_string + ", " + name + collumns.get( name );
+		}
+				
+		try {
+			statement.executeUpdate( "create table " + table + " (" + collumns_string + ") ");
+		} catch( SQLException e ) {
+			e.printStackTrace();
+		}
+	}
+	
+	public boolean tableExists( String table ) {
+		/* Checks for the existance of a table */
+		ResultSet test = null;
+		
+		try {
+			test = statement.executeQuery( "SELECT * from sqlite_master WHERE name ='" + table +"' and type='table'");
+		} catch( SQLException e ) {
+			e.printStackTrace();
+		}
+		
+		try {
+			if( test.next() ) {
+				return true; // If the row is not null, it must exist. Therefore, the table exists.
+				// Very existential, no?
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return false;
 	}
 
 }
