@@ -78,14 +78,28 @@ public class Database {
 
 		return result;
 	}
+	
+	public void close() {
+		try {
+			connection.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 
-	public Map< String, List > convert( ResultSet input, List<String> query ){
-		Map< String, List > result = new HashMap< String, ArrayList<Object> >();
+	public Map< String, List<Object> > convert( ResultSet input, List<String> query ){
+		/* Gives the contents of the resultset as a map holding an arraylist of values for each query */
+		Map< String, List<Object> > result = new HashMap< String, List<Object> >();
 
 		try {
 			while( input.next() ) {
-				input.get
-				result.add( input.getString( query ) );
+				for( int i = 0; i < query.size(); i++ ) {
+					if( result.get( query.get( i ) ) == null ) {
+						result.put( query.get( i ), new ArrayList<Object>() );
+					}
+					
+					result.get( query.get( i ) ).add( input.getObject( i ) );
+				}
 			}
 
 		} catch (SQLException e) {
