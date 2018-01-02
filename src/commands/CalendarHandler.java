@@ -14,9 +14,9 @@ public class CalendarHandler {
 	public void check() {
 		for( IGuild guild : Variables.guildIndex.keySet() ) {
 			GuildInfo info = Variables.guildIndex.get(guild);
-			for( String s : info.reminders2.keySet() ) {
+			for( String s : info.reminders.keySet() ) {
 				Calendar c = Variables.toCalendar( s );
-				Reminder reminder = info.reminders.get(c);
+				Reminder reminder = info.reminders.get(s);
 				if( Brain.current.after(c) ) {
 					System.out.println(Brain.current.toString());
 					String send = "";
@@ -30,7 +30,7 @@ public class CalendarHandler {
 						send += "\".";
 					}
 					BotUtils.sendMessage( Variables.getChannel(reminder.channelID), send );
-					info.reminders.remove(c);
+					info.reminders.remove(s);
 				}
 			}
 		}

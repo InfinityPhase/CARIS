@@ -105,9 +105,10 @@ public class DataSaver {
 			userIndex.put(s.toString(), userData); // TODO: Make sure this works the way it should
 		}
 		JSONObject reminders = new JSONObject();
-		for( Calendar c : guildInfo.reminders.keySet() ) {
+		for( String s : guildInfo.reminders.keySet() ) {
+			Calendar c = Variables.toCalendar( s );
 			String date = c.toString();
-			Reminder r = guildInfo.reminders.get(c);
+			Reminder r = guildInfo.reminders.get(s);
 			JSONObject reminder = new JSONObject();
 			reminder.put("message", r.message);
 			reminder.put("author", r.author);

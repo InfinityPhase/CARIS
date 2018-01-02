@@ -2,7 +2,6 @@ package main;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
@@ -37,8 +36,7 @@ public class GuildInfo implements Serializable {
 	// Creates Map of Username-human to User user
 	public HashMap<String, String> translator; // we might not need this if people just @ everyone else // Yeah right.
 	public HashMap<IUser, UserInfo> userIndex;
-	public HashMap<Calendar, Reminder> reminders;
-	public HashMap<String, Reminder> reminders2;
+	public HashMap<String, Reminder> reminders;
 	
 	// Channel settings
 	public long logChannel; // Perhaps should be the actual channel? Probably?
@@ -64,17 +62,17 @@ public class GuildInfo implements Serializable {
 		this(name, guild, new HashMap<String, Boolean>(), new HashMap<String, Poll>(), 
 				new HashMap<String, ArrayList<String>>(), new HashMap<String, String>(), 
 				new HashMap<String, String>(), new HashMap<IUser, UserInfo>(), 
-				new HashMap<Calendar, Reminder>(), new ArrayList<IChannel>(),
+				new HashMap<String, Reminder>(), new ArrayList<IChannel>(),
 				new ArrayList<IChannel>(), -1,
-				new HashMap< IChannel, HashMap< String, Object > >(), new HashMap<String, Reminder>() );
+				new HashMap< IChannel, HashMap< String, Object > >() );
 	}
 	
 	public GuildInfo(String name, IGuild guild, HashMap<String, Boolean> modules, HashMap<String, Poll> polls, 
 			HashMap<String, ArrayList<String>> locations, HashMap<String, String> people, 
 			HashMap<String, String> translator, HashMap<IUser, UserInfo> userIndex, 
-			HashMap<Calendar, Reminder> reminders, ArrayList<IChannel> blacklist,
+			HashMap<String, Reminder> reminders, ArrayList<IChannel> blacklist,
 			ArrayList<IChannel> whitelist, long logChannel,
-			HashMap<IChannel, HashMap<String, Object>> settings, HashMap<String, Reminder> reminders2 ) {
+			HashMap<IChannel, HashMap<String, Object>> settings ) {
 		
 		this.name = name;
 		this.guild = guild;
@@ -90,9 +88,7 @@ public class GuildInfo implements Serializable {
 		this.whitelist = whitelist;
 		this.logChannel = logChannel;
 		this.settings = settings;
-		
-		this.reminders2 = reminders2;
-		
+				
 		pollBuilder = new PollBuilder();
 		moduleStatusBuilder = new ModuleStatusBuilder();
 		

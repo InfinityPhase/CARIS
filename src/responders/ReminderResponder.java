@@ -21,15 +21,14 @@ public class ReminderResponder extends Responder {
 		if( hasIgnoreCase( tokens, "reminder" ) || hasIgnoreCase( tokens, "remind" ) && hasIgnoreCase( tokens, "on" ) || hasIgnoreCase( tokens, "remind") && hasIgnoreCase( tokens, "at" ) ) {
 			Calendar c = timeParser.parseAlarm(tokens);
 			if( c != null ) {
-				/*Variables.guildIndex.get(event.getGuild()).reminders.put(c, new Reminder(message, event));*/ // Origional line, for posterity
-				Variables.guildIndex.get(event.getGuild()).reminders2.put( Variables.timeString(c), new Reminder(message, event)); // The nes line.
+				Variables.guildIndex.get(event.getGuild()).reminders.put( Variables.timeString(c), new Reminder(message, event));
 				response = "Reminder set successfully.";
 				System.out.println(c.toString());
 			}
 		} else if( hasIgnoreCase( tokens, "remind" ) ) {
 			Calendar c = timeParser.parseTimer(tokens);
 			if( c != null ) {
-				Variables.guildIndex.get(event.getGuild()).reminders.put(c, new Reminder(message, event));
+				Variables.guildIndex.get(event.getGuild()).reminders.put( Variables.timeString(c), new Reminder(message, event));
 				response = "Reminder set successfully.";
 				System.out.println(c.toString());
 			}
