@@ -2,7 +2,11 @@ package library;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import main.Brain;
@@ -14,6 +18,8 @@ import utilities.Database;
 
 public class Variables {		
 	private Database server = null;
+	private static SimpleDateFormat format = new SimpleDateFormat("YYYYMMddhhmmss", Locale.ENGLISH);
+
 
 	// Dynamic global variables
 
@@ -28,9 +34,13 @@ public class Variables {
 		init( Constants.DATABASE_FILE );
 	}
 
+	@SuppressWarnings("serial")
 	public void init( String file ) {
 		server = new Database( file );
+		
 		/* Create tables, collumns, if nessessary */
+		// This is going to SUCK to debug
+		// We both know that it will be nessesary, its just a matter of time...
 
 		server.makeTable( "GuildID", new HashMap<String, String>() {{ 
 			put("id","int"); put("modules","int"); put("polls","int"); put("locations","int"); 
@@ -48,11 +58,11 @@ public class Variables {
 		}});
 		
 		server.makeTable( "Locations", new HashMap<String, String>() {{
-			put("id","int"); put("name","String"); put("place","int"); // Need table for place:int
+			put("id","int"); put("name","String"); put("place","int"); // place links to Location_P2
 		}});
 		
 		server.makeTable( "Location_P2", new HashMap<String, String>() {{
-			
+			put("id","int"); put("name","String"); // Used by Locations to emulate nested arraylist
 		}});
 		
 		server.makeTable( "Translator", new HashMap<String, String>() {{
@@ -64,11 +74,11 @@ public class Variables {
 		}});
 		
 		server.makeTable( "Reminders", new HashMap<String, String>() {{
-			put("id","int"); put("",""); 
+			put("id","int"); put("",""); put("",""); // Links calendar object to reminder object
 		}});
 		
 		server.makeTable( "Blacklist", new HashMap<String, String>() {{
-			put("id","int"); put("channelID","long"); 
+			put("id","int"); put("channelID","long"); // Notice this is the long, not the object
 		}});
 		
 		server.makeTable( "Whitelist", new HashMap<String, String>() {{
@@ -149,6 +159,22 @@ public class Variables {
 
 	public String people( IGuild guild, String query ) {
 		return getPeople( getGuildIndex( guild ) ).get( query );
+	}
+	
+	public static String timeString( Calendar input ) {
+		return format.format( input.getTime() );
+	}
+	
+	public static Calendar toCalendar( String wtf ) {
+		Calendar result = Calendar.getInstance();
+		
+		try {
+			result.setTime( format.parse( wtf ) );
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		
+		return result;
 	}
 
 }

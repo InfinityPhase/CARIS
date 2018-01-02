@@ -38,6 +38,7 @@ public class GuildInfo implements Serializable {
 	public HashMap<String, String> translator; // we might not need this if people just @ everyone else // Yeah right.
 	public HashMap<IUser, UserInfo> userIndex;
 	public HashMap<Calendar, Reminder> reminders;
+	public HashMap<String, Reminder> reminders2;
 	
 	// Channel settings
 	public long logChannel; // Perhaps should be the actual channel? Probably?
@@ -65,7 +66,7 @@ public class GuildInfo implements Serializable {
 				new HashMap<String, String>(), new HashMap<IUser, UserInfo>(), 
 				new HashMap<Calendar, Reminder>(), new ArrayList<IChannel>(),
 				new ArrayList<IChannel>(), -1,
-				new HashMap< IChannel, HashMap< String, Object > >() );
+				new HashMap< IChannel, HashMap< String, Object > >(), new HashMap<String, Reminder>() );
 	}
 	
 	public GuildInfo(String name, IGuild guild, HashMap<String, Boolean> modules, HashMap<String, Poll> polls, 
@@ -73,7 +74,7 @@ public class GuildInfo implements Serializable {
 			HashMap<String, String> translator, HashMap<IUser, UserInfo> userIndex, 
 			HashMap<Calendar, Reminder> reminders, ArrayList<IChannel> blacklist,
 			ArrayList<IChannel> whitelist, long logChannel,
-			HashMap<IChannel, HashMap<String, Object>> settings ) {
+			HashMap<IChannel, HashMap<String, Object>> settings, HashMap<String, Reminder> reminders2 ) {
 		
 		this.name = name;
 		this.guild = guild;
@@ -89,6 +90,8 @@ public class GuildInfo implements Serializable {
 		this.whitelist = whitelist;
 		this.logChannel = logChannel;
 		this.settings = settings;
+		
+		this.reminders2 = reminders2;
 		
 		pollBuilder = new PollBuilder();
 		moduleStatusBuilder = new ModuleStatusBuilder();

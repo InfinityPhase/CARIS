@@ -14,7 +14,8 @@ public class CalendarHandler {
 	public void check() {
 		for( IGuild guild : Variables.guildIndex.keySet() ) {
 			GuildInfo info = Variables.guildIndex.get(guild);
-			for( Calendar c : info.reminders.keySet() ) {
+			for( String s : info.reminders2.keySet() ) {
+				Calendar c = Variables.toCalendar( s );
 				Reminder reminder = info.reminders.get(c);
 				if( Brain.current.after(c) ) {
 					System.out.println(Brain.current.toString());
