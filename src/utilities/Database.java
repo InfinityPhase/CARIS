@@ -262,6 +262,15 @@ public class Database {
 			e.printStackTrace();
 		}
 	}
+	
+	// Damn. This is unsupported by SQLite, and must be done during table creation
+	/*public void addForeignKey( String table, String key, String refrencedTable, String refrencedKey ) {
+		try {
+			statement.executeUpdate( "FOREIGN KEY (" + key + ") REFRENCES " + refrencedTable + "(" + refrencedKey + ");" ); // Wrong syntax. Pls fix.
+		} catch( SQLException e ) {
+			e.printStackTrace();
+		}
+	}*/
 
 	public boolean tableExists( String table ) {
 		/* Checks for the existance of a table */
