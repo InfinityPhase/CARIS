@@ -25,6 +25,7 @@ import invokers.NicknameInvoker;
 import invokers.VoteInvoker;
 import invokers._8BallInvoker;
 import library.Constants;
+import library.Variables;
 import memories.AuthorMemory;
 import memories.Memory;
 import memories.TimeMemory;
@@ -94,12 +95,14 @@ public class Brain {
 
 	public static String token = null;
 	
-	public static IDiscordClient cli = BotUtils.getBuiltDiscordClient(token); // Public so that other classes can use it...
+	public static IDiscordClient cli = null; // Public so that other classes can use it...
 
 	@SuppressWarnings("unused")
 	public static void main(String[] args) {	
 
 		init();
+		
+		Variables.init();
 
 		if( args.length <= 0 && System.console() != null ) {
 			token = System.console().readPassword("Bot Token: ").toString();
@@ -141,6 +144,8 @@ public class Brain {
 			}
 
 		}
+		
+		cli = BotUtils.getBuiltDiscordClient(token);
 		
 		log.log("Client built successfully.");
 

@@ -17,7 +17,7 @@ import utilities.DataSaver;
 import utilities.Database;
 
 public class Variables {		
-	private Database server = null;
+	private static Database server = null;
 	private static SimpleDateFormat format = new SimpleDateFormat("YYYYMMddhhmmss", Locale.ENGLISH);
 
 
@@ -29,18 +29,21 @@ public class Variables {
 	/* Global Utilities */
 	public static DataSaver ds = new DataSaver();
 
-	public void init() {
+	public static void init() {
 		// Connect to database
 		init( Constants.DATABASE_FILE );
 	}
 
 	@SuppressWarnings("serial")
-	public void init( String file ) {
+	public static void init( String file ) {
+
 		server = new Database( file );
 		
 		/* Create tables, collumns, if nessessary */
 		// This is going to SUCK to debug
 		// We both know that it will be nessesary, its just a matter of time...
+		
+		System.out.println("ERROR TIME! Drop it...");
 
 		server.makeTable( "GuildID", new HashMap<String, String>() {{ 
 			put("id","int"); put("modules","int"); put("polls","int"); put("locations","int"); 
@@ -74,7 +77,11 @@ public class Variables {
 		}});
 		
 		server.makeTable( "Reminders", new HashMap<String, String>() {{
-			put("id","int"); put("",""); put("",""); // Links calendar object to reminder object
+			put("id","int"); put("time","String"); put("reminder","int"); // Links string representing calendar to ReminderObject
+		}});
+		
+		server.makeTable( "ReminderObject", new HashMap<String, String>() {{
+			put("id","int"); put("message","String"); put("author","String"); put("channelID","String"); 
 		}});
 		
 		server.makeTable( "Blacklist", new HashMap<String, String>() {{
@@ -119,17 +126,15 @@ public class Variables {
 			e.printStackTrace();
 		}
 
-		return result; // get all the things given the id
+		return result;
 	}
 
 	public Map<String, String> getPeople( int id ) {
 		Map<String, String> result = new HashMap<String, String>();
 
-		// Oh wow, this line is UGLY
 		// First, gets the id for the People table, which represents a java map of String to String.
 		// Then, converts the ResultSet into an ArrayList, of which the 0 index is used
 		// Last, that is passed to the People table, where the ResultSet is retrieved
-		// Supposedly.
 		ResultSet rs = server.query( "SELECT * FROM People WHERE id = " + server.convert( server.query( "SELECT people FROM GuildInfo WHERE id = " + id ), "" ).get( 0 ) );
 
 		try {
@@ -154,7 +159,7 @@ public class Variables {
 	public String translate( IGuild guild, String query ) {
 		// TODO: rename this function
 		// All the functions, actually
-		return getTranslator( getGuildIndex( guild ) ).get( query ); // Tada, the all in one solution to all the problems
+		return getTranslator( getGuildIndex( guild ) ).get( query );
 	}
 
 	public String people( IGuild guild, String query ) {

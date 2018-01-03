@@ -59,7 +59,7 @@ public class Constants {
 		public static final int DEFAULT_SQL_TIMEOUT = 30;
 		public static final boolean USE_MEMORY_DATABASE = false;
 		public static final String MEMORY_DATABASE = "jdbc:sqlite::memory:";
-		public static final String BACKUP_DATABASE = "backup.db";
-		public static final String DATABASE_FILE = "caris.db";
+		public static final String BACKUP_DATABASE = "jdbc:sqlite:backup.db";
+		public static final String DATABASE_FILE = "jdbc:sqlite:caris.db";
     	
 }

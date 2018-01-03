@@ -30,12 +30,15 @@ public class Database {
 		this( sdf.format( Calendar.getInstance().getTime() ) );
 	}
 
-	public Database( String name ) {		
+	public Database( String name ) {
+
 		this.name = name;
 		
 		try {
 			if( !Constants.USE_MEMORY_DATABASE ) {
+				Class.forName("org.sqlite.JDBC"); // Do i need this?
 				connection = DriverManager.getConnection( name );
+
 			} else {
 				connection = DriverManager.getConnection( Constants.MEMORY_DATABASE );
 			}
@@ -43,6 +46,8 @@ public class Database {
 			statement = connection.createStatement();
 			statement.setQueryTimeout( Constants.DEFAULT_SQL_TIMEOUT );  // set timeout to 30 sec.
 		} catch( SQLException e ) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
 	}
