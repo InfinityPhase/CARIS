@@ -17,7 +17,20 @@ import sx.blah.discord.handle.obj.IGuild;
 import utilities.DataSaver;
 import utilities.Database;
 
-public class Variables {		
+public class Variables {
+	/*
+	 * So, this class is intresting. The origional purpose was to hold all volatile data
+	 * in one location, such as the GuildIndex. This was for organizational purposes to
+	 * allow for easier extendability.
+	 * 
+	 * Now, this class provides for the ability to access the data stored in the database,
+	 * without complexity elsewhere. That said, this class needs some reorganizing, for
+	 * cleanup. But it should work, for now.
+	 * 
+	 * The database is accessed using the Database class, which provides a wrapper to
+	 * the currently used database software, SQLite.
+	 */
+	
 	private static Database server = null;
 	private static SimpleDateFormat format = new SimpleDateFormat("YYYYMMddhhmmss", Locale.ENGLISH);
 
@@ -47,7 +60,7 @@ public class Variables {
 		/* Create tables, collumns, if nessessary */
 		
 		server.makeTable( "Guild", new ArrayList<String>() {{
-			add("guildID integer PRIMARY KEY NOT NULL"); // The primary id, what it says on the tin.
+			add("guild_id integer PRIMARY KEY NOT NULL"); // The primary id, what it says on the tin.
 			
 			// Keys to the kingdom
 			add("modules_id integer NOT NULL"); 
@@ -130,29 +143,43 @@ public class Variables {
 		}});
 	}
 
-	// Maps the ID of a guild to the int id
-	private static Map< Long, Integer > guildID = new HashMap< Long, Integer >();
-
 	/* Functions to get important shit from the database */
-	// Maybe should be private?
-	// Rename everything to be better
+	
+	/* NEED TO BE ABLE TO:
+	 * modules and status
+	 * Polls
+	 * Locations
+	 * People
+	 * Transator
+	 * UserIndex
+	 * Reminders
+	 * Blacklist
+	 * Whitelist
+	 * PollBuilder
+	 * moduleStatusBuilder
+	 * logChannel
+	 */
 
 	public static IChannel getChannel( String key ) {
-		return getChannel( new Long( key ) ); // Pls be right
+		return getChannel( new Long( key ) );
 	}
 
 	public static IChannel getChannel( long key ) {
 		return Brain.cli.getChannelByID( key );
 	}
-
-	public int getGuildIndex( IGuild guild ) { // Maybe private?
-		return guildID.get( guild.getLongID() ); // Gets the id for the database, pass to other functions
+	
+	public static Map<String, Boolean> getGuildModules( String guildID ) {
+		return getGuildModules( new Long(guildID ) );
+	}
+	
+	public static Map<String, Boolean> getGuildModules( long guildID ) {
+		return getGuildModules( null ); // TODO FIX ME
 	}
 
-	public Map<String, Boolean> getGuildModules( int id ) {
+	public static Map<String, Boolean> getGuildModules( int id ) {
 		Map<String, Boolean> result = new HashMap<String, Boolean>();
 
-		ResultSet rs = server.query( "SELECT * FROM Modules WHERE id = " + server.query( "SELECT modules FROM GuildInfo WHERE id = " + id ) ); // Theoretically will work // Nope. See getPeople
+		ResultSet rs = server.query( "SELECT * FROM Modules WHERE modules_id = " + server.query( "SELECT modules_id FROM Guild WHERE guild_id = " + id ) ); // Theoretically will work // Nope. See getPeople
 
 		try { // Move to Database class for abstraction
 			while( rs.next() ) {
@@ -166,13 +193,13 @@ public class Variables {
 		return result;
 	}
 
-	public Map<String, String> getPeople( int id ) {
+	public static Map<String, String> getPeople( int id ) {
 		Map<String, String> result = new HashMap<String, String>();
 
 		// First, gets the id for the People table, which represents a java map of String to String.
 		// Then, converts the ResultSet into an ArrayList, of which the 0 index is used
 		// Last, that is passed to the People table, where the ResultSet is retrieved
-		ResultSet rs = server.query( "SELECT * FROM People WHERE id = " + server.convert( server.query( "SELECT people FROM GuildInfo WHERE id = " + id ), "" ).get( 0 ) );
+		ResultSet rs = server.query( "SELECT * FROM People WHERE people_id = " + server.convert( server.query( "SELECT people_id FROM Guild WHERE guild_id = " + id ), "" ).get( 0 ) );
 
 		try {
 			while( rs.next() ) {
@@ -184,24 +211,43 @@ public class Variables {
 
 		return result;
 	}
-
-	public Map<String, String> getTranslator( int id ){
-		Map<String, String> result = new HashMap<String, String>();
-
-		return result;
+	
+	public long getLogChannel( IGuild guild ) {
+		return getLogChannel( guild.getLongID() );
+	}
+	
+	public long getLogChannel( String guild ) {
+		return getLogChannel( new Long( guild ) );
+	}
+	
+	public long getLogChannel( long guild ) {
+		ResultSet rs = server.query( "SELECT logChannel FROM Guild WHERE guild_id = " + guild );
+		try {
+			return rs.getLong( "logChannel" );
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return -1; // I don't want to use an object, so have a negative
+	}
+	
+	/* Functions to set values in the database */
+	
+	public void setLogChannel( IGuild guild, IChannel channel ) {
+		setLogChannel( guild.getLongID(), channel.getLongID() );
+	}
+	
+	public void setLogChannel( String guild, String channel ) {
+		setLogChannel( new Long( guild ), new Long( channel ) );
+	}
+	
+	@SuppressWarnings("serial")
+	public void setLogChannel( long guild, long channel ) {
+		server.update( String.valueOf(guild), new HashMap<String, String>() {{
+			put("logChannel",String.valueOf(channel));
+		}});
 	}
 
 	/* Functions to interpret the shit returned from the database */
-
-	public String translate( IGuild guild, String query ) {
-		// TODO: rename this function
-		// All the functions, actually
-		return getTranslator( getGuildIndex( guild ) ).get( query );
-	}
-
-	public String people( IGuild guild, String query ) {
-		return getPeople( getGuildIndex( guild ) ).get( query );
-	}
 	
 	public static String timeString( Calendar input ) {
 		return format.format( input.getTime() );
