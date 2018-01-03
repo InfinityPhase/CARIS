@@ -17,8 +17,10 @@ import library.Constants;
 
 public class Database {
 	/* Wrapper for whatever it is y'all need to do */
-	
-	/* Oh wow debugging this will be painful... */
+
+	/* A note: This trusts that your querys are entirely correct, 
+	 * so errors should be non existent. Be careful.
+	 */
 
 	String name;
 	Connection connection = null;
@@ -33,7 +35,7 @@ public class Database {
 	public Database( String name ) {
 
 		this.name = name;
-		
+
 		try {
 			if( !Constants.USE_MEMORY_DATABASE ) {
 				Class.forName("org.sqlite.JDBC"); // Do i need this?
@@ -42,7 +44,7 @@ public class Database {
 			} else {
 				connection = DriverManager.getConnection( Constants.MEMORY_DATABASE );
 			}
-			
+
 			statement = connection.createStatement();
 			statement.setQueryTimeout( Constants.DEFAULT_SQL_TIMEOUT );  // set timeout to 30 sec.
 		} catch( SQLException e ) {
@@ -51,7 +53,7 @@ public class Database {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/* General Utils for Database stuff */
 
 	public void setQueryTimeout() {
@@ -73,7 +75,7 @@ public class Database {
 		File name_file = new File( this.name );
 		return ( name_file.exists() && !name_file.isDirectory() );
 	}
-	
+
 	public void backup() {
 		/* Useful if using a memory database */
 		try {
@@ -82,11 +84,11 @@ public class Database {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void restore() {
 		restore( Constants.BACKUP_DATABASE );
 	}
-	
+
 	public void restore( String name ) {
 		/* Load database, useful for in-memory databases */
 		try {
@@ -143,6 +145,43 @@ public class Database {
 
 	/* Actually perform shit on this stupid database */
 	/* Sorry for the anger. Blame stress */
+	
+	public ResultSet getPragma( String name ) {
+		try {
+			return statement.executeQuery( "PRAGMA " + name + ";" );
+		} catch( SQLException e ) {
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+
+	public void setPragma( String name, boolean value ) {
+		try {
+			statement.executeUpdate( "PRAGMA " + name + " = " + ( value ? "ON" : "OFF" ) + ";" );
+		} catch( SQLException e ) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void setPragma( String name, int value ) {
+		try {
+			statement.executeUpdate( "PRAGMA " + name + " = " + value + ";" );
+		} catch( SQLException e ) {
+			e.printStackTrace();
+		}
+	}
+
+	public void setPragma( Map<String, Boolean> values ) {
+		/* I wish I could make this one command, for efficent access */
+		for( String s : values.keySet() ) {
+			try {
+				statement.executeUpdate( "PRAGMA " + s + " = " + ( values.get(s) ? "ON" : "OFF" ) + ";" );
+			} catch( SQLException e ) {
+				e.printStackTrace();
+			}
+		}
+	}
 
 	public void update( String update ) {
 		/* Runs a raw update */
@@ -174,7 +213,7 @@ public class Database {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void makeTable( String table ) {
 		/* Creates the table if it doesn't exist */
 		try {
@@ -183,37 +222,38 @@ public class Database {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void makeTable( String table, Map<String, String> collumns ) {
 		/* Create table with given collumns */
+		/* Does not include most needed features. Deprecated before finished... */
 		String collumns_string = "";
-		
+
 		for( String name : collumns.keySet() ) {
 			collumns_string = collumns_string + ", " + name + " " + collumns.get( name );
 		}
-				
+
 		try {
 			statement.executeUpdate( "CREATE TABLE IF NOT EXISTS " + table + " (" + collumns_string.substring(2) + ");");
 		} catch( SQLException e ) {
 			e.printStackTrace();
 		}
 	}
-		
+
 	public void makeTable( String table, List<String> collumns ) {
 		// Because I realized my stupidity
 		String collumns_string = "";
-		
+
 		for( String s : collumns ) {
 			collumns_string = collumns_string + ", " + s;
 		}
-		
+
 		try {
 			statement.executeUpdate( "CREATE TABLE IF NOT EXISTS " + table + " (" + collumns_string.substring(2) + ");" );
 		} catch( SQLException e ) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void addCollumn( String table, String collumn ) {
 		/* What it says on the tin. Adds a single collumn to a given table */
 		try {
@@ -222,27 +262,27 @@ public class Database {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public boolean tableExists( String table ) {
 		/* Checks for the existance of a table */
 		ResultSet test = null;
-		
+
 		try {
 			test = statement.executeQuery( "SELECT * from sqlite_master WHERE name ='" + table +"' and type='table';" );
 		} catch( SQLException e ) {
 			e.printStackTrace();
 		}
-		
+
 		try {
 			if( test.next() ) {
 				return true; // If the row is not null, it must exist. Therefore, the table exists.
 				// Very existential, no?
 			}
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
+
 		return false;
 	}
 

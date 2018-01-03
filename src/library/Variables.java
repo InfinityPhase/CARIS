@@ -4,6 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Locale;
@@ -39,19 +40,30 @@ public class Variables {
 
 		server = new Database( file );
 		
+		/* Set the nessessary PRAGMA */
+		
+		server.setPragma( "foreign_keys", true ); // Make sure tables that are dependent on others work right
+		
 		/* Create tables, collumns, if nessessary */
-		// This is going to SUCK to debug
-		// We both know that it will be nessesary, its just a matter of time...
 				
-		server.makeTable( "GuildID", new HashMap<String, String>() {{ 
+		server.makeTable( "GuildID", new HashMap<String, String>() {{ // Fuck, this is so wrong.
 			put("id","int"); put("modules","int"); put("polls","int"); put("locations","int"); 
 			put("people","int"); put("pollBuilder","String"); put("moduleStatusBuilder","String"); put("translator","int"); 
 			put("userIndex","int"); put("reminders","int"); put("logChannel","long"); put("blacklist","int"); 
 			put("whitelist","int");
 		}} );
 		
+		server.makeTable( "Guild", new ArrayList<String>() {{
+			add("guildID integer PRIMARY KEY NOT NULL"); add("modules_id integer NOT NULL"); add("FOREIGN KEY (modules_id) REFERENCES Modules(modules_id)"); 
+			add(""); add(""); 
+			add(""); add(""); 
+			add(""); add(""); 
+			add(""); add(""); 
+			add(""); add(""); 
+		}});
+		
 		server.makeTable( "Modules", new HashMap<String, String>() {{
-			put("id","int"); put("name","String"); put("status","Boolean");
+			put("modules_id","int"); put("name","String"); put("status","Boolean");
 		}} );
 		
 		server.makeTable( "Polls", new HashMap<String, String>() {{
