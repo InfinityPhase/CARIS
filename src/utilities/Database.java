@@ -169,7 +169,7 @@ public class Database {
 	public void dropTable( String table ) {
 		/* Drops the given table if it exists */
 		try {
-			statement.executeUpdate( "drop table if exists " + table );
+			statement.executeUpdate( "drop table if exists " + table + ";" );
 		} catch( SQLException e ) {
 			e.printStackTrace();
 		}
@@ -177,7 +177,11 @@ public class Database {
 	
 	public void makeTable( String table ) {
 		/* Creates the table if it doesn't exist */
-		
+		try {
+			statement.executeUpdate( "CREATE TABLE IF NOT EXISTS " + table + ";" );
+		} catch( SQLException e ){
+			e.printStackTrace();
+		}
 	}
 	
 	public void makeTable( String table, Map<String, String> collumns ) {
@@ -185,11 +189,35 @@ public class Database {
 		String collumns_string = "";
 		
 		for( String name : collumns.keySet() ) {
-			collumns_string = collumns_string + ", " + name + collumns.get( name );
+			collumns_string = collumns_string + ", " + name + " " + collumns.get( name );
 		}
 				
 		try {
-			statement.executeUpdate( "create table " + table + " (" + collumns_string + ") ");
+			statement.executeUpdate( "CREATE TABLE IF NOT EXISTS " + table + " (" + collumns_string.substring(2) + ");");
+		} catch( SQLException e ) {
+			e.printStackTrace();
+		}
+	}
+		
+	public void makeTable( String table, List<String> collumns ) {
+		// Because I realized my stupidity
+		String collumns_string = "";
+		
+		for( String s : collumns ) {
+			collumns_string = collumns_string + ", " + s;
+		}
+		
+		try {
+			statement.executeUpdate( "CREATE TABLE IF NOT EXISTS " + table + " (" + collumns_string.substring(2) + ");" );
+		} catch( SQLException e ) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void addCollumn( String table, String collumn ) {
+		/* What it says on the tin. Adds a single collumn to a given table */
+		try {
+			statement.executeUpdate( "ALTER TABLE " + table + " ADD COLLUMN " + collumn + ";" );
 		} catch( SQLException e ) {
 			e.printStackTrace();
 		}
@@ -200,7 +228,7 @@ public class Database {
 		ResultSet test = null;
 		
 		try {
-			test = statement.executeQuery( "SELECT * from sqlite_master WHERE name ='" + table +"' and type='table'");
+			test = statement.executeQuery( "SELECT * from sqlite_master WHERE name ='" + table +"' and type='table';" );
 		} catch( SQLException e ) {
 			e.printStackTrace();
 		}

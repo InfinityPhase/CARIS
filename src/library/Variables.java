@@ -42,9 +42,7 @@ public class Variables {
 		/* Create tables, collumns, if nessessary */
 		// This is going to SUCK to debug
 		// We both know that it will be nessesary, its just a matter of time...
-		
-		System.out.println("ERROR TIME! Drop it...");
-
+				
 		server.makeTable( "GuildID", new HashMap<String, String>() {{ 
 			put("id","int"); put("modules","int"); put("polls","int"); put("locations","int"); 
 			put("people","int"); put("pollBuilder","String"); put("moduleStatusBuilder","String"); put("translator","int"); 
