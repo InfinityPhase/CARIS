@@ -183,10 +183,57 @@ public class Database {
 		}
 	}
 
-	public void update( String update ) {
+	public void rawUpdate( String update ) {
 		/* Runs a raw update */
 		try {
 			statement.executeUpdate( update );
+		} catch( SQLException e ) {
+			e.printStackTrace();
+		}
+	}
+	
+	@SuppressWarnings("serial")
+	public void update( String table, Map<String, String> values, String condition ) {
+		update( table, values, new ArrayList<String>() {{ add(condition); }} ); // Becuase I am really lazy. Probably pretty inefficent, though.
+	}
+	
+	public void update( String table, Map<String, String> values, List<String> conditions ) {
+		/*
+		UPDATE table_name
+		SET column1 = value1, column2 = value2...., columnN = valueN
+		WHERE [condition];
+		*/
+		
+		String condition = "";
+		String value = "";
+		
+		for( String s : conditions ) {
+			condition = condition + ", " + s;
+		}
+		
+		for( String k : values.keySet() ) {
+			value = value + ", " + k + " = " + values.get(k);
+		}
+		
+		try {
+			statement.executeUpdate( "UPDATE " + table + " SET " + value.substring(2) + " WHERE " + condition.substring(2) + ";" );
+		} catch (SQLException e) {
+			System.out.println("");
+			e.printStackTrace();
+		}
+	}
+	
+	public void update( String table, Map<String, String> values ) {
+		/* Ignores the WHERE clause */
+		
+		String value = "";
+		
+		for( String k : values.keySet() ) {
+			value = value + ", " + k + " = " + values.get(k);
+		}
+		
+		try {
+			statement.executeUpdate( "UPDATE " + table + " SET " + value.substring(2) + ";" );
 		} catch( SQLException e ) {
 			e.printStackTrace();
 		}
