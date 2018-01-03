@@ -57,16 +57,27 @@ public class Variables {
 		
 		server.makeTable( "Guild", new ArrayList<String>() {{
 			add("guildID integer PRIMARY KEY NOT NULL"); // The primary id, what it says on the tin.
-			add("modules_id integer NOT NULL"); add("FOREIGN KEY (modules_id) REFERENCES Modules(modules_id)"); 
-			add("polls_id integer NOT NULL"); add("FOREIGN KEY (polls_id) REFERENCES Polls(polls_id)"); 
-			add("locations_id integer NOT NULL"); add("FOREIGN KEY (locations_id) REFERENCES Locations(locations_id)"); 
-			add("people_id integer NOT NULL"); add("FOREIGN KEY (people_id) REFERENCES People(people_id)"); // Uh... Where is this table?
-			add("translator_id integer NOT NULL"); add("FOREIGN KEY (translator_id) REFERENCES Translator(translator_id)"); 
-			add("userIndex_id integer NOT NULL"); add("FOREIGN KEY (userIndex_id) REFERENCES UserIndex(userIndex_id)"); // Make this table set of stuff and pain
-			add("reminders_id integer NOT NULL"); add("FOREIGN KEY (reminders_id) REFERENCES Reminders(reminders_id)"); 
-			add("blacklist_id integer NOT NULL"); add("FOREIGN KEY (blacklist_id) REFERENCES Blacklist(blacklist_id)"); 
-			add("whitelist_id integer NOT NULL"); add("FOREIGN KEY (whitelist_id) REFERENCES Whitelist(whitelist_id)"); 
+			
+			// Keys to the kingdom
+			add("modules_id integer NOT NULL"); 
+			add("polls_id integer NOT NULL"); 
+			add("locations_id integer NOT NULL"); // Are locations even used?
+			add("people_id integer NOT NULL");
+			add("translator_id integer NOT NULL"); 
+			add("userIndex_id integer NOT NULL"); // Make this table set of stuff and pain
+			add("reminders_id integer NOT NULL"); 
+			add("blacklist_id integer NOT NULL"); 
+			add("whitelist_id integer NOT NULL");
+			
+			// Don't need to refrence other tables
 			add("pollBuilder text NOT NULL"); add("moduleStatusBuilder text NOT NULL"); add("logChannel Integer"); // Some of these may actually be null. I dunno.
+			
+			// It seems all these lines must be placed last, for whatever reason. Argh.
+			add("FOREIGN KEY (modules_id) REFERENCES Modules(modules_id)"); add("FOREIGN KEY (polls_id) REFERENCES Polls(polls_id)"); 
+			add("FOREIGN KEY (locations_id) REFERENCES Locations(locations_id)"); add("FOREIGN KEY (people_id) REFERENCES People(people_id)");
+			add("FOREIGN KEY (translator_id) REFERENCES Translator(translator_id)"); add("FOREIGN KEY (userIndex_id) REFERENCES UserIndex(userIndex_id)"); 
+			add("FOREIGN KEY (reminders_id) REFERENCES Reminders(reminders_id)"); add("FOREIGN KEY (blacklist_id) REFERENCES Blacklist(blacklist_id)"); 
+			add("FOREIGN KEY (whitelist_id) REFERENCES Whitelist(whitelist_id)");
 		}});
 		
 		/*
@@ -110,6 +121,11 @@ public class Variables {
 			add("name text NOT NULL");
 		}});
 		
+		server.makeTable( "People", new ArrayList<String>() {{
+			add("people_id integer PRIMARY KEY NOT NULL");
+			add("person text NOT NULL"); add("place text NOT NULL");
+		}});
+		
 		/*
 		server.makeTable( "Translator", new HashMap<String, String>() {{
 			put("id","int"); put("name","String"); put("otherName","String"); // Rename to be better
@@ -137,9 +153,9 @@ public class Variables {
 		}}); */
 		
 		server.makeTable( "Reminders", new ArrayList<String>() {{
-			add("reminder_id integer PRIMARY KEY NOT NULL"); 
+			add("reminders_id integer PRIMARY KEY NOT NULL"); 
 			add("time text NOT NULL"); 
-			add("reminderData_id"); add("FOREIGN KEY (reminderData_id) REFERENCES ReminderData(reminderData_id)"); 
+			add("reminderData_id integer NOT NULL"); add("FOREIGN KEY (reminderData_id) REFERENCES ReminderData(reminderData_id)"); 
 		}});
 		
 		/*
@@ -168,7 +184,7 @@ public class Variables {
 		}}); */
 		
 		server.makeTable( "Whitelist", new ArrayList<String>() {{
-			add("whitelist integer PRIMARY KEY NOT NULL"); 
+			add("whitelist_id integer PRIMARY KEY NOT NULL"); 
 			add("channelID integer NOT NULL"); 
 		}});
 	}

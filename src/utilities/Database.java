@@ -250,6 +250,7 @@ public class Database {
 		try {
 			statement.executeUpdate( "CREATE TABLE IF NOT EXISTS " + table + " (" + collumns_string.substring(2) + ");" );
 		} catch( SQLException e ) {
+			System.out.println("CREATE TABLE IF NOT EXISTS " + table + " (" + collumns_string.substring(2) + ");");
 			e.printStackTrace();
 		}
 	}
