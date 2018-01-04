@@ -7,6 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -15,6 +16,9 @@ import main.Brain;
 import main.GuildInfo;
 import sx.blah.discord.handle.obj.IChannel;
 import sx.blah.discord.handle.obj.IGuild;
+import sx.blah.discord.handle.obj.IMessage;
+import sx.blah.discord.handle.obj.IUser;
+import tokens.Reminder;
 import utilities.DataSaver;
 import utilities.Database;
 
@@ -65,15 +69,15 @@ public class Variables {
 
 			// Keys to the kingdom
 			// I wonder if all of these could be replaced with one collumn, that could be linked to each required table...
-			add("modules_id integer NOT NULL AUTOINCREMENT"); 
-			add("polls_id integer NOT NULL AUTOINCREMENT"); 
-			add("locations_id integer NOT NULL AUTOINCREMENT"); // Are locations even used?
-			add("people_id integer NOT NULL AUTOINCREMENT");
-			add("translator_id integer NOT NULL AUTOINCREMENT"); 
-			add("userIndex_id integer NOT NULL AUTOINCREMENT"); // Make this table set of stuff and pain
-			add("reminders_id integer NOT NULL AUTOINCREMENT"); 
-			add("blacklist_id integer NOT NULL AUTOINCREMENT"); 
-			add("whitelist_id integer NOT NULL AUTOINCREMENT");
+			add("modules_id integer NOT NULL"); 
+			add("polls_id integer NOT NULL"); 
+			add("locations_id integer NOT NULL"); // Are locations even used?
+			add("people_id integer NOT NULL");
+			add("translator_id integer NOT NULL"); 
+			add("userIndex_id integer NOT NULL"); // Make this table set of stuff and pain
+			add("reminders_id integer NOT NULL"); 
+			add("blacklist_id integer NOT NULL"); 
+			add("whitelist_id integer NOT NULL");
 
 			// Don't need to refrence other tables
 			add("pollBuilder text NOT NULL"); add("moduleStatusBuilder text NOT NULL"); add("logChannel Integer"); // Some of these may actually be null. I dunno.
@@ -145,6 +149,20 @@ public class Variables {
 		}});
 	}
 
+	/* Adds actual guilds to the things */
+
+	public void addGuild( IGuild guild ) {
+		addGuild( guild.getStringID() );
+	}
+
+	public void addGuild( long guild ) {
+		addGuild( String.valueOf(guild) );
+	}
+
+	public void addGuild( String guild ) {
+
+	}
+
 	/* Functions to get important shit from the database */
 
 	/* NEED TO BE ABLE TO:
@@ -155,40 +173,32 @@ public class Variables {
 	 * Transator
 	 * UserIndex
 	 * Reminders
-	 * Blacklist
-	 * Whitelist
+	 * Blacklist Done
+	 * Whitelist Done
 	 * PollBuilder May not need
 	 * moduleStatusBuilder May not need
 	 * logChannel GS Done
 	 */
 
-	// These are old, check validity
-	public static IChannel getChannel( String key ) {
-		return getChannel( new Long( key ) );
+	public Map<String, Reminder> getReminders( IGuild guild ){
+		return getReminders( guild.getStringID() );
 	}
 
-	public static IChannel getChannel( long key ) {
-		return Brain.cli.getChannelByID( key );
+	public Map<String, Reminder> getReminders( long guild ) {
+		return getReminders( String.valueOf( guild ) );
 	}
 
-	public static Map<String, Boolean> getGuildModules( String guildID ) {
-		return getGuildModules( new Long(guildID ) );
-	}
+	public Map<String, Reminder> getReminders( String guild ) {
+		Map<String, Reminder> result = new HashMap<String, Reminder>();
 
-	public static Map<String, Boolean> getGuildModules( long guildID ) {
-		return getGuildModules( null ); // TODO FIX ME
-	}
-
-	public static Map<String, Boolean> getGuildModules( int id ) {
-		Map<String, Boolean> result = new HashMap<String, Boolean>();
-
-		ResultSet rs = server.query( "SELECT * FROM Modules WHERE modules_id = " + server.query( "SELECT modules_id FROM Guild WHERE guild_id = " + id ) ); // Theoretically will work // Nope. See getPeople
-
-		try { // Move to Database class for abstraction
-			while( rs.next() ) {
-				result.put( rs.getString( "name" ), rs.getBoolean( "status" ) );
+		try {
+			String id = server.query( "SELECT reminders_id FROM Guild WHERE guild_id = " + guild + ";" ).getString("reminders_id");
+			ResultSet times_rs = server.query( "SELECT * FROM Reminders WHERE reminders_id = " + id + ";" );
+			while( times_rs.next() ) {
+				// Who loves one liners? We love one liners!
+				// Basically is three queries fed into a new Reminder object, and stored with the time as the key
+				result.put( times_rs.getString("time"), new Reminder( server.query( "SELECT message FROM ReminderData WHERE reminderData_id = " + times_rs.getString("reminderData_id") ).getString("message"), server.query( "SELECT author FROM ReminderData WHERE reminderData_id = " + times_rs.getString("reminderData_id") ).getString("author"), server.query( "SELECT channelID FROM ReminderData WHERE reminderData_id = " + times_rs.getString("reminderData_id") ).getString("channelID") ) );
 			}
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -196,37 +206,18 @@ public class Variables {
 		return result;
 	}
 
-	public static Map<String, String> getPeople( int id ) {
-		Map<String, String> result = new HashMap<String, String>();
-
-		// First, gets the id for the People table, which represents a java map of String to String.
-		// Then, converts the ResultSet into an ArrayList, of which the 0 index is used
-		// Last, that is passed to the People table, where the ResultSet is retrieved
-		ResultSet rs = server.query( "SELECT * FROM People WHERE people_id = " + server.convert( server.query( "SELECT people_id FROM Guild WHERE guild_id = " + id ), "" ).get( 0 ) );
-
-		try {
-			while( rs.next() ) {
-				result.put( rs.getString( "key" ), rs.getString( "value" ) );
-			}
-		} catch( SQLException e ) {
-			e.printStackTrace();
-		}
-
-		return result;
-	} // End old functions
-	
 	public List<Long> getWhitelist( IGuild guild ) {
 		return getWhitelist( guild.getStringID() );
 	}
-	
+
 	public List<Long> getWhitelist( long guild ){
 		return getWhitelist( String.valueOf(guild) );
 	}
-	
+
 	public List<Long> getWhitelist( String guild ){
 		ArrayList<Long> result = new ArrayList<Long>();
 		ResultSet rs = server.query( "SELECT whitelist_id FROM guild WHERE guild_id = " + guild );
-		
+
 		try {
 			ResultSet rs2 = server.query( "SELECT channelID FROM Whitelist WHERE whitelist_id = " + rs.getString( "whitelist_id" ) + ";" );
 			while( rs2.next() ) {
@@ -235,22 +226,22 @@ public class Variables {
 		} catch( SQLException e ) {
 			e.printStackTrace();
 		}
-		
+
 		return result;
 	}
-	
+
 	public List<Long> getBlacklist( IGuild guild ) {
 		return getBlacklist( guild.getStringID() );
 	}
-	
+
 	public List<Long> getBlacklist( long guild ){
 		return getBlacklist( String.valueOf(guild) );
 	}
-	
+
 	public List<Long> getBlacklist( String guild ){
 		ArrayList<Long> result = new ArrayList<Long>();
-		ResultSet rs = server.query( "SELECT blacklist_id FROM guild WHERE guild_id = " + guild );
-		
+		ResultSet rs = server.query( "SELECT blacklist_id FROM Guild WHERE guild_id = " + guild );
+
 		try {
 			ResultSet rs2 = server.query( "SELECT channelID FROM Whitelist WHERE blacklist_id = " + rs.getString( "blacklist_id" ) + ";" );
 			while( rs2.next() ) {
@@ -259,7 +250,7 @@ public class Variables {
 		} catch( SQLException e ) {
 			e.printStackTrace();
 		}
-		
+
 		return result;
 	}
 
@@ -282,6 +273,74 @@ public class Variables {
 	}
 
 	/* Functions to set values in the database */
+
+	public void addReminder( IGuild guild, String time, Reminder remind ) {
+		addReminder( guild.getStringID(), time, remind.message, remind.author, remind.channelID );
+	}
+
+	public void addReminder( IGuild guild, String time, IMessage message, IUser author, IChannel channel ) {
+		addReminder( guild.getStringID(), time, message.getContent(), author.getStringID(), channel.getStringID() ); // TODO: Is it really storing ID, or the username?!?!?!
+	}
+
+	public void addReminder( IGuild guild, String time, String message, String author, String channel ) {
+		addReminder( guild.getStringID(), time, message, author, channel );
+	}
+
+	public void addReminder( String guild, String time, Reminder remind ) {
+		addReminder( guild, time, remind.message, remind.author, remind.channelID );
+	}
+
+	public void addReminder( String guild, String time, IMessage message, IUser author, IChannel channel ) {
+		addReminder( guild, time, message.getContent(), author.getStringID(), channel.getStringID() ); // TODO: Is it really storing ID, or the username?!?!?!
+	}
+
+	public void addReminder( String guild, String time, String message, String author, String channel ) {
+		String reminders_id = "";
+		String reminderData_id = "";
+
+		try {
+			reminders_id = server.query( "SELECT reminders_id FROM Guild WHERE guild_id = " + guild + ";" ).getString("reminders_id");
+			reminderData_id = String.valueOf( server.query( "SELECT MAX(reminderData_id) FROM Reminders" ).getLong("reminderData_id") + 1 ); // Gets the biggest reminderData_id and adds one, then makes it a string
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+
+		server.insert( "Reminders", new String[]{
+				"reminders_id","time","reminderData_id"
+			}, new String[]{
+				reminders_id, time, reminderData_id
+			}
+		);
+		
+		server.insert( "ReminderData",  new String[] {
+				"reminderData_id", "message", "author", "channelID"
+			}, new String[] {
+				reminderData_id, message, author, channel
+		});
+
+		/*
+		try {
+			server.insert( "Reminders", new LinkedList<String>() {{ // IMPORTANT: Is a LinkedList
+				add("reminders_id"); add("time"); add("reminderData_id"); 
+			}}, new LinkedList<String>() {{
+				add(server.query( "SELECT reminders_id FROM Guild WHERE guild_id = " + guild + ";" ).getString("reminders_id")); add(time); add(reminderData_id); // Generate reminderData_id
+			}});
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		try { // TODO Fix this blatant abuse of a try catch
+			server.insert( "ReminderData", new LinkedList<String>() {{
+				add("reminderData_id"); add("message"); add("author"); add("channelID"); 
+			}}, new LinkedList<String>() {{
+				add(server.query( "SELECT reminderData_id FROM Reminders WHERE reminders_id = " + server.query( "SELECT reminders_id FROM Guild WHERE guild_id = " + guild + ";" ).getString("reminders_id") ).getString("reminderData_id")); add(message); add(author); add(channel);
+			}});
+		} catch (SQLException e) {
+
+			e.printStackTrace();
+		}
+		 */
+	}
 
 	public void addBlacklist( IGuild guild, IChannel channel ) {
 		addBlacklist( guild.getLongID(), channel.getLongID() );
@@ -358,6 +417,24 @@ public class Variables {
 		}
 
 		return result;
+	}
+
+	/* I had no idea we could do this... */
+
+	public static IChannel getChannel( String key ) {
+		return getChannel( new Long( key ) );
+	}
+
+	public static IChannel getChannel( long key ) {
+		return Brain.cli.getChannelByID( key );
+	}
+
+	public static IGuild getGuild( String key ) {
+		return getGuild( new Long( key ) );
+	}
+
+	public static IGuild getGuild( long key ) {
+		return Brain.cli.getGuildByID( key );
 	}
 
 }
