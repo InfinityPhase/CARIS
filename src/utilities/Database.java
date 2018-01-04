@@ -18,6 +18,11 @@ import library.Constants;
 public class Database {
 	/* Wrapper for whatever it is y'all need to do */
 
+	/* TODO
+	 * Add logging.
+	 * Add array accepting functions
+	 */
+
 	/* A note: This trusts that your querys are entirely correct, 
 	 * so errors should be non existent. Be careful.
 	 */
@@ -145,14 +150,14 @@ public class Database {
 
 	/* Actually perform shit on this stupid database */
 	/* Sorry for the anger. Blame stress */
-	
+
 	public ResultSet getPragma( String name ) {
 		try {
 			return statement.executeQuery( "PRAGMA " + name + ";" );
 		} catch( SQLException e ) {
 			e.printStackTrace();
 		}
-		
+
 		return null;
 	}
 
@@ -163,7 +168,7 @@ public class Database {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void setPragma( String name, int value ) {
 		try {
 			statement.executeUpdate( "PRAGMA " + name + " = " + value + ";" );
@@ -191,30 +196,30 @@ public class Database {
 			e.printStackTrace();
 		}
 	}
-	
+
 	@SuppressWarnings("serial")
 	public void update( String table, Map<String, String> values, String condition ) {
 		update( table, values, new ArrayList<String>() {{ add(condition); }} ); // Becuase I am really lazy. Probably pretty inefficent, though.
 	}
-	
+
 	public void update( String table, Map<String, String> values, List<String> conditions ) {
 		/*
 		UPDATE table_name
 		SET column1 = value1, column2 = value2...., columnN = valueN
 		WHERE [condition];
-		*/
-		
+		 */
+
 		String condition = "";
 		String value = "";
-		
+
 		for( String s : conditions ) {
 			condition = condition + ", " + s;
 		}
-		
+
 		for( String k : values.keySet() ) {
 			value = value + ", " + k + " = " + values.get(k);
 		}
-		
+
 		try {
 			statement.executeUpdate( "UPDATE " + table + " SET " + value.substring(2) + " WHERE " + condition.substring(2) + ";" );
 		} catch (SQLException e) {
@@ -222,58 +227,80 @@ public class Database {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void update( String table, Map<String, String> values ) {
 		/* Ignores the WHERE clause */
-		
+
 		String value = "";
-		
+
 		for( String k : values.keySet() ) {
 			value = value + ", " + k + " = " + values.get(k);
 		}
-		
+
 		try {
 			statement.executeUpdate( "UPDATE " + table + " SET " + value.substring(2) + ";" );
 		} catch( SQLException e ) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void insert( String table, List<String> collumnOrder, List<String> data ) {
 		String collumnOrder_string = "";
 		String data_string = "";
-		
+
 		for( String s : collumnOrder ) {
 			collumnOrder_string = collumnOrder_string + ", " + s;
 		}
-		
+
 		for( String s : data ) {
 			data_string = data_string + ", " + s;
 		}
-		
+
 		try {
 			statement.executeUpdate( "INSERT INTO " + table + " (" + collumnOrder_string.substring(2) + ") VALUES " + data_string + ";");
 		} catch( SQLException e ) {
 			e.printStackTrace();
 		}
 	}
-	
-	public void insert( String table, List<String> data ) {
-		/* Uses default table collumn order */
+
+	public void insert( String table, String[] collumnOrder, String[] data ) {
+		String collumnOrder_string = "";
 		String data_string = "";
-		
+
+		for( String s : collumnOrder ) {
+			collumnOrder_string = collumnOrder_string + ", " + s;	
+		}
+
+		for( String s : data ) {
+			data_string = data_string + ", " + s;	
+		}
+
+		try {
+			statement.executeUpdate( "INSERT INTO " + table + " (" + collumnOrder_string.substring(2) + ") VALUES " + data_string + ";");
+		} catch( SQLException e ) {
+			e.printStackTrace();
+		}
+	}
+
+	public void insert( String table, List<String> data ) {
+		insert( table, data.toArray( new String[ data.size() ] ) );
+	}
+
+	public void insert( String table, String[] data ) {
+		/* Uses default table collumn order */		
+		String data_string = "";
+
 		for( String s : data ) {
 			data_string = data_string + ", " + s;
 		}
-		
+
 		try {
 			statement.executeUpdate( "INSERT INTO " + table + " VALUES " + data_string.substring(2) + ";" );
 		} catch( SQLException e ) {
 			e.printStackTrace();
 		}
-		
 	}
-	
+
 	public void insert( String table, String collumnOrder, String data ) {
 		/* We all like strings, right? Less handholding than the lists */
 		try {
@@ -282,18 +309,18 @@ public class Database {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void insert( String table, String data ) {
 		/* For tables with two collumns, ID and what they store
 		 * Usually represent Lists. Convience, nothing more.
 		 */
-		
+
 		try {
 			statement.executeUpdate( "INSERT INTO " + table + " VALUES " + data + ";" );
 		} catch( SQLException e ) {
 			e.printStackTrace();
 		}
-		
+
 	}
 
 	public ResultSet query( String query ) {
