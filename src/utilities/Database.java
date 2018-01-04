@@ -238,6 +238,63 @@ public class Database {
 			e.printStackTrace();
 		}
 	}
+	
+	public void insert( String table, List<String> collumnOrder, List<String> data ) {
+		String collumnOrder_string = "";
+		String data_string = "";
+		
+		for( String s : collumnOrder ) {
+			collumnOrder_string = collumnOrder_string + ", " + s;
+		}
+		
+		for( String s : data ) {
+			data_string = data_string + ", " + s;
+		}
+		
+		try {
+			statement.executeUpdate( "INSERT INTO " + table + " (" + collumnOrder_string.substring(2) + ") VALUES " + data_string + ";");
+		} catch( SQLException e ) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void insert( String table, List<String> data ) {
+		/* Uses default table collumn order */
+		String data_string = "";
+		
+		for( String s : data ) {
+			data_string = data_string + ", " + s;
+		}
+		
+		try {
+			statement.executeUpdate( "INSERT INTO " + table + " VALUES " + data_string.substring(2) + ";" );
+		} catch( SQLException e ) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+	public void insert( String table, String collumnOrder, String data ) {
+		/* We all like strings, right? Less handholding than the lists */
+		try {
+			statement.executeUpdate( "INSERT INTO " + table + " (" + collumnOrder + ") VALUES " + data + ";" );
+		} catch( SQLException e ) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void insert( String table, String data ) {
+		/* For tables with two collumns, ID and what they store
+		 * Usually represent Lists. Convience, nothing more.
+		 */
+		
+		try {
+			statement.executeUpdate( "INSERT INTO " + table + " VALUES " + data + ";" );
+		} catch( SQLException e ) {
+			e.printStackTrace();
+		}
+		
+	}
 
 	public ResultSet query( String query ) {
 		/* Get all values from a given search */
