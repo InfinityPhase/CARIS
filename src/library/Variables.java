@@ -7,7 +7,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -172,7 +171,7 @@ public class Variables {
 	 * People
 	 * Transator
 	 * UserIndex
-	 * Reminders
+	 * Reminders Done
 	 * Blacklist Done
 	 * Whitelist Done
 	 * PollBuilder May not need
