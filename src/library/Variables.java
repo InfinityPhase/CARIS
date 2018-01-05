@@ -33,6 +33,10 @@ public class Variables {
 	 * 
 	 * The database is accessed using the Database class, which provides a wrapper to
 	 * the currently used database software, SQLite.
+	 * 
+	 * An idea for the future is to make this extendable, so that there are no needed
+	 * imports from the rest of caris. That would be smoother, and more organized than
+	 * this mess of code and functions...
 	 */
 
 	private static Database server = null;
@@ -62,6 +66,7 @@ public class Variables {
 		server.setPragma( "foreign_keys", true ); // Make sure tables that are dependent on others work right
 
 		/* Create tables, collumns, if nessessary */
+		// TODO All this shit needs replacing with arrays, instead of lists
 
 		server.makeTable( "Guild", new ArrayList<String>() {{
 			add("guild_id integer PRIMARY KEY NOT NULL"); // The primary id, what it says on the tin.
@@ -178,6 +183,24 @@ public class Variables {
 	 * moduleStatusBuilder May not need
 	 * logChannel GS Done
 	 */
+	
+	public String translate( IGuild guild, String name ) {
+		return translate( guild.getStringID(), name );
+	}
+	
+	public String translate( long guild, String name ) {
+		return translate( String.valueOf(guild), name );
+	}
+	
+	public String translate( String guild, String name ) {
+		try {
+			return server.query( "SELECT otherName FROM Translator WHERE translator_id = " + server.query( "SELECT translator_id FROM Guild WHERE guild_id = " + guild + ";" ).getString("translator_id") + ";" ).getString("otherName");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return "";
+	}
 
 	public Map<String, Reminder> getReminders( IGuild guild ){
 		return getReminders( guild.getStringID() );
@@ -272,6 +295,31 @@ public class Variables {
 	}
 
 	/* Functions to set values in the database */
+	
+	public void addTranslation( IGuild guild, String name, String otherName ) {
+		addTranslation( guild.getStringID(), name, otherName);
+	}
+	
+	public void addTranslation( long guild, String name, String otherName ) {
+		addTranslation( String.valueOf(guild), name, otherName);
+	}
+	
+	public void addTranslation( String guild, String name, String otherName ) {
+		String translator_id = "";
+		
+		try {
+			translator_id = server.query( "SELECT translator_id FROM guild WHERE guild_id = " + guild + ";" ).getString("translator_id");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		server.insert( "Translator", new String[] {
+				"translator_id", "name", "otherName"
+		}, new String[] {
+				// Data
+				translator_id, name, otherName
+		});
+	}
 
 	public void addReminder( IGuild guild, String time, Reminder remind ) {
 		addReminder( guild.getStringID(), time, remind.message, remind.author, remind.channelID );

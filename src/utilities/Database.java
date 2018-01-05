@@ -128,16 +128,20 @@ public class Database {
 	}
 
 	public Map< String, List<Object> > convert( ResultSet input, List<String> query ){
+		return convert( input, query.toArray( new String[ query.size() ] ) );
+	}
+	
+	public Map< String, List<Object> > convert( ResultSet input, String[] query ) {
 		/* Gives the contents of the resultset as a map holding an arraylist of values for each query */
 		Map< String, List<Object> > result = new HashMap< String, List<Object> >();
 
 		try {
 			while( input.next() ) {
-				for( int i = 0; i < query.size(); i++ ) {
-					if( result.get( query.get( i ) ) == null ) { // Replace with putIfAbsent
-						result.put( query.get( i ), new ArrayList<Object>() );
+				for( int i = 0; i < query.length; i++ ) {
+					if( result.get( query[i] ) == null ) { // Replace with putIfAbsent
+						result.put( query[i], new ArrayList<Object>() );
 					}
-					result.get( query.get( i ) ).add( input.getObject( i ) );
+					result.get( query[i] ).add( input.getObject( i ) );
 				}
 			}
 
@@ -371,7 +375,10 @@ public class Database {
 	}
 
 	public void makeTable( String table, List<String> collumns ) {
-		// Because I realized my stupidity
+		makeTable( table, collumns.toArray( new String[ collumns.size() ] ) );
+	}
+
+	public void makeTable( String table, String[] collumns ) {
 		String collumns_string = "";
 
 		for( String s : collumns ) {
