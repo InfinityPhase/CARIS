@@ -50,7 +50,7 @@ public class CalendarHandler {
 		IGuild guild = Brain.cli.getGuildByID( 359566653987487744L );
 		IChannel channel = Brain.cli.getChannelByID( 359566654478483456L ); // REAL // 367738662043254784 Bot_testng // 359566654478483456L General
 		
-		/* Testing
+		/*//Testing
 		IGuild guild = Brain.cli.getGuildByID( 366853317709791232L );
 		IChannel channel = Brain.cli.getChannelByID( 384618675841531906L ); // TEST
 		*/
@@ -87,21 +87,22 @@ public class CalendarHandler {
 		SimpleDateFormat format = new SimpleDateFormat("yyyy MM dd");
 		SimpleDateFormat prettyFormat = new SimpleDateFormat("YYYY MMMM DD, HH:mm", Locale.US); // 2018 January 5, 12:53
 
-		String endSeason = "2018 02 20"; 
-		String startSeason = "2018 01 06";
+		String endSeason = "2018 02 20"; // real
+		String startSeason = "2018 01 06"; //real
+//		String startSeason = "2018 01 01"; // fake
 		long endLength = 0;
 		long startLength = 0;
 
 		Date now = new Date();
 
 		// Real
-		IGuild guild = Brain.cli.getGuildByID( 359566653987487744L ); // REAL
+		/*IGuild guild = Brain.cli.getGuildByID( 359566653987487744L ); // REAL
 		IChannel channel = Brain.cli.getChannelByID( 359566654478483456L ); // REAL // 367738662043254784 Bot_testng // 359566654478483456L General
-		
-		/*//Testing
+		*/
+		//Testing
 		IGuild guild = Brain.cli.getGuildByID( 366853317709791232L );
 		IChannel channel = Brain.cli.getChannelByID( 384618675841531906L );
-		*/
+		
 
 		if( !Variables.guildIndex.get( guild ).settings.containsKey( channel ) || !Variables.guildIndex.get( guild ).settings.get( channel ).containsKey( "buildSeasonCountdown" ) ) { 
 			startFRCCountdown(); // Just to be "safe"
@@ -116,8 +117,8 @@ public class CalendarHandler {
 			try {
 				Date end = format.parse( endSeason );
 				Date start = format.parse( startSeason );
-				endLength = TimeUnit.DAYS.convert( ( now.getTime() - end.getTime() ), TimeUnit.MILLISECONDS);
-				startLength = TimeUnit.DAYS.convert( ( start.getTime() - now.getTime() ), TimeUnit.MILLISECONDS);
+				endLength = TimeUnit.DAYS.convert( (  end.getTime() - now.getTime() ), TimeUnit.MILLISECONDS);
+				startLength = TimeUnit.DAYS.convert( ( now.getTime()- start.getTime() ), TimeUnit.MILLISECONDS);
 			} catch( ParseException e ) {
 				e.printStackTrace();
 			}
@@ -130,7 +131,7 @@ public class CalendarHandler {
 			
 			embed.withAuthorName("Build Season Countdown");
 			embed.withAuthorUrl("https://github.com/InfinityPhase/CARIS");
-			embed.withAuthorUrl("https://png.icons8.com/metro/100/8e44ad/timer.png");
+			embed.withAuthorIcon("https://png.icons8.com/metro/100/8e44ad/timer.png");
 			
 			embed.appendField("Days Passed", startLength + " Days", true);
 			embed.appendField("Days Remaining", endLength + " Days", true);
