@@ -173,8 +173,8 @@ public class Variables {
 	 * modules and status
 	 * Polls
 	 * Locations
-	 * People
-	 * Transator
+	 * People Done
+	 * Transator Done
 	 * UserIndex
 	 * Reminders Done
 	 * Blacklist Done
@@ -183,6 +183,25 @@ public class Variables {
 	 * moduleStatusBuilder May not need
 	 * logChannel GS Done
 	 */
+	
+	public String getPerson( IGuild guild, String name ) {
+		return getPerson( guild.getStringID(), name );
+	}
+	
+	public String getPerson( long guild, String name ) {
+		return getPerson( String.valueOf(guild), name );
+	}
+	
+	public String getPerson( String guild, String name ) {
+		try { // Checks for two collumns, translator_id and name, returns othername
+			// Could make the majority of this line a function, see translator...
+			return server.query( "SELECT place FROM People WHERE people_id = " + server.query( "SELECT people_id FROM Guild WHERE guild_id = " + guild + ";" ).getString("people_id") + " person = " + name +";" ).getString("place");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return "";
+	}
 	
 	public String translate( IGuild guild, String name ) {
 		return translate( guild.getStringID(), name );
@@ -193,8 +212,8 @@ public class Variables {
 	}
 	
 	public String translate( String guild, String name ) {
-		try {
-			return server.query( "SELECT otherName FROM Translator WHERE translator_id = " + server.query( "SELECT translator_id FROM Guild WHERE guild_id = " + guild + ";" ).getString("translator_id") + ";" ).getString("otherName");
+		try { // Checks for two collumns, translator_id and name, returns othername
+			return server.query( "SELECT otherName FROM Translator WHERE translator_id = " + server.query( "SELECT translator_id FROM Guild WHERE guild_id = " + guild + ";" ).getString("translator_id") + " name = " + name +";" ).getString("otherName");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -305,6 +324,7 @@ public class Variables {
 	}
 	
 	public void addTranslation( String guild, String name, String otherName ) {
+		// TODO make this prevent duplicate entries
 		String translator_id = "";
 		
 		try {
