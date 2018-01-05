@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import library.Variables;
@@ -12,6 +13,7 @@ import main.Brain;
 import main.GuildInfo;
 import sx.blah.discord.handle.obj.IChannel;
 import sx.blah.discord.handle.obj.IGuild;
+import sx.blah.discord.util.EmbedBuilder;
 import tokens.Reminder;
 import utilities.BotUtils;
 
@@ -46,7 +48,7 @@ public class CalendarHandler {
 
 		// Real
 		IGuild guild = Brain.cli.getGuildByID( 359566653987487744L );
-		IChannel channel = Brain.cli.getChannelByID( 359566654478483456L );
+		IChannel channel = Brain.cli.getChannelByID( 359566654478483456L ); // REAL // 367738662043254784 Bot_testng // 359566654478483456L General
 		
 		/* Testing
 		IGuild guild = Brain.cli.getGuildByID( 366853317709791232L );
@@ -78,11 +80,12 @@ public class CalendarHandler {
 
 	}
 
-	public void FRCCountdown() {
+	public void FRCCountdown() { // This is all hardcoded shit
 		/* Stop Build Day
 		 * 02/20/2018 - 11:59pm
 		 */
 		SimpleDateFormat format = new SimpleDateFormat("yyyy MM dd");
+		SimpleDateFormat prettyFormat = new SimpleDateFormat("YYYY MMMM DD, HH:mm", Locale.US); // 2018 January 5, 12:53
 
 		String endSeason = "2018 02 20"; 
 		String startSeason = "2018 01 06";
@@ -93,7 +96,7 @@ public class CalendarHandler {
 
 		// Real
 		IGuild guild = Brain.cli.getGuildByID( 359566653987487744L ); // REAL
-		IChannel channel = Brain.cli.getChannelByID( 359566654478483456L ); // REAL
+		IChannel channel = Brain.cli.getChannelByID( 359566654478483456L ); // REAL // 367738662043254784 Bot_testng // 359566654478483456L General
 		
 		/*//Testing
 		IGuild guild = Brain.cli.getGuildByID( 366853317709791232L );
@@ -118,10 +121,29 @@ public class CalendarHandler {
 			} catch( ParseException e ) {
 				e.printStackTrace();
 			}
-
-			// Send the message
+			
+			EmbedBuilder embed = new EmbedBuilder(); // The pretty thing
+			
+			embed.withTitle("FRC 604");
+			embed.withUrl("http://604robotics.com/");
+			embed.withDescription("Quixilver");
+			
+			embed.withAuthorName("Build Season Countdown");
+			embed.withAuthorUrl("https://github.com/InfinityPhase/CARIS");
+			embed.withAuthorUrl("https://png.icons8.com/metro/100/8e44ad/timer.png");
+			
+			embed.appendField("Days Passed", startLength + " Days", true);
+			embed.appendField("Days Remaining", endLength + " Days", true);
+			
+			embed.withFooterText("Lets Go! | " + prettyFormat.format(now) );
+			embed.withColor(255, 0, 255); // Magenta, anyone?
+			//embed.withTimestamp(); // NOPE, lets do this my way
+			
 			Brain.log.indent(1).log("SENDING BUILD SEASON THING");
-			BotUtils.sendMessage( channel, "Build season continues!\n" + startLength + " days have passed from the start of build season.\nThere are " + endLength + " days remaining.");
+			BotUtils.sendMessage( channel, embed ); // Send the only beautiful thing to its doom in hell
+
+			// Send the backup message
+			//BotUtils.sendMessage( channel, "Build season continues!\n" + startLength + " days have passed from the start of build season.\nThere are " + endLength + " days remaining.");
 
 			// Add a new reminder in the future
 			// Add the next day for the countdown

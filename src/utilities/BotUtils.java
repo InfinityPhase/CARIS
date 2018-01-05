@@ -5,9 +5,11 @@ import java.util.List;
 import library.Variables;
 import sx.blah.discord.api.ClientBuilder;
 import sx.blah.discord.api.IDiscordClient;
+import sx.blah.discord.api.internal.json.objects.EmbedObject;
 import sx.blah.discord.handle.obj.IChannel;
 import sx.blah.discord.handle.obj.IGuild;
 import sx.blah.discord.util.DiscordException;
+import sx.blah.discord.util.EmbedBuilder;
 import sx.blah.discord.util.RequestBuffer;
 import utilities.Logger.level;
 
@@ -54,6 +56,14 @@ public class BotUtils {
 			}
 		}
 	}
+	
+	public static void sendMessage( IChannel c, EmbedBuilder embed ) {
+		if( !Variables.guildIndex.get( c.getGuild() ).blacklist.contains( c ) ) {
+			if( Variables.guildIndex.get( c.getGuild() ).whitelist.isEmpty() || !Variables.guildIndex.get( c.getGuild() ).whitelist.contains( c ) ) {
+				forceSendMessage( c, embed );
+			}
+		}
+	}
 
 	public static void forceSendMessage( IChannel channel, String message ) {
 		RequestBuffer.request(() -> {
@@ -79,6 +89,30 @@ public class BotUtils {
 				}
 			});
 		}
+	}
+	
+	public static void forceSendMessage( IChannel c, EmbedBuilder embed ) {
+		RequestBuffer.request(() -> {
+			try {
+				c.sendMessage( embed.build() );
+			}
+			catch (DiscordException e) {
+				log.log("Embed could not be sent with error: ");
+				e.printStackTrace();
+			}
+		});
+	}
+	
+	public static void forceSendMessage( IChannel c, EmbedObject embed ) {
+		RequestBuffer.request(() -> {
+			try {
+				c.sendMessage( embed );
+			}
+			catch (DiscordException e) {
+				log.log("Embed could not be sent with error: ");
+				e.printStackTrace();
+			}
+		});
 	}
 
 	public static void sendLog( IGuild guild, String message ) {

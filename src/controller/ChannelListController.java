@@ -4,10 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import library.Variables;
-import main.GuildInfo;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import sx.blah.discord.handle.obj.IChannel;
-import sx.blah.discord.handle.obj.IGuild;
 import tokens.Response;
 
 public class ChannelListController extends Controller {
