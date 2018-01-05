@@ -75,6 +75,8 @@ public class Brain {
 	public static AudioPlayerManager playerManager;
 	public static Map<Long, GuildMusicManager> musicManagers;
 	
+	public static IDiscordClient cli = null;
+	
 	public static void main(String[] args) {
 
 		init();
@@ -88,7 +90,7 @@ public class Brain {
 		// Gets token from arguments
 		String token = args[0];
 
-		IDiscordClient cli = BotUtils.getBuiltDiscordClient(token);
+		cli = BotUtils.getBuiltDiscordClient(token);
 		log.log("Client built successfully.");
 		
 		for( String s : eventModules.keySet() ) {
@@ -109,6 +111,10 @@ public class Brain {
 		
 		load(cli);
 		log.log("Loaded Channel Map.");
+		
+		while( !cli.isReady() ) {
+			// Wait to do anything else
+		}
 		
 		while( true ) {
 			current = Calendar.getInstance();

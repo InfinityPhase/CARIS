@@ -162,7 +162,7 @@ public class MessageReceived extends SuperEvent {
 			Arrays.sort(options); // sort these options
 			log.log("Optimal response selected.");
 			if( options[0].embed ) {
-				recipient.sendMessage(options[0].builder.build());
+				BotUtils.sendMessage( recipient, options[0].builder );
 			} else {
 				if( options[0].text.startsWith("Nickname set to ") ) {
 					int index1 = options[0].text.indexOf('\"') + 1;
