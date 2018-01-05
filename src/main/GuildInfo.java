@@ -29,7 +29,7 @@ public class GuildInfo implements Serializable {
 	public HashMap<String, ArrayList<String>> locations;
 	public HashMap<String, String> people;
 	
-	/* Embed Builders */
+	/* Embed Builders */ // These can be moved to a seprate command. Don't store them here.
 	public PollBuilder pollBuilder;
 	public ModuleStatusBuilder moduleStatusBuilder;
 	

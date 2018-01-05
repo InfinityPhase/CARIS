@@ -68,7 +68,7 @@ public class Variables {
 		/* Create tables, collumns, if nessessary */
 		// TODO All this shit needs replacing with arrays, instead of lists
 
-		server.makeTable( "Guild", new ArrayList<String>() {{
+		server.makeTable( "Guild", new ArrayList<String>(16) {{
 			add("guild_id integer PRIMARY KEY NOT NULL"); // The primary id, what it says on the tin.
 
 			// Keys to the kingdom
@@ -96,17 +96,17 @@ public class Variables {
 
 		server.makeTable( "Modules", new ArrayList<String>() {{
 			add("modules_id integer PRIMARY KEY NOT NULL");
-			add("name text NOT NULL"); add("status integer NOT NULL"); // See https://stackoverflow.com/a/843786 for why status is an integer, not a boolean
+			add("name text NOT NULL UNIQUE"); add("status integer NOT NULL"); // See https://stackoverflow.com/a/843786 for why status is an integer, not a boolean
 		}});
 
 		server.makeTable( "Polls", new ArrayList<String>() {{
 			add("polls_id integer PRIMARY KEY NOT NULL"); 
-			add("name text NOT NULL"); add("poll text NOT NULL");
+			add("name text NOT NULL UNIQUE"); add("poll text NOT NULL");
 		}});
 
 		server.makeTable( "Locations", new ArrayList<String>() {{
 			add("locations_id integer PRIMARY KEY NOT NULL"); 
-			add("name text NOT NULL");
+			add("name text NOT NULL UNIQUE");
 			add("place_id integer NOT NULL"); add("FOREIGN KEY (place_id) REFERENCES Location_P2(place_id)"); 
 		}});
 
@@ -117,7 +117,7 @@ public class Variables {
 
 		server.makeTable( "People", new ArrayList<String>() {{
 			add("people_id integer PRIMARY KEY NOT NULL");
-			add("person text NOT NULL"); add("place text NOT NULL");
+			add("person text NOT NULL UNIQUE"); add("place text NOT NULL");
 		}});
 
 		server.makeTable( "Translator", new ArrayList<String>() {{
@@ -127,7 +127,7 @@ public class Variables {
 
 		server.makeTable( "UserIndex", new ArrayList<String>() {{
 			add("userIndex_id integer PRIMARY KEY NOT NULL"); 
-			add("userID integer NOT NULL"); 
+			add("userID integer NOT NULL UNIQUE"); 
 			add("userInfo_id integer NOT NULL"); add("FOREIGN KEY (userInfo_id) REFERENCES UserInfo(userInfo_id)"); // Maybe this can be temporarily null? 
 		}});
 
@@ -144,12 +144,12 @@ public class Variables {
 
 		server.makeTable( "Blacklist", new ArrayList<String>() {{
 			add("blacklist_id integer PRIMARY KEY NOT NULL");
-			add("channelID integer NOT NULL"); 
+			add("channelID integer NOT NULL UNIQUE"); 
 		}});
 
 		server.makeTable( "Whitelist", new ArrayList<String>() {{
 			add("whitelist_id integer PRIMARY KEY NOT NULL"); 
-			add("channelID integer NOT NULL"); 
+			add("channelID integer NOT NULL UNIQUE"); 
 		}});
 	}
 
@@ -312,8 +312,39 @@ public class Variables {
 		}
 		return -1; // I don't want to use an object, so have a negative
 	}
-
+	
+	/* ================================================================================ */
 	/* Functions to set values in the database */
+	/* ================================================================================ */
+	/* TODO
+	 * Make sure we use insertReplace when the entry should be unique
+	 *   Or just do a simple check 
+	 */
+	
+	public void addPersonLocation( IGuild guild, String name, String place ) {
+		addPersonLocation( guild.getStringID(), name, place );
+	}
+	
+	public void addPersonLocation( long guild, String name, String place ) {
+		addPersonLocation( String.valueOf(guild), name, place);
+	}
+	
+	public void addPersonLocation( String guild, String name, String place ) {
+		// NOTE I... think this will work. Maybe.
+		String person_id = ""; // TODO: MAke sure no duplicate entries (like a map)
+		
+		try {
+			person_id = server.query( "SELECT person_id FROM guild WHERE guild_id = " + guild + ";" ).getString("person_id");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+				
+		server.insertReplace( guild, new String[] {
+				"person_id", "person", "place"
+		}, new String[] {
+				person_id, name, place
+		});
+	}
 	
 	public void addTranslation( IGuild guild, String name, String otherName ) {
 		addTranslation( guild.getStringID(), name, otherName);
@@ -325,6 +356,8 @@ public class Variables {
 	
 	public void addTranslation( String guild, String name, String otherName ) {
 		// TODO make this prevent duplicate entries
+		// See addPersonLocation
+		
 		String translator_id = "";
 		
 		try {

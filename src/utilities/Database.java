@@ -326,7 +326,84 @@ public class Database {
 		}
 
 	}
+	
+	public void insertReplace( String table, List<String> collumnOrder, List<String> data ) {
+		/* Woo, replaces on an error */
+		String collumnOrder_string = "";
+		String data_string = "";
 
+		for( String s : collumnOrder ) {
+			collumnOrder_string = collumnOrder_string + ", " + s;
+		}
+
+		for( String s : data ) {
+			data_string = data_string + ", " + s;
+		}
+
+		try {
+			statement.executeUpdate( "INSERT OR REPLACE INTO " + table + " (" + collumnOrder_string.substring(2) + ") VALUES " + data_string + ";");
+		} catch( SQLException e ) {
+			e.printStackTrace();
+		}
+	}
+
+	public void insertReplace( String table, String[] collumnOrder, String[] data ) {
+		String collumnOrder_string = "";
+		String data_string = "";
+
+		for( String s : collumnOrder ) {
+			collumnOrder_string = collumnOrder_string + ", " + s;	
+		}
+
+		for( String s : data ) {
+			data_string = data_string + ", " + s;	
+		}
+
+		try {
+			statement.executeUpdate( "INSERT OR REPLACE INTO " + table + " (" + collumnOrder_string.substring(2) + ") VALUES " + data_string + ";");
+		} catch( SQLException e ) {
+			e.printStackTrace();
+		}
+	}
+
+	public void insertReplace( String table, List<String> data ) {
+		insert( table, data.toArray( new String[ data.size() ] ) );
+	}
+
+	public void insertReplace( String table, String[] data ) {
+		/* Uses default table collumn order */		
+		String data_string = "";
+
+		for( String s : data ) {
+			data_string = data_string + ", " + s;
+		}
+
+		try {
+			statement.executeUpdate( "INSERT OR REPLACE INTO " + table + " VALUES " + data_string.substring(2) + ";" );
+		} catch( SQLException e ) {
+			e.printStackTrace();
+		}
+	}
+
+	public void insertReplace( String table, String collumnOrder, String data ) {
+		/* We all like strings, right? Less handholding than the lists */
+		try {
+			statement.executeUpdate( "INSERT OR REPLACE INTO " + table + " (" + collumnOrder + ") VALUES " + data + ";" );
+		} catch( SQLException e ) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void insertReplace( String table, String data ) {
+		/* Notice the OR REPLACE */
+		
+		try {
+			statement.executeUpdate( "INSERT OR REPLACE INTO " + table + " VALUES " + data + ";" );
+		} catch( SQLException e ) {
+			e.printStackTrace();
+		}
+	}
+	
 	public ResultSet query( String query ) {
 		/* Get all values from a given search */
 		ResultSet rs = null;
