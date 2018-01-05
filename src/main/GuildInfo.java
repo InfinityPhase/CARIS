@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import embedbuilders.ModuleStatusBuilder;
 import embedbuilders.PollBuilder;
@@ -39,7 +40,7 @@ public class GuildInfo {
 	public long logChannel; // Perhaps should be the actual channel? Probably?
 	public List< IChannel > blacklist;
 	public List< IChannel > whitelist;
-	public HashMap< IChannel, HashMap< String, Object > > settings; // For extendibility, can set a channel to have any number of things
+	public HashMap< IChannel, Map< String, Object > > settings; // For extendibility, can set a channel to have any number of things
 	
 	public GuildInfo() {
 		this("", null);
@@ -61,7 +62,7 @@ public class GuildInfo {
 				new HashMap<String, String>(), new HashMap<IUser, UserInfo>(), 
 				new HashMap<Calendar, Reminder>(), new ArrayList<IChannel>(),
 				new ArrayList<IChannel>(), -1,
-				new HashMap< IChannel, HashMap< String, Object > >() );
+				new HashMap< IChannel, Map< String, Object > >() );
 	}
 	
 	public GuildInfo(String name, IGuild guild, HashMap<String, Boolean> modules, HashMap<String, Poll> polls, 
@@ -69,7 +70,7 @@ public class GuildInfo {
 			HashMap<String, String> translator, HashMap<IUser, UserInfo> userIndex, 
 			HashMap<Calendar, Reminder> reminders, ArrayList<IChannel> blacklist,
 			ArrayList<IChannel> whitelist, long logChannel,
-			HashMap<IChannel, HashMap<String, Object>> settings ) {
+			HashMap<IChannel, Map<String, Object>> settings ) {
 		
 		this.name = name;
 		this.guild = guild;
