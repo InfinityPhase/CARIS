@@ -34,7 +34,7 @@ public class CalendarHandler {
 						send += reminder.message;
 						send += "\".";
 					}
-					BotUtils.sendMessage( Variables.channelMap.get(reminder.channelID), send );
+					BotUtils.sendMessage( Variables.getChannel(reminder.channelID), send );
 					info.reminders.remove(c);
 				}
 			}

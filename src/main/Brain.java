@@ -123,7 +123,7 @@ public class Brain {
 	}
 	
 	public static void load(IDiscordClient cli) {
-		for( IChannel channel : cli.getChannels() ) {
+		for( IChannel channel : cli.getChannels() ) { // Basic init of channels
 			Variables.channelMap.put(channel.getStringID(), channel);
 		}
 	}

@@ -26,7 +26,7 @@ public class ChannelListController extends Controller {
 				response = "Your current channel ID is: " + event.getChannel().getLongID();
 			} else if( tokens.get(1).equalsIgnoreCase("all") ) {
 				for( String s : Variables.channelMap.keySet() ) {
-					response += Variables.channelMap.get(s) + " : ";
+					response += Variables.getChannel(s) + " : ";
 					response += s;
 					response += "\n";
 				}
