@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import library.Variables;
+import main.Brain;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import sx.blah.discord.handle.obj.IChannel;
 import tokens.Response;
@@ -25,9 +26,9 @@ public class ChannelListController extends Controller {
 			if( containsIgnoreCase( sameChannel, tokens.get(1) ) ) {
 				response = "Your current channel ID is: " + event.getChannel().getLongID();
 			} else if( tokens.get(1).equalsIgnoreCase("all") ) {
-				for( String s : Variables.channelMap.keySet() ) {
-					response += Variables.getChannel(s) + " : ";
-					response += s;
+				for( IChannel s : Brain.cli.getChannels() ) {
+					response += s.getName() + " : ";
+					response += s.getStringID();
 					response += "\n";
 				}
 			}

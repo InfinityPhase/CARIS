@@ -13,7 +13,6 @@ public class Variables {
 	// Dynamic global variables
 	
 	/* Gigantic Variable Library */
-	public static HashMap<String, IChannel> channelMap = new HashMap<String, IChannel>();
 	public static HashMap<IGuild, GuildInfo> guildIndex = new HashMap<IGuild, GuildInfo>();
 	
 	/* Global Utilities */

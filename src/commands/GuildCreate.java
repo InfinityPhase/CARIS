@@ -23,10 +23,6 @@ public class GuildCreate extends SuperEvent {
 			
 			for( IChannel c : event.getGuild().getChannels() ) { // Init channelMap
 				log.indent(1).log("Checking channel: " + c.getName() + " : " + c.getStringID());
-				if( !Variables.channelMap.containsKey( c.getStringID() ) ) {
-					log.indent(2).log("Added to channelMap");
-					Variables.channelMap.put( c.getStringID(), c );
-				}
 				if( !Variables.guildIndex.get( event.getGuild() ).settings.containsKey( c ) ) {
 					log.indent(2).log("Adding channel to settings list");
 					Variables.guildIndex.get( event.getGuild() ).settings.put( c, new HashMap<String, Object>() );
