@@ -3,6 +3,7 @@ package main;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import commands.CalendarHandler;
 import commands.GuildCreate;
@@ -137,10 +138,16 @@ public class Brain {
 			// Wait to be ready before continuing
 			//log.log("HEHEHEHEHE");
 		}
-
 		log.indent(5).log("cli.isReady() is TRUE");
 		
+		try {
+			TimeUnit.MINUTES.sleep(1);
+		} catch (InterruptedException e) {
+			log.log("WHAT THE FUCK");
+			e.printStackTrace();
+		}
 		
+		log.indent(5).log("I HAVE WAITED FOR ONE MINUTE"); // You better be connected by now
 
 		while( true ) {
 			current = Calendar.getInstance();

@@ -81,7 +81,7 @@ public class CalendarHandler {
 		// Add a reminder for the start of build season
 
 		// Real
-		IGuild guild = Brain.cli.getGuildByID( 359566653987487744L );
+		IGuild guild = Brain.cli.getGuildByID( 359566653987487744L ); 
 		IChannel channel = Brain.cli.getChannelByID( 359566654478483456L ); // REAL // 367738662043254784 Bot_testng // 359566654478483456L General
 
 		/*//Testing
@@ -131,7 +131,7 @@ public class CalendarHandler {
 //		Date now = new Date();
 
 		// Real
-		IGuild guild = Brain.cli.getGuildByID( 359566653987487744L ); // REAL
+		IGuild guild = Brain.cli.getGuildByID( 359566653987487744L ); // REAL: 359566653987487744L TEST: 367738662043254784L
 		IChannel channel = Brain.cli.getChannelByID( 359566654478483456L ); // REAL // 367738662043254784 Bot_testng // 359566654478483456L General
 
 		//Testing
@@ -181,7 +181,7 @@ public class CalendarHandler {
 		Date now = new Date();
 
 		// Real
-		IChannel channel = Brain.cli.getChannelByID( 359566654478483456L ); // REAL // 367738662043254784 Bot_testng // 359566654478483456L General
+		IChannel channel = Brain.cli.getChannelByID( 359566654478483456L ); // 367738662043254784L Bot_testng // 359566654478483456L General
 
 		try {
 			Date end = format.parse( endSeason );
