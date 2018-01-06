@@ -45,6 +45,7 @@ import java.util.concurrent.TimeUnit;
 import library.Variables;
 import main.Brain;
 import main.GuildInfo;
+import sx.blah.discord.api.internal.json.objects.EmbedObject.EmbedFieldObject;
 import sx.blah.discord.handle.obj.IChannel;
 import sx.blah.discord.handle.obj.IGuild;
 import sx.blah.discord.util.EmbedBuilder;
@@ -80,14 +81,15 @@ public class CalendarHandler {
 	private void startFRCCountdown() {
 		// Add a reminder for the start of build season
 
-		// Real
-		IGuild guild = Brain.cli.getGuildByID( 359566653987487744L ); 
-		IChannel channel = Brain.cli.getChannelByID( 359566654478483456L ); // REAL // 367738662043254784 Bot_testng // 359566654478483456L General
+		// Real 
+		/*
+		IGuild guild = Brain.cli.getGuildByID( 359566653987487744L ); // REAL
+		IChannel channel = Brain.cli.getChannelByID( 367738662043254784L ); // REAL // bot-testing:367738662043254784L General:359566654478483456L
+		*/
 
-		/*//Testing
+		//Testing
 		IGuild guild = Brain.cli.getGuildByID( 366853317709791232L );
-		IChannel channel = Brain.cli.getChannelByID( 384618675841531906L ); // TEST
-		 */
+		IChannel channel = Brain.cli.getChannelByID( 384618675841531906L );
 
 		Brain.log.indent(10).log("DOES GUILDINDEX EXIST: "+(Variables.guildIndex.containsKey(guild)?"YES":"NO"));
 		//Brain.log.indent(10).log("DOES CHANNEL IN INDEX EXIST: "+(Variables.guildIndex.get(guild).settings.containsKey(channel)?"YES":"NO"));
@@ -130,13 +132,8 @@ public class CalendarHandler {
 //
 //		Date now = new Date();
 
-		// Real
-		IGuild guild = Brain.cli.getGuildByID( 359566653987487744L ); // REAL: 359566653987487744L TEST: 367738662043254784L
-		IChannel channel = Brain.cli.getChannelByID( 359566654478483456L ); // REAL // 367738662043254784 Bot_testng // 359566654478483456L General
-
-		//Testing
-		//IGuild guild = Brain.cli.getGuildByID( 366853317709791232L );
-		//IChannel channel = Brain.cli.getChannelByID( 384618675841531906L );
+		IGuild guild = Brain.cli.getGuildByID( Variables.guildID );
+		IChannel channel = Brain.cli.getChannelByID( Variables.channelID );
 
 
 		if( !Variables.guildIndex.get( guild ).settings.containsKey( channel ) || !Variables.guildIndex.get( guild ).settings.get( channel ).containsKey( "buildSeasonCountdown" ) ) { 
@@ -181,7 +178,7 @@ public class CalendarHandler {
 		Date now = new Date();
 
 		// Real
-		IChannel channel = Brain.cli.getChannelByID( 359566654478483456L ); // 367738662043254784L Bot_testng // 359566654478483456L General
+		IChannel channel = Brain.cli.getChannelByID( Variables.channelID ); // 367738662043254784L Bot_testng // 359566654478483456L General
 
 		try {
 			Date end = format.parse( endSeason );
@@ -210,8 +207,13 @@ public class CalendarHandler {
 		//embed.withTimestamp(); // NOPE, lets do this my way
 
 		Brain.log.indent(1).log("SENDING BUILD SEASON THING");
-		BotUtils.sendMessage( channel, embed ); // Send the only beautiful thing to its doom in hell
+		Brain.log.indent(2).log("CHANNEL " + channel.getName() + ":" + channel.getStringID());
 
+		//BotUtils.sendMessage( channel, embed ); // Send the only beautiful thing to its doom in hell
+		BotUtils.forceSendMessage( channel, embed.build() ); // Send it or die. Fuck blacklists
+		for( EmbedFieldObject s : embed.build().fields ) {
+			Brain.log.indent(15).log(s.name + ":" + s.value);
+		}
 	}
 }
 

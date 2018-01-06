@@ -153,7 +153,7 @@ public class Brain {
 			current = Calendar.getInstance();
 			calendarHandler.check();
 			
-			if( Variables.guildIndex.containsKey( cli.getGuildByID( 359566653987487744L ) ) && roboGuild ) { // For maximum jankieness
+			if( Variables.guildIndex.containsKey( cli.getGuildByID( Variables.guildID ) ) && roboGuild ) { // For maximum jankieness // Real: 359566653987487744L TEST: 
 				calendarHandler.FRCCountdown(); // THIS SHOULD BE REMOVED AFTER BUILD SEASON
 			}
 		}
