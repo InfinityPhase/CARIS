@@ -16,7 +16,7 @@ public class GuildCreate extends SuperEvent {
 		log.log("Checking guild...");
 		if( !Variables.guildIndex.containsKey( event.getGuild() ) ) {
 			Variables.guildIndex.put( event.getGuild(), new GuildInfo( event.getGuild().getName(), event.getGuild() ) );
-			log.indent(1).log("Creating new Guild Object \"" + event.getGuild().getName() + "\".");
+			log.indent(1).log("Creating new Guild Object " + event.getGuild().getName() + ":" + event.getGuild().getStringID() );
 		}
 	}
 }
