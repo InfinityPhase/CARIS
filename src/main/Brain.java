@@ -4,20 +4,37 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
+import commands.CalendarHandler;
+import commands.GuildCreate;
+import commands.MessageReceived;
+import commands.SuperEvent;
+import commands.UserJoin;
+import controller.ChannelListController;
+import controller.Controller;
+import controller.ModuleController;
+import controller.SaveController;
+import controller.SayController;
+import invokers.EchoInvoker;
+import invokers.FortuneInvoker;
+import invokers.Invoker;
+import invokers.LocationInvoker;
+import invokers.MusicInvoker;
+import invokers.NicknameInvoker;
+import invokers.VoteInvoker;
+import invokers._8BallInvoker;
+import lavaplayer.player.AudioPlayerManager;
 import lavaplayer.player.DefaultAudioPlayerManager;
 import lavaplayer.source.AudioSourceManagers;
-
+import memories.AuthorMemory;
+import memories.Memory;
+import memories.TimeMemory;
 import music.GuildMusicManager;
-import lavaplayer.player.AudioPlayerManager;
-
-import commands.*;
-import controller.*;
-import invokers.*;
-import library.Variables;
-import memories.*;
-import responders.*;
+import responders.LocationResponder;
+import responders.MentionResponder;
+import responders.NicknameResponder;
+import responders.ReminderResponder;
+import responders.Responder;
 import sx.blah.discord.api.IDiscordClient;
-import sx.blah.discord.handle.obj.IChannel;
 import utilities.BotUtils;
 import utilities.Logger;
 import utilities.TokenParser;
@@ -75,6 +92,8 @@ public class Brain {
 	public static AudioPlayerManager playerManager;
 	public static Map<Long, GuildMusicManager> musicManagers;
 	
+	public static IDiscordClient cli = null;
+	
 	public static void main(String[] args) {
 
 		init();
@@ -88,7 +107,7 @@ public class Brain {
 		// Gets token from arguments
 		String token = args[0];
 
-		IDiscordClient cli = BotUtils.getBuiltDiscordClient(token);
+		cli = BotUtils.getBuiltDiscordClient(token);
 		log.log("Client built successfully.");
 		
 		for( String s : eventModules.keySet() ) {
@@ -107,18 +126,15 @@ public class Brain {
 		cli.login();
 		log.log("Client logged in.");
 		
-		load(cli);
 		log.log("Loaded Channel Map.");
+		
+		while( !cli.isReady() ) {
+			// Wait to do anything else
+		}
 		
 		while( true ) {
 			current = Calendar.getInstance();
 			calendarHandler.check();
-		}
-	}
-	
-	public static void load(IDiscordClient cli) {
-		for( IChannel channel : cli.getChannels() ) {
-			Variables.channelMap.put(channel.getStringID(), channel);
 		}
 	}
 	

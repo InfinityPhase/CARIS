@@ -29,20 +29,7 @@ public class MessageReceived extends SuperEvent {
 	@Override
 	public void onMessageReceived( MessageReceivedEvent event ) {
 		IChannel recipient = event.getChannel();
-		log.log("Message received: \"" + event.getMessage().getContent() + "\" from User \"" + event.getAuthor().getName() + "\" on Guild \"" + event.getGuild().getName() + "\".");
-		
-		/*if( !Variables.guildIndex.containsKey(getGuild) ) {
-			Variables.guildIndex.put(event.getGuild(), new GuildInfo(getGuild.getName(), getGuild));
-			log.log("Creating new Guild Object \"" + getGuild.getName() + "\".");
-		}*/
-		if( !Variables.channelMap.containsKey( recipient.getStringID() ) ) {
-			Variables.channelMap.put( recipient.getStringID(), recipient );
-		}
-		
-		if( !Variables.guildIndex.get( event.getGuild() ).settings.containsKey( recipient ) ) {
-			log.indent(0).log("Adding channel to settings list: " + recipient.getName() );
-			Variables.guildIndex.get( event.getGuild() ).settings.put( recipient, new HashMap<String, Object>() );
-		}
+		log.log("Message received: \"" + event.getMessage().getContent() + "\" from User \"" + event.getAuthor().getName() + "\" on Guild \"" + event.getGuild().getName() + "\".");		
 		
 		GuildInfo gi = Variables.guildIndex.get(event.getGuild());
 		if( !gi.userIndex.containsKey( event.getAuthor() ) ) {
@@ -162,7 +149,7 @@ public class MessageReceived extends SuperEvent {
 			Arrays.sort(options); // sort these options
 			log.log("Optimal response selected.");
 			if( options[0].embed ) {
-				recipient.sendMessage(options[0].builder.build());
+				BotUtils.sendMessage( recipient, options[0].builder );
 			} else {
 				if( options[0].text.startsWith("Nickname set to ") ) {
 					int index1 = options[0].text.indexOf('\"') + 1;

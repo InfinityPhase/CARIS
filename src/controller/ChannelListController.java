@@ -4,15 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import library.Variables;
-import main.GuildInfo;
+import main.Brain;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import sx.blah.discord.handle.obj.IChannel;
-import sx.blah.discord.handle.obj.IGuild;
 import tokens.Response;
 
 public class ChannelListController extends Controller {
 
 	private String[] sameChannel = { "here", "this" };
+	private String[] remove = { "remove", "rm", "minus", "sub", "subtract" };
 
 	@Override
 	public Response process( MessageReceivedEvent event ) {
@@ -23,13 +23,13 @@ public class ChannelListController extends Controller {
 			if( tokens.size() < 2 ) {
 				log.indent(3).log("Syntax Error. Aborting.");
 				return build();
-			}
+			} 
 			if( containsIgnoreCase( sameChannel, tokens.get(1) ) ) {
-				response = "Your current channel ID is: " + event.getChannel().getLongID();
+				response = "Your current channel is " + event.getChannel().getName() + ":" + event.getChannel().getLongID();
 			} else if( tokens.get(1).equalsIgnoreCase("all") ) {
-				for( String s : Variables.channelMap.keySet() ) {
-					response += Variables.channelMap.get(s) + " : ";
-					response += s;
+				for( IChannel s : Brain.cli.getChannels() ) {
+					response += s.getName() + ":";
+					response += s.getStringID();
 					response += "\n";
 				}
 			}
@@ -51,7 +51,7 @@ public class ChannelListController extends Controller {
 					response = "I have blacklisted the following channels from further communique:\n" + 
 							listChannels( getChannels( event, tokens.get(2) ) );
 				}
-			} else if( tokens.get(1).equalsIgnoreCase( "remove" ) ) {
+			} else if( containsIgnoreCase( remove, tokens.get(1) ) ) {
 				if( tokens.size() < 3 ) {
 					log.indent(3).log("Syntax Error. Aborting.");
 					return build();
@@ -88,7 +88,7 @@ public class ChannelListController extends Controller {
 					response = "I have whitelisted the following channels for further communique:\n" +
 							listChannels( getChannels( event, tokens.get(2) ) );
 				}
-			} else if( tokens.get(1).equalsIgnoreCase( "remove" ) ) {
+			} else if( containsIgnoreCase( remove, tokens.get(1) ) ) {
 				if( tokens.size() < 3 ) {
 					log.indent(3).log("Syntax Error. Aborting.");
 					return build();
