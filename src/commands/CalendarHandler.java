@@ -1,5 +1,39 @@
 package commands;
-
+/*
+ * > Initializing.
+SLF4J: Failed to load class "org.slf4j.impl.StaticLoggerBinder".
+SLF4J: Defaulting to no-operation (NOP) logger implementation
+SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further details.
+Discord4J: ERROR INITIALIZING LOGGER!
+Discord4J: No SLF4J implementation found, reverting to the internal implementation (sx.blah.discord.Discord4J$Discord4JLogger)
+Discord4J: It is *highly* recommended to use a fully featured implementation like logback!
+18:44:39.311: [INFO][main][sx.blah.discord.Discord4J] - Discord4J v2.9.1 474619a (https://github.com/austinv11/Discord4J)
+18:44:39.311: [INFO][main][sx.blah.discord.Discord4J] - A Java binding for the official Discord API, forked from the inactive https://github.com/nerd/Discord4J. Copyright (c) 2017, Licensed under GNU LGPLv3
+> Client built successfully.
+> Listener established successfully.
+> Client logged in.
+> Loaded Channel Map.
+18:45:16.838: [INFO][HttpClient@1243866820-14][sx.blah.discord.Discord4J] - Websocket Connected.
+18:45:17.373: [INFO][Dispatch Handler][sx.blah.discord.Discord4J] - Connected to Discord Gateway v6. Receiving 5 guilds.
+=> Checking guild...
+=====> cli.isReady() is TRUE
+==> Creating new Guild Object "Piltover's Finest".
+=> Checking guild...
+==> Creating new Guild Object "604 Robotics".
+=> I SET it TO FUCKING TRUE, DAMMNIT
+=> Checking guild...
+==> Creating new Guild Object "BOT_TEST".
+=> I SET it TO FUCKING TRUE, DAMMNIT
+=> Checking guild...
+==> Creating new Guild Object "discord chat".
+=> I SET it TO FUCKING TRUE, DAMMNIT
+=> Checking guild...
+==> Creating new Guild Object "Hex Gambit".
+=> I SET it TO FUCKING TRUE, DAMMNIT
+==========> DOES GUILDINDEX EXIST: YES
+> Setting next build season thing
+> Countdown doesn't exist, somehow...
+ */
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -96,12 +130,12 @@ public class CalendarHandler {
 		Date now = new Date();
 
 		// Real
-		/*IGuild guild = Brain.cli.getGuildByID( 359566653987487744L ); // REAL
+		IGuild guild = Brain.cli.getGuildByID( 359566653987487744L ); // REAL
 		IChannel channel = Brain.cli.getChannelByID( 359566654478483456L ); // REAL // 367738662043254784 Bot_testng // 359566654478483456L General
-		*/
+		
 		//Testing
-		IGuild guild = Brain.cli.getGuildByID( 366853317709791232L );
-		IChannel channel = Brain.cli.getChannelByID( 384618675841531906L );
+		//IGuild guild = Brain.cli.getGuildByID( 366853317709791232L );
+		//IChannel channel = Brain.cli.getChannelByID( 384618675841531906L );
 		
 
 		if( !Variables.guildIndex.get( guild ).settings.containsKey( channel ) || !Variables.guildIndex.get( guild ).settings.get( channel ).containsKey( "buildSeasonCountdown" ) ) { 
