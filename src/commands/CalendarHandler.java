@@ -72,7 +72,7 @@ public class CalendarHandler {
 		Brain.log.log("Setting next build season thing");
 		Calendar next = Calendar.getInstance();
 		next.add( Calendar.DATE, 1 ); // The next day
-		next.set( Calendar.HOUR_OF_DAY, 3 ); // When I go to bed...
+		next.set( Calendar.HOUR_OF_DAY, 7 ); // When I go to bed...
 		next.set( Calendar.MINUTE, 0 );
 		next.set( Calendar.SECOND, 0 );
 		Variables.guildIndex.get( guild ).settings.get( channel ).put( "buildSeasonCountdown", next );
