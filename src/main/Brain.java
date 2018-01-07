@@ -138,22 +138,24 @@ public class Brain {
 			// Wait to be ready before continuing
 			//log.log("HEHEHEHEHE");
 		}
-		log.indent(5).log("cli.isReady() is TRUE");
+		log.indent(5).log("cli.isReady() is TRUE");		
+		
+		log.indent(10).log("[Brain.java] CHANNEL: " + cli.getChannelByID( Variables.channelID ).getName() + ":" + cli.getChannelByID( Variables.channelID ).getStringID() ); // No error. Why.
 		
 		try {
-			TimeUnit.MINUTES.sleep(1);
+			TimeUnit.SECONDS.sleep(20); // Fuck one minute. I have testing to do.
 		} catch (InterruptedException e) {
 			log.log("WHAT THE FUCK");
 			e.printStackTrace();
 		}
-		
-		log.indent(5).log("I HAVE WAITED FOR ONE MINUTE"); // You better be connected by now
+				
+		log.indent(5).log("I HAVE WAITED FOR 30 SECONDS"); // You better be connected by now
 
 		while( true ) {
 			current = Calendar.getInstance();
 			calendarHandler.check();
 			
-			if( Variables.guildIndex.containsKey( cli.getGuildByID( Variables.guildID ) ) && roboGuild ) { // For maximum jankieness // Real: 359566653987487744L TEST: 
+			if( roboGuild ) {
 				calendarHandler.FRCCountdown(); // THIS SHOULD BE REMOVED AFTER BUILD SEASON
 			}
 		}

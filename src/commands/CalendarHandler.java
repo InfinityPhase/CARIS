@@ -38,7 +38,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
@@ -77,6 +76,8 @@ public class CalendarHandler {
 			}
 		}
 	}
+	
+	private Calendar buildSeasonCountdown = null;
 
 	private void startFRCCountdown() {
 		// Add a reminder for the start of build season
@@ -87,23 +88,6 @@ public class CalendarHandler {
 		IChannel channel = Brain.cli.getChannelByID( 367738662043254784L ); // REAL // bot-testing:367738662043254784L General:359566654478483456L
 		*/
 
-		//Testing
-		IGuild guild = Brain.cli.getGuildByID( 366853317709791232L );
-		IChannel channel = Brain.cli.getChannelByID( 384618675841531906L );
-
-		Brain.log.indent(10).log("DOES GUILDINDEX EXIST: "+(Variables.guildIndex.containsKey(guild)?"YES":"NO"));
-		//Brain.log.indent(10).log("DOES CHANNEL IN INDEX EXIST: "+(Variables.guildIndex.get(guild).settings.containsKey(channel)?"YES":"NO"));
-
-		if( !Variables.guildIndex.containsKey( guild ) ) {
-			Brain.log.indent(9).log("MADE GUILD BADLY");
-			Variables.guildIndex.put( guild, new GuildInfo( guild.getName(), guild ) );
-		}
-
-		if( !Variables.guildIndex.get( guild ).settings.containsKey( channel ) ) { // Y U FAIL
-			// Add the key and the hashmap
-			Variables.guildIndex.get( guild ).settings.put( channel, new HashMap<String, Object>() );
-		}
-
 		// Add the next day for the countdown
 		Brain.log.log("Setting next build season thing");
 		Calendar next = Calendar.getInstance();
@@ -111,7 +95,7 @@ public class CalendarHandler {
 		next.set( Calendar.HOUR_OF_DAY, 7 ); // The actual kickoff video time
 		next.set( Calendar.MINUTE, 30 );
 		next.set( Calendar.SECOND, 0 );
-		Variables.guildIndex.get( guild ).settings.get( channel ).put( "buildSeasonCountdown", next );
+		buildSeasonCountdown = next;
 
 		FRCCountdownPost(); // Just send the damn thing, please!
 	}
@@ -132,17 +116,14 @@ public class CalendarHandler {
 //
 //		Date now = new Date();
 
-		IGuild guild = Brain.cli.getGuildByID( Variables.guildID );
-		IChannel channel = Brain.cli.getChannelByID( Variables.channelID );
 
-
-		if( !Variables.guildIndex.get( guild ).settings.containsKey( channel ) || !Variables.guildIndex.get( guild ).settings.get( channel ).containsKey( "buildSeasonCountdown" ) ) { 
+		if( buildSeasonCountdown == null ) { 
 			startFRCCountdown(); // Just to be "safe"
 			Brain.log.log("Countdown doesn't exist, somehow...");
 
 		}
 
-		if( Brain.current.after( Variables.guildIndex.get( guild ).settings.get( channel ).get( "buildSeasonCountdown" ) ) ) {
+		if( Brain.current.after( buildSeasonCountdown ) ) {
 			Brain.log.indent(1).log("TIME TO SEND A MESSAGE");
 			// I love stackoverflow...
 			// https://stackoverflow.com/a/20165708
@@ -155,10 +136,10 @@ public class CalendarHandler {
 			// Add the next day for the countdown
 			Calendar next = Calendar.getInstance();
 			next.add( Calendar.DATE, 1 ); // The next day
-			next.set( Calendar.HOUR_OF_DAY, 3 ); // When I go to bed...
-			next.set( Calendar.MINUTE, 0 );
+			next.set( Calendar.HOUR_OF_DAY, 7 ); // When I go to bed...
+			next.set( Calendar.MINUTE, 30 );
 			next.set( Calendar.SECOND, 0 );
-			Variables.guildIndex.get( guild ).settings.get( channel ).put( "buildSeasonCountdown", next );
+			buildSeasonCountdown = next;
 
 		}
 	}
@@ -178,7 +159,7 @@ public class CalendarHandler {
 		Date now = new Date();
 
 		// Real
-		IChannel channel = Brain.cli.getChannelByID( Variables.channelID ); // 367738662043254784L Bot_testng // 359566654478483456L General
+		IChannel channel = Brain.cli.getChannelByID( Variables.channelID );
 
 		try {
 			Date end = format.parse( endSeason );
