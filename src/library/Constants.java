@@ -4,7 +4,12 @@ import utilities.Logger.level;
 import utilities.Logger.output;
 
 public class Constants {
-        public static final String COMMAND_PREFIX = ".c ";
+        public static final String COMMAND_PREFIX = ".c "; // soon to be deprecated
+        public static final String[] COMMAND_PREFIXES = new String[] {
+        	"cEcho: ",
+        	"cLoc: ",
+        	"cLocation:, ",
+        };
         public static final String ADMIN_PREFIX = "==> ";
         public static final String NAME = "CARIS";
         public static final boolean OFFLINE = false;

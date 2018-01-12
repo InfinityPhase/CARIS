@@ -97,7 +97,7 @@ public class MessageReceived extends SuperEvent {
 			}
 		} else if( messageText.startsWith("==>") && !admin ) {
 			responses.add( new Response("Please stop trying to abuse me.", 0) );
-		} else if ( messageText.startsWith( Constants.COMMAND_PREFIX ) ) { // if invoked
+		} else if ( startsWithOneOf( messageText, Constants.COMMAND_PREFIXES ) ) { // if invoked
 			log.log("Invocation detected.");
 			for( String s : Brain.invokerModules.keySet() ) { // try each invocation handler
 				boolean check = gi.modules.keySet().contains(s);
@@ -163,5 +163,14 @@ public class MessageReceived extends SuperEvent {
 			}
 			gi.userIndex.get( event.getAuthor() ).lastMessage = event.getMessage();
 		}
+	}
+	
+	public static boolean startsWithOneOf( String s, String[] prefixes ) {
+		for( String prefix : prefixes ) {
+			if( s.startsWith(prefix) ) {
+				return true;
+			}
+		}
+		return false;
 	}
 }
