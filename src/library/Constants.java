@@ -55,4 +55,8 @@ public class Constants {
     	public static final String BLACKLIST_HEADER = "NOBOT";
     	public static final String WHITELIST_HEADER = "BOT";
     	
+    	// Default Off Modules
+    	public static final String[] DEFAULT_DISBABLED = new String[] {
+    		"Music Invoker",	
+    	};
 }
