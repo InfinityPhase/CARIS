@@ -32,7 +32,7 @@ public class TokenParser {
 		boolean openQuote = false;
 		boolean border = false;
 		for( char c : charArray ) {
-			if( c == ' ' && !openQuote && temp.length() > 0 ) {
+			if( c == ' ' && !openQuote && temp.length() > 0 || c == '\n' && !openQuote && temp.length() > 0 ) {
 				tokens.add(temp);
 				temp = "";
 				border = false;

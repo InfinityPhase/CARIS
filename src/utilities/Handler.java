@@ -37,7 +37,7 @@ public class Handler {
 	}
 	
 	public Response process(MessageReceivedEvent event) {
-		tokenSetup(event);
+		conditionalSetup(event);
 		return build();
 	}
 	
@@ -109,8 +109,8 @@ public class Handler {
 		return Brain.tp.parse(event.getMessage().getContent());
 	}
 	
-	protected ArrayList<String> messageTokenize() {
-		return Brain.tp.parse(messageText);
+	protected ArrayList<String> tokenize( String s ) {
+		return Brain.tp.parse(s);
 	}
 	
 	protected Response build() {
@@ -199,10 +199,14 @@ public class Handler {
 	}
 	
 	protected String remainder( String prefix ) {
-		int i1 = messageText.indexOf(prefix);
+		return remainder(prefix, messageText);
+	}
+	
+	protected String remainder( String prefix, String line ) {
+		int i1 = line.indexOf(prefix);
 		if( i1 != -1 ) {
 			int i2 = i1 + prefix.length();
-			String s = messageText.substring(i2);
+			String s = line.substring(i2);
 			while( s.startsWith(" ") ) {
 				s = s.substring(1);
 			}

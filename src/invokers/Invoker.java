@@ -5,7 +5,7 @@ import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedE
 import utilities.Handler;
 
 public class Invoker extends Handler {
-	// Base Invoker class. Setup removes first token.
+	// Base Invoker class.
 	
 	@Override
 	protected void tokenSetup(MessageReceivedEvent event) {
