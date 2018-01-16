@@ -10,7 +10,7 @@ public class VoteInvoker extends Invoker {
 
 	@Override
 	public Response process(MessageReceivedEvent event) {
-		setup(event);
+		tokenSetup(event);
 		
 		if( tokens.get(0).equals("vote") || tokens.get(0).equals("poll") ) {
 			if( tokens.size() < 2 ) {

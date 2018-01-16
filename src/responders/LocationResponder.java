@@ -9,7 +9,7 @@ public class LocationResponder extends Responder {
 
 	@Override
 	public Response process(MessageReceivedEvent event) {
-		setup(event);
+		tokenSetup(event);
 
 		if( hasIgnoreCase(tokens, "where's") || containsIgnoreCase(tokens, "where") || hasIgnoreCase(tokens, "wheres") ) {
 			log.indent(2).log("Location query detected.");

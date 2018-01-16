@@ -21,7 +21,7 @@ public class _8BallInvoker extends Invoker {
 	};
 	
 	public Response process(MessageReceivedEvent event) {
-		setup(event);
+		tokenSetup(event);
 		Random r = new Random();
 		if( tokens.get(0).equals("8ball") ) {
 			if( containsIgnoreCase( messageText, " Caris " ) ) {

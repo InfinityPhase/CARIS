@@ -14,6 +14,14 @@ import tokens.Response;
 public class Handler {
 	// The base handler class. Extend this into other classes.
 	
+	protected enum Setup {
+		UNSET,
+		TOKEN,
+		MESSAGE
+	}
+	
+	protected Setup setupType = Setup.UNSET;
+	
 	protected Logger log = new Logger().setDefaultIndent( 0 ).setBaseIndent( 2 ).build();
 	
 	protected String response;
@@ -29,11 +37,20 @@ public class Handler {
 	}
 	
 	public Response process(MessageReceivedEvent event) {
-		setup(event);
+		tokenSetup(event);
 		return build();
 	}
 	
-	protected void setup(MessageReceivedEvent event) {
+	protected void conditionalSetup(MessageReceivedEvent event) {
+		if( containsAnyQuotes(event.getMessage().getContent()) ) {
+			messageSetup(event);
+		} else {
+			tokenSetup(event);
+		}
+	}
+	
+	protected void tokenSetup(MessageReceivedEvent event) {
+		setupType = Setup.TOKEN;
 		response = "";
 		message = "";
 		embed = null;
@@ -43,6 +60,7 @@ public class Handler {
 	}
 	
 	protected void messageSetup(MessageReceivedEvent event) {
+		setupType = Setup.MESSAGE;
 		response = "";
 		message = "";
 		embed = null;
@@ -64,13 +82,23 @@ public class Handler {
 	protected String messageFormat(MessageReceivedEvent event) {
 		String messageText = event.getMessage().getContent();
 		int q1 = messageText.indexOf("\"");
+		int q1alt = messageText.indexOf("“");
 		int q2 = messageText.lastIndexOf("\"");
+		int q2alt = messageText.indexOf("”");
 		if( q1 != -1 && q1 != q2 ) {
 			message = messageText.substring(q1+1, q2);
 			String a = messageText.substring(0, q1);
 			String b = "";
 			if( q2 != messageText.length()-1 ) {
 				b = messageText.substring(q2+1);
+			}
+			messageText = a + b;
+		} else if ( q1alt != -1 && q2alt != q1alt ) {
+			message = messageText.substring(q1alt+1, q2alt);
+			String a = messageText.substring(0, q1alt);
+			String b = "";
+			if( q2alt != messageText.length()-1 ) {
+				b = messageText.substring(q2alt+1);
 			}
 			messageText = a + b;
 		}
@@ -157,6 +185,10 @@ public class Handler {
 		return false;
 	}
 	
+	protected boolean containsAnyQuotes( String s ) {
+		return s.contains("\"") || s.contains("“") || s.contains("”");
+	}
+	
 	protected Boolean containsIgnoreCase(Set<String> a, String b) {
 		for( String token : a ) {
 			if( containsIgnoreCase(token, b) ) {
@@ -164,5 +196,19 @@ public class Handler {
 			}
 		}
 		return false;
+	}
+	
+	protected String remainder( String prefix ) {
+		int i1 = messageText.indexOf(prefix);
+		if( i1 != -1 ) {
+			int i2 = i1 + prefix.length();
+			String s = messageText.substring(i2);
+			while( s.startsWith(" ") ) {
+				s = s.substring(1);
+			}
+			return s;
+		} else {
+			return "";
+		}
 	}
 }

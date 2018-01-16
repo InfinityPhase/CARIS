@@ -7,8 +7,8 @@ public class Controller extends Handler {
 	// Base Controller class. Can only be invoked by admin. Setup removes first token.
 	
 		@Override
-		protected void setup(MessageReceivedEvent event) {
-			super.setup(event);
+		protected void tokenSetup(MessageReceivedEvent event) {
+			super.tokenSetup(event);
 			tokens.remove(0);
 		}
 		

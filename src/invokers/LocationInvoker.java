@@ -8,9 +8,9 @@ import tokens.Response;
 public class LocationInvoker extends Invoker {
 
 	public Response process(MessageReceivedEvent event) {	
-		setup(event);
+		tokenSetup(event);
 
-		if( tokens.get(0).equals("cLoc: ") || tokens.get(0).equals("cLocation: ") ) {
+		if( tokens.get(0).equals("cLoc:") || tokens.get(0).equals("cLocation:") ) {
 			log.indent(2).log("Keyword \"loc\" detected.");
 			if( tokens.size() < 2 ) {
 				log.indent(3).log("Syntax Error. Aborting.");

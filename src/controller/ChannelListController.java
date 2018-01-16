@@ -16,7 +16,7 @@ public class ChannelListController extends Controller {
 
 	@Override
 	public Response process( MessageReceivedEvent event ) {
-		setup(event);
+		tokenSetup(event);
 
 		log.log( "Checking list invoker");
 		if( tokens.get(0).equalsIgnoreCase("get") ) {
