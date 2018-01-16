@@ -10,6 +10,7 @@ public class Constants {
         	"cLoc:",
         	"cLocation:",
         	"c8ball:",
+        	"cFortune:",
         };
         public static final String ADMIN_PREFIX = "===> ";
         public static final String NAME = "CARIS";
