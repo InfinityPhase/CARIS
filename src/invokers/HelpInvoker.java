@@ -12,7 +12,7 @@ public class HelpInvoker extends Invoker_Multiline {
 		if( event.getMessage().getContent().equalsIgnoreCase("cHelp") ) {
 			response += "**__Help__**";
 			response += "\nCaris is controlled using two types of commands: *Invokers*, and *Responders*.";
-			response += "\n*Invokers* are commands that you specifically activate, while *Responders* utilize natural language processing to jump in at the right time.";
+			response += "\n*Invokers* are commands that you specifically activate, while *Responders* utilize \"natural language processing\" to jump in at the right time.";
 			response += "\n";
 			
 			response += "\n__Invokers__";
