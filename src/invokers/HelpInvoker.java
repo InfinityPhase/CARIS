@@ -61,12 +61,12 @@ public class HelpInvoker extends Invoker_Multiline {
 				response += "\n";
 				
 				response += "\n__All Invokers:__";
-				response += "\n\tc8ball";
-				response += "\n\tcEcho";
-				response += "\n\tcEmbed";
-				response += "\n\tcLocation";
-				response += "\n\tcPoll";
-				response += "\n\tcVote";
+				response += "\n\t\t` c8ball `";
+				response += "\n\t\t` cEcho `";
+				response += "\n\t\t` cEmbed `";
+				response += "\n\t\t` cLocation `";
+				response += "\n\t\t` cPoll `";
+				response += "\n\t\t` cVote `";
 				response += "\n";
 				
 				response += "\nTo learn how to use a specific *Invoker*, type ` cHelp: <Invoker> `.";
@@ -77,11 +77,11 @@ public class HelpInvoker extends Invoker_Multiline {
 				response += "\n";
 				
 				response += "\n__All Responders:__";
-				response += "\n\trHelp";
-				response += "\n\trLocation";
-				response += "\n\trMention";
-				response += "\n\trNickname";
-				response += "\n\trReminder";
+				response += "\n\t\t` rHelp `";
+				response += "\n\t\t` rLocation `";
+				response += "\n\t\t` rMention `";
+				response += "\n\t\t` rNickname `";
+				response += "\n\t\t` rReminder `";
 				response += "\n";
 				response += "\nTo learn how a specific *Responder* works, type ` cHelp: <Responder> `";
 			} else if( target.equalsIgnoreCase("c8ball") ) {
@@ -106,18 +106,18 @@ public class HelpInvoker extends Invoker_Multiline {
 				response += "\nUse ` cEmbed: <Title> ` as the *Main Command*";
 				response += "\nEach subcommand represents a property in the Embed, along with its content.";
 				response += "\nHere are the properties you can edit:";
-				response += "\n\ttitle <Text>\t-\t*The display title of the embed*";
-				response += "\n\turl <Link>\t-\tThe link clicking the embed forwards you to";
-				response += "\n\tdescription <Text>\t-\tThe description of the embed";
-				response += "\n\tcolor <Text>\t-\tThe color of the embed sidebar";
-				response += "\n\timage <Image Link>\t-\tA url linking to an image";
-				response += "\n\tfield <Text> | <Text>\t-\tA field with it's own content";
-				response += "\n\tfield-inline <Text> | <Text>\t-\tA field but in line with other field-inlines";
-				response += "\n\t\tfields have two parts; the title and the content, separated by \" | \".";
-				response += "\n\tauthor <Text>\t-\tThe display author of the embed";
-				response += "\n\tthumbnail <Image Link>\t-\tA url linking to a thumbnail image";
-				response += "\n\tfooter-icon <Image Link>\t-\tA url linking to the footer icon";
-				response += "\n\tfooter-text <Text>\t-\tText shown at the end of an embed";
+				response += "\n\t\t` title <Text> `\t\t-\t\t*The display title of the embed*";
+				response += "\n\t\t` url <Link> `\t\t-\t\t*The link clicking the embed forwards you to*";
+				response += "\n\t\t` description <Text> `\t\t-\t\t*The description of the embed*";
+				response += "\n\t\t` color <Text> `\t\t-\t\t*The color of the embed sidebar*";
+				response += "\n\t\t` image <Image Link> `\t\t-\t\t*A url linking to an image*";
+				response += "\n\t\t` field <Text> | <Text> `\t\t-\t\t*A field with it's own content*";
+				response += "\n\t\t` field-inline <Text> ` | <Text>\t\t-\t\t*A field but in line with other field-inlines*";
+				response += "\n\t\t\t\t*fields have two parts; the title and the content, separated by \" | \".*";
+				response += "\n\t\t` author <Text> `\t\t-\t\t*The display author of the embed*";
+				response += "\n\t\t` thumbnail <Image Link> `\t\t-\t\t*A url linking to a thumbnail image*";
+				response += "\n\t\t` footer-icon <Image Link> `\t\t-\t\t*A url linking to the footer icon*";
+				response += "\n\t\t` footer-text <Text> `\t\t-\t\t*Text shown at the end of an embed*";
 				response += "\n";
 				
 				response += "\n```cEmbed: New Embed";
@@ -126,16 +126,16 @@ public class HelpInvoker extends Invoker_Multiline {
 				response += "\ncolor blue";
 				response += "\nimage https://cdn.discordapp.com/embed/avatars/0.png";
 				response += "\nfield Field Name | Field Content";
-				response += "\nfooter-text End of the embed!";
+				response += "\nfooter-text End of the embed!```";
 			} else if( target.equalsIgnoreCase("cLocation") ) {
 				response += "**__cLocation__**";
 				response += "\nThis command allows you to keep track of where everyone is.";
 				response += "\nUse ` cLoc: <Location Name> ` as the *Main Command*.";
 				response += "\n";
 				
-				response += "\n\tadd <Name>\t-\tAdds a person to a location";
-				response += "\n\tremove <Name>\t-\tRemoves a person from a location";
-				response += "\n\treset\t-\tRemoves everyone from a location";
+				response += "\n\t\t` add <Name> `\t\t-\t\t*Adds a person to a location*";
+				response += "\n\t\t` remove <Name> `\t\t-\t\t*Removes a person from a location*";
+				response += "\n\t\t` reset `\t\t-\t\t*Removes everyone from a location*";
 				response += "\n";
 				
 				response += "\n```cLocation: School";
@@ -150,12 +150,12 @@ public class HelpInvoker extends Invoker_Multiline {
 				response += "\nIf no subcommands are used, CARIS will display the current state of the poll.";
 				response += "\n";
 				
-				response += "\n\tdescription <Text>\t-\tSets the description or question the poll is asking.";
-				response += "\n\toption <Text>\t-\tAdds a votable option to the poll.";
-				response += "\n\tadd <Text>\t-\tIf the poll already exists, adds a new option to the poll.";
-				response += "\n\tremove <Text>\t-\tIf the poll already exists, removes an option from the poll.";
-				response += "\n\treset\t-\tRemoves all votes from the poll.";
-				response += "\n\tend\t-\tEnds the poll and displays the results.";
+				response += "\n\t\t` description <Text> `\t\t-\t\t*Sets the description or question the poll is asking*";
+				response += "\n\t\t` option <Text> `\t\t-\t\t*Adds a votable option to the poll*";
+				response += "\n\t\t` add <Text> `\t\t-\t\t*If the poll already exists, adds a new option to the poll*";
+				response += "\n\t\t` remove <Text> `\t\t-\t\t*If the poll already exists, removes an option from the poll*";
+				response += "\n\t\t` reset `\t\t-\t\t*Removes all votes from the poll*";
+				response += "\n\t\t` end `\t\t-\t\t*Ends the poll and displays the results*";
 				response += "\n";
 				response += "\n```cPoll: Apples v Oranges";
 				response += "\ndescription Do you prefer apples, or oranges?";
@@ -209,7 +209,7 @@ public class HelpInvoker extends Invoker_Multiline {
 				
 				response += "\n*\"Can someone remind me to \"check messages\" at 4 PM?\"*";
 				response += "\n*\"Remind me on March 26th to wish Alina a happy birthday.\"*";
-				response += "\n*\"CARIS, try to remind me in about 5 minutes.";
+				response += "\n*\"CARIS, try to remind me in about 5 minutes.*";
 			}
 		}
 		
