@@ -18,7 +18,7 @@ public class MusicInvoker extends Invoker {
 
 	public Response process(MessageReceivedEvent event) {
 		messageSetup(event);
-		if( tokens.get(0).equals("music") ) {
+		if( tokens.get(0).equals("cMusic:") ) {
 			log.indent(1).log("MusicInvoker triggered.");
 			if( tokens.size() < 2 ) {
 				response = "Syntax Error: Command not specified.";

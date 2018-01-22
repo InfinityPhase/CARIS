@@ -15,12 +15,13 @@ import controller.ModuleController;
 import controller.SaveController;
 import controller.SayController;
 import invokers.EchoInvoker;
-import invokers.FortuneInvoker;
+//import invokers.FortuneInvoker;
 import invokers.Invoker;
 import invokers.LocationInvoker;
-import invokers.MusicInvoker;
-import invokers.NicknameInvoker;
+//import invokers.MusicInvoker;
+//import invokers.NicknameInvoker;
 import invokers.VoteInvoker;
+import invokers.PollInvoker;
 import invokers._8BallInvoker;
 import lavaplayer.player.AudioPlayerManager;
 import lavaplayer.player.DefaultAudioPlayerManager;
@@ -55,13 +56,14 @@ public class Brain {
 	public static HashMap<String, Controller> controllerModules = new HashMap<String, Controller>();
 	
 	/* Invoked Handlers */
+	public static _8BallInvoker _8ballInvoker = new _8BallInvoker();
 	public static EchoInvoker echoInvoker = new EchoInvoker();
 	public static LocationInvoker locationInvoker = new LocationInvoker();
 	public static VoteInvoker voteInvoker = new VoteInvoker();
-	public static _8BallInvoker _8ballInvoker = new _8BallInvoker();
-	public static NicknameInvoker nicknameInvoker = new NicknameInvoker();
-	public static FortuneInvoker fortuneInvoker = new FortuneInvoker();
-	public static MusicInvoker musicInvoker = new MusicInvoker();
+	public  static PollInvoker pollInvoker = new PollInvoker();
+	//public static NicknameInvoker nicknameInvoker = new NicknameInvoker();
+	//public static FortuneInvoker fortuneInvoker = new FortuneInvoker();
+	//public static MusicInvoker musicInvoker = new MusicInvoker();
 	
 	/* Auto Handlers */
 	public static MentionResponder mentionResponder = new MentionResponder();
@@ -80,7 +82,7 @@ public class Brain {
 	public static SayController sayController = new SayController();
 	
 	/* Event Handlers */
-	public static MessageReceived nessageReceived = new MessageReceived();
+	public static MessageReceived messageReceived = new MessageReceived();
 	public static GuildCreate guildCreate = new GuildCreate();
 	public static UserJoin userJoin = new UserJoin();
 	
@@ -149,7 +151,7 @@ public class Brain {
 	    AudioSourceManagers.registerLocalSource(playerManager);
 		
 		// Event Map
-		eventModules.put("Message Received", nessageReceived);
+		eventModules.put("Message Received", messageReceived);
 		eventModules.put("Guild Create", guildCreate);
 		eventModules.put("User Join", userJoin);
 		
@@ -158,13 +160,14 @@ public class Brain {
 		memoryModules.put("Time Memory", timeMemory);
 
 		// Invoker Map
-		invokerModules.put("Echo Invoker", echoInvoker);
-		invokerModules.put("Vote Invoker", voteInvoker);
 		invokerModules.put("8ball Invoker", _8ballInvoker);
-		invokerModules.put("Nickname Invoker", nicknameInvoker);
-		invokerModules.put("Fortune Invoker", fortuneInvoker);
+		invokerModules.put("Echo Invoker", echoInvoker);
 		invokerModules.put("Location Invoker", locationInvoker);
-		invokerModules.put("Music Invoker", musicInvoker);
+		invokerModules.put("Vote Invoker", voteInvoker);
+		invokerModules.put("Poll Invoker", pollInvoker);
+		//invokerModules.put("Nickname Invoker", nicknameInvoker);
+		//invokerModules.put("Fortune Invoker", fortuneInvoker);
+		//invokerModules.put("Music Invoker", musicInvoker);
 		
 		// Responder Map
 		responderModules.put("Mention Responder", mentionResponder);

@@ -6,16 +6,16 @@ import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedE
 import tokens.LineSet;
 import tokens.Response;
 
-public class LocationInvoker extends MultilineInvoker {
+public class LocationInvoker extends Invoker_Multiline {
 
 	public Response process(MessageReceivedEvent event) {	
 		multilineSetup(event);
 
 		if( tokens.get(0).equals("cLoc:") || tokens.get(0).equals("cLocation:") ) {
-			log.indent(2).log("LocationInvoker triggered.");
+			log.indent(1).log("LocationInvoker triggered.");
 			String location = remainder(primaryLineSet.tokens.get(0), primaryLineSet.line);
 			if( location.isEmpty() ) {
-				log.indent(3).log("Symtax Error. Aborting.");
+				log.indent(2).log("Syntax Error. Aborting.");
 				response = "Please enter a valid location name.";
 				return build();
 			} else {

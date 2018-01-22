@@ -7,7 +7,7 @@ import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedE
 import tokens.LineSet;
 import tokens.Response;
 
-public class MultilineInvoker extends Invoker {
+public class Invoker_Multiline extends Invoker {
 	
 	protected ArrayList<LineSet> lineSets;
 	protected LineSet primaryLineSet;

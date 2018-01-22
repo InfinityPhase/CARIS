@@ -12,31 +12,33 @@ public class PollBuilder {
 	
 	public EmbedBuilder start(Poll p) {
 		EmbedBuilder builder = new EmbedBuilder();
+		builder.withAuthorIcon(p.author.getAvatarURL());
 		builder.withTitle("**__" + p.name + "__**");
 		builder.withDesc("*" + p.description + "*");
 		for( String option : p.options.keySet() ) {
 			builder.appendField(option, p.options.get(option).size() + " votes!", false);
 		}
-		builder.withFooterText("Type `.c vote cast \"" + p.name + "\" <option>" + "` to vote.");
+		builder.withFooterText("Type `cVote: " + p.name + " \n<option>" + "` to vote.");
 		builder.withAuthorName("Poll created!");
 		return builder;
 	}
 	
 	public EmbedBuilder check(Poll p) {
 		EmbedBuilder builder = new EmbedBuilder();
+		builder.withAuthorIcon(p.author.getAvatarURL());
 		builder.withTitle("**__" + p.name + "__**");
 		builder.withDesc("*" + p.description + "*");
 		for( String option : p.options.keySet() ) {
 			builder.appendField(option, p.options.get(option).size() + " votes!", false);
 		}
-		builder.withFooterText("Type `.c vote cast \"" + p.name + "\" <option>" + "` to vote.");
+		builder.withFooterText("Type `cVote: " + p.name + " \n<option>" + "` to vote.");
 		builder.withAuthorName("Poll Status:");
 		return builder;
 	}
 	
-	@SuppressWarnings("unlikely-arg-type")
 	public EmbedBuilder end(Poll p) {
 		EmbedBuilder builder = new EmbedBuilder();
+		builder.withAuthorIcon(p.author.getAvatarURL());
 		builder.withTitle("**__" + p.name + "__**");
 		builder.withDesc("*" + p.description + "*");
 		for( String option : p.options.keySet() ) {
@@ -108,6 +110,15 @@ public class PollBuilder {
 		p.options.remove(choice);
 		builder = check(p);
 		builder.withAuthorName("Option \"" + choice + "\" removed!");
+		return builder;
+	}
+	public EmbedBuilder reset(Poll p) {
+		EmbedBuilder builder = new EmbedBuilder();
+		for( String choice : p.options.keySet() ) {
+			p.options.put(choice, new ArrayList<String>());
+		}
+		builder = check(p);
+		builder.withAuthorName("Poll Reset!");
 		return builder;
 	}
 }
