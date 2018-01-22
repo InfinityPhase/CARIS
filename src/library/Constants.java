@@ -6,8 +6,29 @@ import utilities.Logger.level;
 import utilities.Logger.output;
 
 public class Constants {
-        public static final String COMMAND_PREFIX = ".cp ";
-        public static final String ADMIN_PREFIX = "===> ";
+        public static final String ADMIN_PREFIX = "==> ";
+        public static final String COMMAND_PREFIX = ".c "; // soon to be deprecated
+        
+        public static final String[] COMMAND_PREFIXES = new String[] {
+        	"c8Ball:",
+        	"cEcho:",
+        	//"cFortune:",
+        	"cLoc:",
+        	"cLocation:",
+        	//"cMusic:",
+        	//"cNick:",
+        	"cVote:",
+        	"cPoll:",
+        	"cHelp:",
+        	"cEmbed:",
+        };
+        public static final String[] COMMAND_EXACTS = new String[] {
+        	"cLoc",
+        	"cLocation",
+        	"cVote",
+        	"cPoll",
+        	"cHelp",
+        };
         public static final String NAME = "CARIS";
         public static final boolean OFFLINE = false;
         
@@ -59,5 +80,11 @@ public class Constants {
     	
     	// Build Season Clock
     	public static Calendar kickoff = Calendar.getInstance();
-    	
+
+    	// Default Off Modules
+    	public static final String[] DEFAULT_DISBABLED = new String[] {
+    		"Fortune Invoker",
+    		"Music Invoker",
+    		"Nickname Invoker",
+    	};
 }

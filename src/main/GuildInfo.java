@@ -7,6 +7,7 @@ import java.util.List;
 
 import embedbuilders.ModuleStatusBuilder;
 import embedbuilders.PollBuilder;
+import library.Constants;
 import sx.blah.discord.handle.obj.IChannel;
 import sx.blah.discord.handle.obj.IGuild;
 import sx.blah.discord.handle.obj.IUser;
@@ -135,10 +136,10 @@ public class GuildInfo {
 	
 	private void init() {
 		for( String s : Brain.invokerModules.keySet() ) {
-			modules.put(s, true);
+			modules.put(s, checkDisabled(s));
 		}
 		for( String s :  Brain.responderModules.keySet() ) {
-			modules.put(s, true);
+			modules.put(s, checkDisabled(s));
 		}
 		for( IUser u : guild.getUsers() ) {
 			userIndex.put( u, new UserInfo(u) );
@@ -147,5 +148,14 @@ public class GuildInfo {
 	
 	public void addUser( IUser u ) {
 		userIndex.put( u, new UserInfo(u) );
+	}
+	
+	public boolean checkDisabled(String module) {
+		for( String s : Constants.DEFAULT_DISBABLED ) {
+			if( s.equals(module) ) {
+				return false;
+			}
+		}
+		return true;
 	}
 }

@@ -4,21 +4,42 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
+import commands.CalendarHandler;
+import commands.GuildCreate;
+import commands.MessageReceived;
+import commands.SuperEvent;
+import commands.UserJoin;
+import controller.ChannelListController;
+import controller.Controller;
+import controller.ModuleController;
+import controller.SaveController;
+import controller.SayController;
+import invokers.EchoInvoker;
+import invokers.EmbedInvoker;
+import invokers.HelpInvoker;
+//import invokers.FortuneInvoker;
+import invokers.Invoker;
+import invokers.LocationInvoker;
+import invokers.PollInvoker;
+//import invokers.MusicInvoker;
+//import invokers.NicknameInvoker;
+import invokers.VoteInvoker;
+import invokers._8BallInvoker;
+import lavaplayer.player.AudioPlayerManager;
 import lavaplayer.player.DefaultAudioPlayerManager;
 import lavaplayer.source.AudioSourceManagers;
-
-import music.GuildMusicManager;
-import lavaplayer.player.AudioPlayerManager;
-
-import commands.*;
-import controller.*;
-import invokers.*;
 import library.Constants;
-import library.Variables;
-import memories.*;
-import responders.*;
+import memories.AuthorMemory;
+import memories.Memory;
+import memories.TimeMemory;
+import music.GuildMusicManager;
+import responders.HelpResponder;
+import responders.LocationResponder;
+import responders.MentionResponder;
+import responders.NicknameResponder;
+import responders.ReminderResponder;
+import responders.Responder;
 import sx.blah.discord.api.IDiscordClient;
-import sx.blah.discord.handle.obj.IChannel;
 import utilities.BotUtils;
 import utilities.Logger;
 import utilities.TokenParser;
@@ -39,19 +60,23 @@ public class Brain {
 	public static HashMap<String, Controller> controllerModules = new HashMap<String, Controller>();
 	
 	/* Invoked Handlers */
+	public static _8BallInvoker _8ballInvoker = new _8BallInvoker();
 	public static EchoInvoker echoInvoker = new EchoInvoker();
 	public static LocationInvoker locationInvoker = new LocationInvoker();
 	public static VoteInvoker voteInvoker = new VoteInvoker();
-	public static _8BallInvoker _8ballInvoker = new _8BallInvoker();
-	public static NicknameInvoker nicknameInvoker = new NicknameInvoker();
-	public static FortuneInvoker fortuneInvoker = new FortuneInvoker();
-	public static MusicInvoker musicInvoker = new MusicInvoker();
+	public static PollInvoker pollInvoker = new PollInvoker();
+	public static EmbedInvoker embedInvoker = new EmbedInvoker();
+	public static HelpInvoker helpInvoker = new HelpInvoker();
+	//public static NicknameInvoker nicknameInvoker = new NicknameInvoker();
+	//public static FortuneInvoker fortuneInvoker = new FortuneInvoker();
+	//public static MusicInvoker musicInvoker = new MusicInvoker();
 	
 	/* Auto Handlers */
 	public static MentionResponder mentionResponder = new MentionResponder();
 	public static LocationResponder locationResponder = new LocationResponder();
 	public static NicknameResponder nicknameResponder = new NicknameResponder();
 	public static ReminderResponder reminderResponder = new ReminderResponder();
+	public static HelpResponder helpResponder = new HelpResponder();
 	
 	/* Things that think */
 	public static AuthorMemory authorMemory = new AuthorMemory();
@@ -64,7 +89,7 @@ public class Brain {
 	public static SayController sayController = new SayController();
 	
 	/* Event Handlers */
-	public static MessageReceived nessageReceived = new MessageReceived();
+	public static MessageReceived messageReceived = new MessageReceived();
 	public static GuildCreate guildCreate = new GuildCreate();
 	public static UserJoin userJoin = new UserJoin();
 	
@@ -75,6 +100,8 @@ public class Brain {
 	/* Music Stuff */
 	public static AudioPlayerManager playerManager;
 	public static Map<Long, GuildMusicManager> musicManagers;
+	
+	public static IDiscordClient cli = null;
 	
 	public static void main(String[] args) {
 
@@ -89,7 +116,7 @@ public class Brain {
 		// Gets token from arguments
 		String token = args[0];
 
-		IDiscordClient cli = BotUtils.getBuiltDiscordClient(token);
+		cli = BotUtils.getBuiltDiscordClient(token);
 		log.log("Client built successfully.");
 		
 		for( String s : eventModules.keySet() ) {
@@ -108,18 +135,15 @@ public class Brain {
 		cli.login();
 		log.log("Client logged in.");
 		
-		load(cli);
 		log.log("Loaded Channel Map.");
+		
+		while( !cli.isReady() ) {
+			// Wait to do anything else
+		}
 		
 		while( true ) {
 			current = Calendar.getInstance();
 			calendarHandler.check();
-		}
-	}
-	
-	public static void load(IDiscordClient cli) {
-		for( IChannel channel : cli.getChannels() ) {
-			Variables.channelMap.put(channel.getStringID(), channel);
 		}
 	}
 	
@@ -137,7 +161,7 @@ public class Brain {
 	    AudioSourceManagers.registerLocalSource(playerManager);
 		
 		// Event Map
-		eventModules.put("Message Received", nessageReceived);
+		eventModules.put("Message Received", messageReceived);
 		eventModules.put("Guild Create", guildCreate);
 		eventModules.put("User Join", userJoin);
 		
@@ -146,19 +170,23 @@ public class Brain {
 		memoryModules.put("Time Memory", timeMemory);
 
 		// Invoker Map
-		invokerModules.put("Echo Invoker", echoInvoker);
-		invokerModules.put("Vote Invoker", voteInvoker);
 		invokerModules.put("8ball Invoker", _8ballInvoker);
-		invokerModules.put("Nickname Invoker", nicknameInvoker);
-		invokerModules.put("Fortune Invoker", fortuneInvoker);
+		invokerModules.put("Echo Invoker", echoInvoker);
 		invokerModules.put("Location Invoker", locationInvoker);
-		invokerModules.put("Music Invoker", musicInvoker);
+		invokerModules.put("Vote Invoker", voteInvoker);
+		invokerModules.put("Poll Invoker", pollInvoker);
+		invokerModules.put("Embed Invoker", embedInvoker);
+		invokerModules.put("Help Invoker", helpInvoker);
+		//invokerModules.put("Nickname Invoker", nicknameInvoker);
+		//invokerModules.put("Fortune Invoker", fortuneInvoker);
+		//invokerModules.put("Music Invoker", musicInvoker);
 		
 		// Responder Map
 		responderModules.put("Mention Responder", mentionResponder);
 		responderModules.put("Nickname Responder", nicknameResponder);
 		responderModules.put("Reminder Responder", reminderResponder);
 		responderModules.put("Location Responder", locationResponder);
+		responderModules.put("Help Responder", helpResponder);
 		
 		// Controller Map
 		controllerModules.put("Module Controller", moduleController);

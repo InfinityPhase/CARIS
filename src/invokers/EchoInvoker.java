@@ -8,11 +8,15 @@ public class EchoInvoker extends Invoker {
 
 	@Override
 	public Response process(MessageReceivedEvent event) {
-		setup(event);
+		conditionalSetup(event);
 		
-		if( tokens.get(0).equals("echo") ) {
+		if( tokens.get(0).equals("cEcho:") ) {
 			log.indent(1).log("EchoInvoker triggered.");
-			response = tokens.get(1);;
+			if( setupType == Setup.TOKEN ) {
+				response = remainder(tokens.get(0));
+			} else if( setupType == Setup.MESSAGE ) {
+				response = message;
+			}
 		} else {
 			log.indent(2).log("EchoInvoker unactivated.");
 		}

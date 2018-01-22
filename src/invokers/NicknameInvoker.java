@@ -8,7 +8,7 @@ public class NicknameInvoker extends Invoker {
 	@Override
 	public Response process(MessageReceivedEvent event) {
 		System.out.println("NickInvoker");
-		setup(event);
+		tokenSetup(event);
 		if( tokens.get(0).equals("name") ) {
 			if( tokens.size() < 2 ) {
 				response = "Syntax Error: Command not specified.";

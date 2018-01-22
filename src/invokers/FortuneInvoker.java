@@ -8,8 +8,8 @@ public class FortuneInvoker extends Invoker {
 	
 	@Override
 	public Response process(MessageReceivedEvent event) {
-		setup(event);
-		if( tokens.get(0).equals("fortune") ) {
+		tokenSetup(event);
+		if( tokens.get(0).equals("cFortune:") ) {
 			if( Math.random() < 0.01 ) {
 				int chooser = (int) (Math.random() * Fortunes.EASTER_EGG_FORTUNES.length);
 				response = Fortunes.EASTER_EGG_FORTUNES[chooser];
