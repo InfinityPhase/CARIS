@@ -132,6 +132,7 @@ public class Brain {
 		log.log("Listener established successfully.");
 		
 		// Only login after all event registering is done
+		cli.changePlayingText("Type \"cHelp\" for help!");
 		cli.login();
 		log.log("Client logged in.");
 		
