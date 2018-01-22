@@ -60,7 +60,7 @@ public class HelpInvoker extends Invoker_Multiline {
 				response += "\nadd Anthony```";
 				response += "\n";
 				
-				response += "\n__All Main Commands:__";
+				response += "\n__All Invokers:__";
 				response += "\n\tc8ball";
 				response += "\n\tcEcho";
 				response += "\n\tcEmbed";
@@ -69,24 +69,28 @@ public class HelpInvoker extends Invoker_Multiline {
 				response += "\n\tcVote";
 				response += "\n";
 				
-				response += "\nTo learn how to use a specific *Main Command*, type ` cHelp: <Command> `.";
+				response += "\nTo learn how to use a specific *Invoker*, type ` cHelp: <Invoker> `.";
 			} else if( target.equalsIgnoreCase("Responder") ) {
 				response += "**__Responders__**";
 				response += "\n*Responders* are quite simple, as CARIS does all the work for you.";
 				response += "\nIf you were to say, \"Where the heck did Alina disappear off to?\", for instance, CARIS would promptly respond, \"Alina is at school.\"";
 				response += "\n";
+				
 				response += "\n__All Responders:__";
-				response += "\n\tHelp";
-				response += "\n\tLocation";
-				response += "\n\tMention";
-				response += "\n\tNickname";
-				response += "\n\tReminder";
+				response += "\n\trHelp";
+				response += "\n\trLocation";
+				response += "\n\trMention";
+				response += "\n\trNickname";
+				response += "\n\trReminder";
+				response += "\n";
+				response += "\nTo learn how a specific *Responder* works, type ` cHelp: <Responder> `";
 			} else if( target.equalsIgnoreCase("c8ball") ) {
 				response += "**__c8ball__**";
 				response += "\nThis command is used to randomly answer yes/no questions.";
 				response += "\nPlease do not take these answers as life advice.";
 				response += "\nThere are no subcommands available.";
 				response += "\n";
+				
 				response += "\n```c8ball: Will I ever find love?```";
 			} else if( target.equalsIgnoreCase("cEcho") ) {
 				response += "**__cEcho__**";
@@ -94,25 +98,28 @@ public class HelpInvoker extends Invoker_Multiline {
 				response += "\nPlease don't abuse this command.";
 				response += "\nThere are no subcommands available.";
 				response += "\n";
+				
 				response += "\n```cEcho: My name is CARIS!```";
 			} else if( target.equalsIgnoreCase("cEmbed") ) {
 				response += "\n__cEmbed__";
 				response += "\nThis command allows you to create Embeded messages.";
+				response += "\nUse ` cEmbed: <Title> ` as the *Main Command*";
 				response += "\nEach subcommand represents a property in the Embed, along with its content.";
 				response += "\nHere are the properties you can edit:";
-				response += "\n\ttitle\t-\t*The display title of the embed*";
-				response += "\n\turl\t-\tThe link clicking the embed forwards you to";
-				response += "\n\tdescription\t-\tThe description of the embed";
-				response += "\n\tcolor\t-\tThe color of the embed sidebar";
-				response += "\n\timage\t-\tA url linking to an image";
-				response += "\n\tfield\t-\tA field with it's own content";
-				response += "\n\tfield-inline\t-\tA field but in line with other field-inlines";
+				response += "\n\ttitle <Text>\t-\t*The display title of the embed*";
+				response += "\n\turl <Link>\t-\tThe link clicking the embed forwards you to";
+				response += "\n\tdescription <Text>\t-\tThe description of the embed";
+				response += "\n\tcolor <Text>\t-\tThe color of the embed sidebar";
+				response += "\n\timage <Image Link>\t-\tA url linking to an image";
+				response += "\n\tfield <Text> | <Text>\t-\tA field with it's own content";
+				response += "\n\tfield-inline <Text> | <Text>\t-\tA field but in line with other field-inlines";
 				response += "\n\t\tfields have two parts; the title and the content, separated by \" | \".";
-				response += "\n\tauthor\t-\tThe display author of the embed";
-				response += "\n\tthumbnail\t-\tA url linking to a thumbnail image";
-				response += "\n\tfooter-icon\t-\tA url linking to the footer icon";
-				response += "\n\tfooter-text\t-\tText shown at the end of an embed";
+				response += "\n\tauthor <Text>\t-\tThe display author of the embed";
+				response += "\n\tthumbnail <Image Link>\t-\tA url linking to a thumbnail image";
+				response += "\n\tfooter-icon <Image Link>\t-\tA url linking to the footer icon";
+				response += "\n\tfooter-text <Text>\t-\tText shown at the end of an embed";
 				response += "\n";
+				
 				response += "\n```cEmbed: New Embed";
 				response += "\ntitle A new Embed";
 				response += "\ndescription Basically a test of the embed invoker";
@@ -122,21 +129,87 @@ public class HelpInvoker extends Invoker_Multiline {
 				response += "\nfooter-text End of the embed!";
 			} else if( target.equalsIgnoreCase("cLocation") ) {
 				response += "**__cLocation__**";
+				response += "\nThis command allows you to keep track of where everyone is.";
+				response += "\nUse ` cLoc: <Location Name> ` as the *Main Command*.";
+				response += "\n";
 				
+				response += "\n\tadd <Name>\t-\tAdds a person to a location";
+				response += "\n\tremove <Name>\t-\tRemoves a person from a location";
+				response += "\n\treset\t-\tRemoves everyone from a location";
+				response += "\n";
+				
+				response += "\n```cLocation: School";
+				response += "\nreset";
+				response += "\nadd Alina";
+				response += "\nadd Anthony";
+				response += "\nremove Alina```";
 			} else if( target.equalsIgnoreCase("cPoll") ) {
+				response += "**__cPoll__**";
+				response += "\nThis command lets you create polls other people can vote on.";
+				response += "\nUse ` cPoll: <Poll Name> ` as the *Main Command*.";
+				response += "\nIf no subcommands are used, CARIS will display the current state of the poll.";
+				response += "\n";
+				
+				response += "\n\tdescription <Text>\t-\tSets the description or question the poll is asking.";
+				response += "\n\toption <Text>\t-\tAdds a votable option to the poll.";
+				response += "\n\tadd <Text>\t-\tIf the poll already exists, adds a new option to the poll.";
+				response += "\n\tremove <Text>\t-\tIf the poll already exists, removes an option from the poll.";
+				response += "\n\treset\t-\tRemoves all votes from the poll.";
+				response += "\n\tend\t-\tEnds the poll and displays the results.";
+				response += "\n";
+				response += "\n```cPoll: Apples v Oranges";
+				response += "\ndescription Do you prefer apples, or oranges?";
+				response += "\noption Apples";
+				response += "\noption Oranges```";
 				
 			} else if( target.equalsIgnoreCase("cVote") ) {
+				response += "**__cVote__**";
+				response += "\nThis command lets others vote on existing polls.";
+				response += "\nUse ` cVote: <Poll Name> ` as the *Main Command*.";
+				response += "\nInstead of subcommands, simply type the choice(s) you wish to vote for.";
+				response += "\n";
 				
+				response += "\n```cVote: Apples v Oranges";
+				response += "\nApples```";
 			} else if( target.equalsIgnoreCase("rHelp") ) {
+				response += "**__Help Responder__**";
+				response += "\nIf you say anything like \"how do I use CARIS\" in the chat, CARIS will respond with the help menu.";
+				response += "\n";
 				
+				response += "\n*\"Hey, how am I supposed to use CARIS?\"*";
 			} else if( target.equalsIgnoreCase("rLocation") ) {
+				response += "\n**__Location Responder__**";
+				response += "\nIf you ask where anyone is, or who's at a certain location, CARIS will see if she knows, and respond appropriately.";
+				response += "\n";
 				
+				response += "\n*\"Where the heck did Alina go?\"*";
+				response += "\n*\"Does anyone know who's at school right now?\"*";
 			} else if( target.equalsIgnoreCase("rMention") ) {
+				response += "**__Mention Reponder__**";
+				response += "\nPretty simple: you say CARIS's name, she responds.";
+				response += "\n";
 				
+				response += "\n*\"Caris, are you online?\"*";
 			} else if( target.equalsIgnoreCase("rNickname") ) {
+				response += "**__Nickname Responder__**";
+				response += "\nIf you ask CARIS to set your name to something in the chat, she'll do it for you.";
+				response += "\nRemember to put your name in quotes!";
+				response += "\n";
 				
+				response += "\n*\"Caris, set my name to \"Alina Kim\".\"*";
+				response += "\n*\"My name is \"Alina Kim\"!\"*";
 			} else if( target.equalsIgnoreCase("rReminder") ) {
+				response += "\n**__Reminder Responder__**";
+				response += "\nYou can even ask CARIS to set reminders for you!";
+				response += "\nYou can ask her to remind you at a certain time, or in a certain timer.";
+				response += "\nKeep in mind that you need to use military time, or PM.";
+				response += "\nUse digits instead of words to express numbers.";
+				response += "\nIf you want to include a message, put it in quotes.";
+				response += "\n";
 				
+				response += "\n*\"Can someone remind me to \"check messages\" at 4 PM?\"*";
+				response += "\n*\"Remind me on March 26th to wish Alina a happy birthday.\"*";
+				response += "\n*\"CARIS, try to remind me in about 5 minutes.";
 			}
 		}
 		
