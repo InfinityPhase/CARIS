@@ -14,6 +14,7 @@ import controller.Controller;
 import controller.ModuleController;
 import controller.SaveController;
 import controller.SayController;
+import controller.StatusController;
 import invokers.EchoInvoker;
 import invokers.EmbedInvoker;
 import invokers.HelpInvoker;
@@ -87,6 +88,7 @@ public class Brain {
 	public static ChannelListController channelListController = new ChannelListController();
 	public static SaveController saveController = new SaveController();
 	public static SayController sayController = new SayController();
+	public static StatusController statusController = new StatusController();
 	
 	/* Event Handlers */
 	public static MessageReceived messageReceived = new MessageReceived();
@@ -132,8 +134,9 @@ public class Brain {
 		log.log("Listener established successfully.");
 		
 		// Only login after all event registering is done
-		cli.changePlayingText("Type \"cHelp\" for help!");
 		cli.login();
+		cli.changePlayingText(Constants.DEFAULT_PLAYING_TEXT);
+
 		log.log("Client logged in.");
 		
 		log.log("Loaded Channel Map.");
@@ -194,5 +197,6 @@ public class Brain {
 		controllerModules.put("Save Controller", saveController);
 		controllerModules.put("Channel List Controller", channelListController);
 		controllerModules.put("Say Controller", sayController);
+		controllerModules.put("Status Controller", statusController);
 	}
 }

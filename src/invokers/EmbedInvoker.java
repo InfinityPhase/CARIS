@@ -92,6 +92,7 @@ public class EmbedInvoker extends Invoker_Multiline {
 						}
 					}
 				}
+				event.getMessage().delete();
 				embed = builder;
 			}
 		}

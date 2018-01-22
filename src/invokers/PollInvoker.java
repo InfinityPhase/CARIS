@@ -116,6 +116,7 @@ public class PollInvoker extends Invoker_Multiline {
 				}
 				variables.polls.put(target, new Poll(target, description, options, event.getAuthor(), event.getGuild()));
 				embed = variables.pollBuilder.start(variables.polls.get(target));
+				event.getMessage().delete();
 			}
 		}
 		return build();
