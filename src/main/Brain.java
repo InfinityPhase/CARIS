@@ -15,6 +15,7 @@ import controller.ModuleController;
 import controller.SaveController;
 import controller.SayController;
 import invokers.EchoInvoker;
+import invokers.EmbedInvoker;
 //import invokers.FortuneInvoker;
 import invokers.Invoker;
 import invokers.LocationInvoker;
@@ -60,7 +61,8 @@ public class Brain {
 	public static EchoInvoker echoInvoker = new EchoInvoker();
 	public static LocationInvoker locationInvoker = new LocationInvoker();
 	public static VoteInvoker voteInvoker = new VoteInvoker();
-	public  static PollInvoker pollInvoker = new PollInvoker();
+	public static PollInvoker pollInvoker = new PollInvoker();
+	public static EmbedInvoker embedInvoker = new EmbedInvoker();
 	//public static NicknameInvoker nicknameInvoker = new NicknameInvoker();
 	//public static FortuneInvoker fortuneInvoker = new FortuneInvoker();
 	//public static MusicInvoker musicInvoker = new MusicInvoker();
@@ -165,6 +167,7 @@ public class Brain {
 		invokerModules.put("Location Invoker", locationInvoker);
 		invokerModules.put("Vote Invoker", voteInvoker);
 		invokerModules.put("Poll Invoker", pollInvoker);
+		invokerModules.put("Embed Invoker", embedInvoker);
 		//invokerModules.put("Nickname Invoker", nicknameInvoker);
 		//invokerModules.put("Fortune Invoker", fortuneInvoker);
 		//invokerModules.put("Music Invoker", musicInvoker);

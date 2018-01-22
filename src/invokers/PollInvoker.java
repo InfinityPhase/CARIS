@@ -9,6 +9,7 @@ import tokens.Response;
 
 public class PollInvoker extends Invoker_Multiline {
 	
+	@Override
 	public Response process(MessageReceivedEvent event) {
 		multilineSetup(event);
 		
@@ -21,7 +22,9 @@ public class PollInvoker extends Invoker_Multiline {
 				return build();
 			} else if( variables.polls.containsKey(target) ) {
 				Poll p = variables.polls.get(target);
-				if( !p.author.equals(event.getAuthor()) ) {
+				if( auxiliaryLineSets.isEmpty() ) {
+					embed = variables.pollBuilder.check(p, event.getAuthor());
+				} else if( !p.author.equals(event.getAuthor()) ) {
 					response = "You do not have permission to edit this poll.";
 					return build();
 				} else {

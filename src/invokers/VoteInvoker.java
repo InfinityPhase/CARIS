@@ -2,6 +2,7 @@ package invokers;
 
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import tokens.LineSet;
+import tokens.Poll;
 import tokens.Response;
 
 public class VoteInvoker extends Invoker_Multiline {
@@ -17,11 +18,16 @@ public class VoteInvoker extends Invoker_Multiline {
 				response = "Please enter a valid Poll name.";
 				return build();
 			} else {
-				for( LineSet ls : auxiliaryLineSets ) {
-					if( ls.line.isEmpty() || !variables.polls.get(target).options.keySet().contains(ls.line)) {
-						response = "Please enter a valid option.";
-					} else {
-						embed = variables.pollBuilder.cast(variables.polls.get(target), event.getAuthor(), ls.line);
+				Poll p = variables.polls.get(target);
+				if( auxiliaryLineSets.isEmpty() ) {
+					embed = variables.pollBuilder.check(p, event.getAuthor());
+				} else {
+					for( LineSet ls : auxiliaryLineSets ) {
+						if( ls.line.isEmpty() || !variables.polls.get(target).options.keySet().contains(ls.line)) {
+							response = "Please enter a valid option.";
+						} else {
+							embed = variables.pollBuilder.cast(p, event.getAuthor(), ls.line);
+						}
 					}
 				}
 			}

@@ -15,6 +15,8 @@ public class Constants {
         	//"cNick:",
         	"cVote:",
         	"cPoll:",
+        	"cHelp:",
+        	"cEmbed:",
         };
         public static final String ADMIN_PREFIX = "===> ";
         public static final String NAME = "CARIS";
