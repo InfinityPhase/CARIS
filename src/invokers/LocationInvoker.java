@@ -3,6 +3,7 @@ package invokers;
 import java.util.ArrayList;
 
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
+import sx.blah.discord.util.EmbedBuilder;
 import tokens.LineSet;
 import tokens.Response;
 
@@ -10,7 +11,24 @@ public class LocationInvoker extends Invoker_Multiline {
 
 	public Response process(MessageReceivedEvent event) {	
 		multilineSetup(event);
-
+		
+		if( event.getMessage().getContent().equals("cLoc") || event.getMessage().getContent().equals("cLocation") ) {
+			log.indent(1).log("LocationInvoker triggered.");
+			EmbedBuilder builder = new EmbedBuilder();
+			for( String location : variables.locations.keySet() ) {
+				builder.withTitle("**__Locations__**");
+				String people = "";
+				for( String person : variables.locations.get(location) ) {
+					people += person + ", ";
+				}
+				if( people.length() >= 2 ) {
+					people = people.substring(0, people.length()-2);
+					builder.appendField(location, people, false);
+				}
+			}
+			embed = builder;
+		}
+		
 		if( tokens.get(0).equals("cLoc:") || tokens.get(0).equals("cLocation:") ) {
 			log.indent(1).log("LocationInvoker triggered.");
 			String location = remainder(primaryLineSet.tokens.get(0), primaryLineSet.line);

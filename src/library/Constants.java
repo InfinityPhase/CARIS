@@ -18,6 +18,13 @@ public class Constants {
         	"cHelp:",
         	"cEmbed:",
         };
+        public static final String[] COMMAND_EXACTS = new String[] {
+        	"cLoc",
+        	"cLocation",
+        	"cVote",
+        	"cPoll",
+        	"cHelp",
+        };
         public static final String ADMIN_PREFIX = "===> ";
         public static final String NAME = "CARIS";
         public static final boolean OFFLINE = false;

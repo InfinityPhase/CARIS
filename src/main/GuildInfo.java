@@ -5,6 +5,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
+import embedbuilders.HelpBuilder;
 import embedbuilders.ModuleStatusBuilder;
 import embedbuilders.PollBuilder;
 import library.Constants;
@@ -30,6 +31,7 @@ public class GuildInfo {
 	/* Embed Builders */
 	public PollBuilder pollBuilder;
 	public ModuleStatusBuilder moduleStatusBuilder;
+	public HelpBuilder helpBuilder;
 	
 	// Creates Map of Username-human to User user
 	public HashMap<String, String> translator; // we might not need this if people just @ everyone else // Yeah right.
@@ -89,6 +91,7 @@ public class GuildInfo {
 		
 		pollBuilder = new PollBuilder();
 		moduleStatusBuilder = new ModuleStatusBuilder();
+		helpBuilder = new HelpBuilder();
 		
 		init();
 	}

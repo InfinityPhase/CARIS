@@ -14,9 +14,11 @@ public class PollBuilder {
 		EmbedBuilder builder = new EmbedBuilder();
 		builder.withAuthorIcon(p.author.getAvatarURL());
 		builder.withTitle("**__" + p.name + "__**");
-		builder.withDesc("*" + p.description + "*" + 
-						"```\ncVote: " + p.name +
-						"\n<option>```");
+		if( !p.description.isEmpty() ) {
+			builder.withDesc("*" + p.description + "*" + "```\ncVote: " + p.name + "\n<option>```");
+		} else {
+			builder.withDesc("```\ncVote: " + p.name + "\n<option>```");
+		}
 		for( String option : p.options.keySet() ) {
 			builder.appendField(option, p.options.get(option).size() + " votes!", false);
 		}

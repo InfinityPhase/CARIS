@@ -14,7 +14,7 @@ public class EmbedInvoker extends Invoker_Multiline {
 		multilineSetup(event);
 		
 		if( tokens.get(0).equals("cEmbed:") ) {
-			log.indent(1).log("PollInvoker triggered.");
+			log.indent(1).log("EmbedInvoker triggered.");
 			String target = remainder(primaryLineSet.tokens.get(0), primaryLineSet.line);
 			if( target.isEmpty() ) {
 				log.indent(2).log("SyntaxError. Aborting.");
@@ -71,8 +71,6 @@ public class EmbedInvoker extends Invoker_Multiline {
 									String name = content.substring(0, index);
 									String text = content.substring(index+1);
 									builder.appendField(name, text, false);
-								} else {
-									builder.appendField(content, "", false);
 								}
 							} else if( field.equalsIgnoreCase("field-inline") ) { 
 								int index = content.indexOf(" | ");
@@ -80,8 +78,6 @@ public class EmbedInvoker extends Invoker_Multiline {
 									String name = content.substring(0, index);
 									String text = content.substring(index+1);
 									builder.appendField(name, text, true);
-								} else {
-									builder.appendField(content, "", true);
 								}
 							} else if( field.equalsIgnoreCase("author") ) {
 								builder.withAuthorName(content);
