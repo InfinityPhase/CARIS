@@ -3,6 +3,7 @@ package invokers;
 import java.util.ArrayList;
 
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
+import sx.blah.discord.util.EmbedBuilder;
 import tokens.LineSet;
 import tokens.Poll;
 import tokens.Response;
@@ -12,6 +13,17 @@ public class PollInvoker extends Invoker_Multiline {
 	@Override
 	public Response process(MessageReceivedEvent event) {
 		multilineSetup(event);
+		
+		if( event.getMessage().getContent().equals("cPoll") ) {
+			EmbedBuilder builder = new EmbedBuilder();
+			log.indent(1).log("PollInvoker triggered.");
+			builder.withTitle("**__Active Polls__**");
+			for( String name : variables.polls.keySet() ) {
+				Poll p = variables.polls.get(name);
+				builder.appendField(p.name, p.getVotes() + "vote(s)!", false);
+			}
+			embed = builder;
+		}
 		
 		if( tokens.get(0).equals("cPoll:") ) {
 			log.indent(1).log("PollInvoker triggered.");

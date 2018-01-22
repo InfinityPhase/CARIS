@@ -22,6 +22,7 @@ public class EmbedInvoker extends Invoker_Multiline {
 				return build();
 			} else {
 				EmbedBuilder builder = new EmbedBuilder();
+				builder.withTitle(target);
 				builder.withAuthorName(event.getAuthor().getDisplayName(event.getGuild()));
 				builder.withAuthorIcon(event.getAuthor().getAvatarURL());
 				for( LineSet ls : auxiliaryLineSets ) {

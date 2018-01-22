@@ -15,8 +15,8 @@ public class LocationInvoker extends Invoker_Multiline {
 		if( event.getMessage().getContent().equals("cLoc") || event.getMessage().getContent().equals("cLocation") ) {
 			log.indent(1).log("LocationInvoker triggered.");
 			EmbedBuilder builder = new EmbedBuilder();
+			builder.withTitle("**__Active Locations__**");
 			for( String location : variables.locations.keySet() ) {
-				builder.withTitle("**__Locations__**");
 				String people = "";
 				for( String person : variables.locations.get(location) ) {
 					people += person + ", ";

@@ -24,4 +24,12 @@ public class Poll {
 			options.put(choice, new ArrayList<String>());
 		}
 	}
+	
+	public int getVotes() {
+		int count = 0;
+		for( String key : options.keySet() ) {
+			count += options.get(key).size();
+		}
+		return count;
+	}
 }

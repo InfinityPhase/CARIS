@@ -16,13 +16,14 @@ import controller.SaveController;
 import controller.SayController;
 import invokers.EchoInvoker;
 import invokers.EmbedInvoker;
+import invokers.HelpInvoker;
 //import invokers.FortuneInvoker;
 import invokers.Invoker;
 import invokers.LocationInvoker;
+import invokers.PollInvoker;
 //import invokers.MusicInvoker;
 //import invokers.NicknameInvoker;
 import invokers.VoteInvoker;
-import invokers.PollInvoker;
 import invokers._8BallInvoker;
 import lavaplayer.player.AudioPlayerManager;
 import lavaplayer.player.DefaultAudioPlayerManager;
@@ -31,6 +32,7 @@ import memories.AuthorMemory;
 import memories.Memory;
 import memories.TimeMemory;
 import music.GuildMusicManager;
+import responders.HelpResponder;
 import responders.LocationResponder;
 import responders.MentionResponder;
 import responders.NicknameResponder;
@@ -63,6 +65,7 @@ public class Brain {
 	public static VoteInvoker voteInvoker = new VoteInvoker();
 	public static PollInvoker pollInvoker = new PollInvoker();
 	public static EmbedInvoker embedInvoker = new EmbedInvoker();
+	public static HelpInvoker helpInvoker = new HelpInvoker();
 	//public static NicknameInvoker nicknameInvoker = new NicknameInvoker();
 	//public static FortuneInvoker fortuneInvoker = new FortuneInvoker();
 	//public static MusicInvoker musicInvoker = new MusicInvoker();
@@ -72,6 +75,7 @@ public class Brain {
 	public static LocationResponder locationResponder = new LocationResponder();
 	public static NicknameResponder nicknameResponder = new NicknameResponder();
 	public static ReminderResponder reminderResponder = new ReminderResponder();
+	public static HelpResponder helpResponder = new HelpResponder();
 	
 	/* Things that think */
 	public static AuthorMemory authorMemory = new AuthorMemory();
@@ -168,6 +172,7 @@ public class Brain {
 		invokerModules.put("Vote Invoker", voteInvoker);
 		invokerModules.put("Poll Invoker", pollInvoker);
 		invokerModules.put("Embed Invoker", embedInvoker);
+		invokerModules.put("Help Invoker", helpInvoker);
 		//invokerModules.put("Nickname Invoker", nicknameInvoker);
 		//invokerModules.put("Fortune Invoker", fortuneInvoker);
 		//invokerModules.put("Music Invoker", musicInvoker);
@@ -177,6 +182,7 @@ public class Brain {
 		responderModules.put("Nickname Responder", nicknameResponder);
 		responderModules.put("Reminder Responder", reminderResponder);
 		responderModules.put("Location Responder", locationResponder);
+		responderModules.put("Help Responder", helpResponder);
 		
 		// Controller Map
 		controllerModules.put("Module Controller", moduleController);
