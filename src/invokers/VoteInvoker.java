@@ -12,14 +12,14 @@ public class VoteInvoker extends Invoker_Multiline {
 		if( tokens.get(0).equals("cVote:") ) {
 			log.indent(1).log("VoteInvoker triggered.");
 			String target = remainder(primaryLineSet.tokens.get(0), primaryLineSet.line);
-			if( target.isEmpty() || !containsIgnoreCase(variables.polls.keySet(), target) ) {
+			if( target.isEmpty() || !variables.polls.keySet().contains(target) ) {
 				log.indent(2).log("Syntax Error. Aborting");
 				response = "Please enter a valid Poll name.";
 				return build();
 			} else {
 				for( LineSet ls : auxiliaryLineSets ) {
-					if( ls.line.isEmpty() ) {
-						response += "Please enter a valid option.";
+					if( ls.line.isEmpty() || !variables.polls.get(target).options.keySet().contains(ls.line)) {
+						response = "Please enter a valid option.";
 					} else {
 						embed = variables.pollBuilder.cast(variables.polls.get(target), event.getAuthor(), ls.line);
 					}

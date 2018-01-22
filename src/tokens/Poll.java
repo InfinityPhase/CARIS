@@ -12,11 +12,13 @@ public class Poll {
 	public HashMap<String, ArrayList<String>> options;
 	public boolean locked;
 	public IUser author;
+	public IGuild guild;
 	
-	public Poll( String name, String description, ArrayList<String> choices, IUser author ) {
+	public Poll( String name, String description, ArrayList<String> choices, IUser author, IGuild guild ) {
 		this.name = name;
 		this.description = description;
 		this.author = author;
+		this.guild = guild;
 		options = new HashMap<String, ArrayList<String>>();
 		for( String choice : choices ) {
 			options.put(choice, new ArrayList<String>());
