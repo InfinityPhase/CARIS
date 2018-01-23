@@ -428,9 +428,9 @@ public class Variables {
 		ResultSet rs = server.query( "SELECT blacklist_id FROM Guild WHERE guild_id = " + guild + ";" ); // Could make this a one-liner, just for kicks...
 
 		try {
-			server.insert( guild, new ArrayList<String>() {{
-				add(rs.getString("blacklist_id")); add(channel);
-			}});
+			server.insert( guild,  new String[] {
+					rs.getString("blacklist_id"), channel
+			});
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
