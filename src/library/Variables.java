@@ -151,15 +151,15 @@ public class Variables {
 
 	/* Adds actual guilds to the things */
 
-	public void addGuild( IGuild guild ) {
+	public static void addGuild( IGuild guild ) {
 		addGuild( guild.getStringID() );
 	}
 
-	public void addGuild( long guild ) {
+	public static void addGuild( long guild ) {
 		addGuild( String.valueOf(guild) );
 	}
 
-	public void addGuild( String guild ) {
+	public static void addGuild( String guild ) {
 
 	}
 
@@ -180,15 +180,15 @@ public class Variables {
 	 * logChannel GS Done
 	 */
 
-	public String getPerson( IGuild guild, String name ) {
+	public static String getPerson( IGuild guild, String name ) {
 		return getPerson( guild.getStringID(), name );
 	}
 
-	public String getPerson( long guild, String name ) {
+	public static String getPerson( long guild, String name ) {
 		return getPerson( String.valueOf(guild), name );
 	}
 
-	public String getPerson( String guild, String name ) {
+	public static String getPerson( String guild, String name ) {
 		try { // Checks for two collumns, translator_id and name, returns othername
 			// Could make the majority of this line a function, see translator...
 			return server.query( "SELECT place FROM People WHERE people_id = " + server.query( "SELECT people_id FROM Guild WHERE guild_id = " + guild + ";" ).getString("people_id") + " person = " + name +";" ).getString("place");
@@ -199,15 +199,15 @@ public class Variables {
 		return "";
 	}
 
-	public String translate( IGuild guild, String name ) {
+	public static String translate( IGuild guild, String name ) {
 		return translate( guild.getStringID(), name );
 	}
 
-	public String translate( long guild, String name ) {
+	public static String translate( long guild, String name ) {
 		return translate( String.valueOf(guild), name );
 	}
 
-	public String translate( String guild, String name ) {
+	public static String translate( String guild, String name ) {
 		try { // Checks for two collumns, translator_id and name, returns othername
 			return server.query( "SELECT otherName FROM Translator WHERE translator_id = " + server.query( "SELECT translator_id FROM Guild WHERE guild_id = " + guild + ";" ).getString("translator_id") + " name = " + name +";" ).getString("otherName");
 		} catch (SQLException e) {
@@ -243,15 +243,15 @@ public class Variables {
 		return result;
 	}
 
-	public List<Long> getWhitelist( IGuild guild ) {
+	public static List<Long> getWhitelist( IGuild guild ) {
 		return getWhitelist( guild.getStringID() );
 	}
 
-	public List<Long> getWhitelist( long guild ){
+	public static List<Long> getWhitelist( long guild ){
 		return getWhitelist( String.valueOf(guild) );
 	}
 
-	public List<Long> getWhitelist( String guild ){
+	public static List<Long> getWhitelist( String guild ){
 		ArrayList<Long> result = new ArrayList<Long>();
 		ResultSet rs = server.query( "SELECT whitelist_id FROM guild WHERE guild_id = " + guild );
 
@@ -267,15 +267,15 @@ public class Variables {
 		return result;
 	}
 
-	public List<Long> getBlacklist( IGuild guild ) {
+	public static List<Long> getBlacklist( IGuild guild ) {
 		return getBlacklist( guild.getStringID() );
 	}
 
-	public List<Long> getBlacklist( long guild ){
+	public static List<Long> getBlacklist( long guild ){
 		return getBlacklist( String.valueOf(guild) );
 	}
 
-	public List<Long> getBlacklist( String guild ){
+	public static List<Long> getBlacklist( String guild ){
 		ArrayList<Long> result = new ArrayList<Long>();
 		ResultSet rs = server.query( "SELECT blacklist_id FROM Guild WHERE guild_id = " + guild );
 
@@ -291,15 +291,15 @@ public class Variables {
 		return result;
 	}
 
-	public long getLogChannel( IGuild guild ) {
+	public static long getLogChannel( IGuild guild ) {
 		return getLogChannel( guild.getLongID() );
 	}
 
-	public long getLogChannel( String guild ) {
+	public static long getLogChannel( String guild ) {
 		return getLogChannel( new Long( guild ) );
 	}
 
-	public long getLogChannel( long guild ) {
+	public static long getLogChannel( long guild ) {
 		ResultSet rs = server.query( "SELECT logChannel FROM Guild WHERE guild_id = " + guild );
 		try {
 			return rs.getLong( "logChannel" );
@@ -317,15 +317,15 @@ public class Variables {
 	 *   Or just do a simple check 
 	 */
 
-	public void addPersonLocation( IGuild guild, String name, String place ) {
+	public static void addPersonLocation( IGuild guild, String name, String place ) {
 		addPersonLocation( guild.getStringID(), name, place );
 	}
 
-	public void addPersonLocation( long guild, String name, String place ) {
+	public static void addPersonLocation( long guild, String name, String place ) {
 		addPersonLocation( String.valueOf(guild), name, place);
 	}
 
-	public void addPersonLocation( String guild, String name, String place ) {
+	public static void addPersonLocation( String guild, String name, String place ) {
 		// NOTE I... think this will work. Maybe.
 		String person_id = ""; // TODO: MAke sure no duplicate entries (like a map)
 
@@ -342,15 +342,15 @@ public class Variables {
 		});
 	}
 
-	public void addTranslation( IGuild guild, String name, String otherName ) {
+	public static void addTranslation( IGuild guild, String name, String otherName ) {
 		addTranslation( guild.getStringID(), name, otherName);
 	}
 
-	public void addTranslation( long guild, String name, String otherName ) {
+	public static void addTranslation( long guild, String name, String otherName ) {
 		addTranslation( String.valueOf(guild), name, otherName);
 	}
 
-	public void addTranslation( String guild, String name, String otherName ) {
+	public static void addTranslation( String guild, String name, String otherName ) {
 		// TODO make this prevent duplicate entries
 		// See addPersonLocation
 
@@ -370,27 +370,27 @@ public class Variables {
 		});
 	}
 
-	public void addReminder( IGuild guild, String time, Reminder remind ) {
+	public static void addReminder( IGuild guild, String time, Reminder remind ) {
 		addReminder( guild.getStringID(), time, remind.message, remind.author, remind.channelID );
 	}
 
-	public void addReminder( IGuild guild, String time, IMessage message, IUser author, IChannel channel ) {
+	public static void addReminder( IGuild guild, String time, IMessage message, IUser author, IChannel channel ) {
 		addReminder( guild.getStringID(), time, message.getContent(), author.getStringID(), channel.getStringID() ); // TODO: Is it really storing ID, or the username?!?!?!
 	}
 
-	public void addReminder( IGuild guild, String time, String message, String author, String channel ) {
+	public static void addReminder( IGuild guild, String time, String message, String author, String channel ) {
 		addReminder( guild.getStringID(), time, message, author, channel );
 	}
 
-	public void addReminder( String guild, String time, Reminder remind ) {
+	public static void addReminder( String guild, String time, Reminder remind ) {
 		addReminder( guild, time, remind.message, remind.author, remind.channelID );
 	}
 
-	public void addReminder( String guild, String time, IMessage message, IUser author, IChannel channel ) {
+	public static void addReminder( String guild, String time, IMessage message, IUser author, IChannel channel ) {
 		addReminder( guild, time, message.getContent(), author.getStringID(), channel.getStringID() ); // TODO: Is it really storing ID, or the username?!?!?!
 	}
 
-	public void addReminder( String guild, String time, String message, String author, String channel ) {
+	public static void addReminder( String guild, String time, String message, String author, String channel ) {
 		String reminders_id = "";
 		String reminderData_id = "";
 
@@ -415,16 +415,16 @@ public class Variables {
 		});
 	}
 
-	public void addBlacklist( IGuild guild, IChannel channel ) {
+	public static void addBlacklist( IGuild guild, IChannel channel ) {
 		addBlacklist( guild.getLongID(), channel.getLongID() );
 	}
 
-	public void addBlacklist( long guild, long channel ) {
+	public static void addBlacklist( long guild, long channel ) {
 		addBlacklist( String.valueOf(guild), String.valueOf(channel) ); 
 	}
 
 	@SuppressWarnings("serial")
-	public void addBlacklist( String guild, String channel ) {
+	public static void addBlacklist( String guild, String channel ) {
 		ResultSet rs = server.query( "SELECT blacklist_id FROM Guild WHERE guild_id = " + guild + ";" ); // Could make this a one-liner, just for kicks...
 
 		try {
@@ -437,16 +437,16 @@ public class Variables {
 
 	}
 
-	public void addWhitelist( IGuild guild, IChannel channel ) {
+	public static void addWhitelist( IGuild guild, IChannel channel ) {
 		addWhitelist( guild.getLongID(), channel.getLongID() );
 	}
 
-	public void addWhitelist( long guild, long channel ) {
+	public static void addWhitelist( long guild, long channel ) {
 		addWhitelist( String.valueOf(guild), String.valueOf(channel) );
 	}
 
 	@SuppressWarnings("serial")
-	public void addWhitelist( String guild, String channel ) {
+	public static void addWhitelist( String guild, String channel ) {
 		ResultSet rs = server.query( "SELECT whitelist_id FROM Guild WHERE guild_id = " + guild + ";" ); // Could make this a one-liner, just for kicks...
 
 		try {			
@@ -459,18 +459,18 @@ public class Variables {
 
 	}
 
-	public void setLogChannel( IGuild guild, IChannel channel ) {
+	public static void setLogChannel( IGuild guild, IChannel channel ) {
 		setLogChannel( guild.getLongID(), channel.getLongID() );
 	}
 
 	@SuppressWarnings("serial")
-	public void setLogChannel( String guild, String channel ) {		
+	public static void setLogChannel( String guild, String channel ) {		
 		server.update( guild, new HashMap<String, String>() {{
 			put("logChannel",channel);
 		}});
 	}
 
-	public void setLogChannel( long guild, long channel ) {
+	public static void setLogChannel( long guild, long channel ) {
 		setLogChannel( String.valueOf(guild), String.valueOf(channel) );
 	}
 
@@ -493,6 +493,8 @@ public class Variables {
 	}
 	
 	/* Remove things from the database */ // TODO: REMOVE THINGS FROM DATABASE
+	
+	
 
 	/* I had no idea we could do this... */
 
