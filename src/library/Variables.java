@@ -217,15 +217,15 @@ public class Variables {
 		return "";
 	}
 
-	public Map<String, Reminder> getReminders( IGuild guild ){
+	public static Map<String, Reminder> getReminders( IGuild guild ){
 		return getReminders( guild.getStringID() );
 	}
 
-	public Map<String, Reminder> getReminders( long guild ) {
+	public static Map<String, Reminder> getReminders( long guild ) {
 		return getReminders( String.valueOf( guild ) );
 	}
 
-	public Map<String, Reminder> getReminders( String guild ) {
+	public static Map<String, Reminder> getReminders( String guild ) {
 		Map<String, Reminder> result = new HashMap<String, Reminder>();
 
 		try {
@@ -491,6 +491,8 @@ public class Variables {
 
 		return result;
 	}
+	
+	/* Remove things from the database */ // TODO: REMOVE THINGS FROM DATABASE
 
 	/* I had no idea we could do this... */
 
@@ -509,6 +511,13 @@ public class Variables {
 	public static IGuild getGuild( long key ) {
 		return Brain.cli.getGuildByID( key );
 	}
-
+	
+	public static IUser getUser( long user ) {
+		return Brain.cli.getUserByID( user );
+	}
+	
+	public static IUser getUser( String user ) {
+		return Brain.cli.getUserByID( new Long( user) );
+	}
 }
 

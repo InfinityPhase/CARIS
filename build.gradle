@@ -20,15 +20,20 @@ repositories {
 
 dependencies {
 	compile "com.github.austinv11:Discord4J:2.9.2"
+<<<<<<< HEAD
 	compile "org.bouncycastle:bcprov-jdk15on:1.58"
 	compile "org.xerial:sqlite-jdbc:3.21.0.1"
+=======
+	compile 'com.sedmelluq:lavaplayer:1.2.45'
+	compile 'org.jsoup:jsoup:1.11.2'
+>>>>>>> master
 	//compile "com.github.austinv11:Discord4J:@VERSION@:shaded" //Use this line instead of the one above it if you want a shaded jar (all the Discord4J dependencies bundled into one jar)
 }
 
 sourceSets {
    main {
       java {
-         srcDirs = ['src']
+         srcDirs = ['src', 'jsoup', 'lavaplayer']
       }
    }
 }

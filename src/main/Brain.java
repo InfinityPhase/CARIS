@@ -10,25 +10,30 @@ import java.util.Map;
 import commands.CalendarHandler;
 import commands.GuildCreate;
 import commands.MessageReceived;
-import commands.SayController;
 import commands.SuperEvent;
 import commands.UserJoin;
 import controller.ChannelListController;
 import controller.Controller;
 import controller.ModuleController;
 import controller.SaveController;
+import controller.SayController;
 import invokers.EchoInvoker;
 import invokers.FortuneInvoker;
 import invokers.Invoker;
 import invokers.LocationInvoker;
+import invokers.MusicInvoker;
 import invokers.NicknameInvoker;
 import invokers.VoteInvoker;
 import invokers._8BallInvoker;
+import lavaplayer.player.AudioPlayerManager;
+import lavaplayer.player.DefaultAudioPlayerManager;
+import lavaplayer.source.AudioSourceManagers;
 import library.Constants;
 import library.Variables;
 import memories.AuthorMemory;
 import memories.Memory;
 import memories.TimeMemory;
+import music.GuildMusicManager;
 import responders.LocationResponder;
 import responders.MentionResponder;
 import responders.NicknameResponder;
@@ -66,6 +71,7 @@ public class Brain {
 	public static _8BallInvoker _8ballInvoker = new _8BallInvoker();
 	public static NicknameInvoker nicknameInvoker = new NicknameInvoker();
 	public static FortuneInvoker fortuneInvoker = new FortuneInvoker();
+	public static MusicInvoker musicInvoker = new MusicInvoker();
 	
 	/* Auto Handlers */
 	public static MentionResponder mentionResponder = new MentionResponder();
@@ -88,17 +94,19 @@ public class Brain {
 	public static GuildCreate guildCreate = new GuildCreate();
 	public static UserJoin userJoin = new UserJoin();
 	
-	
 	/* Gigantic Variable Library */	
 	public static CalendarHandler calendarHandler = new CalendarHandler();
 	public static Calendar current = Calendar.getInstance();
 
 	public static String token = null;
 	
-	public static IDiscordClient cli = null; // Public so that other classes can use it...
-
-	@SuppressWarnings("unused")
-	public static void main(String[] args) {	
+	/* Music Stuff */
+	public static AudioPlayerManager playerManager;
+	public static Map<Long, GuildMusicManager> musicManagers;
+	
+	public static IDiscordClient cli = null;
+	
+	public static void main(String[] args) {
 
 		init();
 		
@@ -129,6 +137,7 @@ public class Brain {
 			}
 		} else {
 			log.log("WARNING: Password is empty");
+			@SuppressWarnings("unused")
 			char password[] = {};
 		}
 
@@ -164,12 +173,15 @@ public class Brain {
 		// Only login after all event registering is done
 		cli.login();
 		log.log("Client logged in.");
-
-		load(cli);
+		
 		log.log("Loaded Channel Map.");
 
 		log.log("Starting timer...");
 		log.indent(1).log("Timer set to: " + Constants.SAVETIME);
+		
+		while( !cli.isReady() ) {
+			// Wait to do anything else
+		}
 		
 		while( true ) {
 
@@ -180,15 +192,17 @@ public class Brain {
 
 	}
 
-	public static void load(IDiscordClient cli) {
-		/*for( IChannel channel : cli.getChannels() ) {
-			Variables.channelMap.put(channel.getStringID(), channel); // Don't need this anymore
-		}*/
-	}
-
-	public static void init() { // add hananotherStringdlers to their appropriate categories here
+	
+	public static void init() { // add handlers to their appropriate categories here
 		log.log("Initializing.");
+		
+		// Music
+		musicManagers = new HashMap<>();
 
+	    playerManager = new DefaultAudioPlayerManager();
+	    AudioSourceManagers.registerRemoteSources(playerManager);
+	    AudioSourceManagers.registerLocalSource(playerManager);
+		
 		// Event Map
 		eventModules.put("Message Received", messageReceived);
 		eventModules.put("Guild Create", guildCreate);
@@ -205,7 +219,8 @@ public class Brain {
 		invokerModules.put("Nickname Invoker", nicknameInvoker);
 		invokerModules.put("Fortune Invoker", fortuneInvoker);
 		invokerModules.put("Location Invoker", locationInvoker);
-
+		invokerModules.put("Music Invoker", musicInvoker);
+		
 		// Responder Map
 		responderModules.put("Mention Responder", mentionResponder);
 		responderModules.put("Nickname Responder", nicknameResponder);

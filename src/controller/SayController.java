@@ -1,6 +1,5 @@
-package commands;
+package controller;
 
-import controller.Controller;
 import library.Variables;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import sx.blah.discord.handle.obj.IChannel;
