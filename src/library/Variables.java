@@ -89,54 +89,15 @@ public class Variables {
 				"FOREIGN KEY (whitelist_id) REFERENCES Whitelist(whitelist_id)"
 		});
 
-		/*
-		server.makeTable( "Guild", new ArrayList<String>(16) {{
-			add("guild_id integer PRIMARY KEY NOT NULL"); // The primary id, what it says on the tin.
-
-			// Keys to the kingdom
-			// I wonder if all of these could be replaced with one collumn, that could be linked to each required table...
-			add("modules_id integer NOT NULL"); 
-			add("polls_id integer NOT NULL"); 
-			add("locations_id integer NOT NULL"); // Are locations even used?
-			add("people_id integer NOT NULL");
-			add("translator_id integer NOT NULL"); 
-			add("userIndex_id integer NOT NULL"); // Make this table set of stuff and pain
-			add("reminders_id integer NOT NULL"); 
-			add("blacklist_id integer NOT NULL"); 
-			add("whitelist_id integer NOT NULL");
-
-			// Don't need to refrence other tables
-			add("pollBuilder text NOT NULL"); add("moduleStatusBuilder text NOT NULL"); add("logChannel Integer"); // Some of these may actually be null. I dunno.
-
-			// It seems all these lines must be placed last, for whatever reason. Argh.
-			add("FOREIGN KEY (modules_id) REFERENCES Modules(modules_id)"); add("FOREIGN KEY (polls_id) REFERENCES Polls(polls_id)"); 
-			add("FOREIGN KEY (locations_id) REFERENCES Locations(locations_id)"); add("FOREIGN KEY (people_id) REFERENCES People(people_id)");
-			add("FOREIGN KEY (translator_id) REFERENCES Translator(translator_id)"); add("FOREIGN KEY (userIndex_id) REFERENCES UserIndex(userIndex_id)"); 
-			add("FOREIGN KEY (reminders_id) REFERENCES Reminders(reminders_id)"); add("FOREIGN KEY (blacklist_id) REFERENCES Blacklist(blacklist_id)"); 
-			add("FOREIGN KEY (whitelist_id) REFERENCES Whitelist(whitelist_id)");
-		}}); */
-
 		server.makeTable( "Modules", new String[] {
 				"modules_id integer PRIMARY KEY NOT NULL",
 				"name text NOT NULL UNIQUE", "status integer NOT NULL" // See https://stackoverflow.com/a/843786 for why status is an integer, not a boolean
 		});
-
-		/*
-		server.makeTable( "Modules", new ArrayList<String>() {{
-			add("modules_id integer PRIMARY KEY NOT NULL");
-			add("name text NOT NULL UNIQUE"); add("status integer NOT NULL"); // See https://stackoverflow.com/a/843786 for why status is an integer, not a boolean
-		}}); */
 		
 		server.makeTable( "Polls", new String[] {
 				"polls_id integer PRIMARY KEY NOT NULL",
 				"name text NOT NULL UNIQUE", "poll text NOT NULL"
 		});
-
-		/*
-		server.makeTable( "Polls", new ArrayList<String>() {{
-			add("polls_id integer PRIMARY KEY NOT NULL"); 
-			add("name text NOT NULL UNIQUE"); add("poll text NOT NULL");
-		}});*/
 
 		server.makeTable( "Locations", new String[] {
 				"locations_id integer PRIMARY KEY NOT NULL",
@@ -144,45 +105,20 @@ public class Variables {
 				"place_id integer NOT NULL", "FOREIGN KEY (place_id) REFERENCES Location_P2(place_id)"
 		});
 		
-		/*
-		server.makeTable( "Locations", new ArrayList<String>() {{
-			add("locations_id integer PRIMARY KEY NOT NULL"); 
-			add("name text NOT NULL UNIQUE");
-			add("place_id integer NOT NULL"); add("FOREIGN KEY (place_id) REFERENCES Location_P2(place_id)"); 
-		}});*/
-		
 		server.makeTable( "Location_P2", new String[] {
 				"place_id integer PRIMARY KEY NOT NULL",
 				"name text NOT NULL"
 		});
-		
-		/*
-		server.makeTable( "Location_P2", new ArrayList<String>() {{ // Rename to Place?
-			add("place_id integer PRIMARY KEY NOT NULL"); 
-			add("name text NOT NULL");
-		}});*/
 
 		server.makeTable( "People", new String[] {
 				"people_id integer PRIMARY KEY NOT NULL",
 				"person text NOT NULL UNIQUE", "place text NOT NULL",
 		});
 		
-		/*
-		server.makeTable( "People", new ArrayList<String>() {{
-			add("people_id integer PRIMARY KEY NOT NULL");
-			add("person text NOT NULL UNIQUE"); add("place text NOT NULL");
-		}});*/
-		
 		server.makeTable( "Translator", new String[] {
 				"translator_id integer PRIMARY KEY NOT NULL",
 				"name text NOT NULL", "otherName text NOT NULL"
 		});
-		
-		/*
-		server.makeTable( "Translator", new ArrayList<String>() {{
-			add("translator_id integer PRIMARY KEY NOT NULL"); 
-			add("name text NOT NULL"); add("otherName text NOT NULL");
-		}});*/
 		
 		server.makeTable( "UserIndex", new String[] {
 				"userIndex_id integer PRIMARY KEY NOT NULL",
@@ -190,58 +126,27 @@ public class Variables {
 				"userInfo_id integer NOT NULL", "FOREIGN KEY (userInfo_id) REFERENCES UserInfo(userInfo_id)" // Maybe this can be temporarily null? 
 		});
 
-		/*
-		server.makeTable( "UserIndex", new ArrayList<String>() {{
-			add("userIndex_id integer PRIMARY KEY NOT NULL"); 
-			add("userID integer NOT NULL UNIQUE"); 
-			add("userInfo_id integer NOT NULL"); add("FOREIGN KEY (userInfo_id) REFERENCES UserInfo(userInfo_id)"); // Maybe this can be temporarily null? 
-		}});*/
-
 		server.makeTable( "Reminders", new String[] {
 				"reminders_id integer PRIMARY KEY NOT NULL",
 				"time text NOT NULL",
 				"reminderData_id integer NOT NULL", "FOREIGN KEY (reminderData_id) REFERENCES ReminderData(reminderData_id)"
 		});
 		
-		/*
-		server.makeTable( "Reminders", new ArrayList<String>() {{
-			add("reminders_id integer PRIMARY KEY NOT NULL"); 
-			add("time text NOT NULL"); 
-			add("reminderData_id integer NOT NULL"); add("FOREIGN KEY (reminderData_id) REFERENCES ReminderData(reminderData_id)"); 
-		}});*/
-		
 		server.makeTable( "ReminderData", new String[] {
 				"reminderData_id integer PRIMARY KEY NOT NULL",
 				"message text NOT NULL", "author text NOT NULL", "channelID text NOT NULL"
 		});
-
-		/*
-		server.makeTable( "ReminderData", new ArrayList<String>() {{
-			add("reminderData_id integer PRIMARY KEY NOT NULL"); 
-			add("message text NOT NULL"); add("author text NOT NULL"); add("channelID text NOT NULL"); 
-		}});*/
 		
 		server.makeTable( "Blacklist", new String[] {
 				"blacklist_id integer PRIMARY KEY NOT NULL",
 				"channelID integer NOT NULL UNIQUE"
 		});
-
-		/*
-		server.makeTable( "Blacklist", new ArrayList<String>() {{
-			add("blacklist_id integer PRIMARY KEY NOT NULL");
-			add("channelID integer NOT NULL UNIQUE"); 
-		}});*/
 		
 		server.makeTable( "Whitelist", new String[] {
 				"whitelist_id integer PRIMARY KEY NOT NULL",
 				"channelID integer NOT NULL UNIQUE"
 		});
 
-		/*
-		server.makeTable( "Whitelist", new ArrayList<String>() {{
-			add("whitelist_id integer PRIMARY KEY NOT NULL"); 
-			add("channelID integer NOT NULL UNIQUE"); 
-		}});*/
 	}
 
 	/* Adds actual guilds to the things */
@@ -508,29 +413,6 @@ public class Variables {
 		}, new String[] {
 				reminderData_id, message, author, channel
 		});
-
-		/*
-		try {
-			server.insert( "Reminders", new LinkedList<String>() {{ // IMPORTANT: Is a LinkedList
-				add("reminders_id"); add("time"); add("reminderData_id"); 
-			}}, new LinkedList<String>() {{
-				add(server.query( "SELECT reminders_id FROM Guild WHERE guild_id = " + guild + ";" ).getString("reminders_id")); add(time); add(reminderData_id); // Generate reminderData_id
-			}});
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-
-		try { // TODO Fix this blatant abuse of a try catch
-			server.insert( "ReminderData", new LinkedList<String>() {{
-				add("reminderData_id"); add("message"); add("author"); add("channelID"); 
-			}}, new LinkedList<String>() {{
-				add(server.query( "SELECT reminderData_id FROM Reminders WHERE reminders_id = " + server.query( "SELECT reminders_id FROM Guild WHERE guild_id = " + guild + ";" ).getString("reminders_id") ).getString("reminderData_id")); add(message); add(author); add(channel);
-			}});
-		} catch (SQLException e) {
-
-			e.printStackTrace();
-		}
-		 */
 	}
 
 	public void addBlacklist( IGuild guild, IChannel channel ) {
@@ -567,12 +449,7 @@ public class Variables {
 	public void addWhitelist( String guild, String channel ) {
 		ResultSet rs = server.query( "SELECT whitelist_id FROM Guild WHERE guild_id = " + guild + ";" ); // Could make this a one-liner, just for kicks...
 
-		try {
-			/*
-			server.insert( guild, new ArrayList<String>() {{
-				add(rs.getString("whitelist_id")); add(channel);
-			}});*/
-			
+		try {			
 			server.insert( guild,  new String[] {
 					rs.getString("whitelist_id"), channel
 			});
