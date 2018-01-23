@@ -68,6 +68,28 @@ public class Variables {
 		/* Create tables, collumns, if nessessary */
 		// TODO All this shit needs replacing with arrays, instead of lists
 
+		server.makeTable( "Guild", new String[] {
+				"guild_id integer PRIMARY KEY NOT NULL", // The primary id, what it says on the tin.
+
+				// Keys to the kingdom
+				// I wonder if all of these could be replaced with one collumn, that could be linked to each required table...
+				"modules_id integer NOT NULL", "polls_id integer NOT NULL", 
+				"locations_id integer NOT NULL", "people_id integer NOT NULL", "translator_id integer NOT NULL",
+				"userIndex_id integer NOT NULL", "reminders_id integer NOT NULL", "blacklist_id integer NOT NULL",
+				"whitelist_id integer NOT NULL", 
+
+				// Don't need to refrence other tables
+				"pollBuilder text NOT NULL", "moduleStatusBuilder text NOT NULL", "logChannel Integer", // Some of these may actually be null. I dunno.
+
+				// It seems all these lines must be placed last, for whatever reason. Argh.
+				"FOREIGN KEY (modules_id) REFERENCES Modules(modules_id)", "FOREIGN KEY (polls_id) REFERENCES Polls(polls_id)",
+				"FOREIGN KEY (locations_id) REFERENCES Locations(locations_id)", "FOREIGN KEY (people_id) REFERENCES People(people_id)",
+				"FOREIGN KEY (translator_id) REFERENCES Translator(translator_id)", "FOREIGN KEY (userIndex_id) REFERENCES UserIndex(userIndex_id)",
+				"FOREIGN KEY (reminders_id) REFERENCES Reminders(reminders_id)", "FOREIGN KEY (blacklist_id) REFERENCES Blacklist(blacklist_id)",
+				"FOREIGN KEY (whitelist_id) REFERENCES Whitelist(whitelist_id)"
+		});
+
+		/*
 		server.makeTable( "Guild", new ArrayList<String>(16) {{
 			add("guild_id integer PRIMARY KEY NOT NULL"); // The primary id, what it says on the tin.
 
@@ -92,23 +114,42 @@ public class Variables {
 			add("FOREIGN KEY (translator_id) REFERENCES Translator(translator_id)"); add("FOREIGN KEY (userIndex_id) REFERENCES UserIndex(userIndex_id)"); 
 			add("FOREIGN KEY (reminders_id) REFERENCES Reminders(reminders_id)"); add("FOREIGN KEY (blacklist_id) REFERENCES Blacklist(blacklist_id)"); 
 			add("FOREIGN KEY (whitelist_id) REFERENCES Whitelist(whitelist_id)");
-		}});
+		}}); */
 
+		server.makeTable( "Modules", new String[] {
+				"modules_id integer PRIMARY KEY NOT NULL",
+				"name text NOT NULL UNIQUE", "status integer NOT NULL" // See https://stackoverflow.com/a/843786 for why status is an integer, not a boolean
+		});
+
+		/*
 		server.makeTable( "Modules", new ArrayList<String>() {{
 			add("modules_id integer PRIMARY KEY NOT NULL");
 			add("name text NOT NULL UNIQUE"); add("status integer NOT NULL"); // See https://stackoverflow.com/a/843786 for why status is an integer, not a boolean
-		}});
+		}}); */
+		
+		server.makeTable( "Polls", new String[] {
+				"polls_id integer PRIMARY KEY NOT NULL",
+				"name text NOT NULL UNIQUE", "poll text NOT NULL"
+		});
 
+		/*
 		server.makeTable( "Polls", new ArrayList<String>() {{
 			add("polls_id integer PRIMARY KEY NOT NULL"); 
 			add("name text NOT NULL UNIQUE"); add("poll text NOT NULL");
-		}});
+		}});*/
 
+		server.makeTable( "Locations", new String[] {
+				"locations_id integer PRIMARY KEY NOT NULL",
+				"name text NOT NULL UNIQUE",
+				"place_id integer NOT NULL", "FOREIGN KEY (place_id) REFERENCES Location_P2(place_id)"
+		});
+		
+		/*
 		server.makeTable( "Locations", new ArrayList<String>() {{
 			add("locations_id integer PRIMARY KEY NOT NULL"); 
 			add("name text NOT NULL UNIQUE");
 			add("place_id integer NOT NULL"); add("FOREIGN KEY (place_id) REFERENCES Location_P2(place_id)"); 
-		}});
+		}});*/
 
 		server.makeTable( "Location_P2", new ArrayList<String>() {{ // Rename to Place?
 			add("place_id integer PRIMARY KEY NOT NULL"); 
@@ -183,15 +224,15 @@ public class Variables {
 	 * moduleStatusBuilder May not need
 	 * logChannel GS Done
 	 */
-	
+
 	public String getPerson( IGuild guild, String name ) {
 		return getPerson( guild.getStringID(), name );
 	}
-	
+
 	public String getPerson( long guild, String name ) {
 		return getPerson( String.valueOf(guild), name );
 	}
-	
+
 	public String getPerson( String guild, String name ) {
 		try { // Checks for two collumns, translator_id and name, returns othername
 			// Could make the majority of this line a function, see translator...
@@ -199,25 +240,25 @@ public class Variables {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
+
 		return "";
 	}
-	
+
 	public String translate( IGuild guild, String name ) {
 		return translate( guild.getStringID(), name );
 	}
-	
+
 	public String translate( long guild, String name ) {
 		return translate( String.valueOf(guild), name );
 	}
-	
+
 	public String translate( String guild, String name ) {
 		try { // Checks for two collumns, translator_id and name, returns othername
 			return server.query( "SELECT otherName FROM Translator WHERE translator_id = " + server.query( "SELECT translator_id FROM Guild WHERE guild_id = " + guild + ";" ).getString("translator_id") + " name = " + name +";" ).getString("otherName");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
+
 		return "";
 	}
 
@@ -312,7 +353,7 @@ public class Variables {
 		}
 		return -1; // I don't want to use an object, so have a negative
 	}
-	
+
 	/* ================================================================================ */
 	/* Functions to set values in the database */
 	/* ================================================================================ */
@@ -320,52 +361,52 @@ public class Variables {
 	 * Make sure we use insertReplace when the entry should be unique
 	 *   Or just do a simple check 
 	 */
-	
+
 	public void addPersonLocation( IGuild guild, String name, String place ) {
 		addPersonLocation( guild.getStringID(), name, place );
 	}
-	
+
 	public void addPersonLocation( long guild, String name, String place ) {
 		addPersonLocation( String.valueOf(guild), name, place);
 	}
-	
+
 	public void addPersonLocation( String guild, String name, String place ) {
 		// NOTE I... think this will work. Maybe.
 		String person_id = ""; // TODO: MAke sure no duplicate entries (like a map)
-		
+
 		try {
 			person_id = server.query( "SELECT person_id FROM guild WHERE guild_id = " + guild + ";" ).getString("person_id");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-				
+
 		server.insertReplace( guild, new String[] {
 				"person_id", "person", "place"
 		}, new String[] {
 				person_id, name, place
 		});
 	}
-	
+
 	public void addTranslation( IGuild guild, String name, String otherName ) {
 		addTranslation( guild.getStringID(), name, otherName);
 	}
-	
+
 	public void addTranslation( long guild, String name, String otherName ) {
 		addTranslation( String.valueOf(guild), name, otherName);
 	}
-	
+
 	public void addTranslation( String guild, String name, String otherName ) {
 		// TODO make this prevent duplicate entries
 		// See addPersonLocation
-		
+
 		String translator_id = "";
-		
+
 		try {
 			translator_id = server.query( "SELECT translator_id FROM guild WHERE guild_id = " + guild + ";" ).getString("translator_id");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
+
 		server.insert( "Translator", new String[] {
 				"translator_id", "name", "otherName"
 		}, new String[] {
@@ -407,14 +448,14 @@ public class Variables {
 
 		server.insert( "Reminders", new String[]{
 				"reminders_id","time","reminderData_id"
-			}, new String[]{
+		}, new String[]{
 				reminders_id, time, reminderData_id
-			}
-		);
-		
+		}
+				);
+
 		server.insert( "ReminderData",  new String[] {
 				"reminderData_id", "message", "author", "channelID"
-			}, new String[] {
+		}, new String[] {
 				reminderData_id, message, author, channel
 		});
 
