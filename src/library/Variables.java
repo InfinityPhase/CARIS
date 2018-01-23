@@ -150,48 +150,98 @@ public class Variables {
 			add("name text NOT NULL UNIQUE");
 			add("place_id integer NOT NULL"); add("FOREIGN KEY (place_id) REFERENCES Location_P2(place_id)"); 
 		}});*/
-
+		
+		server.makeTable( "Location_P2", new String[] {
+				"place_id integer PRIMARY KEY NOT NULL",
+				"name text NOT NULL"
+		});
+		
+		/*
 		server.makeTable( "Location_P2", new ArrayList<String>() {{ // Rename to Place?
 			add("place_id integer PRIMARY KEY NOT NULL"); 
 			add("name text NOT NULL");
-		}});
+		}});*/
 
+		server.makeTable( "People", new String[] {
+				"people_id integer PRIMARY KEY NOT NULL",
+				"person text NOT NULL UNIQUE", "place text NOT NULL",
+		});
+		
+		/*
 		server.makeTable( "People", new ArrayList<String>() {{
 			add("people_id integer PRIMARY KEY NOT NULL");
 			add("person text NOT NULL UNIQUE"); add("place text NOT NULL");
-		}});
-
+		}});*/
+		
+		server.makeTable( "Translator", new String[] {
+				"translator_id integer PRIMARY KEY NOT NULL",
+				"name text NOT NULL", "otherName text NOT NULL"
+		});
+		
+		/*
 		server.makeTable( "Translator", new ArrayList<String>() {{
 			add("translator_id integer PRIMARY KEY NOT NULL"); 
 			add("name text NOT NULL"); add("otherName text NOT NULL");
-		}});
+		}});*/
+		
+		server.makeTable( "UserIndex", new String[] {
+				"userIndex_id integer PRIMARY KEY NOT NULL",
+				"userID integer NOT NULL UNIQUE",
+				"userInfo_id integer NOT NULL", "FOREIGN KEY (userInfo_id) REFERENCES UserInfo(userInfo_id)" // Maybe this can be temporarily null? 
+		});
 
+		/*
 		server.makeTable( "UserIndex", new ArrayList<String>() {{
 			add("userIndex_id integer PRIMARY KEY NOT NULL"); 
 			add("userID integer NOT NULL UNIQUE"); 
 			add("userInfo_id integer NOT NULL"); add("FOREIGN KEY (userInfo_id) REFERENCES UserInfo(userInfo_id)"); // Maybe this can be temporarily null? 
-		}});
+		}});*/
 
+		server.makeTable( "Reminders", new String[] {
+				"reminders_id integer PRIMARY KEY NOT NULL",
+				"time text NOT NULL",
+				"reminderData_id integer NOT NULL", "FOREIGN KEY (reminderData_id) REFERENCES ReminderData(reminderData_id)"
+		});
+		
+		/*
 		server.makeTable( "Reminders", new ArrayList<String>() {{
 			add("reminders_id integer PRIMARY KEY NOT NULL"); 
 			add("time text NOT NULL"); 
 			add("reminderData_id integer NOT NULL"); add("FOREIGN KEY (reminderData_id) REFERENCES ReminderData(reminderData_id)"); 
-		}});
+		}});*/
+		
+		server.makeTable( "ReminderData", new String[] {
+				"reminderData_id integer PRIMARY KEY NOT NULL",
+				"message text NOT NULL", "author text NOT NULL", "channelID text NOT NULL"
+		});
 
+		/*
 		server.makeTable( "ReminderData", new ArrayList<String>() {{
 			add("reminderData_id integer PRIMARY KEY NOT NULL"); 
 			add("message text NOT NULL"); add("author text NOT NULL"); add("channelID text NOT NULL"); 
-		}});
+		}});*/
+		
+		server.makeTable( "Blacklist", new String[] {
+				"blacklist_id integer PRIMARY KEY NOT NULL",
+				"channelID integer NOT NULL UNIQUE"
+		});
 
+		/*
 		server.makeTable( "Blacklist", new ArrayList<String>() {{
 			add("blacklist_id integer PRIMARY KEY NOT NULL");
 			add("channelID integer NOT NULL UNIQUE"); 
-		}});
+		}});*/
+		
+		server.makeTable( "Whitelist", new String[] {
+				"whitelist_id integer PRIMARY KEY NOT NULL",
+				"channelID integer NOT NULL UNIQUE"
+		});
 
+		/*
 		server.makeTable( "Whitelist", new ArrayList<String>() {{
 			add("whitelist_id integer PRIMARY KEY NOT NULL"); 
 			add("channelID integer NOT NULL UNIQUE"); 
-		}});
+		}});*/
 	}
 
 	/* Adds actual guilds to the things */
@@ -518,9 +568,14 @@ public class Variables {
 		ResultSet rs = server.query( "SELECT whitelist_id FROM Guild WHERE guild_id = " + guild + ";" ); // Could make this a one-liner, just for kicks...
 
 		try {
+			/*
 			server.insert( guild, new ArrayList<String>() {{
 				add(rs.getString("whitelist_id")); add(channel);
-			}});
+			}});*/
+			
+			server.insert( guild,  new String[] {
+					rs.getString("whitelist_id"), channel
+			});
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
