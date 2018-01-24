@@ -404,6 +404,27 @@ public class Database {
 		}
 	}
 	
+	public void remove( String table, Map<String, String> values ) {
+		
+	}
+	
+	public void remove( String table, List<String> collumns, List<String> data ) {
+		remove( table, collumns.toArray( new String[ collumns.size() ] ), data.toArray( new String[ data.size() ] ) );
+	}
+	
+	public void remove( String table, String[] collumns, String[] data ) {
+		// Removes anything with data in the same order that collumns are given.
+		// Matches all collumns given
+	}
+	
+	public void remove( String table, String collumn, String value ) {
+		try {
+			statement.executeUpdate( "" );
+		} catch( SQLException e ) {
+			e.printStackTrace();
+		}
+	}
+	
 	public ResultSet query( String query ) {
 		/* Get all values from a given search */
 		ResultSet rs = null;

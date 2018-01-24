@@ -39,8 +39,7 @@ public class CalendarHandler {
 					}
 					BotUtils.sendMessage( Variables.getChannel(reminder.channelID), send );
 
-					info.reminders.remove(s); // TODO: Later make request from 
-					info.reminders.remove(c);
+					// TODO: Remove reminder
 				}
 			}
 		}
