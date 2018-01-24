@@ -18,6 +18,7 @@ import sx.blah.discord.handle.obj.IGuild;
 import sx.blah.discord.handle.obj.IMessage;
 import sx.blah.discord.handle.obj.IUser;
 import tokens.Reminder;
+import tokens.NullReminderIDException;
 import utilities.DataSaver;
 import utilities.Database;
 
@@ -37,6 +38,10 @@ public class Variables {
 	 * An idea for the future is to make this extendable, so that there are no needed
 	 * imports from the rest of caris. That would be smoother, and more organized than
 	 * this mess of code and functions...
+	 */
+
+	/* NOTE
+	 * If ResultSet error, https://stackoverflow.com/a/5841485
 	 */
 
 	private static Database server = null;
@@ -93,7 +98,7 @@ public class Variables {
 				"modules_id integer PRIMARY KEY NOT NULL",
 				"name text NOT NULL UNIQUE", "status integer NOT NULL" // See https://stackoverflow.com/a/843786 for why status is an integer, not a boolean
 		});
-		
+
 		server.makeTable( "Polls", new String[] {
 				"polls_id integer PRIMARY KEY NOT NULL",
 				"name text NOT NULL UNIQUE", "poll text NOT NULL"
@@ -104,7 +109,7 @@ public class Variables {
 				"name text NOT NULL UNIQUE",
 				"place_id integer NOT NULL", "FOREIGN KEY (place_id) REFERENCES Location_P2(place_id)"
 		});
-		
+
 		server.makeTable( "Location_P2", new String[] {
 				"place_id integer PRIMARY KEY NOT NULL",
 				"name text NOT NULL"
@@ -114,12 +119,12 @@ public class Variables {
 				"people_id integer PRIMARY KEY NOT NULL",
 				"person text NOT NULL UNIQUE", "place text NOT NULL",
 		});
-		
+
 		server.makeTable( "Translator", new String[] {
 				"translator_id integer PRIMARY KEY NOT NULL",
 				"name text NOT NULL", "otherName text NOT NULL"
 		});
-		
+
 		server.makeTable( "UserIndex", new String[] {
 				"userIndex_id integer PRIMARY KEY NOT NULL",
 				"userID integer NOT NULL UNIQUE",
@@ -131,17 +136,17 @@ public class Variables {
 				"time text NOT NULL",
 				"reminderData_id integer NOT NULL", "FOREIGN KEY (reminderData_id) REFERENCES ReminderData(reminderData_id)"
 		});
-		
+
 		server.makeTable( "ReminderData", new String[] {
 				"reminderData_id integer PRIMARY KEY NOT NULL",
 				"message text NOT NULL", "author text NOT NULL", "channelID text NOT NULL"
 		});
-		
+
 		server.makeTable( "Blacklist", new String[] {
 				"blacklist_id integer PRIMARY KEY NOT NULL",
 				"channelID integer NOT NULL UNIQUE"
 		});
-		
+
 		server.makeTable( "Whitelist", new String[] {
 				"whitelist_id integer PRIMARY KEY NOT NULL",
 				"channelID integer NOT NULL UNIQUE"
@@ -229,12 +234,17 @@ public class Variables {
 		Map<String, Reminder> result = new HashMap<String, Reminder>();
 
 		try {
-			String id = server.query( "SELECT reminders_id FROM Guild WHERE guild_id = " + guild + ";" ).getString("reminders_id");
-			ResultSet times_rs = server.query( "SELECT * FROM Reminders WHERE reminders_id = " + id + ";" );
-			while( times_rs.next() ) {
-				// Who loves one liners? We love one liners!
-				// Basically is three queries fed into a new Reminder object, and stored with the time as the key
-				result.put( times_rs.getString("time"), new Reminder( server.query( "SELECT message FROM ReminderData WHERE reminderData_id = " + times_rs.getString("reminderData_id") ).getString("message"), server.query( "SELECT author FROM ReminderData WHERE reminderData_id = " + times_rs.getString("reminderData_id") ).getString("author"), server.query( "SELECT channelID FROM ReminderData WHERE reminderData_id = " + times_rs.getString("reminderData_id") ).getString("channelID") ) );
+			ResultSet guildID_rs = server.query( "SELECT reminders_id FROM Guild WHERE guild_id = " + guild + ";" );
+			if( guildID_rs.next() ) { // Alright. This is really important, because an error will be thrown if there is no guild_id
+				String id = guildID_rs.getString( "reminders_id" );
+				guildID_rs.close();
+				ResultSet times_rs = server.query( "SELECT * FROM Reminders WHERE reminders_id = " + id + ";" );
+				while( times_rs.next() ) {
+					// Who loves one liners? We love one liners!
+					// Basically is three queries fed into a new Reminder object, and stored with the time as the key
+					result.put( times_rs.getString("time"), new Reminder( server.query( "SELECT message FROM ReminderData WHERE reminderData_id = " + times_rs.getString("reminderData_id") ).getString("message"), server.query( "SELECT author FROM ReminderData WHERE reminderData_id = " + times_rs.getString("reminderData_id") ).getString("author"), server.query( "SELECT channelID FROM ReminderData WHERE reminderData_id = " + times_rs.getString("reminderData_id") ).getString("channelID") ) );
+				}
+				times_rs.close();
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -302,7 +312,9 @@ public class Variables {
 	public static long getLogChannel( long guild ) {
 		ResultSet rs = server.query( "SELECT logChannel FROM Guild WHERE guild_id = " + guild );
 		try {
-			return rs.getLong( "logChannel" );
+			if( rs.next() ) {
+				return rs.getLong( "logChannel" );
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -328,9 +340,12 @@ public class Variables {
 	public static void addPersonLocation( String guild, String name, String place ) {
 		// NOTE I... think this will work. Maybe.
 		String person_id = ""; // TODO: MAke sure no duplicate entries (like a map)
+		ResultSet guild_id = server.query( "SELECT person_id FROM guild WHERE guild_id = " + guild + ";" );
 
 		try {
-			person_id = server.query( "SELECT person_id FROM guild WHERE guild_id = " + guild + ";" ).getString("person_id");
+			if( guild_id.next() ) {
+				person_id = guild_id.getString("person_id");
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -355,9 +370,11 @@ public class Variables {
 		// See addPersonLocation
 
 		String translator_id = "";
-
+		ResultSet guild_id = server.query( "SELECT translator_id FROM guild WHERE guild_id = " + guild + ";" );
 		try {
-			translator_id = server.query( "SELECT translator_id FROM guild WHERE guild_id = " + guild + ";" ).getString("translator_id");
+			if( guild_id.next() ) {
+				translator_id = guild_id.getString("translator_id");
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -393,10 +410,20 @@ public class Variables {
 	public static void addReminder( String guild, String time, String message, String author, String channel ) {
 		String reminders_id = "";
 		String reminderData_id = "";
-
+		ResultSet guild_id = server.query( "SELECT reminders_id FROM Guild WHERE guild_id = " + guild + ";" );
 		try {
-			reminders_id = server.query( "SELECT reminders_id FROM Guild WHERE guild_id = " + guild + ";" ).getString("reminders_id");
-			reminderData_id = String.valueOf( server.query( "SELECT MAX(reminderData_id) FROM Reminders" ).getLong("reminderData_id") + 1 ); // Gets the biggest reminderData_id and adds one, then makes it a string
+			if( guild_id.next() ) {
+				reminders_id = guild_id.getString("reminders_id");
+			} else { // If the guild is not found, do nothing
+				return;
+			}
+
+			ResultSet reminderDataMax = server.query( "SELECT MAX(reminderData_id) FROM Reminders" );
+			if( reminderDataMax.next() ) {
+				reminderData_id = String.valueOf( reminderDataMax.getLong("reminderData_id") + 1 ); // Gets the biggest reminderData_id and adds one, then makes it a string
+			} else {
+				return;
+			}
 		} catch (SQLException e1) {
 			e1.printStackTrace();
 		}
@@ -428,13 +455,14 @@ public class Variables {
 		ResultSet rs = server.query( "SELECT blacklist_id FROM Guild WHERE guild_id = " + guild + ";" ); // Could make this a one-liner, just for kicks...
 
 		try {
-			server.insert( guild,  new String[] {
-					rs.getString("blacklist_id"), channel
-			});
+			if( rs.next() ) {
+				server.insert( guild,  new String[] {
+						rs.getString("blacklist_id"), channel
+				});
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-
 	}
 
 	public static void addWhitelist( IGuild guild, IChannel channel ) {
@@ -449,10 +477,12 @@ public class Variables {
 	public static void addWhitelist( String guild, String channel ) {
 		ResultSet rs = server.query( "SELECT whitelist_id FROM Guild WHERE guild_id = " + guild + ";" ); // Could make this a one-liner, just for kicks...
 
-		try {			
-			server.insert( guild,  new String[] {
-					rs.getString("whitelist_id"), channel
-			});
+		try {	
+			if( rs.next() ) {
+				server.insert( guild,  new String[] {
+						rs.getString("whitelist_id"), channel
+				});
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -491,10 +521,20 @@ public class Variables {
 
 		return result;
 	}
-	
+
 	/* Remove things from the database */ // TODO: REMOVE THINGS FROM DATABASE
-	
-	
+
+	public static void removeReminder( Reminder reminder ) throws NullReminderIDException {
+		if( reminder.reminderID == null ) {
+			throw new NullReminderIDException();
+		} else {
+			removeReminder( reminder.reminderID );
+		}
+	}
+
+	public static void removeReminder( String reminderID ) {
+		//TODO Remove
+	}
 
 	/* I had no idea we could do this... */
 
@@ -513,11 +553,11 @@ public class Variables {
 	public static IGuild getGuild( long key ) {
 		return Brain.cli.getGuildByID( key );
 	}
-	
+
 	public static IUser getUser( long user ) {
 		return Brain.cli.getUserByID( user );
 	}
-	
+
 	public static IUser getUser( String user ) {
 		return Brain.cli.getUserByID( new Long( user) );
 	}
