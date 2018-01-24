@@ -533,7 +533,17 @@ public class Variables {
 	}
 
 	public static void removeReminder( String reminderID ) {
-		//TODO Remove
+		//TODO Remove reminder based on id
+		ResultSet id = server.query( "SELECT reminderData_id FROM Reminders WHERE rowid = " + reminderID + ";" );
+		
+		try {
+			if( id.next() ) {
+				server.remove( "ReminderData", "reminderData_id", id.getString( "reminderData_id" ) ); // Remove all rows that match
+				server.remove( "Reminders", "rowid", reminderID );
+			}
+		} catch( SQLException e ) {
+			e.printStackTrace();
+		}
 	}
 
 	/* I had no idea we could do this... */

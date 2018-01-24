@@ -405,7 +405,8 @@ public class Database {
 	}
 	
 	public void remove( String table, Map<String, String> values ) {
-		
+		// Match ALL the collumns to the values, and remove any rows that match
+		remove( table, values.keySet().toArray( new String[ values.keySet().size() ] ), values.values().toArray( new String[ values.values().size() ] ) );
 	}
 	
 	public void remove( String table, List<String> collumns, List<String> data ) {
@@ -415,11 +416,36 @@ public class Database {
 	public void remove( String table, String[] collumns, String[] data ) {
 		// Removes anything with data in the same order that collumns are given.
 		// Matches all collumns given
+		if( collumns.length != data.length ) {
+			return; // You done goofed. Every collumn needs data, and there should be no extraneous data
+		}
+		
+		String where = "";
+		
+		for( int i = 0; i < collumns.length; i++ ) {
+			where = ", " + collumns[i] + " = " + data[i];
+		}
+		
+		try {
+			statement.executeUpdate( "DELETE FROM " + table + " WHERE " + where.substring(2) );
+		} catch( SQLException e ) {
+			e.printStackTrace();
+		}
+		
 	}
 	
 	public void remove( String table, String collumn, String value ) {
 		try {
-			statement.executeUpdate( "" );
+			statement.executeUpdate( "DELETE FROM " + table + " WHERE " + collumn + " = " + value + ";" );
+		} catch( SQLException e ) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void clear( String table ) {
+		// CAREFUL WITH THIS!
+		try {
+			statement.executeUpdate( "DELETE FROM " + table + ";" );
 		} catch( SQLException e ) {
 			e.printStackTrace();
 		}
