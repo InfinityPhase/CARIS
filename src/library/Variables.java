@@ -232,6 +232,7 @@ public class Variables {
 
 	public static Map<String, Reminder> getReminders( String guild ) {
 		Map<String, Reminder> result = new HashMap<String, Reminder>();
+		String reminderData_id = "";
 
 		try {
 			ResultSet guildID_rs = server.query( "SELECT reminders_id FROM Guild WHERE guild_id = " + guild + ";" );
@@ -239,10 +240,25 @@ public class Variables {
 				String id = guildID_rs.getString( "reminders_id" );
 				guildID_rs.close();
 				ResultSet times_rs = server.query( "SELECT * FROM Reminders WHERE reminders_id = " + id + ";" );
+				
+				if( times_rs.next() ) {
+					reminderData_id = times_rs.getString("reminderData_id");
+				} else {
+					return null;
+				}
+				
 				while( times_rs.next() ) {
 					// Who loves one liners? We love one liners!
 					// Basically is three queries fed into a new Reminder object, and stored with the time as the key
-					result.put( times_rs.getString("time"), new Reminder( server.query( "SELECT message FROM ReminderData WHERE reminderData_id = " + times_rs.getString("reminderData_id") ).getString("message"), server.query( "SELECT author FROM ReminderData WHERE reminderData_id = " + times_rs.getString("reminderData_id") ).getString("author"), server.query( "SELECT channelID FROM ReminderData WHERE reminderData_id = " + times_rs.getString("reminderData_id") ).getString("channelID") ) );
+					ResultSet message_rs = server.query( "SELECT message FROM ReminderData WHERE reminderData_id = " + reminderData_id );
+					ResultSet author_rs = server.query( "SELECT author FROM ReminderData WHERE reminderData_id = " + reminderData_id );
+					ResultSet channelID_rs = server.query( "SELECT channelID FROM ReminderData WHERE reminderData_id = " + reminderData_id );
+					
+					if( message_rs.next() && author_rs.next() && channelID_rs.next() ) {
+						result.put( times_rs.getString("time"), new Reminder( message_rs.getString("message"), author_rs.getString("author"), channelID_rs.getString("channelID") ) ); // TODO Also return the ID of the reminder
+					} else {
+						return null;
+					}
 				}
 				times_rs.close();
 			}

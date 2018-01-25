@@ -9,6 +9,8 @@ public class Reminder {
 	public String author;
 	public String channelID;
 	
+	// TODO: Use a snowflake id? UUID? AtomicInteger?
+	// Time, Worker, Sequence
 	public String reminderID; // For the purposes of the database, allows duplicate reminders to not be all removed if one finishes.
 	
 	public Reminder(String message, MessageReceivedEvent event) {
