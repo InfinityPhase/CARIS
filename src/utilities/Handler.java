@@ -18,7 +18,18 @@ public class Handler {
 		UNSET,
 		TOKEN,
 		MESSAGE
-	}
+	};
+	
+	public enum Status {
+		ENABLED,
+		DISABLED,
+		ADMIN,
+		LIMITED
+	};
+	
+	public Status status = Status.DISABLED; // If you don't set this, then don't even try to work
+	public String name;
+	public String prefix;
 	
 	protected Setup setupType = Setup.UNSET;
 	
@@ -82,9 +93,9 @@ public class Handler {
 	protected String messageFormat(MessageReceivedEvent event) {
 		String messageText = event.getMessage().getContent();
 		int q1 = messageText.indexOf("\"");
-		int q1alt = messageText.indexOf("“");
+		int q1alt = messageText.indexOf("ï¿½");
 		int q2 = messageText.lastIndexOf("\"");
-		int q2alt = messageText.indexOf("”");
+		int q2alt = messageText.indexOf("ï¿½");
 		if( q1 != -1 && q1 != q2 ) {
 			message = messageText.substring(q1+1, q2);
 			String a = messageText.substring(0, q1);
@@ -186,7 +197,7 @@ public class Handler {
 	}
 	
 	protected boolean containsAnyQuotes( String s ) {
-		return s.contains("\"") || s.contains("“") || s.contains("”");
+		return s.contains("\"") || s.contains("ï¿½") || s.contains("ï¿½");
 	}
 	
 	protected Boolean containsIgnoreCase(Set<String> a, String b) {

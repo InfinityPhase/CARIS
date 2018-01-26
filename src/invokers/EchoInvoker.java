@@ -5,7 +5,17 @@ import tokens.Response;
 
 public class EchoInvoker extends Invoker {
 	// Placeholder example invoked handler
-
+		
+	public EchoInvoker() {
+		this( Status.ENABLED );
+	}
+	
+	public EchoInvoker( Status status ) {
+		this.status = status;
+		prefix = "cEcho";
+		name = "Echo Invoker";
+	}
+	
 	@Override
 	public Response process(MessageReceivedEvent event) {
 		conditionalSetup(event);
