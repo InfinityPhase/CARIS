@@ -102,10 +102,13 @@ public class MessageReceived extends SuperEvent {
 			log.log("Invocation detected.");
 			for( String s : Brain.invokerModules.keySet() ) { // try each invocation handler
 				boolean check = gi.modules.keySet().contains(s);
+				log.indent(9).log("Invoker " + s );
 				if( !check ) {
+					log.indent(10).log("Skipping");
 					continue;
 				} else if( gi.modules.get(s) ) {
 					Invoker h = Brain.invokerModules.get(s);
+					log.indent(10).log("RUNNING process(event) on " + h.name );
 					Response r = h.process(event);
 					if( r.embed ) {
 						log.indent(1).log("Response embed option generated.");
@@ -176,12 +179,7 @@ public class MessageReceived extends SuperEvent {
 	}
 	
 	public static boolean startsWithOneOf( String s, List<String> prefixes ) {
-		for( String p : prefixes ) {
-			if( s.startsWith(p) ) {
-				return true;
-			}
-		}
-		return false;
+		return startsWithOneOf( s, prefixes.toArray( new String[ prefixes.size() ] ) );
 	}
 	
 	public static boolean isOneOf( String s, String[] texts ) {

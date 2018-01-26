@@ -21,7 +21,6 @@ public class Constants {
 			"cLocation:",
 			"cVote:",
 			"cPoll:",
-			"cHelp:",
 			"cEmbed:",
 	};
 	

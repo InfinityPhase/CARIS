@@ -9,6 +9,16 @@ import tokens.Response;
 
 public class EmbedInvoker extends Invoker_Multiline {
 	
+	public EmbedInvoker() {
+		this( Status.ENABLED );
+	}
+	
+	public EmbedInvoker( Status status ) {
+		this.status = status;
+		name = "Embed";
+		prefix = "cEmbed";
+	}
+	
 	@Override
 	public Response process(MessageReceivedEvent event) {
 		multilineSetup(event);

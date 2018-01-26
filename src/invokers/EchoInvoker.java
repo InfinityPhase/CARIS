@@ -11,6 +11,7 @@ public class EchoInvoker extends Invoker {
 	}
 	
 	public EchoInvoker( Status status ) {
+		log.log("Initializing Echo Invoker");
 		this.status = status;
 		prefix = "cEcho";
 		name = "Echo Invoker";
@@ -20,6 +21,7 @@ public class EchoInvoker extends Invoker {
 	public Response process(MessageReceivedEvent event) {
 		conditionalSetup(event);
 		
+		log.log("Checking Echo invoker");
 		if( tokens.get(0).equals("cEcho:") ) {
 			log.indent(1).log("EchoInvoker triggered.");
 			if( setupType == Setup.TOKEN ) {

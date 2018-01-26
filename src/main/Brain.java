@@ -135,27 +135,6 @@ public class Brain {
 			cli.getDispatcher().registerListener( m );
 		}
 
-		/* Get all the command prefixes */
-		Reflections reflections = new Reflections("invokers");
-		for( Class c : reflections.getSubTypesOf(invokers.Invoker.class) ) {
-			try {
-				/*
-				 * check: enabled, prefix, prettyname
-				 */
-				if( c.getField("enabled").getBoolean( c.getField("enabled") ) ) {
-					Variables.commandPrefixes.add( (String) c.getField("prefix").get( new String() ) ); // Don't worry about it...
-				}
-			} catch (NoSuchFieldException e) {
-				e.printStackTrace();
-			} catch (SecurityException e) {
-				e.printStackTrace();
-			} catch (IllegalArgumentException e) {
-				e.printStackTrace();
-			} catch (IllegalAccessException e) {
-				e.printStackTrace();
-			}
-		}
-
 		log.log("Listener established successfully.");
 
 		// Only login after all event registering is done
@@ -209,18 +188,18 @@ public class Brain {
 			} catch (IllegalAccessException e) {
 				e.printStackTrace();
 			}
-			
-			if( ( i.status == Status.ENABLED ) && contains( i.name, Constants.DISABLED ) ) {
+						
+			if( ( i != null ) && ( i.status == Status.ENABLED ) && !contains( i.name, Constants.DISABLED ) ) { // Java does not short-circut, so this is safe
+				log.indent(2).log("Adding " + i.name + " to the invokerModule map");
 				invokerModules.put( i.name + " Invoker",  i);
 				Variables.commandPrefixes.add( i.prefix );
 			}
 		}
 		
-		invokerModules.put("Location Invoker", locationInvoker);
-		invokerModules.put("Vote Invoker", voteInvoker);
-		invokerModules.put("Poll Invoker", pollInvoker);
-		invokerModules.put("Embed Invoker", embedInvoker);
-		invokerModules.put("Help Invoker", helpInvoker);
+		log.indent(2).log("Loaded CommandPrefixes:");
+		for( String s : Variables.commandPrefixes ) {
+			log.indent(3).log(s); // I THINK THIS IS RELATED TODO NOTE AUGH WTF
+		}
 
 		// Responder Map
 		responderModules.put("Mention Responder", mentionResponder);

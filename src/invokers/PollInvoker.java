@@ -10,6 +10,16 @@ import tokens.Response;
 
 public class PollInvoker extends Invoker_Multiline {
 	
+	public PollInvoker() {
+		this( Status.ENABLED );
+	}
+	
+	public PollInvoker( Status status ) {
+		this.status = status;
+		name = "Poll";
+		prefix = "cPoll";
+	}
+	
 	@Override
 	public Response process(MessageReceivedEvent event) {
 		multilineSetup(event);

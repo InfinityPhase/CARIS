@@ -8,6 +8,16 @@ import tokens.LineSet;
 import tokens.Response;
 
 public class LocationInvoker extends Invoker_Multiline {
+	
+	public LocationInvoker() {
+		this( Status.ENABLED );
+	}
+	
+	public LocationInvoker( Status status ) {
+		this.status = status;
+		name = "Location";
+		prefix = "cLoc";
+	}
 
 	public Response process(MessageReceivedEvent event) {	
 		multilineSetup(event);

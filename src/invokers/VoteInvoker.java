@@ -7,6 +7,16 @@ import tokens.Poll;
 import tokens.Response;
 
 public class VoteInvoker extends Invoker_Multiline {
+	
+	public VoteInvoker() {
+		this( Status.ENABLED );
+	}
+	
+	public VoteInvoker( Status status ){
+		this.status = status;
+		name = "Vote";
+		prefix = "cVote";
+	}
 
 	@Override
 	public Response process(MessageReceivedEvent event) {
