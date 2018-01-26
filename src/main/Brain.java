@@ -210,22 +210,17 @@ public class Brain {
 				e.printStackTrace();
 			}
 			
-			if( i.status == Status.ENABLED ) {
+			if( ( i.status == Status.ENABLED ) && contains( i.name, Constants.DISABLED ) ) {
 				invokerModules.put( i.name + " Invoker",  i);
 				Variables.commandPrefixes.add( i.prefix );
 			}
 		}
 		
-		invokerModules.put("8ball Invoker", _8ballInvoker);
-		//invokerModules.put("Echo Invoker", echoInvoker);
 		invokerModules.put("Location Invoker", locationInvoker);
 		invokerModules.put("Vote Invoker", voteInvoker);
 		invokerModules.put("Poll Invoker", pollInvoker);
 		invokerModules.put("Embed Invoker", embedInvoker);
 		invokerModules.put("Help Invoker", helpInvoker);
-		//invokerModules.put("Nickname Invoker", nicknameInvoker);
-		//invokerModules.put("Fortune Invoker", fortuneInvoker);
-		//invokerModules.put("Music Invoker", musicInvoker);
 
 		// Responder Map
 		responderModules.put("Mention Responder", mentionResponder);
@@ -240,5 +235,14 @@ public class Brain {
 		controllerModules.put("Channel List Controller", channelListController);
 		controllerModules.put("Say Controller", sayController);
 		controllerModules.put("Status Controller", statusController);
+	}
+	
+	private static boolean contains( String s, String[] array ) {
+		for( int i = 0; i < array.length; i++ ) {
+			if( array[i].equalsIgnoreCase(s) ) {
+				return true;
+			}
+		}
+		return false;
 	}
 }

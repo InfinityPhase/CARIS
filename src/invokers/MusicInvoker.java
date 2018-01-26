@@ -15,6 +15,16 @@ import sx.blah.discord.util.MissingPermissionsException;
 import tokens.Response;
 
 public class MusicInvoker extends Invoker {
+	
+	public MusicInvoker() {
+		this( Status.ENABLED );
+	}
+	
+	public MusicInvoker( Status status ) {
+		this.status = status;
+		name = "Music";
+		prefix = "cMusic";
+	}
 
 	public Response process(MessageReceivedEvent event) {
 		messageSetup(event);

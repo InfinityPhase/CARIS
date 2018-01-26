@@ -5,6 +5,16 @@ import tokens.Response;
 
 public class NicknameInvoker extends Invoker {
 	
+	public NicknameInvoker() {
+		this( Status.ENABLED );
+	}
+	
+	public NicknameInvoker( Status status ) {
+		this.status = status;
+		name = "Nickname";
+		prefix = "cNick";
+	}
+	
 	@Override
 	public Response process(MessageReceivedEvent event) {
 		System.out.println("NickInvoker");

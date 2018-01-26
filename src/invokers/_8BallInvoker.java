@@ -34,6 +34,18 @@ public class _8BallInvoker extends Invoker {
 		"secretly the reincarnation of King Henry V.",
 	};
 	
+	public _8BallInvoker() {
+		name = "8Ball";
+		status = Status.ENABLED;
+		prefix = "c8Ball";
+	}
+	
+	public _8BallInvoker( Status status ) {
+		this.status = status;
+		prefix = "c8Ball";
+		name = "8Ball";
+	}
+	
 	public Response process(MessageReceivedEvent event) {
 		tokenSetup(event);
 		Random r = new Random();

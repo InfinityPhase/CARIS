@@ -6,6 +6,18 @@ import tokens.Response;
 
 public class FortuneInvoker extends Invoker {
 	
+	public FortuneInvoker() {
+		status = Status.ENABLED;
+		name = "Fortune";
+		prefix = "cFortune";
+	}
+	
+	public FortuneInvoker( Status status ) {
+		this.status = status;
+		name = "Fortune";
+		prefix = "cFortune";
+	}
+	
 	@Override
 	public Response process(MessageReceivedEvent event) {
 		tokenSetup(event);

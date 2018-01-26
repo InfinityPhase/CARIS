@@ -7,7 +7,7 @@ public class EchoInvoker extends Invoker {
 	// Placeholder example invoked handler
 		
 	public EchoInvoker() {
-		this( Status.ENABLED );
+		this( Status.ENABLED ); // This should almost always be ENABLED, unless you are testing something.
 	}
 	
 	public EchoInvoker( Status status ) {
