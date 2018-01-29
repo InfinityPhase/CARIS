@@ -10,6 +10,15 @@ import sx.blah.discord.handle.obj.IChannel;
 import tokens.Response;
 
 public class ChannelListController extends Controller {
+	
+	public ChannelListController() {
+		this(Status.ENABLED);
+	}
+	
+	public ChannelListController( Status status ) {
+		this.status = status;
+		name = "Channel List";
+	}
 
 	private String[] sameChannel = { "here", "this" };
 	private String[] remove = { "remove", "rm", "minus", "sub", "subtract" };

@@ -254,13 +254,6 @@ public class Brain {
 		for( String s : controllerModules.keySet() ) {
 			log.indent(3).log(s);
 		}
-		
-		// Controller Map
-		controllerModules.put("Module Controller", moduleController);
-		controllerModules.put("Save Controller", saveController);
-		controllerModules.put("Channel List Controller", channelListController);
-		controllerModules.put("Say Controller", sayController);
-		controllerModules.put("Status Controller", statusController);
 	}
 
 	private static boolean contains( String s, String[] array ) {
