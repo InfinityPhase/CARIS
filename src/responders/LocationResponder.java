@@ -6,6 +6,15 @@ import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedE
 import tokens.Response;
 
 public class LocationResponder extends Responder {
+	
+	public LocationResponder() {
+		this(Status.ENABLED);
+	}
+	
+	public LocationResponder( Status status ) {
+		this.status = status;
+		name = "Location";
+	}
 
 	@Override
 	public Response process(MessageReceivedEvent event) {

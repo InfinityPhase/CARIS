@@ -7,13 +7,20 @@ import utilities.Logger.output;
 
 public class Constants {
 	public static final String ADMIN_PREFIX = "==> ";
-	public static final String COMMAND_PREFIX = ".c "; // soon to be deprecated
 	public static final String DEFAULT_PLAYING_TEXT = "Type \"cHelp\" for help!";
 
-	public static final String[] DISABLED = new String[] {
-			"cFortune",
-			"cNick",
-			"cMusic"
+	public static final String[] DISABLED_INVOKERS = new String[] {
+			"Fortune",
+			"Nickname",
+			"Music"
+	};
+	
+	public static final String[] DISABLED_RESPONDERS = new String[] {
+			
+	};
+	
+	public static final String[] DISABLED_CONTROLLERS = new String[] {
+			
 	};
 
 	public static final String[] COMMAND_PREFIXES = new String[] {

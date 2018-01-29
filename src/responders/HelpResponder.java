@@ -5,6 +5,15 @@ import tokens.Response;
 
 public class HelpResponder extends Responder {
 	
+	public HelpResponder() {
+		this(Status.ENABLED);
+	}
+	
+	public HelpResponder( Status status ) {
+		this.status = status;
+		name = "Help";
+	}
+	
 	@Override
 	public Response process(MessageReceivedEvent event) {
 		tokenSetup(event);

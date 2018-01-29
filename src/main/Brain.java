@@ -108,7 +108,7 @@ public class Brain {
 	public static Map<Long, GuildMusicManager> musicManagers;
 
 	public static IDiscordClient cli = null;
-	
+
 	public static void main(String[] args) {
 
 		init();
@@ -177,9 +177,10 @@ public class Brain {
 		memoryModules.put("Author Memory", authorMemory);
 		memoryModules.put("Time Memory", timeMemory);
 
-		// Invoker Map
-		Reflections invokerReflect = new Reflections("invokers");
-		for( Class<?> c : invokerReflect.getSubTypesOf( invokers.Invoker.class ) ) {
+		// Load Invoker modules
+		log.indent(1).log("Loading Invoker Modules...");
+		Reflections reflect = new Reflections("invokers");
+		for( Class<?> c : reflect.getSubTypesOf( invokers.Invoker.class ) ) {
 			Invoker i = null;
 			try {
 				i = (Invoker) c.newInstance();
@@ -188,26 +189,72 @@ public class Brain {
 			} catch (IllegalAccessException e) {
 				e.printStackTrace();
 			}
-						
-			if( ( i != null ) && ( i.status == Status.ENABLED ) && !contains( i.name, Constants.DISABLED ) ) { // Java does not short-circut, so this is safe
+
+			if( ( i != null ) && ( i.status == Status.ENABLED ) && !contains( i.name, Constants.DISABLED_INVOKERS ) ) { // Java does not short-circut, so this is safe
 				log.indent(2).log("Adding " + i.name + " to the invokerModule map");
 				invokerModules.put( i.name + " Invoker",  i);
 				Variables.commandPrefixes.add( i.prefix );
 			}
 		}
 		
-		log.indent(2).log("Loaded CommandPrefixes:");
-		for( String s : Variables.commandPrefixes ) {
-			log.indent(3).log(s); // I THINK THIS IS RELATED TODO NOTE AUGH WTF
+		log.indent(2).log("Loaded Invokers:");
+		for( String s : invokerModules.keySet() ) {
+			log.indent(3).log(s);
 		}
 
-		// Responder Map
-		responderModules.put("Mention Responder", mentionResponder);
-		responderModules.put("Nickname Responder", nicknameResponder);
-		responderModules.put("Reminder Responder", reminderResponder);
-		responderModules.put("Location Responder", locationResponder);
-		responderModules.put("Help Responder", helpResponder);
-
+		log.indent(2).log("Loaded CommandPrefixes:");
+		for( String s : Variables.commandPrefixes ) {
+			log.indent(3).log(s);
+		}
+		
+		// Load Responder modules
+		log.indent(1).log("Loading Responder Modules...");
+		reflect = new Reflections("responders");
+		for( Class<?> c : reflect.getSubTypesOf( responders.Responder.class ) ) {
+			Responder r = null;
+			try {
+				r = (Responder) c.newInstance();
+			} catch (InstantiationException e) {
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+			}
+			
+			if( ( r != null ) && ( r.status == Status.ENABLED ) && !contains( r.name, Constants.DISABLED_INVOKERS ) ) {
+				log.indent(2).log("Adding " + r.name + " to the responderModule map");
+				responderModules.put( r.name + " Responder", r );
+			}
+		}
+		
+		log.indent(2).log("Loaded Responders:");
+		for( String s : responderModules.keySet() ) {
+			log.indent(3).log(s);
+		}
+		
+		// Load Command modules
+		log.indent(1).log("Loading Command Modules...");
+		reflect = new Reflections("controller");
+		for( Class<?> c : reflect.getSubTypesOf( controller.Controller.class ) ) {
+			Controller t = null;
+			try {
+				t = (Controller) c.newInstance();
+			} catch (InstantiationException e) {
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+			}
+			
+			if( ( t != null ) && ( t.status == Status.ENABLED ) && !contains( t.name, Constants.DISABLED_INVOKERS ) ) {
+				log.indent(2).log("Adding " + t.name + " to the controllerModules map");
+				controllerModules.put( t.name + " Controller", t );
+			}
+		}
+		
+		log.indent(2).log("Loaded Controllers:");
+		for( String s : controllerModules.keySet() ) {
+			log.indent(3).log(s);
+		}
+		
 		// Controller Map
 		controllerModules.put("Module Controller", moduleController);
 		controllerModules.put("Save Controller", saveController);
@@ -215,7 +262,7 @@ public class Brain {
 		controllerModules.put("Say Controller", sayController);
 		controllerModules.put("Status Controller", statusController);
 	}
-	
+
 	private static boolean contains( String s, String[] array ) {
 		for( int i = 0; i < array.length; i++ ) {
 			if( array[i].equalsIgnoreCase(s) ) {

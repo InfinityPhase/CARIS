@@ -6,6 +6,15 @@ import tokens.Response;
 
 public class MentionResponder extends Responder {
 	// Placeholder example auto handler
+	
+	public MentionResponder() {
+		this(Status.ENABLED);
+	}
+	
+	public MentionResponder( Status status ) {
+		this.status = status;
+		name = "Mention";
+	}
 		
 	@Override
 	public Response process(MessageReceivedEvent event) {
