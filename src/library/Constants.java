@@ -22,14 +22,6 @@ public class Constants {
 	public static final String[] DISABLED_CONTROLLERS = new String[] {
 			
 	};
-
-	public static final String[] COMMAND_PREFIXES = new String[] {
-			"cLoc:",
-			"cLocation:",
-			"cVote:",
-			"cPoll:",
-			"cEmbed:",
-	};
 	
 	public static final String[] COMMAND_EXACTS = new String[] {
 			"cLoc",
@@ -97,4 +89,6 @@ public class Constants {
 			"Music Invoker",
 			"Nickname Invoker",
 	};
+	
+	public static final String COMMAND_SEPERATOR = ":"; // Eg: cEcho: Hey there
 }
