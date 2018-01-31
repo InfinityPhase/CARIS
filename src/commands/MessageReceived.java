@@ -44,6 +44,12 @@ public class MessageReceived extends SuperEvent {
 		
 		if( !Variables.guildIndex.get( event.getGuild() ).whitelist.isEmpty() && !Variables.guildIndex.get( event.getGuild() ).whitelist.contains( event.getChannel() ) ) {
 			notWhitelistedAndShouldBe = true;
+			log.log("Channel is not on the whitelist, command set reduced");
+		}
+		
+		if( event.getAuthor().isBot() && !Constants.RESPOND_TO_BOT ) {
+			log.indent(2).log("Message is from a bot, ignoring");
+			return; // Stops checking the message, ignoring any possible commands
 		}
 
 		GuildInfo gi = Variables.guildIndex.get(event.getGuild());
