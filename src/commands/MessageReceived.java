@@ -53,11 +53,6 @@ public class MessageReceived extends SuperEvent {
 		}
 
 		GuildInfo gi = Variables.guildIndex.get(event.getGuild());
-		if( !gi.userIndex.containsKey( event.getAuthor() ) ) {
-			gi.userIndex.put( event.getAuthor(), new UserInfo( event.getAuthor() ) );
-			log.log("Adding new User \"" + event.getAuthor().getName() + "\" to Guild " + event.getGuild().getName() + ".");
-			log.log( event.getAuthor().getLongID() );
-		}
 
 		String messageText = event.getMessage().getContent();
 		long id = event.getAuthor().getLongID();
@@ -133,7 +128,9 @@ public class MessageReceived extends SuperEvent {
 					if( r.embed ) {
 						log.indent(3).log("Response embed option generated.");
 						responses.add(r);
-					} if( !r.text.equals("") ) { // if this produces a result
+					}
+					
+					if( !r.text.equals("") ) { // if this produces a result
 						log.indent(3).log("Response option generated: \"" + r.text + "\"");
 						responses.add( r ); // add it to the list of potential responses
 					}
@@ -142,9 +139,7 @@ public class MessageReceived extends SuperEvent {
 					continue;
 				}
 			}
-		}
-
-		else { // if not being invoked
+		} else { // if not being invoked
 			log.log("Generating automatic response.");
 			for( String s : Brain.responderModules.keySet() ) { // then try each auto handler
 				boolean check = gi.modules.keySet().contains(s);
@@ -167,12 +162,14 @@ public class MessageReceived extends SuperEvent {
 				}
 			}
 		}
+		
 		if( responses.size() != 0 ) { // if any response exists
 			log.log("Selecting optimal response.");
 			Response[] options = new Response[responses.size()]; // create a static array of response options
 			for( int f=0; f<responses.size(); f++ ) {
 				options[f] = responses.get(f);
 			}
+			
 			Arrays.sort(options); // sort these options
 			log.log("Optimal response selected.");
 			if( options[0].embed ) {
@@ -183,9 +180,11 @@ public class MessageReceived extends SuperEvent {
 					int index2 = options[0].text.lastIndexOf('\"');
 					event.getGuild().setUserNickname(event.getAuthor(), options[0].text.substring(index1, index2));
 				}
+				
 				if( options[0].proxy ) {
 					recipient = options[0].recipient;
 				}
+				
 				BotUtils.sendMessage( recipient, options[0].text ); // print out highest priority response option 
 			}
 			gi.userIndex.get( event.getAuthor() ).lastMessage = event.getMessage();
