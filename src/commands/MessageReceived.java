@@ -33,12 +33,17 @@ public class MessageReceived extends SuperEvent {
 	public void onMessageReceived( MessageReceivedEvent event ) {
 		IChannel recipient = event.getChannel();
 		boolean blacklisted = false;
+		boolean notWhitelistedAndShouldBe = false; // True if there is a whitelist, and this channel is not on it.
 
 		log.log("Message received: \"" + event.getMessage().getContent() + "\" from User \"" + event.getAuthor().getName() + "\" on Guild \"" + event.getGuild().getName() + "\".");	
 
 		if( Variables.guildIndex.get( event.getGuild() ).blacklist.contains( event.getChannel() ) ){
 			blacklisted = true;
 			log.log("Channel is on the blacklist, command set reduced");
+		}
+		
+		if( !Variables.guildIndex.get( event.getGuild() ).whitelist.isEmpty() && !Variables.guildIndex.get( event.getGuild() ).whitelist.contains( event.getChannel() ) ) {
+			notWhitelistedAndShouldBe = true;
 		}
 
 		GuildInfo gi = Variables.guildIndex.get(event.getGuild());
@@ -62,7 +67,7 @@ public class MessageReceived extends SuperEvent {
 		// Name of thought, the actual thoughts
 		// Later use TreeMap, sort values better
 		Map< String, Thought > thoughts = new HashMap< String, Thought >();
-		if( !Constants.MEMORY_RESPECT_LIST || !blacklisted ) {
+		if( !Constants.MEMORY_RESPECT_LIST || ( !blacklisted && !notWhitelistedAndShouldBe ) ) {
 			log.log("Recording Message...");
 			for( String s : Brain.memoryModules.keySet() ) {
 				Memory h = Brain.memoryModules.get( s );
@@ -95,7 +100,7 @@ public class MessageReceived extends SuperEvent {
 			log.log("Admin detected.");
 			for( String s : Brain.controllerModules.keySet() ) { // try each invocation handler
 				Controller h = Brain.controllerModules.get(s);
-				if( !blacklisted || h.avalibility == Avalibility.ALWAYS ) {
+				if( ( !blacklisted && !notWhitelistedAndShouldBe ) || h.avalibility == Avalibility.ALWAYS ) {
 					Response r = h.process(event);
 					if( r.embed ) {
 						log.indent(1).log("Response embed option generated.");
@@ -115,7 +120,7 @@ public class MessageReceived extends SuperEvent {
 			for( String s : Brain.invokerModules.keySet() ) {
 				Invoker i = Brain.invokerModules.get(s);
 				log.indent(1).log("Checking " + s);
-				if( i.prefix.equalsIgnoreCase( getPrefix(event) ) && ( !blacklisted || i.avalibility == Avalibility.ALWAYS ) ) {
+				if( i.prefix.equalsIgnoreCase( getPrefix(event) ) && ( ( !blacklisted && !notWhitelistedAndShouldBe ) || i.avalibility == Avalibility.ALWAYS ) ) {
 					log.indent(10).log(blacklisted);
 					log.indent(2).log("Prefix match found");
 					Response r = i.process(event);
@@ -141,7 +146,7 @@ public class MessageReceived extends SuperEvent {
 					continue;
 				} else if( gi.modules.get(s) ) {
 					Responder h = Brain.responderModules.get(s);
-					if( !blacklisted || h.avalibility == Avalibility.ALWAYS ) {
+					if( ( !blacklisted && !notWhitelistedAndShouldBe ) || h.avalibility == Avalibility.ALWAYS ) {
 						Response r = h.process(event);
 						if( r.embed ) {
 							log.indent(1).log("Response embed option generated.");
