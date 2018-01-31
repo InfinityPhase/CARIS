@@ -33,6 +33,7 @@ public class Constants {
 	
 	public static final String NAME = "CARIS";
 	public static final boolean OFFLINE = false;
+	public static final boolean RESPOND_TO_BOT = false; // If the user is a bot, ignore.
 
 	public static final long[] ADMIN_IDS = new long[]{
 			Long.parseLong("246562987651891200"),
@@ -59,6 +60,7 @@ public class Constants {
 
 	// Controls the order of thoughts in the message log
 	public static final String[] THOUGHT_ORDER = { "Author", "Time" };
+	public static final boolean MEMORY_RESPECT_LIST = true; // Should memories only be run on channels that are not excluded?
 
 	// Logger constants
 	public final static String INDENT_STRING = "=";

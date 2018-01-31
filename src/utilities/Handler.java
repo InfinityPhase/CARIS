@@ -27,7 +27,14 @@ public class Handler {
 		LIMITED
 	};
 	
+	public enum Avalibility {
+		// Alters how this module responds to blacklists, and other control lists
+		STANDARD, // Respects blacklists and whitelists
+		ALWAYS // Can never be blocked
+	};
+	
 	public Status status = Status.DISABLED; // If you don't set this, then don't even try to work
+	public Avalibility avalibility = Avalibility.STANDARD; // This should almost always be used
 	public String name;
 	public String prefix;
 	

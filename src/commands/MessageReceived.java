@@ -23,6 +23,7 @@ import tokens.Response;
 import tokens.Thought;
 import utilities.BotUtils;
 import utilities.Logger;
+import utilities.Handler.Avalibility;
 
 public class MessageReceived extends SuperEvent {
 	private Logger log = new Logger().setDefaultIndent(1).build();
@@ -31,8 +32,15 @@ public class MessageReceived extends SuperEvent {
 	@Override
 	public void onMessageReceived( MessageReceivedEvent event ) {
 		IChannel recipient = event.getChannel();
-		log.log("Message received: \"" + event.getMessage().getContent() + "\" from User \"" + event.getAuthor().getName() + "\" on Guild \"" + event.getGuild().getName() + "\".");		
-		
+		boolean blacklisted = false;
+
+		log.log("Message received: \"" + event.getMessage().getContent() + "\" from User \"" + event.getAuthor().getName() + "\" on Guild \"" + event.getGuild().getName() + "\".");	
+
+		if( Variables.guildIndex.get( event.getGuild() ).blacklist.contains( event.getChannel() ) ){
+			blacklisted = true;
+			log.log("Channel is on the blacklist, command set reduced");
+		}
+
 		GuildInfo gi = Variables.guildIndex.get(event.getGuild());
 		if( !gi.userIndex.containsKey( event.getAuthor() ) ) {
 			gi.userIndex.put( event.getAuthor(), new UserInfo( event.getAuthor() ) );
@@ -54,13 +62,15 @@ public class MessageReceived extends SuperEvent {
 		// Name of thought, the actual thoughts
 		// Later use TreeMap, sort values better
 		Map< String, Thought > thoughts = new HashMap< String, Thought >();
-		log.log("Recording Message...");
-		for( String s : Brain.memoryModules.keySet() ) {
-			Memory h = Brain.memoryModules.get( s );
-			Thought t = h.remember(event);
+		if( !Constants.MEMORY_RESPECT_LIST || !blacklisted ) {
+			log.log("Recording Message...");
+			for( String s : Brain.memoryModules.keySet() ) {
+				Memory h = Brain.memoryModules.get( s );
+				Thought t = h.remember(event);
 
-			if( !t.name.isEmpty() && ( !t.text.isEmpty() /*|| !t.equals(null) */) ) {
-				thoughts.put( t.name, t );
+				if( !t.name.isEmpty() && ( !t.text.isEmpty() /*|| !t.equals(null) */) ) {
+					thoughts.put( t.name, t );
+				}
 			}
 		}
 
@@ -85,28 +95,29 @@ public class MessageReceived extends SuperEvent {
 			log.log("Admin detected.");
 			for( String s : Brain.controllerModules.keySet() ) { // try each invocation handler
 				Controller h = Brain.controllerModules.get(s);
-				Response r = h.process(event);
-				if( r.embed ) {
-					log.indent(1).log("Response embed option generated.");
-					responses.add(r);
-				} if( !r.text.equals("") ) { // if this produces a result
-					log.indent(1).log("Response option generated: \"" + r.text + "\"");
-					responses.add( r ); // add it to the list of potential responses
-				}
-				else {
-					log.indent(1).log("No response generated.");
+				if( !blacklisted || h.avalibility == Avalibility.ALWAYS ) {
+					Response r = h.process(event);
+					if( r.embed ) {
+						log.indent(1).log("Response embed option generated.");
+						responses.add(r);
+					} if( !r.text.equals("") ) { // if this produces a result
+						log.indent(1).log("Response option generated: \"" + r.text + "\"");
+						responses.add( r ); // add it to the list of potential responses
+					} else {
+						log.indent(1).log("No response generated.");
+					}
 				}
 			}
-		} else if( messageText.startsWith("==>") && !admin ) {
+		} else if( messageText.startsWith( Constants.ADMIN_PREFIX ) && !admin ) {
 			responses.add( new Response("Please stop trying to abuse me.", 0) );
 		} else if ( startsWithOneOf( messageText, Variables.commandPrefixes ) ) { // if invoked
 			log.log("Invocation detected.");
 			for( String s : Brain.invokerModules.keySet() ) {
 				Invoker i = Brain.invokerModules.get(s);
 				log.indent(1).log("Checking " + s);
-				if( i.prefix.equalsIgnoreCase( getPrefix(event) ) ) {
+				if( i.prefix.equalsIgnoreCase( getPrefix(event) ) && ( !blacklisted || i.avalibility == Avalibility.ALWAYS ) ) {
+					log.indent(10).log(blacklisted);
 					log.indent(2).log("Prefix match found");
-					
 					Response r = i.process(event);
 					if( r.embed ) {
 						log.indent(3).log("Response embed option generated.");
@@ -121,9 +132,7 @@ public class MessageReceived extends SuperEvent {
 				}
 			}
 		}
-		
-		
-		
+
 		else { // if not being invoked
 			log.log("Generating automatic response.");
 			for( String s : Brain.responderModules.keySet() ) { // then try each auto handler
@@ -132,16 +141,17 @@ public class MessageReceived extends SuperEvent {
 					continue;
 				} else if( gi.modules.get(s) ) {
 					Responder h = Brain.responderModules.get(s);
-					Response r = h.process(event);
-					if( r.embed ) {
-						log.indent(1).log("Response embed option generated.");
-						responses.add(r);
-					} if( !r.text.equals("") ) { // if this produces a result
-						log.indent(1).log("Response option generated: \"" + r.text + "\"");
-						responses.add( r ); // add it to the list of potential responses
-					}
-					else {
-						log.indent(1).log("No response generated.");
+					if( !blacklisted || h.avalibility == Avalibility.ALWAYS ) {
+						Response r = h.process(event);
+						if( r.embed ) {
+							log.indent(1).log("Response embed option generated.");
+							responses.add(r);
+						} if( !r.text.equals("") ) { // if this produces a result
+							log.indent(1).log("Response option generated: \"" + r.text + "\"");
+							responses.add( r ); // add it to the list of potential responses
+						} else {
+							log.indent(1).log("No response generated.");
+						}
 					}
 				}
 			}
@@ -170,7 +180,7 @@ public class MessageReceived extends SuperEvent {
 			gi.userIndex.get( event.getAuthor() ).lastMessage = event.getMessage();
 		}
 	}
-	
+
 	public static boolean startsWithOneOf( String s, String[] prefixes ) {
 		for( String prefix : prefixes ) {
 			if( s.startsWith(prefix) ) {
@@ -179,11 +189,11 @@ public class MessageReceived extends SuperEvent {
 		}
 		return false;
 	}
-	
+
 	public static boolean startsWithOneOf( String s, List<String> prefixes ) {
 		return startsWithOneOf( s, prefixes.toArray( new String[ prefixes.size() ] ) );
 	}
-	
+
 	public static boolean isOneOf( String s, String[] texts ) {
 		for( String text: texts ) {
 			if( s.equalsIgnoreCase(text) ) {
@@ -192,24 +202,24 @@ public class MessageReceived extends SuperEvent {
 		}
 		return false;
 	}
-	
+
 	public static String getPrefix( String line ) {
 		int id = line.indexOf(":");
 		if( id == -1 ) {
 			id = line.indexOf(" ");
 		}
-		
+
 		if( id == -1 ) {
 			return ""; // There is no prefix
 		}
-		
+
 		return line.substring(0, id);
 	}
-	
+
 	public static String getPrefix( IMessage message ) {
 		return getPrefix( message.getContent() );
 	}
-	
+
 	public static String getPrefix( MessageReceivedEvent event ) {
 		return getPrefix( event.getMessage().getContent() );
 	}
