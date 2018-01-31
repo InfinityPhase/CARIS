@@ -9,11 +9,20 @@ import tokens.Response;
 
 public class LocationInvoker extends Invoker_Multiline {
 
+	public LocationInvoker() {
+		this( Status.ENABLED );
+	}
+
+	public LocationInvoker( Status status ) {
+		this.status = status;
+		name = "Location";
+		prefix = "cLoc";
+	}
+
 	public Response process(MessageReceivedEvent event) {	
 		multilineSetup(event);
-		
-		if( event.getMessage().getContent().equals("cLoc") || event.getMessage().getContent().equals("cLocation") ) {
-			log.indent(1).log("LocationInvoker triggered.");
+
+		if( tokens.size() == 1 ) { // No arguments passed
 			EmbedBuilder builder = new EmbedBuilder();
 			builder.withTitle("**__Active Locations__**");
 			for( String location : variables.locations.keySet() ) {
@@ -27,10 +36,7 @@ public class LocationInvoker extends Invoker_Multiline {
 				}
 			}
 			embed = builder;
-		}
-		
-		if( tokens.get(0).equals("cLoc:") || tokens.get(0).equals("cLocation:") ) {
-			log.indent(1).log("LocationInvoker triggered.");
+		} else if( tokens.size() > 1 ) { // Has arguments		
 			String location = remainder(primaryLineSet.tokens.get(0), primaryLineSet.line);
 			if( location.isEmpty() ) {
 				log.indent(2).log("Syntax Error. Aborting.");

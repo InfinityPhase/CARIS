@@ -1,6 +1,8 @@
 package library;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import main.Brain;
 import main.GuildInfo;
@@ -17,6 +19,8 @@ public class Variables {
 	
 	/* Global Utilities */
 	public static DataSaver ds = new DataSaver();
+	public static List<String> commandPrefixes = new ArrayList<String>();
+	public static List<String> commandExacts = new ArrayList<String>();
 	
 	public static IChannel getChannel( String channel ) {
 		return getChannel( new Long( channel ) );

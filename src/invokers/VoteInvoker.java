@@ -7,12 +7,22 @@ import tokens.Poll;
 import tokens.Response;
 
 public class VoteInvoker extends Invoker_Multiline {
+	
+	public VoteInvoker() {
+		this( Status.ENABLED );
+	}
+	
+	public VoteInvoker( Status status ){
+		this.status = status;
+		name = "Vote";
+		prefix = "cVote";
+	}
 
 	@Override
 	public Response process(MessageReceivedEvent event) {
 		multilineSetup(event);
 		
-		if( event.getMessage().getContent().equals("cVote") ) {
+		if( tokens.size() == 1 ) { // No arguments passed
 			EmbedBuilder builder = new EmbedBuilder();
 			log.indent(1).log("VoteInvoker triggered.");
 			builder.withTitle("**__Active Polls__**");
@@ -21,9 +31,7 @@ public class VoteInvoker extends Invoker_Multiline {
 				builder.appendField(p.name, p.getVotes() + "vote(s)!", false);
 			}
 			embed = builder;
-		}
-		
-		if( tokens.get(0).equals("cVote:") ) {
+		} else if( tokens.size() > 1 ) { // Has arguments		
 			log.indent(1).log("VoteInvoker triggered.");
 			String target = remainder(primaryLineSet.tokens.get(0), primaryLineSet.line);
 			if( target.isEmpty() || !variables.polls.keySet().contains(target) ) {

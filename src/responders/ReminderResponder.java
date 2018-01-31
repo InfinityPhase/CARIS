@@ -14,6 +14,15 @@ import utilities.TimeParser;
 
 public class ReminderResponder extends Responder {
 	
+	public ReminderResponder() {
+		this(Status.ENABLED);
+	}
+	
+	public ReminderResponder( Status status ) {
+		this.status = status;
+		name = "Reminder";
+	}
+	
 	private TimeParser timeParser = new TimeParser();
 	
 	@Override

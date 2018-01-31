@@ -4,6 +4,15 @@ import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedE
 import tokens.Response;
 
 public class ModuleController extends Controller {
+	
+	public ModuleController() {
+		this(Status.ENABLED);
+	}
+	
+	public ModuleController( Status status ) {
+		this.status = status;
+		name = "Module";
+	}
 
 	@Override
 	public Response process(MessageReceivedEvent event) {

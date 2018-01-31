@@ -6,6 +6,15 @@ import tokens.Response;
 
 public class SaveController extends Controller {
 	
+	public SaveController() {
+		this(Status.ENABLED);
+	}
+	
+	public SaveController( Status status ) {
+		this.status = status;
+		name = "Save";
+	}
+	
 	@Override
 	public Response process(MessageReceivedEvent event) {
 		tokenSetup(event);

@@ -5,6 +5,15 @@ import tokens.Response;
 
 public class NicknameResponder extends Responder {
 	
+	public NicknameResponder() {
+		this(Status.ENABLED);
+	}
+	
+	public NicknameResponder( Status status ) {
+		this.status = status;
+		name = "Nickname";
+	}
+	
 	@Override
 	public Response process(MessageReceivedEvent event) {
 		log.log("NickResp");

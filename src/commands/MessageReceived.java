@@ -3,6 +3,7 @@ package commands;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import controller.Controller;
@@ -17,6 +18,7 @@ import responders.Responder;
 import sx.blah.discord.api.events.EventSubscriber;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import sx.blah.discord.handle.obj.IChannel;
+import sx.blah.discord.handle.obj.IMessage;
 import tokens.Response;
 import tokens.Thought;
 import utilities.BotUtils;
@@ -97,28 +99,32 @@ public class MessageReceived extends SuperEvent {
 			}
 		} else if( messageText.startsWith("==>") && !admin ) {
 			responses.add( new Response("Please stop trying to abuse me.", 0) );
-		} else if ( startsWithOneOf( messageText, Constants.COMMAND_PREFIXES ) || isOneOf( messageText, Constants.COMMAND_EXACTS ) ) { // if invoked
+		} else if ( startsWithOneOf( messageText, Variables.commandPrefixes ) ) { // if invoked
 			log.log("Invocation detected.");
-			for( String s : Brain.invokerModules.keySet() ) { // try each invocation handler
-				boolean check = gi.modules.keySet().contains(s);
-				if( !check ) {
-					continue;
-				} else if( gi.modules.get(s) ) {
-					Invoker h = Brain.invokerModules.get(s);
-					Response r = h.process(event);
+			for( String s : Brain.invokerModules.keySet() ) {
+				Invoker i = Brain.invokerModules.get(s);
+				log.indent(1).log("Checking " + s);
+				if( i.prefix.equalsIgnoreCase( getPrefix(event) ) ) {
+					log.indent(2).log("Prefix match found");
+					
+					Response r = i.process(event);
 					if( r.embed ) {
-						log.indent(1).log("Response embed option generated.");
+						log.indent(3).log("Response embed option generated.");
 						responses.add(r);
 					} if( !r.text.equals("") ) { // if this produces a result
-						log.indent(1).log("Response option generated: \"" + r.text + "\"");
+						log.indent(3).log("Response option generated: \"" + r.text + "\"");
 						responses.add( r ); // add it to the list of potential responses
 					}
-					else {
-						log.indent(1).log("No response generated.");
-					}
+				} else {
+					log.indent(2).log("Prefix does not match");
+					continue;
 				}
 			}
-		} else { // if not being invoked
+		}
+		
+		
+		
+		else { // if not being invoked
 			log.log("Generating automatic response.");
 			for( String s : Brain.responderModules.keySet() ) { // then try each auto handler
 				boolean check = gi.modules.keySet().contains(s);
@@ -174,6 +180,10 @@ public class MessageReceived extends SuperEvent {
 		return false;
 	}
 	
+	public static boolean startsWithOneOf( String s, List<String> prefixes ) {
+		return startsWithOneOf( s, prefixes.toArray( new String[ prefixes.size() ] ) );
+	}
+	
 	public static boolean isOneOf( String s, String[] texts ) {
 		for( String text: texts ) {
 			if( s.equalsIgnoreCase(text) ) {
@@ -181,5 +191,26 @@ public class MessageReceived extends SuperEvent {
 			}
 		}
 		return false;
+	}
+	
+	public static String getPrefix( String line ) {
+		int id = line.indexOf(":");
+		if( id == -1 ) {
+			id = line.indexOf(" ");
+		}
+		
+		if( id == -1 ) {
+			return ""; // There is no prefix
+		}
+		
+		return line.substring(0, id);
+	}
+	
+	public static String getPrefix( IMessage message ) {
+		return getPrefix( message.getContent() );
+	}
+	
+	public static String getPrefix( MessageReceivedEvent event ) {
+		return getPrefix( event.getMessage().getContent() );
 	}
 }

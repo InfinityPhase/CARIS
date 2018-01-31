@@ -3,32 +3,44 @@ package invokers;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import tokens.Response;
 
-public class HelpInvoker extends Invoker_Multiline {
-	
+public class HelpInvoker extends Invoker {
+
+	public HelpInvoker() {
+		this( Status.ENABLED );
+	}
+
+	public HelpInvoker( Status status ) {
+		log.log("Initializing Help Invoker");
+		this.status = status;
+		name = "Help";
+		prefix = "cHelp";
+	}
+
 	@Override
-	 public Response process(MessageReceivedEvent event) {
+	public Response process(MessageReceivedEvent event) {
 		multilineSetup(event);
-		
-		if( event.getMessage().getContent().equalsIgnoreCase("cHelp") ) {
+		if( tokens.size() == 1 ) { // No arguments passed
+			log.indent(1).log("Giving generic Help");
 			response += "**__Help__**";
 			response += "\nCaris is controlled using two types of commands: *Invokers*, and *Responders*.";
 			response += "\n*Invokers* are commands that you specifically activate, while *Responders* utilize \"natural language processing\" to jump in at the right time.";
 			response += "\n";
-			
+
 			response += "\n__Invokers__";
 			response += "\nA very simple example of an *Invoker* is **cEcho**.";
 			response += "\nTo use it, simply type ` cEcho: <message> `, and CARIS will repeat what you put as the ` <message> `.";
 			response += "\nTo see a list of *Invokers*, type ` cHelp: Invoker `.";
 
 			response += "\n";
-			
+
 			response += "\n__Responders__";
 			response += "\nA simple responder would be CARIS's **Mention Responder**, which causes her to respond whenever someone says her name.";
 			response += "\nTo see a list of *Responders*, type ` cHelp: Responder `.";
 			response += "\n";
-		}
-		
-		if( tokens.get(0).equalsIgnoreCase("cHelp:") ) {
+
+
+		} else if( tokens.size() > 1 ) { // Has arguments		
+			log.indent(1).log("Giving specific Help");
 			String target = remainder(primaryLineSet.tokens.get(0), primaryLineSet.line);
 			if( target.equalsIgnoreCase("Invoker") ) {
 				response += "**__Invokers__**";
@@ -40,12 +52,12 @@ public class HelpInvoker extends Invoker_Multiline {
 				response += "\n<Subcommand 2>";
 				response += "\n. . .```";
 				response += "\n";
-				
+
 				response += "\n__Main Commands__";
 				response += "\nThe *Main Command* is written in the format ` <Command>: <Target> `.";
 				response += "\nFor example, if you wanted to edit a location, such as the school, you would type ` cLocation: School ` as your *Main Command*.";
 				response += "\n";
-				
+
 				response += "\n__Sub Commands__";
 				response += "\nThe *Subcommands* are written in the format ` <Action> <Content> `.";
 				response += "\nFor instance, if you wanted to add \"Alina\" to the aformentioned location, you would type ` add Alina Kim ` as your *Subcommand*.";
@@ -53,13 +65,13 @@ public class HelpInvoker extends Invoker_Multiline {
 				response += "\nResetting a location has the subcommand ` reset `, by itself.";
 				response += "\nYou can have any number of *Subcommands* following a *Main Command*.";
 				response += "\n";
-				
+
 				response += "\nHere is an example of an invocation:";
 				response += "\n```cLocation: School";
 				response += "\nadd Alina";
 				response += "\nadd Anthony```";
 				response += "\n";
-				
+
 				response += "\n__All Invokers:__";
 				response += "\n\t\t` c8ball `";
 				response += "\n\t\t` cEcho `";
@@ -68,14 +80,14 @@ public class HelpInvoker extends Invoker_Multiline {
 				response += "\n\t\t` cPoll `";
 				response += "\n\t\t` cVote `";
 				response += "\n";
-				
+
 				response += "\nTo learn how to use a specific *Invoker*, type ` cHelp: <Invoker> `.";
 			} else if( target.equalsIgnoreCase("Responder") ) {
 				response += "**__Responders__**";
 				response += "\n*Responders* are quite simple, as CARIS does all the work for you.";
 				response += "\nIf you were to say, \"Where the heck did Alina disappear off to?\", for instance, CARIS would promptly respond, \"Alina is at school.\"";
 				response += "\n";
-				
+
 				response += "\n__All Responders:__";
 				response += "\n\t\t` rHelp `";
 				response += "\n\t\t` rLocation `";
@@ -90,7 +102,7 @@ public class HelpInvoker extends Invoker_Multiline {
 				response += "\nPlease do not take these answers as life advice.";
 				response += "\nThere are no subcommands available.";
 				response += "\n";
-				
+
 				response += "\n```c8ball: Will I ever find love?```";
 			} else if( target.equalsIgnoreCase("cEcho") ) {
 				response += "**__cEcho__**";
@@ -98,7 +110,7 @@ public class HelpInvoker extends Invoker_Multiline {
 				response += "\nPlease don't abuse this command.";
 				response += "\nThere are no subcommands available.";
 				response += "\n";
-				
+
 				response += "\n```cEcho: My name is CARIS!```";
 			} else if( target.equalsIgnoreCase("cEmbed") ) {
 				response += "\n__cEmbed__";
@@ -119,7 +131,7 @@ public class HelpInvoker extends Invoker_Multiline {
 				response += "\n\t\t` footer-icon <Image Link> `\t\t-\t\t*A url linking to the footer icon*";
 				response += "\n\t\t` footer-text <Text> `\t\t-\t\t*Text shown at the end of an embed*";
 				response += "\n";
-				
+
 				response += "\n```cEmbed: New Embed";
 				response += "\ntitle A new Embed";
 				response += "\ndescription Basically a test of the embed invoker";
@@ -132,12 +144,12 @@ public class HelpInvoker extends Invoker_Multiline {
 				response += "\nThis command allows you to keep track of where everyone is.";
 				response += "\nUse ` cLoc: <Location Name> ` as the *Main Command*.";
 				response += "\n";
-				
+
 				response += "\n\t\t` add <Name> `\t\t-\t\t*Adds a person to a location*";
 				response += "\n\t\t` remove <Name> `\t\t-\t\t*Removes a person from a location*";
 				response += "\n\t\t` reset `\t\t-\t\t*Removes everyone from a location*";
 				response += "\n";
-				
+
 				response += "\n```cLocation: School";
 				response += "\nreset";
 				response += "\nadd Alina";
@@ -149,7 +161,7 @@ public class HelpInvoker extends Invoker_Multiline {
 				response += "\nUse ` cPoll: <Poll Name> ` as the *Main Command*.";
 				response += "\nIf no subcommands are used, CARIS will display the current state of the poll.";
 				response += "\n";
-				
+
 				response += "\n\t\t` description <Text> `\t\t-\t\t*Sets the description or question the poll is asking*";
 				response += "\n\t\t` option <Text> `\t\t-\t\t*Adds a votable option to the poll*";
 				response += "\n\t\t` add <Text> `\t\t-\t\t*If the poll already exists, adds a new option to the poll*";
@@ -161,41 +173,41 @@ public class HelpInvoker extends Invoker_Multiline {
 				response += "\ndescription Do you prefer apples, or oranges?";
 				response += "\noption Apples";
 				response += "\noption Oranges```";
-				
+
 			} else if( target.equalsIgnoreCase("cVote") ) {
 				response += "**__cVote__**";
 				response += "\nThis command lets others vote on existing polls.";
 				response += "\nUse ` cVote: <Poll Name> ` as the *Main Command*.";
 				response += "\nInstead of subcommands, simply type the choice(s) you wish to vote for.";
 				response += "\n";
-				
+
 				response += "\n```cVote: Apples v Oranges";
 				response += "\nApples```";
 			} else if( target.equalsIgnoreCase("rHelp") ) {
 				response += "**__Help Responder__**";
 				response += "\nIf you say anything like \"how do I use CARIS\" in the chat, CARIS will respond with the help menu.";
 				response += "\n";
-				
+
 				response += "\n*\"Hey, how am I supposed to use CARIS?\"*";
 			} else if( target.equalsIgnoreCase("rLocation") ) {
 				response += "\n**__Location Responder__**";
 				response += "\nIf you ask where anyone is, or who's at a certain location, CARIS will see if she knows, and respond appropriately.";
 				response += "\n";
-				
+
 				response += "\n*\"Where the heck did Alina go?\"*";
 				response += "\n*\"Does anyone know who's at school right now?\"*";
 			} else if( target.equalsIgnoreCase("rMention") ) {
 				response += "**__Mention Reponder__**";
 				response += "\nPretty simple: you say CARIS's name, she responds.";
 				response += "\n";
-				
+
 				response += "\n*\"Caris, are you online?\"*";
 			} else if( target.equalsIgnoreCase("rNickname") ) {
 				response += "**__Nickname Responder__**";
 				response += "\nIf you ask CARIS to set your name to something in the chat, she'll do it for you.";
 				response += "\nRemember to put your name in quotes!";
 				response += "\n";
-				
+
 				response += "\n*\"Caris, set my name to \"Alina Kim\".\"*";
 				response += "\n*\"My name is \"Alina Kim\"!\"*";
 			} else if( target.equalsIgnoreCase("rReminder") ) {
@@ -206,14 +218,14 @@ public class HelpInvoker extends Invoker_Multiline {
 				response += "\nUse digits instead of words to express numbers.";
 				response += "\nIf you want to include a message, put it in quotes.";
 				response += "\n";
-				
+
 				response += "\n*\"Can someone remind me to \"check messages\" at 4 PM?\"*";
 				response += "\n*\"Remind me on March 26th to wish Alina a happy birthday.\"*";
 				response += "\n*\"CARIS, try to remind me in about 5 minutes.*";
 			}
 		}
-		
+
 		return build();
 	}
-	
+
 }
