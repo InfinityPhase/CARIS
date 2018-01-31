@@ -7,7 +7,7 @@ import sx.blah.discord.util.EmbedBuilder;
 import tokens.LineSet;
 import tokens.Response;
 
-public class LocationInvoker extends Invoker_Multiline {
+public class LocationInvoker extends Invoker {
 
 	public LocationInvoker() {
 		this( Status.ENABLED );

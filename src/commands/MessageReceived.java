@@ -23,6 +23,7 @@ import tokens.Response;
 import tokens.Thought;
 import utilities.BotUtils;
 import utilities.Logger;
+import utilities.Handler.Avalibility;
 
 public class MessageReceived extends SuperEvent {
 	private Logger log = new Logger().setDefaultIndent(1).build();
@@ -31,14 +32,27 @@ public class MessageReceived extends SuperEvent {
 	@Override
 	public void onMessageReceived( MessageReceivedEvent event ) {
 		IChannel recipient = event.getChannel();
-		log.log("Message received: \"" + event.getMessage().getContent() + "\" from User \"" + event.getAuthor().getName() + "\" on Guild \"" + event.getGuild().getName() + "\".");		
-		
-		GuildInfo gi = Variables.guildIndex.get(event.getGuild());
-		if( !gi.userIndex.containsKey( event.getAuthor() ) ) {
-			gi.userIndex.put( event.getAuthor(), new UserInfo( event.getAuthor() ) );
-			log.log("Adding new User \"" + event.getAuthor().getName() + "\" to Guild " + event.getGuild().getName() + ".");
-			log.log( event.getAuthor().getLongID() );
+		boolean blacklisted = false;
+		boolean notWhitelistedAndShouldBe = false; // True if there is a whitelist, and this channel is not on it.
+
+		log.log("Message received: \"" + event.getMessage().getContent() + "\" from User \"" + event.getAuthor().getName() + "\" on Guild \"" + event.getGuild().getName() + "\".");	
+
+		if( Variables.guildIndex.get( event.getGuild() ).blacklist.contains( event.getChannel() ) ){
+			blacklisted = true;
+			log.log("Channel is on the blacklist, command set reduced");
 		}
+		
+		if( !Variables.guildIndex.get( event.getGuild() ).whitelist.isEmpty() && !Variables.guildIndex.get( event.getGuild() ).whitelist.contains( event.getChannel() ) ) {
+			notWhitelistedAndShouldBe = true;
+			log.log("Channel is not on the whitelist, command set reduced");
+		}
+		
+		if( event.getAuthor().isBot() && !Constants.RESPOND_TO_BOT ) {
+			log.indent(2).log("Message is from a bot, ignoring");
+			return; // Stops checking the message, ignoring any possible commands
+		}
+
+		GuildInfo gi = Variables.guildIndex.get(event.getGuild());
 
 		String messageText = event.getMessage().getContent();
 		long id = event.getAuthor().getLongID();
@@ -54,13 +68,15 @@ public class MessageReceived extends SuperEvent {
 		// Name of thought, the actual thoughts
 		// Later use TreeMap, sort values better
 		Map< String, Thought > thoughts = new HashMap< String, Thought >();
-		log.log("Recording Message...");
-		for( String s : Brain.memoryModules.keySet() ) {
-			Memory h = Brain.memoryModules.get( s );
-			Thought t = h.remember(event);
+		if( !Constants.MEMORY_RESPECT_LIST || ( !blacklisted && !notWhitelistedAndShouldBe ) ) {
+			log.log("Recording Message...");
+			for( String s : Brain.memoryModules.keySet() ) {
+				Memory h = Brain.memoryModules.get( s );
+				Thought t = h.remember(event);
 
-			if( !t.name.isEmpty() && ( !t.text.isEmpty() /*|| !t.equals(null) */) ) {
-				thoughts.put( t.name, t );
+				if( !t.name.isEmpty() && ( !t.text.isEmpty() /*|| !t.equals(null) */) ) {
+					thoughts.put( t.name, t );
+				}
 			}
 		}
 
@@ -85,33 +101,36 @@ public class MessageReceived extends SuperEvent {
 			log.log("Admin detected.");
 			for( String s : Brain.controllerModules.keySet() ) { // try each invocation handler
 				Controller h = Brain.controllerModules.get(s);
-				Response r = h.process(event);
-				if( r.embed ) {
-					log.indent(1).log("Response embed option generated.");
-					responses.add(r);
-				} if( !r.text.equals("") ) { // if this produces a result
-					log.indent(1).log("Response option generated: \"" + r.text + "\"");
-					responses.add( r ); // add it to the list of potential responses
-				}
-				else {
-					log.indent(1).log("No response generated.");
+				if( ( !blacklisted && !notWhitelistedAndShouldBe ) || h.avalibility == Avalibility.ALWAYS ) {
+					Response r = h.process(event);
+					if( r.embed ) {
+						log.indent(1).log("Response embed option generated.");
+						responses.add(r);
+					} if( !r.text.equals("") ) { // if this produces a result
+						log.indent(1).log("Response option generated: \"" + r.text + "\"");
+						responses.add( r ); // add it to the list of potential responses
+					} else {
+						log.indent(1).log("No response generated.");
+					}
 				}
 			}
-		} else if( messageText.startsWith("==>") && !admin ) {
+		} else if( messageText.startsWith( Constants.ADMIN_PREFIX ) && !admin ) {
 			responses.add( new Response("Please stop trying to abuse me.", 0) );
 		} else if ( startsWithOneOf( messageText, Variables.commandPrefixes ) ) { // if invoked
 			log.log("Invocation detected.");
 			for( String s : Brain.invokerModules.keySet() ) {
 				Invoker i = Brain.invokerModules.get(s);
 				log.indent(1).log("Checking " + s);
-				if( i.prefix.equalsIgnoreCase( getPrefix(event) ) ) {
+				if( i.prefix.equalsIgnoreCase( getPrefix(event) ) && ( ( !blacklisted && !notWhitelistedAndShouldBe ) || i.avalibility == Avalibility.ALWAYS ) ) {
+					log.indent(10).log(blacklisted);
 					log.indent(2).log("Prefix match found");
-					
 					Response r = i.process(event);
 					if( r.embed ) {
 						log.indent(3).log("Response embed option generated.");
 						responses.add(r);
-					} if( !r.text.equals("") ) { // if this produces a result
+					}
+					
+					if( !r.text.equals("") ) { // if this produces a result
 						log.indent(3).log("Response option generated: \"" + r.text + "\"");
 						responses.add( r ); // add it to the list of potential responses
 					}
@@ -120,11 +139,7 @@ public class MessageReceived extends SuperEvent {
 					continue;
 				}
 			}
-		}
-		
-		
-		
-		else { // if not being invoked
+		} else { // if not being invoked
 			log.log("Generating automatic response.");
 			for( String s : Brain.responderModules.keySet() ) { // then try each auto handler
 				boolean check = gi.modules.keySet().contains(s);
@@ -132,26 +147,29 @@ public class MessageReceived extends SuperEvent {
 					continue;
 				} else if( gi.modules.get(s) ) {
 					Responder h = Brain.responderModules.get(s);
-					Response r = h.process(event);
-					if( r.embed ) {
-						log.indent(1).log("Response embed option generated.");
-						responses.add(r);
-					} if( !r.text.equals("") ) { // if this produces a result
-						log.indent(1).log("Response option generated: \"" + r.text + "\"");
-						responses.add( r ); // add it to the list of potential responses
-					}
-					else {
-						log.indent(1).log("No response generated.");
+					if( ( !blacklisted && !notWhitelistedAndShouldBe ) || h.avalibility == Avalibility.ALWAYS ) {
+						Response r = h.process(event);
+						if( r.embed ) {
+							log.indent(1).log("Response embed option generated.");
+							responses.add(r);
+						} if( !r.text.equals("") ) { // if this produces a result
+							log.indent(1).log("Response option generated: \"" + r.text + "\"");
+							responses.add( r ); // add it to the list of potential responses
+						} else {
+							log.indent(1).log("No response generated.");
+						}
 					}
 				}
 			}
 		}
+		
 		if( responses.size() != 0 ) { // if any response exists
 			log.log("Selecting optimal response.");
 			Response[] options = new Response[responses.size()]; // create a static array of response options
 			for( int f=0; f<responses.size(); f++ ) {
 				options[f] = responses.get(f);
 			}
+			
 			Arrays.sort(options); // sort these options
 			log.log("Optimal response selected.");
 			if( options[0].embed ) {
@@ -162,15 +180,17 @@ public class MessageReceived extends SuperEvent {
 					int index2 = options[0].text.lastIndexOf('\"');
 					event.getGuild().setUserNickname(event.getAuthor(), options[0].text.substring(index1, index2));
 				}
+				
 				if( options[0].proxy ) {
 					recipient = options[0].recipient;
 				}
+				
 				BotUtils.sendMessage( recipient, options[0].text ); // print out highest priority response option 
 			}
 			gi.userIndex.get( event.getAuthor() ).lastMessage = event.getMessage();
 		}
 	}
-	
+
 	public static boolean startsWithOneOf( String s, String[] prefixes ) {
 		for( String prefix : prefixes ) {
 			if( s.startsWith(prefix) ) {
@@ -179,11 +199,11 @@ public class MessageReceived extends SuperEvent {
 		}
 		return false;
 	}
-	
+
 	public static boolean startsWithOneOf( String s, List<String> prefixes ) {
 		return startsWithOneOf( s, prefixes.toArray( new String[ prefixes.size() ] ) );
 	}
-	
+
 	public static boolean isOneOf( String s, String[] texts ) {
 		for( String text: texts ) {
 			if( s.equalsIgnoreCase(text) ) {
@@ -192,24 +212,24 @@ public class MessageReceived extends SuperEvent {
 		}
 		return false;
 	}
-	
+
 	public static String getPrefix( String line ) {
 		int id = line.indexOf(":");
 		if( id == -1 ) {
 			id = line.indexOf(" ");
 		}
-		
+
 		if( id == -1 ) {
 			return ""; // There is no prefix
 		}
-		
+
 		return line.substring(0, id);
 	}
-	
+
 	public static String getPrefix( IMessage message ) {
 		return getPrefix( message.getContent() );
 	}
-	
+
 	public static String getPrefix( MessageReceivedEvent event ) {
 		return getPrefix( event.getMessage().getContent() );
 	}

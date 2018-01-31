@@ -39,7 +39,28 @@ public class HelpInvoker extends Invoker {
 			response += "\n";
 
 
-		} else if( tokens.size() > 1 ) { // Has arguments		
+		} else if( tokens.size() > 1 ) { // Has arguments	
+			log.indent(1).log("Finding help document for: " + tokens.get(1) );
+			
+			if( main.Brain.invokerModules.containsKey( tokens.get(1) ) ) {
+				log.indent(2).log("Found help document");
+				response = main.Brain.invokerModules.get( tokens.get(1) ).help;
+			} else if( library.Variables.commandPrefixes.contains( tokens.get(1) ) ) {
+				String invoker = getCommand( tokens.get(1) );
+				if( invoker == "" ) {
+					log.indent(2).log("Did not find help document");
+					response = "There is no module with that name, or that command.\n" +
+							"Are you sure that is a command?";
+				} else {
+					log.indent(2).log("Found help document");
+					response = main.Brain.invokerModules.get( invoker ).help;
+				}
+			} else {
+				log.indent(2).log("Did not find help document");
+				response = "There is no module with that name, or that command.\n" +
+						"Are you sure that is a command?";
+			}
+			/*
 			log.indent(1).log("Giving specific Help");
 			String target = remainder(primaryLineSet.tokens.get(0), primaryLineSet.line);
 			if( target.equalsIgnoreCase("Invoker") ) {
@@ -222,10 +243,20 @@ public class HelpInvoker extends Invoker {
 				response += "\n*\"Can someone remind me to \"check messages\" at 4 PM?\"*";
 				response += "\n*\"Remind me on March 26th to wish Alina a happy birthday.\"*";
 				response += "\n*\"CARIS, try to remind me in about 5 minutes.*";
-			}
+			} */
 		}
 
 		return build();
+	}
+	
+	private String getCommand( String prefix ) {
+		for( String s : main.Brain.invokerModules.keySet() ) {
+			if( main.Brain.invokerModules.get(s).prefix.equalsIgnoreCase( prefix ) ) {
+				return s;
+			}
+		}
+		
+		return "";
 	}
 
 }
