@@ -9,22 +9,22 @@ import tokens.Poll;
 import tokens.Response;
 
 public class PollInvoker extends Invoker_Multiline {
-	
+
 	public PollInvoker() {
 		this( Status.ENABLED );
 	}
-	
+
 	public PollInvoker( Status status ) {
 		this.status = status;
 		name = "Poll";
 		prefix = "cPoll";
 	}
-	
+
 	@Override
 	public Response process(MessageReceivedEvent event) {
 		multilineSetup(event);
-		
-		if( event.getMessage().getContent().equals("cPoll") ) {
+
+		if( tokens.size() == 1 ) { // No arguments passed
 			EmbedBuilder builder = new EmbedBuilder();
 			log.indent(1).log("PollInvoker triggered.");
 			builder.withTitle("**__Active Polls__**");
@@ -33,9 +33,7 @@ public class PollInvoker extends Invoker_Multiline {
 				builder.appendField(p.name, p.getVotes() + "vote(s)!", false);
 			}
 			embed = builder;
-		}
-		
-		if( tokens.get(0).equals("cPoll:") ) {
+		} else if( tokens.size() > 1 ) { // Has arguments
 			log.indent(1).log("PollInvoker triggered.");
 			String target = remainder(primaryLineSet.tokens.get(0), primaryLineSet.line);
 			if( target.isEmpty() ) {
@@ -131,5 +129,5 @@ public class PollInvoker extends Invoker_Multiline {
 		}
 		return build();
 	}
-	
+
 }

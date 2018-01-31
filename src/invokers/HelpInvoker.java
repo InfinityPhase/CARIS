@@ -19,9 +19,8 @@ public class HelpInvoker extends Invoker {
 	@Override
 	public Response process(MessageReceivedEvent event) {
 		multilineSetup(event);
-		log.log("Checking Help Invoker...");
-		if( event.getMessage().getContent().equalsIgnoreCase("cHelp") ) {
-			log.indent(1).log("INVOKED");
+		if( tokens.size() == 1 ) { // No arguments passed
+			log.indent(1).log("Giving generic Help");
 			response += "**__Help__**";
 			response += "\nCaris is controlled using two types of commands: *Invokers*, and *Responders*.";
 			response += "\n*Invokers* are commands that you specifically activate, while *Responders* utilize \"natural language processing\" to jump in at the right time.";
@@ -38,10 +37,10 @@ public class HelpInvoker extends Invoker {
 			response += "\nA simple responder would be CARIS's **Mention Responder**, which causes her to respond whenever someone says her name.";
 			response += "\nTo see a list of *Responders*, type ` cHelp: Responder `.";
 			response += "\n";
-		}
 
-		if( tokens.get(0).equalsIgnoreCase("cHelp:") ) {
-			log.indent(1).log("INVOKED");
+
+		} else if( tokens.size() > 1 ) { // Has arguments		
+			log.indent(1).log("Giving specific Help");
 			String target = remainder(primaryLineSet.tokens.get(0), primaryLineSet.line);
 			if( target.equalsIgnoreCase("Invoker") ) {
 				response += "**__Invokers__**";
