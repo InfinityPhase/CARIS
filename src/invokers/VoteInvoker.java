@@ -6,7 +6,7 @@ import tokens.LineSet;
 import tokens.Poll;
 import tokens.Response;
 
-public class VoteInvoker extends Invoker_Multiline {
+public class VoteInvoker extends Invoker {
 	
 	public VoteInvoker() {
 		this( Status.ENABLED );

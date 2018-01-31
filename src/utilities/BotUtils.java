@@ -32,92 +32,6 @@ public class BotUtils {
 	}
 
 	public static void sendMessage(IChannel channel, String message) {
-		// Yeah, its long, but it works
-		if( !Variables.guildIndex.get( channel.getGuild() ).blacklist.contains( channel ) && ( Variables.guildIndex.get( channel.getGuild() ).whitelist.isEmpty() || Variables.guildIndex.get( channel.getGuild() ).whitelist.contains( channel ) ) ) {
-			RequestBuffer.request(() -> {
-				try {
-					channel.sendMessage(message);
-				}
-				catch (DiscordException e) {
-					log.log("Message could not be sent with error: ");
-					e.printStackTrace();
-				}
-			});
-		}
-	}
-
-	public static void sendMessage( List<IChannel> channel, String message ) {
-		for( IChannel c : channel ) {
-			// Channel is not in the blacklist
-			if( !Variables.guildIndex.get( c.getGuild() ).blacklist.contains( c ) ) {
-				if( Variables.guildIndex.get( c.getGuild() ).whitelist.isEmpty() || !Variables.guildIndex.get( c.getGuild() ).whitelist.contains( c ) ) {
-					forceSendMessage( c, message );
-				}
-			}
-		}
-	}
-	
-	public static void sendMessage( IChannel c, EmbedBuilder embed ) {
-		if( !Variables.guildIndex.get( c.getGuild() ).blacklist.contains( c ) ) {
-			if( Variables.guildIndex.get( c.getGuild() ).whitelist.isEmpty() || !Variables.guildIndex.get( c.getGuild() ).whitelist.contains( c ) ) {
-				forceSendMessage( c, embed );
-			}
-		}
-	}
-	
-	public static void sendMessage( IChannel[] channel, EmbedBuilder embed ) {
-		for( IChannel c : channel ) {
-			// Channel is not in the blacklist
-			if( !Variables.guildIndex.get( c.getGuild() ).blacklist.contains( c ) ) {
-				if( Variables.guildIndex.get( c.getGuild() ).whitelist.isEmpty() || !Variables.guildIndex.get( c.getGuild() ).whitelist.contains( c ) ) {
-					forceSendMessage( c, embed );
-				}
-			}
-		}
-	}
-	
-	public static void sendMessage( List<IChannel> channel, EmbedBuilder embed ) {
-		for( IChannel c : channel ) {
-			// Channel is not in the blacklist
-			if( !Variables.guildIndex.get( c.getGuild() ).blacklist.contains( c ) ) {
-				if( Variables.guildIndex.get( c.getGuild() ).whitelist.isEmpty() || !Variables.guildIndex.get( c.getGuild() ).whitelist.contains( c ) ) {
-					forceSendMessage( c, embed );
-				}
-			}
-		}
-	}
-	
-	public static void sendMessage( IChannel c, EmbedObject embed ) {
-		if( !Variables.guildIndex.get( c.getGuild() ).blacklist.contains( c ) ) {
-			if( Variables.guildIndex.get( c.getGuild() ).whitelist.isEmpty() || !Variables.guildIndex.get( c.getGuild() ).whitelist.contains( c ) ) {
-				forceSendMessage( c, embed );
-			}
-		}
-	}
-	
-	public static void sendMessage( IChannel[] channel, EmbedObject embed ) {
-		for( IChannel c : channel ) {
-			// Channel is not in the blacklist
-			if( !Variables.guildIndex.get( c.getGuild() ).blacklist.contains( c ) ) {
-				if( Variables.guildIndex.get( c.getGuild() ).whitelist.isEmpty() || !Variables.guildIndex.get( c.getGuild() ).whitelist.contains( c ) ) {
-					forceSendMessage( c, embed );
-				}
-			}
-		}
-	}
-	
-	public static void sendMessage( List<IChannel> channel, EmbedObject embed ) {
-		for( IChannel c : channel ) {
-			// Channel is not in the blacklist
-			if( !Variables.guildIndex.get( c.getGuild() ).blacklist.contains( c ) ) {
-				if( Variables.guildIndex.get( c.getGuild() ).whitelist.isEmpty() || !Variables.guildIndex.get( c.getGuild() ).whitelist.contains( c ) ) {
-					forceSendMessage( c, embed );
-				}
-			}
-		}
-	}
-
-	public static void forceSendMessage( IChannel channel, String message ) {
 		RequestBuffer.request(() -> {
 			try {
 				channel.sendMessage(message);
@@ -127,9 +41,34 @@ public class BotUtils {
 				e.printStackTrace();
 			}
 		});
+
 	}
 
-	public static void forceSendMessage( List<IChannel> channels, String message ) {
+	public static void sendMessage( IChannel[] channel, EmbedBuilder embed ) {
+		for( IChannel c : channel ) {
+			sendMessage( c, embed );
+		}
+	}
+
+	public static void sendMessage( List<IChannel> channel, EmbedBuilder embed ) {
+		for( IChannel c : channel ) {
+			sendMessage( c, embed );
+		}
+	}
+
+	public static void sendMessage( IChannel[] channel, EmbedObject embed ) {
+		for( IChannel c : channel ) {
+			sendMessage( c, embed );
+		}
+	}
+
+	public static void sendMessage( List<IChannel> channel, EmbedObject embed ) {
+		for( IChannel c : channel ) {
+			sendMessage( c, embed );
+		}
+	}
+
+	public static void sendMessage( List<IChannel> channels, String message ) {
 		for( IChannel c : channels ) {
 			RequestBuffer.request(() -> {
 				try {
@@ -142,8 +81,8 @@ public class BotUtils {
 			});
 		}
 	}
-	
-	public static void forceSendMessage( IChannel channel, EmbedBuilder embed ) {
+
+	public static void sendMessage( IChannel channel, EmbedBuilder embed ) {
 		RequestBuffer.request(() -> {
 			try {
 				channel.sendMessage( embed.build() );
@@ -154,8 +93,8 @@ public class BotUtils {
 			}
 		});
 	}
-	
-	public static void forceSendMessage( IChannel channel, EmbedObject embed ) {
+
+	public static void sendMessage( IChannel channel, EmbedObject embed ) {
 		RequestBuffer.request(() -> {
 			try {
 				channel.sendMessage( embed );
@@ -170,7 +109,7 @@ public class BotUtils {
 	public static void sendLog( IGuild guild, String message ) {
 		// Send the message to the guild's log channel, if it exists
 		if( Variables.guildIndex.get( guild ).logChannel != -1 ) {
-			forceSendMessage( guild.getChannelByID( Variables.guildIndex.get( guild ).logChannel ), message );
+			sendMessage( guild.getChannelByID( Variables.guildIndex.get( guild ).logChannel ), message );
 		}
 	}
 

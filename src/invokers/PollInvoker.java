@@ -8,7 +8,7 @@ import tokens.LineSet;
 import tokens.Poll;
 import tokens.Response;
 
-public class PollInvoker extends Invoker_Multiline {
+public class PollInvoker extends Invoker {
 
 	public PollInvoker() {
 		this( Status.ENABLED );

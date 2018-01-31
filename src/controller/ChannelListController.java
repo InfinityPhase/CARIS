@@ -18,6 +18,7 @@ public class ChannelListController extends Controller {
 	public ChannelListController( Status status ) {
 		this.status = status;
 		name = "Channel List";
+		avalibility = Avalibility.ALWAYS; // Allows us to un-blacklist a channel
 	}
 
 	private String[] sameChannel = { "here", "this" };
