@@ -35,9 +35,7 @@ public class _8BallInvoker extends Invoker {
 	};
 
 	public _8BallInvoker() {
-		name = "8Ball";
-		status = Status.ENABLED;
-		prefix = "c8Ball";
+		 this(Status.ENABLED);
 	}
 
 	public _8BallInvoker( Status status ) {

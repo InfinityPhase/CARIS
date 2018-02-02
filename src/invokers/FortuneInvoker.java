@@ -7,9 +7,7 @@ import tokens.Response;
 public class FortuneInvoker extends Invoker {
 
 	public FortuneInvoker() {
-		status = Status.ENABLED;
-		name = "Fortune";
-		prefix = "cFortune";
+		this( Status.ENABLED );
 	}
 
 	public FortuneInvoker( Status status ) {
