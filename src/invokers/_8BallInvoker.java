@@ -44,11 +44,17 @@ public class _8BallInvoker extends Invoker {
 		this.status = status;
 		prefix = "c8Ball";
 		name = "8Ball";
+		help = "**__c8ball__**"  +
+				"\nThis command is used to randomly answer yes/no questions."  +
+				"\nPlease do not take these answers as life advice."  +
+				"\nThere are no subcommands available."  +
+				"\n"  +
+				"\n```c8ball: Will I ever find love?```";
 	}
 
 	public Response process(MessageReceivedEvent event) {
 		tokenSetup(event);
-		
+
 		Random r = new Random();
 		if( containsIgnoreCase( messageText, " Caris " ) ) {
 			response = "I refuse to answer questions about myself.";

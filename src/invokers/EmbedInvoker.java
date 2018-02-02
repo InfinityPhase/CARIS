@@ -17,6 +17,31 @@ public class EmbedInvoker extends Invoker {
 		this.status = status;
 		name = "Embed";
 		prefix = "cEmbed";
+		help = "\n__cEmbed__"  +
+				"\nThis command allows you to create Embeded messages."  +
+				"\nUse ` cEmbed: <Title> ` as the *Main Command*"  +
+				"\nEach subcommand represents a property in the Embed, along with its content."  +
+				"\nHere are the properties you can edit:"  +
+				"\n\t\t` title <Text> `\t\t-\t\t*The display title of the embed*"  +
+				"\n\t\t` url <Link> `\t\t-\t\t*The link clicking the embed forwards you to*"  +
+				"\n\t\t` description <Text> `\t\t-\t\t*The description of the embed*"  +
+				"\n\t\t` color <Text> `\t\t-\t\t*The color of the embed sidebar*"  +
+				"\n\t\t` image <Image Link> `\t\t-\t\t*A url linking to an image*"  +
+				"\n\t\t` field <Text> | <Text> `\t\t-\t\t*A field with it's own content*"  +
+				"\n\t\t` field-inline <Text> ` | <Text>\t\t-\t\t*A field but in line with other field-inlines*"  +
+				"\n\t\t\t\t*fields have two parts  + the title and the content, separated by \" | \".*"  +
+				"\n\t\t` author <Text> `\t\t-\t\t*The display author of the embed*"  +
+				"\n\t\t` thumbnail <Image Link> `\t\t-\t\t*A url linking to a thumbnail image*"  +
+				"\n\t\t` footer-icon <Image Link> `\t\t-\t\t*A url linking to the footer icon*"  +
+				"\n\t\t` footer-text <Text> `\t\t-\t\t*Text shown at the end of an embed*"  +
+				"\n"  +
+				"\n```cEmbed: New Embed"  +
+				"\ntitle A new Embed"  +
+				"\ndescription Basically a test of the embed invoker"  +
+				"\ncolor blue"  +
+				"\nimage https://cdn.discordapp.com/embed/avatars/0.png"  +
+				"\nfield Field Name | Field Content"  +
+				"\nfooter-text End of the embed!```";
 	}
 
 	@Override

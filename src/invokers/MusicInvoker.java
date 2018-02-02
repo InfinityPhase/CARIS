@@ -24,7 +24,15 @@ public class MusicInvoker extends Invoker {
 		this.status = status;
 		name = "Music";
 		prefix = "cMusic";
-	}
+		help = "**__cMusic__**"  +
+				"\nThis command controlls how caris plays audio."  +
+				"\nYou must specify a subcommand with this invoker." + 
+				"\n\t\t` play <\"Song\"> `\\t\\t-\\t\\t*Adds the Song given in quotes to the current playlist*"  +
+				"\n\t\t` skip `\\t\\t-\\t\\t*Goes to the next song queued to play*" +
+				"\n\t\t` stop `\\t\\t-\\t\\t*Stops caris from playing audio*" +
+				"\n"  +
+				"\n```cNick set caris```" +
+				"\n```cNick reset```";	}
 
 	public Response process(MessageReceivedEvent event) {
 		messageSetup(event);

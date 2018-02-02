@@ -18,6 +18,22 @@ public class PollInvoker extends Invoker {
 		this.status = status;
 		name = "Poll";
 		prefix = "cPoll";
+		help = "**__cPoll__**"  +
+				"\nThis command lets you create polls other people can vote on."  +
+				"\nUse ` cPoll: <Poll Name> ` as the *Main Command*."  +
+				"\nIf no subcommands are used, CARIS will display the current state of the poll."  +
+				"\n"  +
+				"\n\t\t` description <Text> `\t\t-\t\t*Sets the description or question the poll is asking*"  +
+				"\n\t\t` option <Text> `\t\t-\t\t*Adds a votable option to the poll*"  +
+				"\n\t\t` add <Text> `\t\t-\t\t*If the poll already exists, adds a new option to the poll*"  +
+				"\n\t\t` remove <Text> `\t\t-\t\t*If the poll already exists, removes an option from the poll*"  +
+				"\n\t\t` reset `\t\t-\t\t*Removes all votes from the poll*"  +
+				"\n\t\t` end `\t\t-\t\t*Ends the poll and displays the results*"  +
+				"\n"  +
+				"\n```cPoll: Apples v Oranges"  +
+				"\ndescription Do you prefer apples, or oranges?"  +
+				"\noption Apples"  +
+				"\noption Oranges```";
 	}
 
 	@Override

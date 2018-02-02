@@ -15,6 +15,12 @@ public class EchoInvoker extends Invoker {
 		this.status = status;
 		prefix = "cEcho";
 		name = "Echo Invoker";
+		help = "**__cEcho__**"  +
+				"\nThis command is used to make CARIS say somemthing."  +
+				"\nPlease don't abuse this command."  +
+				"\nThere are no subcommands available."  +
+				"\n"  +
+				"\n```cEcho: My name is CARIS!```";
 	}
 
 	@Override
