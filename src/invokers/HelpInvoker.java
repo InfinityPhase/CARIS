@@ -90,6 +90,8 @@ public class HelpInvoker extends Invoker {
 					log.indent(2).log("Found help document");
 					response = main.Brain.invokerModules.get( invoker ).help;
 				}
+			} else if( main.Brain.responderModules.containsKey( target ) ) {
+				// Is it a responder?
 			} else {
 				log.indent(2).log("Did not find help document");
 				response = "There is no module with that name, or that command.\n" +
