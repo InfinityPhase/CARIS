@@ -6,14 +6,19 @@ import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedE
 import tokens.Response;
 
 public class LocationResponder extends Responder {
-	
+
 	public LocationResponder() {
 		this(Status.ENABLED);
 	}
-	
+
 	public LocationResponder( Status status ) {
 		this.status = status;
 		name = "Location";
+		help = "\n**__Location Responder__**"  +
+				"\nIf you ask where anyone is, or who's at a certain location, CARIS will see if she knows, and respond appropriately."  +
+				"\n"  +
+				 "\n*\"Where the heck did Alina go?\"*"  +
+				 "\n*\"Does anyone know who's at school right now?\"*";
 	}
 
 	@Override

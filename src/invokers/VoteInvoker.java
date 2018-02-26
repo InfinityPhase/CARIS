@@ -7,21 +7,28 @@ import tokens.Poll;
 import tokens.Response;
 
 public class VoteInvoker extends Invoker {
-	
+
 	public VoteInvoker() {
 		this( Status.ENABLED );
 	}
-	
+
 	public VoteInvoker( Status status ){
 		this.status = status;
 		name = "Vote";
 		prefix = "cVote";
+		help =  "**__cVote__**"  +
+				"\nThis command lets others vote on existing polls."  +
+				"\nUse ` cVote: <Poll Name> ` as the *Main Command*."  +
+				"\nInstead of subcommands, simply type the choice(s) you wish to vote for."  +
+				"\n"  +
+				"\n```cVote: Apples v Oranges"  +
+				"\nApples```";
 	}
 
 	@Override
 	public Response process(MessageReceivedEvent event) {
 		multilineSetup(event);
-		
+
 		if( tokens.size() == 1 ) { // No arguments passed
 			EmbedBuilder builder = new EmbedBuilder();
 			log.indent(1).log("VoteInvoker triggered.");
@@ -55,5 +62,5 @@ public class VoteInvoker extends Invoker {
 		}
 		return build();
 	}
-	
+
 }
