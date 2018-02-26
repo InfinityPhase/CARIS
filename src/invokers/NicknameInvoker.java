@@ -13,11 +13,19 @@ public class NicknameInvoker extends Invoker {
 		this.status = status;
 		name = "Nickname";
 		prefix = "cNick";
+		help = "**__cNick__**"  +
+				"\nThis command changes your Discord nickname."  +
+				"\nThis change is only visible in your current guild, and will not display in any other guilds you are a part of."  +
+				"\nYou must specify a subcommand with this invoker." + 
+				"\n\t\t` set <Name> `\\t\\t-\\t\\t*Change your nickname to the given Name*"  +
+				"\n\t\t` reset `\\t\\t-\\t\\t*Reset your nickname to your global Discord username*" +
+				"\n"  +
+				"\n```cNick set caris```" +
+				"\n```cNick reset```";
 	}
 
 	@Override
 	public Response process(MessageReceivedEvent event) {
-		System.out.println("NickInvoker");
 		tokenSetup(event);
 		if( tokens.size() < 2 ) {
 			response = "Syntax Error: Command not specified.";

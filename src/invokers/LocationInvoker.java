@@ -17,6 +17,19 @@ public class LocationInvoker extends Invoker {
 		this.status = status;
 		name = "Location";
 		prefix = "cLoc";
+		help = "**__cLocation__**"  +
+				 "\nThis command allows you to keep track of where everyone is."  +
+				 "\nUse ` cLoc: <Location Name> ` as the *Main Command*."  +
+				 "\n"  +
+				 "\n\t\t` add <Name> `\t\t-\t\t*Adds a person to a location*"  +
+				 "\n\t\t` remove <Name> `\t\t-\t\t*Removes a person from a location*"  +
+				 "\n\t\t` reset `\t\t-\t\t*Removes everyone from a location*"  +
+				 "\n"  +
+				 "\n```cLocation: School"  +
+				 "\nreset"  +
+				 "\nadd Alina"  +
+				 "\nadd Anthony"  +
+				 "\nremove Alina```";
 	}
 
 	public Response process(MessageReceivedEvent event) {	
