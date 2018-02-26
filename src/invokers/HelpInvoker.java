@@ -97,47 +97,6 @@ public class HelpInvoker extends Invoker {
 				response = "There is no module with that name, or that command.\n" +
 						"Are you sure that is a command?";
 			}
-			/*				 
-			} else if( target.equalsIgnoreCase("rHelp") ) {
-				 "**__Help Responder__**"  +
-				 "\nIf you say anything like \"how do I use CARIS\" in the chat, CARIS will respond with the help menu."  +
-				 "\n"  +
-
-				 "\n*\"Hey, how am I supposed to use CARIS?\"*"  +
-			} else if( target.equalsIgnoreCase("rLocation") ) {
-				 "\n**__Location Responder__**"  +
-				 "\nIf you ask where anyone is, or who's at a certain location, CARIS will see if she knows, and respond appropriately."  +
-				 "\n"  +
-
-				 "\n*\"Where the heck did Alina go?\"*"  +
-				 "\n*\"Does anyone know who's at school right now?\"*"  +
-			} else if( target.equalsIgnoreCase("rMention") ) {
-				 "**__Mention Reponder__**"  +
-				 "\nPretty simple: you say CARIS's name, she responds."  +
-				 "\n"  +
-
-				 "\n*\"Caris, are you online?\"*"  +
-			} else if( target.equalsIgnoreCase("rNickname") ) {
-				 "**__Nickname Responder__**"  +
-				 "\nIf you ask CARIS to set your name to something in the chat, she'll do it for you."  +
-				 "\nRemember to put your name in quotes!"  +
-				 "\n"  +
-
-				 "\n*\"Caris, set my name to \"Alina Kim\".\"*"  +
-				 "\n*\"My name is \"Alina Kim\"!\"*"  +
-			} else if( target.equalsIgnoreCase("rReminder") ) {
-				 "\n**__Reminder Responder__**"  +
-				 "\nYou can even ask CARIS to set reminders for you!"  +
-				 "\nYou can ask her to remind you at a certain time, or in a certain timer."  +
-				 "\nKeep in mind that you need to use military time, or PM."  +
-				 "\nUse digits instead of words to express numbers."  +
-				 "\nIf you want to include a message, put it in quotes."  +
-				 "\n"  +
-
-				 "\n*\"Can someone remind me to \"check messages\" at 4 PM?\"*"  +
-				 "\n*\"Remind me on March 26th to wish Alina a happy birthday.\"*"  +
-				 "\n*\"CARIS, try to remind me in about 5 minutes.*"  +
-			} */
 		}
 
 		return build();
