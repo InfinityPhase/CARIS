@@ -10,13 +10,23 @@ import sx.blah.discord.handle.obj.IChannel;
 import tokens.Response;
 
 public class ChannelListController extends Controller {
+	
+	public ChannelListController() {
+		this(Status.ENABLED);
+	}
+	
+	public ChannelListController( Status status ) {
+		this.status = status;
+		name = "Channel List";
+		avalibility = Avalibility.ALWAYS; // Allows us to un-blacklist a channel
+	}
 
 	private String[] sameChannel = { "here", "this" };
 	private String[] remove = { "remove", "rm", "minus", "sub", "subtract" };
 
 	@Override
 	public Response process( MessageReceivedEvent event ) {
-		setup(event);
+		tokenSetup(event);
 
 		log.log( "Checking list invoker");
 		if( tokens.get(0).equalsIgnoreCase("get") ) {

@@ -12,33 +12,43 @@ public class PollBuilder {
 	
 	public EmbedBuilder start(Poll p) {
 		EmbedBuilder builder = new EmbedBuilder();
+		builder.withAuthorIcon(p.author.getAvatarURL());
 		builder.withTitle("**__" + p.name + "__**");
-		builder.withDesc("*" + p.description + "*");
+		if( !p.description.isEmpty() ) {
+			builder.withDesc("*" + p.description + "*" + "```\ncVote: " + p.name + "\n<option>```");
+		} else {
+			builder.withDesc("```\ncVote: " + p.name + "\n<option>```");
+		}
 		for( String option : p.options.keySet() ) {
 			builder.appendField(option, p.options.get(option).size() + " votes!", false);
 		}
-		builder.withFooterText("Type `.c vote cast \"" + p.name + "\" <option>" + "` to vote.");
+		builder.withFooterText("Poll created by " + p.author.getDisplayName(p.guild));
 		builder.withAuthorName("Poll created!");
 		return builder;
 	}
 	
-	public EmbedBuilder check(Poll p) {
+	public EmbedBuilder check(Poll p, IUser invoker) {
 		EmbedBuilder builder = new EmbedBuilder();
+		builder.withAuthorIcon(invoker.getAvatarURL());
 		builder.withTitle("**__" + p.name + "__**");
-		builder.withDesc("*" + p.description + "*");
+		builder.withDesc("*" + p.description + "*" + 
+				"```\ncVote: " + p.name +
+				"\n<option>```");
 		for( String option : p.options.keySet() ) {
 			builder.appendField(option, p.options.get(option).size() + " votes!", false);
 		}
-		builder.withFooterText("Type `.c vote cast \"" + p.name + "\" <option>" + "` to vote.");
+		builder.withFooterText("Poll created by " + p.author.getDisplayName(p.guild));
 		builder.withAuthorName("Poll Status:");
 		return builder;
 	}
 	
-	@SuppressWarnings("unlikely-arg-type")
 	public EmbedBuilder end(Poll p) {
 		EmbedBuilder builder = new EmbedBuilder();
+		builder.withAuthorIcon(p.author.getAvatarURL());
 		builder.withTitle("**__" + p.name + "__**");
-		builder.withDesc("*" + p.description + "*");
+		builder.withDesc("*" + p.description + "*" + 
+				"```\ncVote: " + p.name +
+				"\n<option>```");
 		for( String option : p.options.keySet() ) {
 			builder.appendField(option, p.options.get(option).size() + " votes!", false);
 		}
@@ -68,24 +78,25 @@ public class PollBuilder {
 		} else {
 			builder.withAuthorName("The winner is " + winner + "!");
 		}
+		builder.withFooterText("Poll created by " + p.author.getDisplayName(p.guild));
 		return builder;
 	}
-	public EmbedBuilder cast(Poll p, IUser user, String choice) {
+	public EmbedBuilder cast(Poll p, IUser invoker, String choice) {
 		EmbedBuilder builder = new EmbedBuilder();
 		boolean voted = false;
 		String previous = "";
 		for( String option : p.options.keySet() ) {
-			if( p.options.get(option).contains(user.getName()) ) {
-				p.options.get(option).remove(user.getName());
-				p.options.get(choice).add(user.getName());
+			if( p.options.get(option).contains(invoker.getName()) ) {
+				p.options.get(option).remove(invoker.getName());
+				p.options.get(choice).add(invoker.getName());
 				voted = true;
 				previous = option;
 			}
 		}
 		if( !voted ) {
-			p.options.get(choice).add(user.getName());
+			p.options.get(choice).add(invoker.getName());
 		}
-		builder = check(p);
+		builder = check(p, invoker);
 		if( voted ) {
 			if( previous.equals(choice) ) {
 				builder.withAuthorName("You have already voted for \"" + choice + "\"!");
@@ -99,15 +110,24 @@ public class PollBuilder {
 	public EmbedBuilder add(Poll p, String choice) {
 		EmbedBuilder builder = new EmbedBuilder();
 		p.options.put(choice, new ArrayList<String>());
-		builder = check(p);
+		builder = check(p, p.author);
 		builder.withAuthorName("Option \"" + choice + "\" added!");
 		return builder;
 	}
 	public EmbedBuilder remove(Poll p, String choice) {
 		EmbedBuilder builder = new EmbedBuilder();
 		p.options.remove(choice);
-		builder = check(p);
+		builder = check(p, p.author);
 		builder.withAuthorName("Option \"" + choice + "\" removed!");
+		return builder;
+	}
+	public EmbedBuilder reset(Poll p) {
+		EmbedBuilder builder = new EmbedBuilder();
+		for( String choice : p.options.keySet() ) {
+			p.options.put(choice, new ArrayList<String>());
+		}
+		builder = check(p, p.author);
+		builder.withAuthorName("Poll Reset!");
 		return builder;
 	}
 }

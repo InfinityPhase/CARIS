@@ -6,9 +6,18 @@ import tokens.Response;
 
 public class SaveController extends Controller {
 	
+	public SaveController() {
+		this(Status.ENABLED);
+	}
+	
+	public SaveController( Status status ) {
+		this.status = status;
+		name = "Save";
+	}
+	
 	@Override
 	public Response process(MessageReceivedEvent event) {
-		setup(event);
+		tokenSetup(event);
 		if( tokens.size() > 0 ) {
 			if( tokens.get(0).equals("save") ) {
 				Variables.ds.save();

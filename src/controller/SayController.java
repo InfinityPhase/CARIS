@@ -8,6 +8,15 @@ import tokens.Response;
 
 public class SayController extends Controller {
 	
+	public SayController() {
+		this(Status.ENABLED);
+	}
+	
+	public SayController( Status status ) {
+		this.status = status;
+		name = "Say";
+	}
+	
 	@Override
 	public Response process(MessageReceivedEvent event) {
 		messageSetup(event);

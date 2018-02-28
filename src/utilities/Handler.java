@@ -13,9 +13,38 @@ import tokens.Response;
 
 public class Handler {
 	// The base handler class. Extend this into other classes.
-	
-	static protected Logger log = new Logger().setDefaultIndent( 0 ).setBaseIndent( 2 ).build();
-	
+
+	protected enum Setup {
+		UNSET,
+		TOKEN,
+		MESSAGE
+	};
+
+	public enum Status {
+		ENABLED,
+		DISABLED,
+		ADMIN,
+		LIMITED
+	};
+
+	public enum Avalibility {
+		// Alters how this module responds to blacklists, and other control lists
+		STANDARD, // Respects blacklists and whitelists
+		ALWAYS // Can never be blocked
+	};
+
+	public Status status = Status.DISABLED; // If you don't set this, then don't even try to work
+	public Avalibility avalibility = Avalibility.STANDARD; // This should almost always be used
+	public String name;
+	public String prefix;
+
+	public String help = "This module does not have a help document attached.\n" + 
+			"Please contact the maintainers so that they will do their job, and add more information for me.";
+
+	protected Setup setupType = Setup.UNSET;
+
+	protected Logger log = new Logger().setDefaultIndent( 0 ).setBaseIndent( 2 ).build();
+
 	protected String response;
 	protected String message;
 	protected EmbedBuilder embed;
@@ -23,17 +52,26 @@ public class Handler {
 	protected IChannel recipient;
 	protected ArrayList<String> tokens;
 	protected GuildInfo variables;
-	
+
 	public Handler() {
-		
+
 	}
-	
+
 	public Response process(MessageReceivedEvent event) {
-		setup(event);
+		conditionalSetup(event);
 		return build();
 	}
-	
-	protected void setup(MessageReceivedEvent event) {
+
+	protected void conditionalSetup(MessageReceivedEvent event) {
+		if( containsAnyQuotes(event.getMessage().getContent()) ) {
+			messageSetup(event);
+		} else {
+			tokenSetup(event);
+		}
+	}
+
+	protected void tokenSetup(MessageReceivedEvent event) {
+		setupType = Setup.TOKEN;
 		response = "";
 		message = "";
 		embed = null;
@@ -41,8 +79,9 @@ public class Handler {
 		tokens = tokenize(event);
 		variables = Variables.guildIndex.get(event.getGuild());
 	}
-	
+
 	protected void messageSetup(MessageReceivedEvent event) {
+		setupType = Setup.MESSAGE;
 		response = "";
 		message = "";
 		embed = null;
@@ -50,21 +89,23 @@ public class Handler {
 		tokens = tokenize(event);
 		variables = Variables.guildIndex.get(event.getGuild());
 	}
-	
+
 	protected int getPriority() {
 		return 0;
 	}
-	
+
 	protected String format(MessageReceivedEvent event) {
 		String messageText = event.getMessage().getContent();
 		messageText = " " + messageText + " ";
 		return messageText;
 	}
-	
+
 	protected String messageFormat(MessageReceivedEvent event) {
 		String messageText = event.getMessage().getContent();
 		int q1 = messageText.indexOf("\"");
+		int q1alt = messageText.indexOf("�");
 		int q2 = messageText.lastIndexOf("\"");
+		int q2alt = messageText.indexOf("�");
 		if( q1 != -1 && q1 != q2 ) {
 			message = messageText.substring(q1+1, q2);
 			String a = messageText.substring(0, q1);
@@ -73,18 +114,26 @@ public class Handler {
 				b = messageText.substring(q2+1);
 			}
 			messageText = a + b;
+		} else if ( q1alt != -1 && q2alt != q1alt ) {
+			message = messageText.substring(q1alt+1, q2alt);
+			String a = messageText.substring(0, q1alt);
+			String b = "";
+			if( q2alt != messageText.length()-1 ) {
+				b = messageText.substring(q2alt+1);
+			}
+			messageText = a + b;
 		}
 		return messageText;
 	}
-	
+
 	protected ArrayList<String> tokenize(MessageReceivedEvent event) {
 		return Brain.tp.parse(event.getMessage().getContent());
 	}
-	
-	protected ArrayList<String> messageTokenize() {
-		return Brain.tp.parse(messageText);
+
+	protected ArrayList<String> tokenize( String s ) {
+		return Brain.tp.parse(s);
 	}
-	
+
 	protected Response build() {
 		if( embed == null ) {
 			return buildResponse();
@@ -92,7 +141,7 @@ public class Handler {
 			return buildEmbed();
 		}
 	}
-	
+
 	protected Response buildResponse() {
 		if( recipient == null ) {
 			return new Response(response, getPriority());
@@ -107,7 +156,7 @@ public class Handler {
 			return new Response(embed, getPriority(), recipient, true);
 		}
 	}
-	
+
 	protected boolean hasIgnoreCase(ArrayList<String> a, String b) {
 		for( String token: a ) {
 			if( token.equalsIgnoreCase(b) ) {
@@ -116,7 +165,7 @@ public class Handler {
 		}
 		return false;
 	}
-	
+
 	protected boolean hasIgnoreCase(String[] a, String b) {
 		for( String token: a ) {
 			if( token.equalsIgnoreCase(b) ) {
@@ -125,7 +174,7 @@ public class Handler {
 		}
 		return false;
 	}
-	
+
 	protected boolean hasIgnoreCase(Set<String> a, String b) {
 		for( String token: a ) {
 			if( token.equalsIgnoreCase(b) ) {
@@ -134,11 +183,11 @@ public class Handler {
 		}
 		return false;
 	}
-	
+
 	protected boolean containsIgnoreCase(String a, String b) {
 		return a.toLowerCase().contains(b.toLowerCase());
 	}
-	
+
 	protected boolean containsIgnoreCase(ArrayList<String> a, String b) {
 		for( String token : a ) {
 			if( containsIgnoreCase(token, b) ) {
@@ -147,7 +196,7 @@ public class Handler {
 		}
 		return false;
 	}
-	
+
 	protected boolean containsIgnoreCase(String[] a, String b) {
 		for( String token : a ) {
 			if( containsIgnoreCase(token, b) ) {
@@ -156,7 +205,11 @@ public class Handler {
 		}
 		return false;
 	}
-	
+
+	protected boolean containsAnyQuotes( String s ) {
+		return s.contains("\"") || s.contains("�") || s.contains("�");
+	}
+
 	protected Boolean containsIgnoreCase(Set<String> a, String b) {
 		for( String token : a ) {
 			if( containsIgnoreCase(token, b) ) {
@@ -164,5 +217,23 @@ public class Handler {
 			}
 		}
 		return false;
+	}
+
+	protected String remainder( String prefix ) {
+		return remainder(prefix, messageText);
+	}
+
+	protected String remainder( String prefix, String line ) {
+		int i1 = line.indexOf(prefix);
+		if( i1 != -1 ) {
+			int i2 = i1 + prefix.length();
+			String s = line.substring(i2);
+			while( s.startsWith(" ") ) {
+				s = s.substring(1);
+			}
+			return s;
+		} else {
+			return "";
+		}
 	}
 }
