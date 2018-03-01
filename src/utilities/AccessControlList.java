@@ -34,48 +34,65 @@ public class AccessControlList {
 	private Map<Group, Permission> permissions = new HashMap<Group, Permission>();
 
 	private class Permission { // Stores the permission level values
-		public boolean canShare;
-		public permLevel level;
-		
-		public boolean owner;
-		public boolean write;
-		public boolean read;
+		private boolean canShare;
+		private permLevel level;
 
 		private Permission( permLevel level, boolean canShare ){
 			this.level = level;
 			this.canShare = canShare;
-			
-			switch( level ) {
-			case OWNER:
-				owner = true;
-				write = true;
-				read = true;
-				break;
-			case WRITE:
-				owner = false;
-				write = true;
-				read = true;
-				break;
-			case READ:
-				owner = false;
-				write = false;
-				read = true;
-				break;
-			case NONE:
-				owner = false;
-				write = false;
-				read = false;
-				break;
-			default:
-				owner = false;
-				write = false;
-				read = false;
-				break;				
-			}
 		}
 
 		private Permission( permLevel level ) {
 			this( level, false );
+		}
+		
+		public boolean canRead() {
+			switch( level ) {
+			case OWNER:
+				return true;
+			case WRITE:
+				return true;
+			case READ:
+				return true;
+			case NONE:
+				return false;
+			default:
+				return false;
+			}
+		}
+		
+		public boolean canWrite() {
+			switch( level ) {
+			case OWNER:
+				return true;
+			case WRITE:
+				return true;
+			case READ:
+				return false;
+			case NONE:
+				return false;
+			default:
+				return false;
+			}
+		}
+		
+		public boolean isOwner() {
+			switch( level ) {
+			case OWNER:
+				return true;
+			case WRITE:
+				return false;
+			case READ:
+				return false;
+			case NONE:
+				return false;
+			default:
+				return false;
+			}
+		}
+		
+		public boolean canShare() {
+			return canShare;
 		}
 	}
 
