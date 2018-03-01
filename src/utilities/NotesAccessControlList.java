@@ -8,13 +8,9 @@ import sx.blah.discord.handle.obj.IGuild;
 import sx.blah.discord.handle.obj.IRole;
 import sx.blah.discord.handle.obj.IUser;
 
-public class AccessControlList {
+public class NotesAccessControlList {
 
-	public Class klass;
-
-	public AccessControlList( Class klass ) {
-		this.klass = klass;
-	}
+	public NotesAccessControlList() {}
 
 	enum permLevel {
 		OWNER,
@@ -176,12 +172,18 @@ public class AccessControlList {
 		addGroup( group, id, level, false );
 	}
 	
-	/* Get Permission object about a subset of users */
+	/* Gets group permissions */
 	
-	private Permission getGroupPermission( Group group ) {
-		return permissions.get( group );
+	public boolean canWrite( Group group ) {
+		return permissions.get( group ).canWrite();
 	}
 	
-	/* More userfriendly stuff */
+	public boolean canRead( Group group ) {
+		return permissions.get( group ).canRead();
+	}
+	
+	public boolean canShare( Group group ) {
+		return permissions.get( group ).canShare();
+	}
 
 }
