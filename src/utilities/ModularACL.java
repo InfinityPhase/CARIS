@@ -121,7 +121,7 @@ public class ModularACL {
 			return false;
 		}
 		
-		public boolean addLevel( Level level ) {
+		public boolean addLevel( Level level ) { // Theoretically, this will be fine...
 			if( powerLevel.get( this ) == powerLevel.get( level ) ) { // Uses inverse counting, 0 is best
 				subset.add( level );
 				powerLevel.put( level, powerLevel.get( level ) + 1 );
@@ -207,6 +207,32 @@ public class ModularACL {
 	
 	private class Attribute {
 		
+		private String name;
+		private Object valueDefault;
+		private Object value;
+		
+		public Attribute( String name, Object valueDefault ) {
+			this.name = name;
+			this.valueDefault = valueDefault;
+			this.value = valueDefault;
+		}
+		
+		public void reset() {
+			value = valueDefault;
+		}
+		
+		public void setValue( Object value ) {
+			this.value = value;
+		}
+		
+		public Object getValue() {
+			return value;
+		}
+		
+		public String getName() {
+			return name;
+		}
+		
 	}
 	
 	public void addLevel( String name, String subset ) {
@@ -214,18 +240,44 @@ public class ModularACL {
 	}
 	
 	public void addAttribute( String name, Object value ) {
-		
+		attributes.add( new Attribute( name, value ) );
 	}
 	
 	/* Confirming values */
 	
-	private boolean hasPermission( Level[] levels, Level desired ) {
+	public void recalculatePowerLevel() {
+		// Traverses level inheritance tree to calculate the minimum possible level for each.
+		// Is computationally possibly expensive
+	}
+	
+	public boolean hasLevel( Restriction restrict, Level level ) { // Will theoretically work
+		// restrict: The given restriction of values
+		// level: The current level to check against the perm
+		
+		for( Level l : restrict.levels ) {
+			if( hasLevel( l.subset, level ) ) {
+				return true;
+			}
+		}
+		
 		return false;
 	}
 	
-	private void recalculatePowerLevel() {
-		// Traverses level inheritance tree to calculate the minimum possible level for each.
-		// Is computationally possibly expensive
+	private boolean hasLevel( List<Level> levelSet, Level levelCheck ) {
+		return hasLevel( levelSet.toArray( new Level[ levelSet.size() ] ), levelCheck );
+	}
+	
+	private boolean hasLevel( Level[] levelSet, Level levelCheck ) {
+		
+		for( Level l : levelSet ) {
+			if( l.name == levelCheck.name ) {
+				return true;
+			} else {
+				return hasLevel( l.subset, levelCheck );
+			}
+		}
+		
+		return false;
 	}
 
 }
