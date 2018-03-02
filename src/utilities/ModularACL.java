@@ -187,16 +187,12 @@ public class ModularACL {
 		}
 		
 		public boolean containsLevel( Level level ) {
-			if( levels.contains( level ) ) {
-				return true;
-			}
-			
-			return false;
+			return hasLevel( levels, level );
 		}
 		
 		public boolean containsLevels( Level[] level ) {
 			for( Level l : level ) {
-				if( levels.contains( l ) ) {
+				if( hasLevel( levels, l ) ) {
 					return true;
 				}
 			}
@@ -235,22 +231,105 @@ public class ModularACL {
 		
 	}
 	
-	public void addLevel( String name, String subset ) {
-		// TODO STUFF
-	}
-	
 	public void addAttribute( String name, Object value ) {
 		attributes.add( new Attribute( name, value ) );
 	}
 	
 	/* Confirming values */
 	
+	public boolean canUse( Method m, String level ) {
+		Level levelObj = null;
+		for( Level l : levels ) {
+			if( l.name == level ) {
+				levelObj = l;
+				break;
+			}
+		}
+		
+		if( levelObj != null ) {
+			return hasLevel( functionRestrictions.get(m), levelObj );
+		}
+		
+		return false;
+	}
+	
+	public boolean canUse( Method m, Level level ) {
+		return hasLevel( functionRestrictions.get(m), level );
+	}
+	
+	public boolean canUse( String ability, String level ) {
+		Level levelObj = null;
+		for( Level l : levels ) {
+			if( l.name == level ) {
+				levelObj = l;
+				break;
+			}
+		}
+		
+		if( levelObj != null ) {
+			return hasLevel( generalRestrictions.get( ability ), levelObj );
+		}
+		
+		return false;
+	}
+	
+	public boolean canUse( String ability, Level level ) {
+		return hasLevel( generalRestrictions.get( ability ), level );
+	}
+	
+	/**
+	 * @param levelName The name of the level of access that is desired
+	 * @return The Level object with the name given in the parameters
+	 */
+	public Level getLevel( String levelName ) {
+		for( Level l : levels ) {
+			if( l.name == levelName ) {
+				return l;
+			}
+		}
+		
+		return null;
+	}
+	
+	/* Experimental function stuff */
+	
+	public Method use( Method m, Level level ) {
+		if( canUse( m, level ) ) {
+			return m;
+		}
+		
+		return null;
+	}
+	
+	/* Enable the restricting of stuff */
+	
+	public void restrict( String ability, String level ) {
+		restrict( ability, getLevel( level ) );
+	}
+	
+	public void restrict( String ability, Level level ) {
+		// Restrict access to ability via the level given
+		generalRestrictions.put( ability, new Restriction( level ) );
+	}
+	
+	public void restrict( String ability, Attribute attribute ) {
+		restrict( ability, attribute, attribute.valueDefault );
+	}
+	
+	public void restrict( String ability, Attribute attribute, Object value ) {
+		generalRestrictions.put( ability, new Restriction(attribute, value) );
+	}
+	
+	/* Ugh, standard stuff... */
+	
 	public void recalculatePowerLevel() {
 		// Traverses level inheritance tree to calculate the minimum possible level for each.
 		// Is computationally possibly expensive
 	}
 	
-	public boolean hasLevel( Restriction restrict, Level level ) { // Will theoretically work
+	/* Recursive stuff that noone else needs */
+	
+	private boolean hasLevel( Restriction restrict, Level level ) { // Will theoretically work
 		// restrict: The given restriction of values
 		// level: The current level to check against the perm
 		
