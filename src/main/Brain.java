@@ -134,7 +134,7 @@ public class Brain {
 			Memory m = memoryModules.get( s );
 			cli.getDispatcher().registerListener( m );
 		}
-
+		
 		log.log("Listener established successfully.");
 
 		// Only login after all event registering is done

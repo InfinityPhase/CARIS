@@ -14,7 +14,6 @@ import sx.blah.discord.handle.obj.IUser;
 
 public class ModularACL {
 
-
 	enum groups {
 		USER,
 		CHANNEL,
@@ -23,6 +22,10 @@ public class ModularACL {
 		NONE
 	};
 	
+	/* If a Class is provided, emulate it */
+	private Class klass;
+	private List<Method> methods;
+	
 	private List<Level> levels;
 	private List<Attribute> attributes;
 	private Map<Level, Integer> powerLevel; // OVER 9000!!!!11!!!111 Actually though, uses a int value to prevent recusion.
@@ -30,16 +33,38 @@ public class ModularACL {
 	private Map<String, Restriction> generalRestrictions;
 	
 	public ModularACL() {
-		levels = new LinkedList<Level>();
-		attributes = new ArrayList<Attribute>();
-		powerLevel = new HashMap<Level, Integer>();
-		
-		functionRestrictions = new HashMap<Method, Restriction>();
-		generalRestrictions = new HashMap<String, Restriction>();
+		this( new LinkedList<Level>(), new ArrayList<Attribute>(), new HashMap<Level, Integer>(), new HashMap<Method, Restriction>(), new HashMap<String, Restriction>() );
 	}
 	
 	public ModularACL( List<Level> levels, List<Attribute> attributes, Map<Level, Integer> powerLevel, Map<Method, Restriction> functionRestrictions, Map<String, Restriction> generalRestrictions ) {
+		this.levels = levels;
+		this.attributes = attributes;
+		this.powerLevel = powerLevel;
 		
+		this.functionRestrictions = functionRestrictions;
+		this.generalRestrictions = generalRestrictions;
+	}
+	
+	public ModularACL( Class klass ) {
+		this();
+		
+		this.klass = klass;
+		this.methods = new ArrayList<Method>();
+		
+		for( Method m : klass.getDeclaredMethods() ) {
+			this.methods.add( m );
+		}	
+	}
+	
+	public ModularACL( Class klass, List<Level> levels, List<Attribute> attributes, Map<Level, Integer> powerLevel, Map<Method, Restriction> functionRestrictions, Map<String, Restriction> generalRestrictions ) {
+		this( klass ); // Don't worry about it.
+		
+		this.levels = levels;
+		this.attributes = attributes;
+		this.powerLevel = powerLevel;
+		
+		this.functionRestrictions = functionRestrictions;
+		this.generalRestrictions = generalRestrictions;
 	}
 
 	private class Group {
@@ -199,6 +224,18 @@ public class ModularACL {
 			
 			return false;
 		}
+		
+		public Map<Attribute, Object> getAttributes() {
+			return attributes;
+		}
+		
+		public boolean containsAttribute( Attribute attribute ) {
+			if( attributes.containsKey( attribute ) ) {
+				return true;
+			}
+			
+			return false;
+		}
 	}
 	
 	private class Attribute {
@@ -239,15 +276,18 @@ public class ModularACL {
 	
 	public boolean canUse( Method m, String level ) {
 		Level levelObj = null;
-		for( Level l : levels ) {
-			if( l.name == level ) {
-				levelObj = l;
-				break;
-			}
-		}
+		levelObj = getLevel( level );
 		
 		if( levelObj != null ) {
-			return hasLevel( functionRestrictions.get(m), levelObj );
+			if( hasLevel( functionRestrictions.get(m), levelObj ) ) {
+				//Check attributes
+				for( Attribute a : functionRestrictions.get(m).getAttributes().keySet() ) {
+					if( a.valueDefault == functionRestrictions.get(m).attributes.get(a) ) {
+						// If the default value of every attribute is enough to use the method
+						return true;
+					}
+				}
+			}
 		}
 		
 		return false;
@@ -327,6 +367,52 @@ public class ModularACL {
 		// Is computationally possibly expensive
 	}
 	
+	/* If you passed a class to ModularACL */
+	
+	public Class getWrappedClass() {
+		return klass;
+	}
+	
+	private Attribute getAttributeByName( String attribute, Restriction restriction ) {
+		Attribute[] av = (Attribute[]) restriction.attributes.keySet().toArray();
+		
+		for( Attribute a : restriction.attributes.keySet() ) { 
+			if( a.name == returnAttributeByName( av ).get( attribute ) ) {
+				return a;
+			}
+		}
+		return null;
+	}
+	
+	public boolean canUseMethod( String method, String level, String[] attributes, Object values ) {
+		if( hasLevel( functionRestrictions.get( getMethod(method) ), getLevel( level ) ) && hasAttributes( getAttributeByName(attributes), values, functionRestrictions.get( getMethod(method) ) ) ) {
+			
+		}
+		
+		return false;
+	}
+	
+	public Method useMethod( String name, String level, String[] attribute, Object[] value ) {
+		
+		if( hasLevel( functionRestrictions.get( returnAttributeByName( name ) ).getLevels(), level ) ) {
+			return getMethod( name );
+		} else if ( functionRestrictions.get( returnAttributeByName( name ). ) )
+		
+		
+		return null;
+	}
+	
+	public Method getMethod( String name ) {
+		// Not restricted, do not use
+		for( Method m : methods ) {
+			if( m.getName() == name ) {
+				return m;
+			}
+		}
+		
+		return null;
+	}
+	
 	/* Recursive stuff that noone else needs */
 	
 	private boolean hasLevel( Restriction restrict, Level level ) { // Will theoretically work
@@ -346,6 +432,10 @@ public class ModularACL {
 		return hasLevel( levelSet.toArray( new Level[ levelSet.size() ] ), levelCheck );
 	}
 	
+	private boolean hasLevel( Level[] levelSet, String levelCheck ) {
+		return hasLevel( levelSet, getLevel( levelCheck ) );
+	}
+	
 	private boolean hasLevel( Level[] levelSet, Level levelCheck ) {
 		
 		for( Level l : levelSet ) {
@@ -357,6 +447,59 @@ public class ModularACL {
 		}
 		
 		return false;
+	}
+	
+	private Method getMethodFromString( String name ) {
+		for( Method m : functionRestrictions.keySet() ) {
+			if( m.getName() == name ) {
+				return m;
+			}
+		}
+		return null;
+	}
+	
+	private boolean defaultAttributesWork( Map<Attribute, Object> requiredAttributes ) {
+		// Checks if the defaut value of attributes is enough to use something
+		for( Attribute a : requiredAttributes.keySet() ) {
+			if( a.valueDefault != requiredAttributes.get(a) ) {
+				return false;
+			}
+		}
+		
+		return true;
+	}
+	
+	private boolean defaultAttributesWork( Restriction restriction ) {
+		return defaultAttributesWork( restriction.attributes );
+	}
+	
+	private boolean hasAttributes( Attribute[] attributes, Object[] values, Restriction restriction ) {
+		for( Attribute a : restriction.attributes.keySet() ) {
+			if( a.value != values[ indexOfElelment( attributes, a ) ] ) {
+				return false;
+			}
+		}
+		
+		return true;
+	}
+	
+	private Map<String, Attribute> returnAttributeByName( Attribute[] attribute ) {
+		Map<String, Attribute> result = new HashMap<String, Attribute>();
+		for( Attribute a : attribute ) {
+			result.put( a.name, a );
+		}
+		
+		return result;
+	}
+	
+	private int indexOfElelment( Attribute[] attribute, Attribute value ) {
+		for( int i = 0; i < attribute.length; i++ ) {
+			if( attribute[i] == value ) {
+				return i;
+			}
+		}
+		
+		return -1;
 	}
 
 }
