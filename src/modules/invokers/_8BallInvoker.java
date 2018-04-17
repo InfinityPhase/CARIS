@@ -40,8 +40,8 @@ public class _8BallInvoker extends Invoker {
 
 	public _8BallInvoker( Status status ) {
 		this.status = status;
-		prefix = "c8Ball";
-		name = "c8Ball";
+		prefix = "c8ball";
+		name = "c8ball";
 		help = "**__c8ball__**"  +
 				"\nThis command is used to randomly answer yes/no questions."  +
 				"\nPlease do not take these answers as life advice."  +
