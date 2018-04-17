@@ -1,4 +1,4 @@
-package invokers;
+package modules.invokers;
 
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import tokens.Response;
@@ -14,7 +14,7 @@ public class EchoInvoker extends Invoker {
 		log.log("Initializing Echo Invoker");
 		this.status = status;
 		prefix = "cEcho";
-		name = "Echo Invoker";
+		name = "cEcho";
 		help = "**__cEcho__**"  +
 				"\nThis command is used to make CARIS say somemthing."  +
 				"\nPlease don't abuse this command."  +

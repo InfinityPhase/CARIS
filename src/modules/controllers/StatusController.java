@@ -1,4 +1,4 @@
-package controller;
+package modules.controllers;
 
 import library.Constants;
 import main.Brain;
@@ -13,7 +13,7 @@ public class StatusController extends Controller {
 	
 	public StatusController( Status status ) {
 		this.status = status;
-		name = "Status";
+		name = "cStatus";
 	}
 	
 	@Override

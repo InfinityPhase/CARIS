@@ -1,4 +1,4 @@
-package responders;
+package modules.responders;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -20,7 +20,7 @@ public class ReminderResponder extends Responder {
 
 	public ReminderResponder( Status status ) {
 		this.status = status;
-		name = "Reminder";
+		name = "rReminder";
 		help = "\n**__Reminder Responder__**"  +
 				"\nYou can even ask CARIS to set reminders for you!"  +
 				"\nYou can ask her to remind you at a certain time, or in a certain timer."  +

@@ -1,4 +1,4 @@
-package responders;
+package modules.responders;
 
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import tokens.Response;
@@ -11,7 +11,7 @@ public class HelpResponder extends Responder {
 	
 	public HelpResponder( Status status ) {
 		this.status = status;
-		name = "Help";
+		name = "rHelp";
 	}
 	
 	@Override

@@ -1,41 +1,23 @@
-package invokers;
-
+package modules.constructors;
 
 import java.util.ArrayList;
 
 import library.Variables;
+import modules.invokers.Invoker;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import tokens.LineSet;
 import tokens.Response;
-import utilities.Handler;
 
-public class Invoker extends Handler {
-	// Base Invoker class.
-
-	/* For multiline */
+public class Constructor extends Invoker {
 	protected ArrayList<LineSet> lineSets;
 	protected LineSet primaryLineSet;
 	protected ArrayList<LineSet> auxiliaryLineSets;
-
-	@Override
-	protected void tokenSetup(MessageReceivedEvent event) {
-		super.tokenSetup(event);
-	}
-
-	@Override
-	protected void messageSetup(MessageReceivedEvent event) {
-		super.messageSetup(event);
-	}
-
-	/* For Multiline */
+	
 	@Override
 	public Response process(MessageReceivedEvent event) {
 		if( containsIgnoreCase( "\n", event.getMessage().getContent() ) ) {
 			multilineSetup(event);
 			log.indent(20).log("THIS IS A MULTILINE");
-		} else { // Is a single line invocation
-			conditionalSetup(event);
-			log.indent(20).log("THIS IS A SINGLELINE");
 		}
 		return build();
 	}
@@ -91,5 +73,4 @@ public class Invoker extends Handler {
 		}
 		return tempTokenArray;
 	}
-
 }

@@ -1,4 +1,4 @@
-package controller;
+package modules.controllers;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +17,7 @@ public class ChannelListController extends Controller {
 	
 	public ChannelListController( Status status ) {
 		this.status = status;
-		name = "Channel List";
+		name = "cChannel List";
 		avalibility = Avalibility.ALWAYS; // Allows us to un-blacklist a channel
 	}
 

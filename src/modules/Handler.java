@@ -1,4 +1,4 @@
-package utilities;
+package modules;
 
 import java.util.ArrayList;
 import java.util.Set;
@@ -10,6 +10,7 @@ import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedE
 import sx.blah.discord.handle.obj.IChannel;
 import sx.blah.discord.util.EmbedBuilder;
 import tokens.Response;
+import utilities.Logger;
 
 public class Handler {
 	// The base handler class. Extend this into other classes.

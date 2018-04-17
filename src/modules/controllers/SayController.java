@@ -1,4 +1,4 @@
-package controller;
+package modules.controllers;
 
 import library.Variables;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
@@ -14,7 +14,7 @@ public class SayController extends Controller {
 	
 	public SayController( Status status ) {
 		this.status = status;
-		name = "Say";
+		name = "cSay";
 	}
 	
 	@Override

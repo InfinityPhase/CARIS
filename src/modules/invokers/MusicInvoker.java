@@ -1,4 +1,4 @@
-package invokers;
+package modules.invokers;
 
 import lavaplayer.player.AudioLoadResultHandler;
 import lavaplayer.tools.FriendlyException;
@@ -22,7 +22,7 @@ public class MusicInvoker extends Invoker {
 
 	public MusicInvoker( Status status ) {
 		this.status = status;
-		name = "Music";
+		name = "cMusic";
 		prefix = "cMusic";
 		help = "**__cMusic__**"  +
 				"\nThis command controlls how caris plays audio."  +

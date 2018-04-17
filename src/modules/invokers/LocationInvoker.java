@@ -1,10 +1,9 @@
-package invokers;
+package modules.invokers;
 
 import java.util.ArrayList;
 
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import sx.blah.discord.util.EmbedBuilder;
-import tokens.LineSet;
 import tokens.Response;
 
 public class LocationInvoker extends Invoker {
@@ -15,27 +14,24 @@ public class LocationInvoker extends Invoker {
 
 	public LocationInvoker( Status status ) {
 		this.status = status;
-		name = "Location";
-		prefix = "cLoc";
+		name = "cLocation";
+		prefix = "cLocation";
 		help = "**__cLocation__**"  +
-				 "\nThis command allows you to keep track of where everyone is."  +
-				 "\nUse ` cLoc: <Location Name> ` as the *Main Command*."  +
-				 "\n"  +
-				 "\n\t\t` add <Name> `\t\t-\t\t*Adds a person to a location*"  +
-				 "\n\t\t` remove <Name> `\t\t-\t\t*Removes a person from a location*"  +
-				 "\n\t\t` reset `\t\t-\t\t*Removes everyone from a location*"  +
-				 "\n"  +
-				 "\n```cLocation: School"  +
-				 "\nreset"  +
-				 "\nadd Alina"  +
-				 "\nadd Anthony"  +
-				 "\nremove Alina```";
+				 "\nThis command allows you to keep track of where everyone is.\n"  +
+				 "\nUsage ` cLocation: <location> <function> <person 1> .. <person N> `"  +
+				 "\n` <location> `: the name of the location you are modifying" +
+				 "\n` <function> `: the way you are modifying the location" +
+				 "\n\t\t` add `\t\t-\t\t*Adds people to the location*"  +
+				 "\n\t\t` remove `\t\t-\t\t*Removes people from the location*"  +
+				 "\n\t\t` reset `\t\t-\t\t*Resets the location*"  +
+				 "\n\t` <person 1..N> : the name(s) to add/remove to the location\n"  +
+				 "\n```cLocation: School add \"Alina Kim\" Anthony```";
 	}
 
 	public Response process(MessageReceivedEvent event) {	
-		multilineSetup(event);
+		linesetSetup(event);
 
-		if( tokens.size() == 1 ) { // No arguments passed
+		if( command.tokens.size() == 1 ) { // No arguments passed
 			EmbedBuilder builder = new EmbedBuilder();
 			builder.withTitle("**__Active Locations__**");
 			for( String location : variables.locations.keySet() ) {
@@ -49,16 +45,27 @@ public class LocationInvoker extends Invoker {
 				}
 			}
 			embed = builder;
-		} else if( tokens.size() > 1 ) { // Has arguments		
-			String location = remainder(primaryLineSet.tokens.get(0), primaryLineSet.line);
+		} else if( command.tokens.size() > 1 ) { // Has arguments		
+			String location = command.tokens.get(1);
 			if( location.isEmpty() ) {
 				log.indent(2).log("Syntax Error. Aborting.");
 				response = "Please enter a valid location name.";
 				return build();
 			} else {
-				for( LineSet ls : auxiliaryLineSets ) {
-					if( ls.tokens.get(0).equalsIgnoreCase("add") ) {
-						String person = remainder(ls.tokens.get(0), ls.line);
+				if( command.tokens.size() < 3 ) {
+					log.indent(2).log("Syntax Error. Aborting.");
+					response = "Please enter a valid function.";
+					return build();
+				}
+				if( command.tokens.get(2).equalsIgnoreCase("add") ) {
+					if( command.tokens.size() < 4 ) {
+						log.indent(2).log("Syntax Error. Aborting.");
+						response = "Please enter at least one target.";
+						return build();
+					}
+					int max = command.tokens.size();
+					for( int f=3; f<max; f++ ) {
+						String person = command.tokens.get(f);
 						log.indent(3).log("Command \"add\" detected.");
 						if( variables.locations.containsKey(location.toLowerCase()) ) {
 							log.indent(4).log("Location \"" + location + "\" found.");
@@ -93,9 +100,17 @@ public class LocationInvoker extends Invoker {
 							response = person + "'s location has been set to " + location + ".";
 							log.indent(4).log("Location set successfully.");
 						}
-					} else if( ls.tokens.get(0).equalsIgnoreCase("remove") ) {
+					}
+				} else if( command.tokens.get(2).equalsIgnoreCase("remove") ) {
+					if( command.tokens.size() < 4 ) {
+						log.indent(2).log("Syntax Error. Aborting.");
+						response = "Please enter at least one target.";
+						return build();
+					}
+					int max = command.tokens.size();
+					for( int f=3; f<max; f++ ) {
+						String person = command.tokens.get(f);
 						log.indent(3).log("Command \"remove\" detected.");
-						String person = remainder(ls.tokens.get(0), ls.line);
 						if( variables.people.keySet().contains(person.toLowerCase()) ) {
 							if( variables.locations.containsKey(location.toLowerCase()) ) {
 								log.indent(4).log("Location \"" + location + "\" found.");
@@ -116,26 +131,26 @@ public class LocationInvoker extends Invoker {
 							response = person + " is not set to a location.";
 							return build();
 						}
-					} else if( ls.tokens.get(0).equalsIgnoreCase("reset") ) {
-						log.indent(3).log("Command \"reset\" detected.");
-						if( variables.locations.containsKey(location.toLowerCase()) ) {
-							for( String p : variables.locations.get(location.toLowerCase()) ) {
-								if( variables.people.containsKey(p) ) {
-									variables.people.remove(p);
-								} else {
-									log.indent(4).log("Weird error; \"" + p + "\"" + " wasn't set to location but was in \"" + location + "\".");
-								}
-							}
-							variables.locations.put(location.toLowerCase(), new ArrayList<String>());
-							log.indent(4).log("Location reset successfully.");
-							response = location + " has been reset.";
-						} else {
-							response = location + " does not exist.";
-							return build();
-						}
-					} else {
-						log.indent(3).log("Invalid command.");
 					}
+				} else if( command.tokens.get(2).equalsIgnoreCase("reset") ) {
+					log.indent(3).log("Command \"reset\" detected.");
+					if( variables.locations.containsKey(location.toLowerCase()) ) {
+						for( String p : variables.locations.get(location.toLowerCase()) ) {
+							if( variables.people.containsKey(p) ) {
+								variables.people.remove(p);
+							} else {
+								log.indent(4).log("Weird error; \"" + p + "\"" + " wasn't set to location but was in \"" + location + "\".");
+							}
+						}
+						variables.locations.put(location.toLowerCase(), new ArrayList<String>());
+						log.indent(4).log("Location reset successfully.");
+						response = location + " has been reset.";
+					} else {
+						response = location + " does not exist.";
+						return build();
+					}
+				} else {
+					log.indent(3).log("Invalid command.");
 				}
 			}
 		} else {

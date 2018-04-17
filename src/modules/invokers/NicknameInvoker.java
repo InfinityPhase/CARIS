@@ -1,4 +1,4 @@
-package invokers;
+package modules.invokers;
 
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import tokens.Response;
@@ -11,7 +11,7 @@ public class NicknameInvoker extends Invoker {
 
 	public NicknameInvoker( Status status ) {
 		this.status = status;
-		name = "Nickname";
+		name = "cNick";
 		prefix = "cNick";
 		help = "**__cNick__**"  +
 				"\nThis command changes your Discord nickname."  +

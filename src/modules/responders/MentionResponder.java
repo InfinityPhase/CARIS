@@ -1,4 +1,4 @@
-package responders;
+package modules.responders;
 
 import library.Constants;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
@@ -13,7 +13,7 @@ public class MentionResponder extends Responder {
 
 	public MentionResponder( Status status ) {
 		this.status = status;
-		name = "Mention";
+		name = "rMention";
 		help = "**__Mention Reponder__**"  +
 				"\nPretty simple: you say CARIS's name, she responds."  +
 				"\n"  +

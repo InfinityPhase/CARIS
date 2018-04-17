@@ -1,4 +1,4 @@
-package responders;
+package modules.responders;
 
 import java.util.ArrayList;
 
@@ -13,12 +13,11 @@ public class LocationResponder extends Responder {
 
 	public LocationResponder( Status status ) {
 		this.status = status;
-		name = "Location";
+		name = "rLocation";
 		help = "\n**__Location Responder__**"  +
-				"\nIf you ask where anyone is, or who's at a certain location, CARIS will see if she knows, and respond appropriately."  +
-				"\n"  +
-				 "\n*\"Where the heck did Alina go?\"*"  +
-				 "\n*\"Does anyone know who's at school right now?\"*";
+				"\nIf you ask where anyone is, or who's at a certain location, CARIS will see if she knows, and respond appropriately.\n"  +
+				"\n*\"Where the heck did Alina go?\"*"  +
+				"\n*\"Does anyone know who's at school right now?\"*";
 	}
 
 	@Override

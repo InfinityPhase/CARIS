@@ -1,8 +1,7 @@
-package invokers;
+package modules.invokers;
 
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import sx.blah.discord.util.EmbedBuilder;
-import tokens.LineSet;
 import tokens.Poll;
 import tokens.Response;
 
@@ -14,22 +13,21 @@ public class VoteInvoker extends Invoker {
 
 	public VoteInvoker( Status status ){
 		this.status = status;
-		name = "Vote";
+		name = "cVote";
 		prefix = "cVote";
 		help =  "**__cVote__**"  +
-				"\nThis command lets others vote on existing polls."  +
-				"\nUse ` cVote: <Poll Name> ` as the *Main Command*."  +
-				"\nInstead of subcommands, simply type the choice(s) you wish to vote for."  +
-				"\n"  +
-				"\n```cVote: Apples v Oranges"  +
-				"\nApples```";
+				"\nThis command lets others vote on existing polls.\n"  +
+				"\nUsage: ` cVote: <poll> <option 1> .. <option N>`"  +
+				"\n\t` <poll> `: the name of the poll you wish to vote on." +
+				"\n\t` <option 1..N> `: the choice(s) you wish to vote for.\n"  +
+				"\n```cVote: color blue```";
 	}
 
 	@Override
 	public Response process(MessageReceivedEvent event) {
-		multilineSetup(event);
+		linesetSetup(event);
 
-		if( tokens.size() == 1 ) { // No arguments passed
+		if( command.tokens.size() == 1 ) { // No arguments passed
 			EmbedBuilder builder = new EmbedBuilder();
 			log.indent(1).log("VoteInvoker triggered.");
 			builder.withTitle("**__Active Polls__**");
@@ -38,24 +36,28 @@ public class VoteInvoker extends Invoker {
 				builder.appendField(p.name, p.getVotes() + "vote(s)!", false);
 			}
 			embed = builder;
-		} else if( tokens.size() > 1 ) { // Has arguments		
+		} else if( command.tokens.size() > 1 ) { // Has arguments		
 			log.indent(1).log("VoteInvoker triggered.");
-			String target = remainder(primaryLineSet.tokens.get(0), primaryLineSet.line);
-			if( target.isEmpty() || !variables.polls.keySet().contains(target) ) {
+			if( command.tokens.size() < 2 ) {
+				log.indent(2).log("Syntax Error. Aborting");
+				response = "Please enter a valid Poll name.";
+				return build();
+			}
+			String target = command.tokens.get(1);
+			if( !variables.polls.keySet().contains(target) ) {
 				log.indent(2).log("Syntax Error. Aborting");
 				response = "Please enter a valid Poll name.";
 				return build();
 			} else {
 				Poll p = variables.polls.get(target);
-				if( auxiliaryLineSets.isEmpty() ) {
+				if( command.tokens.size() < 3 ) {
 					embed = variables.pollBuilder.check(p, event.getAuthor());
 				} else {
-					for( LineSet ls : auxiliaryLineSets ) {
-						if( ls.line.isEmpty() || !variables.polls.get(target).options.keySet().contains(ls.line)) {
-							response = "Please enter a valid option.";
-						} else {
-							embed = variables.pollBuilder.cast(p, event.getAuthor(), ls.line);
-						}
+					String option = command.tokens.get(2);
+					if( !p.options.keySet().contains(option)) {
+						response = "Please enter a valid option.";
+					} else {
+						embed = variables.pollBuilder.cast(p, event.getAuthor(), option);
 					}
 				}
 			}

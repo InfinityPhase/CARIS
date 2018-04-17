@@ -6,15 +6,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import controller.Controller;
-import invokers.Invoker;
 import library.Constants;
 import library.Variables;
 import main.Brain;
 import main.GuildInfo;
-import main.UserInfo;
 import memories.Memory;
-import responders.Responder;
+import modules.Handler.Avalibility;
+import modules.constructors.Constructor;
+import modules.controllers.Controller;
+import modules.invokers.Invoker;
+import modules.responders.Responder;
 import sx.blah.discord.api.events.EventSubscriber;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import sx.blah.discord.handle.obj.IChannel;
@@ -23,7 +24,6 @@ import tokens.Response;
 import tokens.Thought;
 import utilities.BotUtils;
 import utilities.Logger;
-import utilities.Handler.Avalibility;
 
 public class MessageReceived extends SuperEvent {
 	private Logger log = new Logger().setDefaultIndent(1).build();
@@ -125,6 +125,27 @@ public class MessageReceived extends SuperEvent {
 					log.indent(10).log(blacklisted);
 					log.indent(2).log("Prefix match found");
 					Response r = i.process(event);
+					if( r.embed ) {
+						log.indent(3).log("Response embed option generated.");
+						responses.add(r);
+					}
+					
+					if( !r.text.equals("") ) { // if this produces a result
+						log.indent(3).log("Response option generated: \"" + r.text + "\"");
+						responses.add( r ); // add it to the list of potential responses
+					}
+				} else {
+					log.indent(2).log("Prefix does not match");
+					continue;
+				}
+			}
+			for( String s : Brain.constructorModules.keySet() ) {
+				Constructor co = Brain.constructorModules.get(s);
+				log.indent(1).log("Checking " + s);
+				if( co.prefix.equalsIgnoreCase( getPrefix(event) ) && ( ( !blacklisted && !notWhitelistedAndShouldBe ) || co.avalibility == Avalibility.ALWAYS ) ) {
+					log.indent(10).log(blacklisted);
+					log.indent(2).log("Prefix match found");
+					Response r = co.process(event);
 					if( r.embed ) {
 						log.indent(3).log("Response embed option generated.");
 						responses.add(r);

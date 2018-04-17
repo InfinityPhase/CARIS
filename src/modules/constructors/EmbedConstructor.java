@@ -1,4 +1,4 @@
-package invokers;
+package modules.constructors;
 
 import java.awt.Color;
 
@@ -7,15 +7,15 @@ import sx.blah.discord.util.EmbedBuilder;
 import tokens.LineSet;
 import tokens.Response;
 
-public class EmbedInvoker extends Invoker {
+public class EmbedConstructor extends Constructor {
 
-	public EmbedInvoker() {
+	public EmbedConstructor() {
 		this( Status.ENABLED );
 	}
 
-	public EmbedInvoker( Status status ) {
+	public EmbedConstructor( Status status ) {
 		this.status = status;
-		name = "Embed";
+		name = "cEmbed";
 		prefix = "cEmbed";
 		help = "\n__cEmbed__"  +
 				"\nThis command allows you to create Embeded messages."  +

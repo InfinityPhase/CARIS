@@ -1,4 +1,4 @@
-package invokers;
+package modules.invokers;
 
 import library.Fortunes;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
@@ -12,7 +12,7 @@ public class FortuneInvoker extends Invoker {
 
 	public FortuneInvoker( Status status ) {
 		this.status = status;
-		name = "Fortune";
+		name = "cFortune";
 		prefix = "cFortune";
 		help = "**__cFortune__**"  +
 				"\nThis command has CARIS implement a carefully tailored prediction algorithm, designed to calculate the probablity of any given event."  +

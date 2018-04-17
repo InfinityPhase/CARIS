@@ -43,7 +43,6 @@ public class CalendarHandler {
 			if( info.buildSeasonCountdown ) {
 				long kickoffTime = Constants.kickoff.getTimeInMillis();
 				long currentTime = Brain.current.getTimeInMillis();
-				int dayDiff = (int) (TimeUnit.MILLISECONDS.toDays(kickoffTime-currentTime));
 				if( TimeUnit.MILLISECONDS.toDays(kickoffTime-currentTime) > 5 ) {
 					
 					

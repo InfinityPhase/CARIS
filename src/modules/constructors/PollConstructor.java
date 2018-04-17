@@ -1,4 +1,4 @@
-package invokers;
+package modules.constructors;
 
 import java.util.ArrayList;
 
@@ -8,15 +8,15 @@ import tokens.LineSet;
 import tokens.Poll;
 import tokens.Response;
 
-public class PollInvoker extends Invoker {
+public class PollConstructor extends Constructor {
 
-	public PollInvoker() {
+	public PollConstructor() {
 		this( Status.ENABLED );
 	}
 
-	public PollInvoker( Status status ) {
+	public PollConstructor( Status status ) {
 		this.status = status;
-		name = "Poll";
+		name = "cPoll";
 		prefix = "cPoll";
 		help = "**__cPoll__**"  +
 				"\nThis command lets you create polls other people can vote on."  +
@@ -46,7 +46,7 @@ public class PollInvoker extends Invoker {
 			builder.withTitle("**__Active Polls__**");
 			for( String name : variables.polls.keySet() ) {
 				Poll p = variables.polls.get(name);
-				builder.appendField(p.name, p.getVotes() + "vote(s)!", false);
+				builder.appendField(p.name, p.getVotes() + " vote(s)!", false);
 			}
 			embed = builder;
 		} else if( tokens.size() > 1 ) { // Has arguments

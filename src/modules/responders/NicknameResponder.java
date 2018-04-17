@@ -1,4 +1,4 @@
-package responders;
+package modules.responders;
 
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import tokens.Response;
@@ -11,7 +11,7 @@ public class NicknameResponder extends Responder {
 
 	public NicknameResponder( Status status ) {
 		this.status = status;
-		name = "Nickname";
+		name = "rNickname";
 		help = "**__Nickname Responder__**"  +
 				"\nIf you ask CARIS to set your name to something in the chat, she'll do it for you."  +
 				"\nRemember to put your name in quotes!"  +
