@@ -40,14 +40,6 @@ public class CalendarHandler {
 					info.reminders.remove(c);
 				}
 			}
-			if( info.buildSeasonCountdown ) {
-				long kickoffTime = Constants.kickoff.getTimeInMillis();
-				long currentTime = Brain.current.getTimeInMillis();
-				if( TimeUnit.MILLISECONDS.toDays(kickoffTime-currentTime) > 5 ) {
-					
-					
-				}
-			}
 		}
 	}
 	
