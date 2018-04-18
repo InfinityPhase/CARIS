@@ -59,7 +59,6 @@ public class Brain {
 
 	/* Gigantic Variable Library */	
 	public static CalendarHandler calendarHandler = new CalendarHandler();
-	public static Calendar current = Calendar.getInstance();
 
 	/* Music Stuff */
 	public static AudioPlayerManager playerManager;
@@ -108,7 +107,6 @@ public class Brain {
 		}
 
 		while( true ) {
-			current = Calendar.getInstance();
 			calendarHandler.check();
 		}
 	}
