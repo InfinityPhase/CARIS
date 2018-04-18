@@ -45,116 +45,108 @@ public class LocationInvoker extends Invoker {
 				}
 			}
 			embed = builder;
-		} else if( command.tokens.size() > 1 ) { // Has arguments		
-			String location = command.tokens.get(1);
-			if( location.isEmpty() ) {
+		} else {		
+			String location = command.tokens.get(1).toLowerCase();
+			if( command.tokens.size() < 3 ) {
 				log.indent(2).log("Syntax Error. Aborting.");
-				response = "Please enter a valid location name.";
+				response = "Please enter a valid function.";
 				return build();
-			} else {
-				if( command.tokens.size() < 3 ) {
+			}
+			if( command.tokens.get(2).equalsIgnoreCase("add") ) {
+				if( command.tokens.size() < 4 ) {
 					log.indent(2).log("Syntax Error. Aborting.");
-					response = "Please enter a valid function.";
+					response = "Please enter at least one target.";
 					return build();
 				}
-				if( command.tokens.get(2).equalsIgnoreCase("add") ) {
-					if( command.tokens.size() < 4 ) {
-						log.indent(2).log("Syntax Error. Aborting.");
-						response = "Please enter at least one target.";
-						return build();
-					}
-					int max = command.tokens.size();
-					for( int f=3; f<max; f++ ) {
-						String person = command.tokens.get(f);
-						log.indent(3).log("Command \"add\" detected.");
-						if( variables.locations.containsKey(location.toLowerCase()) ) {
-							log.indent(4).log("Location \"" + location + "\" found.");
-							if( variables.locations.get(location.toLowerCase()).contains(person.toLowerCase()) ) {
-								response = person + " is already at " + location + ".";
-								return build();
-							} else {
-								log.indent(4).log("New Location \"" + location + "\" generated.");
-								for( String l : variables.locations.keySet() ) {
-									ArrayList<String> locals = variables.locations.get(l);
-									if( locals.contains(person.toLowerCase()) ) {
-										locals.remove(person.toLowerCase());
-									}
-								}
-								log.indent(4).log("Removing previous location references.");
-								variables.locations.get(location.toLowerCase()).add(person.toLowerCase());
-								variables.people.put(person.toLowerCase(), location.toLowerCase());
-								response = person + "'s location has been set to " + location + ".";
-							}
+				int max = command.tokens.size();
+				for( int f=3; f<max; f++ ) {
+					String person = command.tokens.get(f).toLowerCase();
+					log.indent(3).log("Command \"add\" detected.");
+					if( variables.locations.containsKey(location) ) {
+						log.indent(4).log("Location \"" + location + "\" found.");
+						if( variables.locations.get(location).contains(person) ) {
+							response = person + " is already at " + location + ".";
+							return build();
 						} else {
-							log.indent(4).log("Removing previous location references.");
+							log.indent(4).log("New Location \"" + location + "\" generated.");
 							for( String l : variables.locations.keySet() ) {
 								ArrayList<String> locals = variables.locations.get(l);
-								if( locals.contains(person.toLowerCase()) ) {
-									locals.remove(person.toLowerCase());
+								if( locals.contains(person) ) {
+									locals.remove(person);
 								}
 							}
-							ArrayList<String> locals = new ArrayList<String>();
-							locals.add(person.toLowerCase());
-							variables.locations.put(location.toLowerCase(), locals);
-							variables.people.put(person.toLowerCase(), location.toLowerCase());
+							log.indent(4).log("Removing previous location references.");
+							variables.locations.get(location).add(person);
+							variables.people.put(person, location);
 							response = person + "'s location has been set to " + location + ".";
-							log.indent(4).log("Location set successfully.");
 						}
+					} else {
+						log.indent(4).log("Removing previous location references.");
+						for( String l : variables.locations.keySet() ) {
+							ArrayList<String> locals = variables.locations.get(l);
+							if( locals.contains(person) ) {
+								locals.remove(person);
+							}
+						}
+						ArrayList<String> locals = new ArrayList<String>();
+						locals.add(person);
+						variables.locations.put(location, locals);
+						variables.people.put(person.toLowerCase(), location);
+						response = person + "'s location has been set to " + location + ".";
+						log.indent(4).log("Location set successfully.");
 					}
-				} else if( command.tokens.get(2).equalsIgnoreCase("remove") ) {
-					if( command.tokens.size() < 4 ) {
-						log.indent(2).log("Syntax Error. Aborting.");
-						response = "Please enter at least one target.";
-						return build();
-					}
-					int max = command.tokens.size();
-					for( int f=3; f<max; f++ ) {
-						String person = command.tokens.get(f);
-						log.indent(3).log("Command \"remove\" detected.");
-						if( variables.people.keySet().contains(person.toLowerCase()) ) {
-							if( variables.locations.containsKey(location.toLowerCase()) ) {
-								log.indent(4).log("Location \"" + location + "\" found.");
-								if( variables.locations.get(location.toLowerCase()).contains(person.toLowerCase()) ) {
-									variables.locations.get(location.toLowerCase()).remove(person.toLowerCase());
-									variables.people.remove(person.toLowerCase());
-									log.indent(4).log("Person removed from location.");
-									response = person + " removed from " + location + ".";
-								} else {
-									response = person + " is not at " + location + ".";
-									return build();
-								}
+				}
+			} else if( command.tokens.get(2).equalsIgnoreCase("remove") ) {
+				if( command.tokens.size() < 4 ) {
+					log.indent(2).log("Syntax Error. Aborting.");
+					response = "Please enter at least one target.";
+					return build();
+				}
+				int max = command.tokens.size();
+				for( int f=3; f<max; f++ ) {
+					String person = command.tokens.get(f).toLowerCase();
+					log.indent(3).log("Command \"remove\" detected.");
+					if( variables.people.keySet().contains(person) ) {
+						if( variables.locations.containsKey(location) ) {
+							log.indent(4).log("Location \"" + location + "\" found.");
+							if( variables.locations.get(location).contains(person) ) {
+								variables.locations.get(location).remove(person);
+								variables.people.remove(person);
+								log.indent(4).log("Person removed from location.");
+								response = person + " removed from " + location + ".";
 							} else {
-								response = location + " is not a valid location.";
+								response = person + " is not at " + location + ".";
 								return build();
 							}
 						} else {
-							response = person + " is not set to a location.";
+							response = location + " is not a valid location.";
 							return build();
 						}
-					}
-				} else if( command.tokens.get(2).equalsIgnoreCase("reset") ) {
-					log.indent(3).log("Command \"reset\" detected.");
-					if( variables.locations.containsKey(location.toLowerCase()) ) {
-						for( String p : variables.locations.get(location.toLowerCase()) ) {
-							if( variables.people.containsKey(p) ) {
-								variables.people.remove(p);
-							} else {
-								log.indent(4).log("Weird error; \"" + p + "\"" + " wasn't set to location but was in \"" + location + "\".");
-							}
-						}
-						variables.locations.put(location.toLowerCase(), new ArrayList<String>());
-						log.indent(4).log("Location reset successfully.");
-						response = location + " has been reset.";
 					} else {
-						response = location + " does not exist.";
+						response = person + " is not set to a location.";
 						return build();
 					}
-				} else {
-					log.indent(3).log("Invalid command.");
 				}
+			} else if( command.tokens.get(2).equalsIgnoreCase("reset") ) {
+				log.indent(3).log("Command \"reset\" detected.");
+				if( variables.locations.containsKey(location) ) {
+					for( String p : variables.locations.get(location) ) {
+						if( variables.people.containsKey(p) ) {
+							variables.people.remove(p);
+						} else {
+							log.indent(4).log("Weird error; \"" + p + "\"" + " wasn't set to location but was in \"" + location + "\".");
+						}
+					}
+					variables.locations.put(location, new ArrayList<String>());
+					log.indent(4).log("Location reset successfully.");
+					response = location + " has been reset.";
+				} else {
+					response = location + " does not exist.";
+					return build();
+				}
+			} else {
+				log.indent(3).log("Invalid command.");
 			}
-		} else {
-			log.indent(2).log("LocationInvoker unactivated.");
 		}
 		log.indent(1).log("LocationInvoker processed.");
 		return build();

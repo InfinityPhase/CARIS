@@ -235,15 +235,11 @@ public class MessageReceived extends SuperEvent {
 	}
 
 	public static String getPrefix( String line ) {
+		line += " ";
 		int id = line.indexOf(":");
 		if( id == -1 ) {
 			id = line.indexOf(" ");
 		}
-
-		if( id == -1 ) {
-			return ""; // There is no prefix
-		}
-
 		return line.substring(0, id);
 	}
 

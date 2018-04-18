@@ -51,7 +51,7 @@ public class PollConstructor extends Constructor {
 			embed = builder;
 		} else if( tokens.size() > 1 ) { // Has arguments
 			log.indent(1).log("PollInvoker triggered.");
-			String target = remainder(primaryLineSet.tokens.get(0), primaryLineSet.line);
+			String target = remainder(primaryLineSet.tokens.get(0), primaryLineSet.line).toLowerCase();
 			if( target.isEmpty() ) {
 				log.indent(2).log("SyntaxError. Aborting.");
 				response = "Please enter a valid Poll name.";
@@ -67,7 +67,7 @@ public class PollConstructor extends Constructor {
 					for( LineSet ls : auxiliaryLineSets ) {
 						String command = ls.tokens.get(0);
 						if( command.equalsIgnoreCase("add") ) {
-							String choice = remainder(command, ls.line);
+							String choice = remainder(command, ls.line).toLowerCase();
 							if( p.options.keySet().contains(choice) ) {
 								response +=  "Option \"" + choice + "\" already exists.";
 							} else if( choice.isEmpty() ) {
@@ -80,7 +80,7 @@ public class PollConstructor extends Constructor {
 								}
 							}
 						} else if( command.equalsIgnoreCase("remove") || command.equals("delete") || command.equals("rem") || command.equals("del")) {
-							String choice = remainder(command, ls.line);
+							String choice = remainder(command, ls.line).toLowerCase();
 							if( !p.options.keySet().contains(choice) ) {
 								response +=  "Option \"" + choice + "\" doesn't exist.";
 							} else if( choice.isEmpty() ) {

@@ -43,7 +43,7 @@ public class VoteInvoker extends Invoker {
 				response = "Please enter a valid Poll name.";
 				return build();
 			}
-			String target = command.tokens.get(1);
+			String target = command.tokens.get(1).toLowerCase();
 			if( !variables.polls.keySet().contains(target) ) {
 				log.indent(2).log("Syntax Error. Aborting");
 				response = "Please enter a valid Poll name.";
@@ -53,7 +53,7 @@ public class VoteInvoker extends Invoker {
 				if( command.tokens.size() < 3 ) {
 					embed = variables.pollBuilder.check(p, event.getAuthor());
 				} else {
-					String option = command.tokens.get(2);
+					String option = command.tokens.get(2).toLowerCase();
 					if( !p.options.keySet().contains(option)) {
 						response = "Please enter a valid option.";
 					} else {

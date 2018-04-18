@@ -34,7 +34,7 @@ public class LocationResponder extends Responder {
 					break;
 				}
 			}
-		} else if( hasIgnoreCase(tokens, "who") && hasIgnoreCase(tokens, "is") && hasIgnoreCase(tokens, "at") || (hasIgnoreCase(tokens, "whos") || hasIgnoreCase(tokens, "who's")) && hasIgnoreCase(tokens, "at") ) {
+		} else if( hasIgnoreCase(tokens, "anyone") && hasIgnoreCase(tokens, "is") || hasIgnoreCase(tokens, "who") && hasIgnoreCase(tokens, "is") && hasIgnoreCase(tokens, "at") || (hasIgnoreCase(tokens, "whos") || hasIgnoreCase(tokens, "who's")) && hasIgnoreCase(tokens, "at") ) {
 			log.indent(2).log("Person query detected.");
 			for( String location : variables.locations.keySet() ) {
 				if( containsIgnoreCase(messageText, location) ) {

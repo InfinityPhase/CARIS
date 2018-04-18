@@ -48,7 +48,7 @@ public class EmbedConstructor extends Constructor {
 	public Response process(MessageReceivedEvent event) {
 		multilineSetup(event);
 
-		String target = remainder(primaryLineSet.tokens.get(0), primaryLineSet.line);
+		String target = remainder(primaryLineSet.tokens.get(0), primaryLineSet.line).toLowerCase();
 		if( target.isEmpty() ) {
 			log.indent(2).log("SyntaxError. Aborting.");
 			response = "Please enter a valid Embed name.";

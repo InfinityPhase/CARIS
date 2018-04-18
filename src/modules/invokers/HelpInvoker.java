@@ -85,13 +85,13 @@ public class HelpInvoker extends Invoker {
 						"\n__All Constructors:__" +
 						"\n\t\t` cPoll `" +
 						"\n\t\t` cEmbed `";
-			} else if( Brain.responderModules.containsKey( target ) ) {
+			} else if( containsIgnoreCase(Brain.responderModules.keySet(), target ) ) {
 				log.indent(2).log("Found help document");
 				response = Brain.responderModules.get( target ).help;
-			} else if( Brain.invokerModules.containsKey( target ) ) {
+			} else if( containsIgnoreCase(Brain.invokerModules.keySet(), target ) ) {
 				log.indent(2).log("Found help document");
 				response = Brain.invokerModules.get( target ).help;
-			} else if( Brain.constructorModules.containsKey( target ) ) {
+			} else if( containsIgnoreCase(Brain.constructorModules.keySet(), target ) ) {
 				log.indent(2).log("Found help document");
 				response = Brain.constructorModules.get( target ).help;
 			} else {
