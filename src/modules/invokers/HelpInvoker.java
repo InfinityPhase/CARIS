@@ -35,7 +35,10 @@ public class HelpInvoker extends Invoker {
 					"\nTo see a list of *Invokers*, type ` cHelp: Invoker `.\n" + 
 					"\n__Constructors__" + 
 					"\nConstructors are a fair bit more complex." +  
-					"\nFor more information on them, type ` cHelp: Constructor `.";
+					"\nFor more information on them, type ` cHelp: Constructor `.\n" +
+					"\n__Tools__" +
+					"\nAdmin Tools are used to help Admins run a server, and are also somewhat complicated." +
+					"\nFor more information on them, type ' cHelp: Tool `.";
 
 		} else if( command.tokens.size() > 1 ) { // Has arguments
 			String target = command.tokens.get(1);			
@@ -55,6 +58,7 @@ public class HelpInvoker extends Invoker {
 						"\n\t\t` c8ball `"  +
 						"\n\t\t` cEcho `"  +
 						"\n\t\t` cLocation `"  +
+						"\n\t\t` cRules `" + 
 						"\n\t\t` cVote `\n"  +
 						"\nTo learn how to use a specific *Invoker*, type ` cHelp: <Invoker> `.";
 			} else if( target.equalsIgnoreCase("Responder") ) {
@@ -84,16 +88,27 @@ public class HelpInvoker extends Invoker {
 						"\noption Blue```\n" +
 						"\n__All Constructors:__" +
 						"\n\t\t` cPoll `" +
-						"\n\t\t` cEmbed `";
+						"\n\t\t` cEmbed `" +
+						"\nTo learn how to use a specific *Constructor*, type ` cHelp: <Constructor> `.";
+			} else if( target.equalsIgnoreCase("Tool") ) {
+				response += "**__Tools__**" +
+							"\nTools function in the same way that Constructors do." + 
+							"\nHowever, they are exclusive modular controllers that can be reprogrammed on the fly.\n" +
+							"\n__All Tools:__" +
+							"\n\t\t` /rules `\n" +
+							"\nTo learn how to use a specific *Tool*, type ` cHelp: <Tool> `.";
 			} else if( containsIgnoreCase(Brain.responderModules.keySet(), target ) ) {
 				log.indent(2).log("Found help document");
 				response = Brain.responderModules.get( target ).help;
 			} else if( containsIgnoreCase(Brain.invokerModules.keySet(), target ) ) {
 				log.indent(2).log("Found help document");
 				response = Brain.invokerModules.get( target ).help;
-			} else if( containsIgnoreCase(Brain.constructorModules.keySet(), target ) ) {
+			} else if( containsIgnoreCase(Brain.invokerModules.keySet(), target ) ) {
 				log.indent(2).log("Found help document");
-				response = Brain.constructorModules.get( target ).help;
+				response = Brain.invokerModules.get( target ).help;
+			} else if( containsIgnoreCase(Brain.toolModules.keySet(), target ) ) {
+				log.indent(2).log("Found help document");
+				response = Brain.toolModules.get( target ).help;
 			} else {
 				log.indent(2).log("Did not find help document");
 				response = "There is no module with that name, or that command.\n" +

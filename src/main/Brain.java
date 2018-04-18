@@ -24,6 +24,7 @@ import modules.constructors.Constructor;
 import modules.controllers.Controller;
 import modules.invokers.Invoker;
 import modules.responders.Responder;
+import modules.tools.Tool;
 import music.GuildMusicManager;
 import sx.blah.discord.api.IDiscordClient;
 import utilities.BotUtils;
@@ -44,6 +45,7 @@ public class Brain {
 	public static HashMap<String, Invoker> invokerModules = new HashMap<String, Invoker>();
 	public static HashMap<String, Responder> responderModules = new HashMap<String, Responder>();
 	public static HashMap<String, Constructor> constructorModules = new HashMap<String, Constructor>();
+	public static HashMap<String, Tool> toolModules = new HashMap<String, Tool>();
 	public static HashMap<String, Controller> controllerModules = new HashMap<String, Controller>();
 	
 	/* Things that think */
@@ -206,9 +208,39 @@ public class Brain {
 		for( String s : constructorModules.keySet() ) {
 			log.indent(3).log(s);
 		}
-
+		
 		log.indent(2).log("Loaded CommandPrefixes:");
 		for( String s : Variables.commandPrefixes ) {
+			log.indent(3).log(s);
+		}
+		
+		// Load Tool Modules
+		log.indent(1).log("Loading Tool Modules...");
+		reflect = new Reflections("modules.tools");
+		for( Class<?> c : reflect.getSubTypesOf( modules.tools.Tool.class ) ) {
+			Tool t = null;
+			try {
+				t = (Tool) c.newInstance();
+			} catch (InstantiationException e) {
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+			}
+			
+			if( ( t != null ) && ( t.status == Status.ENABLED ) && !contains( t.name, Constants.DISABLED_TOOLS ) ) {
+				log.indent(2).log("Adding " + t.name + " to the toolModules map");
+				toolModules.put( t.name, t );
+				Variables.toolPrefixes.add( t.prefix );
+			}
+		}
+		
+		log.indent(2).log("Loaded Tools:");
+		for( String s : toolModules.keySet() ) {
+			log.indent(3).log(s);
+		}
+		
+		log.indent(2).log("Loaded ToolPrefixes:");
+		for( String s : Variables.toolPrefixes ) {
 			log.indent(3).log(s);
 		}
 		
@@ -225,7 +257,7 @@ public class Brain {
 				e.printStackTrace();
 			}
 			
-			if( ( t != null ) && ( t.status == Status.ENABLED ) && !contains( t.name, Constants.DISABLED_INVOKERS ) ) {
+			if( ( t != null ) && ( t.status == Status.ENABLED ) && !contains( t.name, Constants.DISABLED_CONTROLLERS ) ) {
 				log.indent(2).log("Adding " + t.name + " to the controllerModules map");
 				controllerModules.put( t.name, t );
 			}

@@ -23,6 +23,10 @@ public class Constants {
 			
 	};
 	
+	public static final String[] DISABLED_TOOLS = new String[] {
+			
+	};
+	
 	public static final String[] DISABLED_CONTROLLERS = new String[] {
 			
 	};

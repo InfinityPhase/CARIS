@@ -16,10 +16,12 @@ import modules.constructors.Constructor;
 import modules.controllers.Controller;
 import modules.invokers.Invoker;
 import modules.responders.Responder;
+import modules.tools.Tool;
 import sx.blah.discord.api.events.EventSubscriber;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import sx.blah.discord.handle.obj.IChannel;
 import sx.blah.discord.handle.obj.IMessage;
+import sx.blah.discord.handle.obj.Permissions;
 import tokens.Response;
 import tokens.Thought;
 import utilities.BotUtils;
@@ -116,6 +118,29 @@ public class MessageReceived extends SuperEvent {
 			}
 		} else if( messageText.startsWith( Constants.ADMIN_PREFIX ) && !admin ) {
 			responses.add( new Response("Please stop trying to abuse me.", 0) );
+		} else if( startsWithOneOf( messageText, Variables.toolPrefixes ) ) {
+			log.log("Tool Usage detected.");
+			for( String s : Brain.toolModules.keySet() ) {
+				Tool t = Brain.toolModules.get(s);
+				log.indent(1).log("Checking " + s);
+				if( t.prefix.equalsIgnoreCase( getPrefix(event) ) && ( !blacklisted && !notWhitelistedAndShouldBe ) || t.avalibility == Avalibility.ALWAYS ) {
+					if( event.getAuthor().getPermissionsForGuild(event.getGuild()).contains(Permissions.ADMINISTRATOR) ) {
+						log.indent(10).log(blacklisted);
+						log.indent(2).log("Prefix match found");
+						Response r = t.process(event);
+						if( r.embed ) {
+							log.indent(3).log("Response embed option generated.");
+						}
+						responses.add(r);
+					} else {
+						Response r = new Response("You need to be an admin to do that!", 0);
+						responses.add(r);
+					}
+				}else {
+					log.indent(2).log("Prefix does not match");
+					continue;
+				}
+			}
 		} else if ( startsWithOneOf( messageText, Variables.commandPrefixes ) ) { // if invoked
 			log.log("Invocation detected.");
 			for( String s : Brain.invokerModules.keySet() ) {
@@ -214,7 +239,7 @@ public class MessageReceived extends SuperEvent {
 
 	public static boolean startsWithOneOf( String s, String[] prefixes ) {
 		for( String prefix : prefixes ) {
-			if( s.startsWith(prefix) ) {
+			if( s.toLowerCase().startsWith(prefix.toLowerCase()) ) {
 				return true;
 			}
 		}

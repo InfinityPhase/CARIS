@@ -146,6 +146,8 @@ public class LocationInvoker extends Invoker {
 				}
 			} else {
 				log.indent(3).log("Invalid command.");
+				response = "Invalid command.";
+				return build();
 			}
 		}
 		log.indent(1).log("LocationInvoker processed.");

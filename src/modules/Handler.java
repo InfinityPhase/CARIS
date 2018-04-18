@@ -34,6 +34,12 @@ public class Handler {
 		ALWAYS // Can never be blocked
 	};
 
+	public enum Access {
+		PUBLIC,
+		ADMIN,
+		DEVELOPER
+	}
+	
 	public Status status = Status.DISABLED; // If you don't set this, then don't even try to work
 	public Avalibility avalibility = Avalibility.STANDARD; // This should almost always be used
 	public String name;

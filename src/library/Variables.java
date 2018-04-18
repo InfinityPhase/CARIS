@@ -21,6 +21,7 @@ public class Variables {
 	public static DataSaver ds = new DataSaver();
 	public static List<String> commandPrefixes = new ArrayList<String>();
 	public static List<String> commandExacts = new ArrayList<String>();
+	public static List<String> toolPrefixes = new ArrayList<String>();
 	
 	public static IChannel getChannel( String channel ) {
 		return getChannel( new Long( channel ) );
