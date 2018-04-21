@@ -5,7 +5,7 @@
 
 # Variables
 declare GRADLE="gradle"
-declare PROJECTNAME="CARIS"
+declare PROJECTNAME=""
 declare EXTENSION=".tar"
 declare TOKEN=""
 
@@ -27,6 +27,9 @@ if [ -z $1 ]; then
 else # Prioritize a token that is passed in as an argument
   TOKEN=$1
 fi
+
+# Gets the current directory name, for use as the project name
+PROJECTNAME=${PWD##*/}
 
 $GRADLE clean build
 cd build/distributions || exit 1;
