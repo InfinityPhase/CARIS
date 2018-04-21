@@ -19,11 +19,12 @@ if ! hash gradle; then
 fi
 
 # Check the status of the token
-if [[ $TOKEN == "" ]]; then
-  if [ -z $1 ]; then
+if [ -z $1 ]; then
+  if [[ $TOKEN == "" ]]; then
     echo "A token is required. Either pass it as an argument, or set it as a constant in the script."
     exit 1;
   fi
+else # Prioritize a token that is passed in as an argument
   TOKEN=$1
 fi
 
