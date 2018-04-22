@@ -51,6 +51,7 @@ if( ( Get-Command "gradle" -ErrorAction SilentlyContinue ) -eq $null ) {
    }
 }
 
+# Perhaps use cmd.exe /c "$GRADLE$EXECUTABLE_EXTENSION" instead?
 # FYI, Invoke-Expression is the same as placing a $ sign infront of the string.
 Invoke-Expression "/" + $GRADLE clean build
 Set-Location -Path $ROOT_PATH + "build/distributions" # Same as cd'ing
