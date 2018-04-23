@@ -4,14 +4,14 @@
 # recommended.
 
 # Variables
-declare GRADLE="gradle"
+declare GRADLE="./gradle"
 declare PROJECTNAME=""
 declare EXTENSION=".tar"
 declare TOKEN=""
 
 # Check if gradle is avalible
 if ! hash gradle; then
-  GRADLE=gradlew
+  GRADLE="./"gradlew
   if ! [ -f "gradlew" ]; then
     echo "There is no avalible Gradle installation.\nPlease install Gradle and try again."
     exit 1;
