@@ -5,7 +5,7 @@
 
 <#
 .SYNOPSIS
-Starts the CARIS bot, with the provided token when run from the root directory.
+Starts the CARIS bot, to aid in quick development
 .DESCRIPTION
 Allows for easily testing caris, when still in development. It is required that
 this script be run from the root directory of the project. This means that the
