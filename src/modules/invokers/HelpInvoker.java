@@ -69,6 +69,7 @@ public class HelpInvoker extends Invoker {
 						"\n\t\t` rLocation `" +
 						"\n\t\t` rMention `" +
 						"\n\t\t` rNickname `" +
+						"\n\t\t` rTrend `" +
 						"\n\t\t` rReminder `\n" +
 						"\nTo learn how a specific *Responder* works, type ` cHelp: <Responder> `";
 			} else if( target.equalsIgnoreCase("Constructor") ) {
