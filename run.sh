@@ -9,11 +9,11 @@ declare PROJECTNAME=""
 declare EXTENSION=".tar"
 declare TOKEN=""
 
-# Check if gradle is avalible
-if ! hash gradle; then
+# Check if gradle is available
+if ! command -v gradle >/dev/null; then
   GRADLE="./"gradlew
   if ! [ -f "gradlew" ]; then
-    echo "There is no avalible Gradle installation.\nPlease install Gradle and try again."
+    echo "There is no available Gradle installation.\nPlease install Gradle and try again."
     exit 1;
   fi
 fi
@@ -34,10 +34,10 @@ PROJECTNAME=${PWD##*/}
 $GRADLE clean build
 cd build/distributions || exit 1;
 
-if hash aunpack; then
+if command -v aunpack >/dev/null; then
   aunpack $PROJECTNAME$EXTENSION
 else
-  if hash tar; then
+  if command -v tar >/dev/null; then
     tar -x -f $PROJECTNAME$EXTENSION
   else
     echo "A program for extracting files is required.\nPlease install either aunpack or tar to continue."
