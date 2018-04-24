@@ -131,6 +131,7 @@ public class PollConstructor extends Constructor {
 						}
 					} else if( command.equalsIgnoreCase("option") ) {
 						String text = remainder(ls.tokens.get(0), ls.line);
+						text.toLowerCase();
 						if( text.isEmpty() ) {
 							response += "Please enter a valid option.";
 						} else {
