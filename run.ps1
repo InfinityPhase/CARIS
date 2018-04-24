@@ -30,10 +30,10 @@ Add-Type -assembly "system.io.compression.filesystem"
 
 # Variable declarations
 $GRADLE = "gradle"
-$PROJECTNAME = Split-Path -Path $MyInvocation.MyCommand.Definition -Parent
+$ROOT_PATH = ( Convert-Path . ) # The absolute path of the current directory
+$PROJECTNAME = [System.IO.Path]::GetFileName( $ROOT_PATH ) # Gets the current directory name, without the absolute path
 $COMPRESSED_EXTENSION = ".zip"
 $EXECUTABLE_EXTENSION = ".bat"
-$ROOT_PATH = ( Convert-Path . )
 
 if( ! $TOKEN ) {
   # Not exit, as that will close the shell. Stops execution.
@@ -55,9 +55,9 @@ if( ( Get-Command "gradle" -ErrorAction SilentlyContinue ) -eq $null ) {
 # Perhaps use cmd.exe /c "$GRADLE$EXECUTABLE_EXTENSION" instead?
 # FYI, Invoke-Expression is the same as placing a $ sign in front of the string.
 Invoke-Expression "$GRADLE clean build"
-Set-Location -Path $ROOT_PATH + "build/distributions" # Same as cd'ing
+Set-Location -Path ( "$ROOT_PATH" + "\build\distributions" ) # Same as cd'ing
 
-[io.compression.zipfile]::ExtractToDirectory( ( $ROOT_PATH + "build\distributions\" + $PROJECTNAME + $COMPRESSED_EXTENSION ), ( $ROOT_PATH + "build/distributions/" + $PROJECTNAME ) )
+[io.compression.zipfile]::ExtractToDirectory( ( $ROOT_PATH + "\build\distributions\" + $PROJECTNAME + $COMPRESSED_EXTENSION ), ( $ROOT_PATH + "\build\distributions\" + $PROJECTNAME ) )
 
-Set-Location -Path "$ROOT_PATHbuild\distributions$PROJECTNAME\bin"
-.\$PROJECTNAME + $EXECUTABLE_EXTENSION $TOKEN
+Set-Location -Path ( "$ROOT_PATH" + "\build\distributions\" + "$PROJECTNAME" + "\$PROJECTNAME" + "\bin" )
+Invoke-Expression (".\$PROJECTNAME" + "$EXECUTABLE_EXTENSION $TOKEN" )
