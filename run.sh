@@ -4,7 +4,7 @@
 # recommended.
 
 # Variables
-declare GRADLE="./gradle"
+declare GRADLE="gradle"
 declare PROJECTNAME=""
 declare EXTENSION=".tar"
 declare TOKEN=""
