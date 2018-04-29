@@ -6,28 +6,29 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import controller.Controller;
-import invokers.Invoker;
 import library.Constants;
 import library.Variables;
 import main.Brain;
 import main.GuildInfo;
-import main.UserInfo;
 import memories.Memory;
-import responders.Responder;
-
+import modules.Handler.Avalibility;
+import modules.constructors.Constructor;
+import modules.controllers.Controller;
+import modules.invokers.Invoker;
+import modules.responders.Responder;
+import modules.tools.Tool;
 import sx.blah.discord.api.events.EventSubscriber;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import sx.blah.discord.handle.obj.IChannel;
 import sx.blah.discord.handle.obj.IMessage;
+import sx.blah.discord.handle.obj.Permissions;
 import tokens.Response;
 import tokens.Thought;
 import utilities.BotUtils;
 import utilities.Logger;
-import utilities.Handler.Avalibility;
 
 public class MessageReceived extends SuperEvent {
-	static Logger log = new Logger().setDefaultIndent(1).build();
+	private Logger log = new Logger().setDefaultIndent(1).build();
 
 	@EventSubscriber
 	@Override
@@ -117,6 +118,29 @@ public class MessageReceived extends SuperEvent {
 			}
 		} else if( messageText.startsWith( Constants.ADMIN_PREFIX ) && !admin ) {
 			responses.add( new Response("Please stop trying to abuse me.", 0) );
+		} else if( startsWithOneOf( messageText, Variables.toolPrefixes ) ) {
+			log.log("Tool Usage detected.");
+			for( String s : Brain.toolModules.keySet() ) {
+				Tool t = Brain.toolModules.get(s);
+				log.indent(1).log("Checking " + s);
+				if( t.prefix.equalsIgnoreCase( getPrefix(event) ) && ( !blacklisted && !notWhitelistedAndShouldBe ) || t.avalibility == Avalibility.ALWAYS ) {
+					if( event.getAuthor().getPermissionsForGuild(event.getGuild()).contains(Permissions.ADMINISTRATOR) ) {
+						log.indent(10).log(blacklisted);
+						log.indent(2).log("Prefix match found");
+						Response r = t.process(event);
+						if( r.embed ) {
+							log.indent(3).log("Response embed option generated.");
+						}
+						responses.add(r);
+					} else {
+						Response r = new Response("You need to be an admin to do that!", 0);
+						responses.add(r);
+					}
+				}else {
+					log.indent(2).log("Prefix does not match");
+					continue;
+				}
+			}
 		} else if ( startsWithOneOf( messageText, Variables.commandPrefixes ) ) { // if invoked
 			log.log("Invocation detected.");
 			for( String s : Brain.invokerModules.keySet() ) {
@@ -126,6 +150,27 @@ public class MessageReceived extends SuperEvent {
 					log.indent(10).log(blacklisted);
 					log.indent(2).log("Prefix match found");
 					Response r = i.process(event);
+					if( r.embed ) {
+						log.indent(3).log("Response embed option generated.");
+						responses.add(r);
+					}
+					
+					if( !r.text.equals("") ) { // if this produces a result
+						log.indent(3).log("Response option generated: \"" + r.text + "\"");
+						responses.add( r ); // add it to the list of potential responses
+					}
+				} else {
+					log.indent(2).log("Prefix does not match");
+					continue;
+				}
+			}
+			for( String s : Brain.constructorModules.keySet() ) {
+				Constructor co = Brain.constructorModules.get(s);
+				log.indent(1).log("Checking " + s);
+				if( co.prefix.equalsIgnoreCase( getPrefix(event) ) && ( ( !blacklisted && !notWhitelistedAndShouldBe ) || co.avalibility == Avalibility.ALWAYS ) ) {
+					log.indent(10).log(blacklisted);
+					log.indent(2).log("Prefix match found");
+					Response r = co.process(event);
 					if( r.embed ) {
 						log.indent(3).log("Response embed option generated.");
 						responses.add(r);
@@ -194,7 +239,7 @@ public class MessageReceived extends SuperEvent {
 
 	public static boolean startsWithOneOf( String s, String[] prefixes ) {
 		for( String prefix : prefixes ) {
-			if( s.startsWith(prefix) ) {
+			if( s.toLowerCase().startsWith(prefix.toLowerCase()) ) {
 				return true;
 			}
 		}
@@ -215,15 +260,11 @@ public class MessageReceived extends SuperEvent {
 	}
 
 	public static String getPrefix( String line ) {
+		line += " ";
 		int id = line.indexOf(":");
 		if( id == -1 ) {
 			id = line.indexOf(" ");
 		}
-
-		if( id == -1 ) {
-			return ""; // There is no prefix
-		}
-
 		return line.substring(0, id);
 	}
 

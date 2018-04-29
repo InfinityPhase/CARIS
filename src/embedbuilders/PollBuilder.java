@@ -15,9 +15,9 @@ public class PollBuilder {
 		builder.withAuthorIcon(p.author.getAvatarURL());
 		builder.withTitle("**__" + p.name + "__**");
 		if( !p.description.isEmpty() ) {
-			builder.withDesc("*" + p.description + "*" + "```\ncVote: " + p.name + "\n<option>```");
+			builder.withDesc("*" + p.description + "*" + "```\ncVote: " + p.name + " <option>```");
 		} else {
-			builder.withDesc("```\ncVote: " + p.name + "\n<option>```");
+			builder.withDesc("```\ncVote: " + p.name + " <option>```");
 		}
 		for( String option : p.options.keySet() ) {
 			builder.appendField(option, p.options.get(option).size() + " votes!", false);
@@ -32,8 +32,7 @@ public class PollBuilder {
 		builder.withAuthorIcon(invoker.getAvatarURL());
 		builder.withTitle("**__" + p.name + "__**");
 		builder.withDesc("*" + p.description + "*" + 
-				"```\ncVote: " + p.name +
-				"\n<option>```");
+				"```\ncVote: " + p.name + " <option>```");
 		for( String option : p.options.keySet() ) {
 			builder.appendField(option, p.options.get(option).size() + " votes!", false);
 		}
@@ -42,13 +41,13 @@ public class PollBuilder {
 		return builder;
 	}
 	
+	@SuppressWarnings("unlikely-arg-type")
 	public EmbedBuilder end(Poll p) {
 		EmbedBuilder builder = new EmbedBuilder();
 		builder.withAuthorIcon(p.author.getAvatarURL());
 		builder.withTitle("**__" + p.name + "__**");
 		builder.withDesc("*" + p.description + "*" + 
-				"```\ncVote: " + p.name +
-				"\n<option>```");
+				"```\ncVote: " + p.name + " <option>```");
 		for( String option : p.options.keySet() ) {
 			builder.appendField(option, p.options.get(option).size() + " votes!", false);
 		}

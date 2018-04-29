@@ -15,6 +15,7 @@ public class UserInfo {
 	public long id; // Snowflake ID
 	public int karma;
 	public String location; // The declared location of the user
+	public String rules; // The rules of the guild
 	public IMessage lastMessage; // The last message the user has sent
 
 	public HashMap< String, String > contactInfo; // Contact info about the user

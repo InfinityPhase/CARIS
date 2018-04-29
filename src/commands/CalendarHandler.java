@@ -2,12 +2,9 @@ package commands;
 
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.concurrent.TimeUnit;
 
-import library.Constants;
 import library.Variables;
 import main.Brain;
-import main.GuildInfo;
 import sx.blah.discord.handle.obj.IGuild;
 import tokens.Reminder;
 import utilities.BotUtils;
@@ -41,7 +38,7 @@ public class CalendarHandler {
 					}
 					BotUtils.sendMessage( Variables.getChannel(reminder.channelID), send );
 
-					// TODO: Remove reminder
+					Variables.guildIndex.get(guild).reminders.remove(c);
 				}
 			}
 		}

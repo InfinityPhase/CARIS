@@ -10,9 +10,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 import main.Brain;
 import main.GuildInfo;
@@ -20,8 +17,8 @@ import sx.blah.discord.handle.obj.IChannel;
 import sx.blah.discord.handle.obj.IGuild;
 import sx.blah.discord.handle.obj.IMessage;
 import sx.blah.discord.handle.obj.IUser;
-import tokens.Reminder;
 import tokens.NullReminderIDException;
+import tokens.Reminder;
 import utilities.DataSaver;
 import utilities.Database;
 
@@ -329,6 +326,8 @@ public class Variables {
 	public static long getLogChannel( String guild ) {
 		return getLogChannel( new Long( guild ) );
 	}
+	
+	public static List<String> toolPrefixes = new ArrayList<String>();
 
 	public static long getLogChannel( long guild ) {
 		ResultSet rs = server.query( "SELECT logChannel FROM Guild WHERE guild_id = " + guild );
