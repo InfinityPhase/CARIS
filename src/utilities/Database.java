@@ -9,6 +9,7 @@ import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+import exceptions.InequalCollumnsValues;
 import library.Constants;
 
 public class Database {
@@ -92,7 +93,7 @@ public class Database {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void close() {
 		try {
 			connection.close();
@@ -102,9 +103,9 @@ public class Database {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/* Set Pragma Values */
-	
+
 	public void setPragma( String name, boolean value ) {
 		PreparedStatement prep = null;
 		try {
@@ -127,6 +128,93 @@ public class Database {
 		} catch( SQLException e ) {
 			e.printStackTrace();
 		}
+	}
+
+	/* No security on this, beware */ 
+
+	public void rawUpdate( String update ) {
+		/* Runs a raw update */
+		try {
+			statement.executeUpdate( update );
+		} catch( SQLException e ) {
+			e.printStackTrace();
+		}
+	}
+
+	/* INSERTS */
+
+	public void insert( String table, String[] collumns, Object[] values ) throws InequalCollumnsValues {
+		if( collumns.length != values.length ) {
+			throw new InequalCollumnsValues( table, collumns.length, values.length );
+		}
+
+		PreparedStatement prep = null;
+		StringBuilder collumnQ = new StringBuilder();
+		StringBuilder valueQ = new StringBuilder();
+
+		// Hackery
+		collumnQ.append("?");
+		for( int i = 1; i < collumns.length; i++ ) {
+			collumnQ.append(", ?");
+		}
+		
+		// Continuing the hackery
+		valueQ.append("?");
+		for( int i = 1; i < values.length; i++ ) {
+			valueQ.append(", ?");
+		}
+
+		try {
+			prep = connection.prepareStatement("INSERT INTO ? ( " + collumnQ.toString() + " )VALUES ( " + valueQ.toString() + " );");
+			prep.setString(1, table);
+
+			// Even more hackery here
+			for( int i = 0; i < collumns.length; i++ ) {
+				prep.setObject((i+1), collumns[i]);
+			}
+			
+			// When will the hackery end...
+			for( int i = 0; i < values.length; i++ ) {
+				prep.setObject((i+collumns.length+1), values[i]);
+			}
+
+			prep.executeQuery();
+		} catch( SQLException e ) {
+			e.printStackTrace();
+		}
+	}
+
+	public void insert( String table, String collumn, Object value ) throws InequalCollumnsValues {
+		insert( table, new String[]{ collumn }, new Object[]{ value } );
+	}
+
+	public void insert( String table, Object[] values ) {
+		PreparedStatement prep = null;
+		StringBuilder sb = new StringBuilder();
+
+		// Hackery
+		sb.append("?");
+		for( int i = 1; i < values.length; i++ ) {
+			sb.append(", ?");
+		}
+
+		try {
+			prep = connection.prepareStatement("INSERT INTO ? VALUES ( " + sb.toString() + " );");
+			prep.setString(1, table);
+
+			// More hackery
+			for( int i = 0; i < values.length; i++ ) {
+				prep.setObject(i+1, values[i]);
+			}
+
+			prep.executeQuery();
+		} catch( SQLException e ) {
+			e.printStackTrace();
+		}
+	}
+
+	public void insert( String table, Object value ) {
+		insert( table, new Object[]{ value } );
 	}
 
 }
