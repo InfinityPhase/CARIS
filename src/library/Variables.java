@@ -19,7 +19,6 @@ import sx.blah.discord.handle.obj.IMessage;
 import sx.blah.discord.handle.obj.IUser;
 import tokens.NullReminderIDException;
 import tokens.Reminder;
-import utilities.DataSaver;
 import utilities.Database;
 
 public class Variables {
@@ -54,7 +53,6 @@ public class Variables {
 	public static HashMap<IGuild, GuildInfo> guildIndex = new HashMap<IGuild, GuildInfo>(); /* Stores info about each guild for caris */
 
 	/* Global Utilities */
-	public static DataSaver ds = new DataSaver();
 	public static List<String> commandPrefixes = new ArrayList<String>();
 	public static List<String> commandExacts = new ArrayList<String>();
 
@@ -63,7 +61,6 @@ public class Variables {
 		init( Constants.DATABASE_FILE );
 	}
 
-	@SuppressWarnings("serial")
 	public static void init( String file ) {
 
 		server = new Database( file );
@@ -470,7 +467,6 @@ public class Variables {
 		addBlacklist( String.valueOf(guild), String.valueOf(channel) ); 
 	}
 
-	@SuppressWarnings("serial")
 	public static void addBlacklist( String guild, String channel ) {
 		ResultSet rs = server.query( "SELECT blacklist_id FROM Guild WHERE guild_id = " + guild + ";" ); // Could make this a one-liner, just for kicks...
 
@@ -493,7 +489,6 @@ public class Variables {
 		addWhitelist( String.valueOf(guild), String.valueOf(channel) );
 	}
 
-	@SuppressWarnings("serial")
 	public static void addWhitelist( String guild, String channel ) {
 		ResultSet rs = server.query( "SELECT whitelist_id FROM Guild WHERE guild_id = " + guild + ";" ); // Could make this a one-liner, just for kicks...
 

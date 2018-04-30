@@ -65,6 +65,7 @@ public class Brain {
 	public static AudioPlayerManager playerManager;
 	public static Map<Long, GuildMusicManager> musicManagers;
 
+	public static String token = "";
 	public static IDiscordClient cli = null;
 
 	public static void main(String[] args) {
@@ -78,7 +79,7 @@ public class Brain {
 		}
 
 		// Gets token from arguments
-		String token = args[0];
+		token = args[0];
 
 		cli = BotUtils.getBuiltDiscordClient(token);
 		log.log("Client built successfully.");

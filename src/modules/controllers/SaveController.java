@@ -1,6 +1,5 @@
 package modules.controllers;
 
-import library.Variables;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import tokens.Response;
 
@@ -20,7 +19,7 @@ public class SaveController extends Controller {
 		tokenSetup(event);
 		if( tokens.size() > 0 ) {
 			if( tokens.get(0).equals("save") ) {
-				Variables.ds.save();
+				// TODO Implement database backup
 				response = "Data saved.";
 			}
 		}

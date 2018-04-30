@@ -13,6 +13,7 @@ import utilities.Logger;
 public class CalendarHandler {
 	Logger log = new Logger().setBaseIndent(1).setDefaultShouldAppendTime(true).build();
 	
+	@SuppressWarnings("unlikely-arg-type")
 	public void check() {
 		for( IGuild guild : Variables.guildIndex.keySet() ) {
 			//GuildInfo info = Variables.guildIndex.get(guild);

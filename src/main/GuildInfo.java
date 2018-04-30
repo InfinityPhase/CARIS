@@ -1,6 +1,5 @@
 package main;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -14,10 +13,8 @@ import sx.blah.discord.handle.obj.IUser;
 import tokens.Poll;
 import tokens.Reminder;
 
-public class GuildInfo implements Serializable {
+public class GuildInfo {
 
-	/* Unique ID for this version of this class */
-	private static final long serialVersionUID = 6924279741134225977L;
 	/* Basic Information */
 	public String name;
 	public IGuild guild;
@@ -45,7 +42,6 @@ public class GuildInfo implements Serializable {
 	public long logChannel; // Perhaps should be the actual channel? Probably?
 	public List< IChannel > blacklist;
 	public List< IChannel > whitelist;
-	public HashMap< IChannel, HashMap< String, Object > > settings; // For extendibility, can set a channel to have any number of things
 	
 	public GuildInfo() {
 		this("", null);
@@ -92,7 +88,6 @@ public class GuildInfo implements Serializable {
 		this.blacklist = blacklist;
 		this.whitelist = whitelist;
 		this.logChannel = logChannel;
-		this.settings = settings;
 				
 		pollBuilder = new PollBuilder();
 		moduleStatusBuilder = new ModuleStatusBuilder();
