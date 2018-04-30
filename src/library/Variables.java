@@ -58,7 +58,7 @@ public class Variables {
 
 	public static void init() {
 		// Connect to database
-		init( Constants.DATABASE_FILE );
+		init( Constants.Database.DATABASE_FILE );
 	}
 
 	public static void init( String file ) {

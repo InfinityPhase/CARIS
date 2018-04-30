@@ -42,16 +42,16 @@ public class Database {
 		this.name = name;
 
 		try {
-			if( !Constants.USE_MEMORY_DATABASE ) {
+			if( !Constants.Database.USE_MEMORY_DATABASE ) {
 				Class.forName("org.sqlite.JDBC"); // Do i need this?
 				connection = DriverManager.getConnection( name );
 
 			} else {
-				connection = DriverManager.getConnection( Constants.MEMORY_DATABASE );
+				connection = DriverManager.getConnection( Constants.Database.MEMORY_DATABASE );
 			}
 
 			statement = connection.createStatement();
-			statement.setQueryTimeout( Constants.DEFAULT_SQL_TIMEOUT );  // set timeout to 30 sec.
+			statement.setQueryTimeout( Constants.Database.DEFAULT_SQL_TIMEOUT );  // set timeout to 30 sec.
 		} catch( SQLException e ) {
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
@@ -63,7 +63,7 @@ public class Database {
 
 	public void setQueryTimeout() {
 		/* Resets back to default */
-		setQueryTimeout( Constants.DEFAULT_SQL_TIMEOUT );
+		setQueryTimeout( Constants.Database.DEFAULT_SQL_TIMEOUT );
 	}
 
 	public void setQueryTimeout( int time ) {
@@ -84,14 +84,14 @@ public class Database {
 	public void backup() {
 		/* Useful if using a memory database */
 		try {
-			statement.executeUpdate( "backup to " + Constants.BACKUP_DATABASE  );
+			statement.executeUpdate( "backup to " + Constants.Database.BACKUP_DATABASE  );
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
 
 	public void restore() {
-		restore( Constants.BACKUP_DATABASE );
+		restore( Constants.Database.BACKUP_DATABASE );
 	}
 
 	public void restore( String name ) {
