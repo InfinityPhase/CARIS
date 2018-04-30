@@ -19,7 +19,7 @@ import sx.blah.discord.handle.obj.IMessage;
 import sx.blah.discord.handle.obj.IUser;
 import tokens.NullReminderIDException;
 import tokens.Reminder;
-import utilities.Database;
+import utilities.DatabaseOld;
 
 public class Variables {
 	/*
@@ -43,7 +43,7 @@ public class Variables {
 	 * If ResultSet error, https://stackoverflow.com/a/5841485
 	 */
 
-	private static Database server = null;
+	private static DatabaseOld server = null;
 	private static SimpleDateFormat format = new SimpleDateFormat("YYYYMMddhhmmss", Locale.ENGLISH);
 
 
@@ -63,7 +63,7 @@ public class Variables {
 
 	public static void init( String file ) {
 
-		server = new Database( file );
+		server = new DatabaseOld( file );
 
 		/* Set the nessessary PRAGMA */
 
