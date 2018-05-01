@@ -4,6 +4,7 @@ import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
@@ -157,7 +158,7 @@ public class Database {
 		for( int i = 1; i < collumns.length; i++ ) {
 			collumnQ.append(", ?");
 		}
-		
+
 		// Continuing the hackery
 		valueQ.append("?");
 		for( int i = 1; i < values.length; i++ ) {
@@ -170,12 +171,12 @@ public class Database {
 
 			// Even more hackery here
 			for( int i = 0; i < collumns.length; i++ ) {
-				prep.setObject((i+1), collumns[i]);
+				prep.setObject((i+2), collumns[i]);
 			}
-			
+
 			// When will the hackery end...
 			for( int i = 0; i < values.length; i++ ) {
-				prep.setObject((i+collumns.length+1), values[i]);
+				prep.setObject((i+collumns.length+2), values[i]);
 			}
 
 			prep.executeQuery();
@@ -204,7 +205,7 @@ public class Database {
 
 			// More hackery
 			for( int i = 0; i < values.length; i++ ) {
-				prep.setObject(i+1, values[i]);
+				prep.setObject(i+2, values[i]);
 			}
 
 			prep.executeQuery();
@@ -215,6 +216,112 @@ public class Database {
 
 	public void insert( String table, Object value ) {
 		insert( table, new Object[]{ value } );
+	}
+
+	/* QUERIES */
+
+	public ResultSet query( String table, String[] collumns, String[] values, String[] resultCollumns ) throws InequalCollumnsValues {
+		if( collumns.length != values.length ) {
+			throw new InequalCollumnsValues( table, collumns.length, values.length );
+		}
+
+		PreparedStatement prep = null;
+		StringBuilder collumnQ = new StringBuilder();
+		StringBuilder resultQ = new StringBuilder();
+
+		collumnQ.append("?=?");
+		for( int i = 1; i < collumns.length; i++ ) {
+			collumnQ.append(", ?=?");
+		}
+
+		resultQ.append("?");
+		for( int i = 1; i < resultCollumns.length; i++ ) {
+			resultQ.append(", ?");
+		}
+
+		try {
+			prep = connection.prepareStatement("SELECT " + resultQ.toString() + " FROM ? WHERE ( " + collumnQ.toString() + " ) ;");
+
+			for( int i = 0; i < resultCollumns.length; i++ ) {
+				prep.setString(i+1, resultCollumns[i]);
+			}
+
+			prep.setString(resultCollumns.length+2, table);
+
+			int index = ( 2 + resultCollumns.length );
+			for( int i = 0; i < collumns.length; i++ ) {
+				prep.setString(index, collumns[i]);
+				prep.setObject(index+1, values[i]);
+				index = index + 2;
+			}
+
+			return prep.executeQuery();
+		} catch( SQLException e ) {
+			e.printStackTrace();
+		}
+
+		return null;
+	}
+
+	public ResultSet query( String table, String[] collumns, String[] values, String resultCollumn ) throws InequalCollumnsValues {
+		return query( table, collumns, values, new String[] { resultCollumn } );
+	}
+
+	public ResultSet query( String table, String collumn, String value, String[] resultCollumns ) {
+		try {
+			return query( table, new String[] { collumn }, new String[] { value }, resultCollumns );
+		} catch (InequalCollumnsValues e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+
+	public ResultSet query( String table, String collumn, String value, String resultCollumns ) {
+		return query( table, collumn, value, new String[] { resultCollumns } );
+	}
+
+	public ResultSet query( String table, String[] collumns, String[] values ) throws InequalCollumnsValues {
+		if( collumns.length != values.length ) {
+			throw new InequalCollumnsValues( table, collumns.length, values.length );
+		}
+		
+		PreparedStatement prep = null;
+		
+		StringBuilder sb = new StringBuilder();
+		
+		sb.append("?=?");
+		for( int i = 1; i < collumns.length; i++ ) {
+			sb.append(", ?=?");
+		}
+		
+		try {
+			prep = connection.prepareStatement("SELECT * FROM ? WHERE ( " + sb.toString() + " );");
+			prep.setString(1, table);
+			
+			int index = 2;
+			for( int i = 0; i < collumns.length; i++ ) {
+				prep.setString(index, collumns[i]);
+				prep.setObject(index+1, values[i]);
+				index = index + 2;
+			}
+			
+			return prep.executeQuery();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+	
+	public ResultSet query( String table, String collumn, String value ) {
+		try {
+			return query( table, new String[] { collumn }, new String[] { value } );
+		} catch (InequalCollumnsValues e) {
+			e.printStackTrace();
+		}
+		
+		return null;
 	}
 
 }
