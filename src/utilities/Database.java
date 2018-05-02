@@ -323,5 +323,44 @@ public class Database {
 		
 		return null;
 	}
-
+	
+	/* DELETES */
+	
+	public void remove( String table, String[] collumns, String[] values ) throws InequalCollumnsValues {
+		if( collumns.length != values.length ) {
+			throw new InequalCollumnsValues( table, collumns.length, values.length );
+		}
+		
+		PreparedStatement prep = null;
+		StringBuilder sb = new StringBuilder();
+		
+		sb.append("?=?");
+		for( int i = 1; i < collumns.length; i++ ) {
+			sb.append(", ?=?");
+		}
+		
+		try {
+			prep = connection.prepareStatement("DELETE FROM ? WHERE ( " + sb.toString() + " );");
+			prep.setString(1, table);
+			
+			int index = 2;
+			for( int i = 0; i < collumns.length; i++ ) {
+				prep.setString(index, collumns[i]);
+				prep.setObject(index+1, values[i]);
+				index = index + 2;
+			}
+			
+		} catch( SQLException e ) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void remove( String table, String collumn, String value ) {
+		try {
+			remove( table, new String[] { collumn }, new String[] { value } );
+		} catch (InequalCollumnsValues e) {
+			e.printStackTrace();
+		}
+	}
+	
 }
