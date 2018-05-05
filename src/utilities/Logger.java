@@ -1,19 +1,21 @@
 package utilities;
 
 import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 import library.Constants;
 
 public class Logger {
-	DateTimeFormatter dtf = DateTimeFormatter.ofPattern("");
+	DateTimeFormatter fileNameFormat = DateTimeFormatter.ofPattern( Constants.Logger.FILEDATEFORMAT );
+	DateTimeFormatter contentTimeFormat = DateTimeFormatter.ofPattern( Constants.Logger.TIMEFORMAT );
 
 	BufferedWriter logWriter;
 
@@ -61,9 +63,11 @@ public class Logger {
 
 	public Logger() {
 		try {
-			this.logWriter = new BufferedWriter( new OutputStreamWriter( new FileOutputStream( 
-					new File( ( Constants.Logger.PREPENDDATE ? LocalDateTime.now().format( dtf ) + "_" : "" ) + Constants.Logger.LOG_FILE_NAME + Constants.Logger.SAVEEXTENTION ) ), Constants.Logger.ENCODING));
-		} catch (UnsupportedEncodingException | FileNotFoundException e) {
+			// We use a verbose version of this, so that we throw an exception if the encoding is bad
+			 this.logWriter = new BufferedWriter( new OutputStreamWriter(
+				     new FileOutputStream( ( Constants.Logger.PREPENDDATE ? LocalDateTime.now().format( fileNameFormat ) + "_" : "" ) + Constants.Logger.LOG_FILE_NAME + Constants.Logger.SAVEEXTENTION ),
+				     Charset.forName( Constants.Logger.ENCODING ).newEncoder() ) );
+		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
 	}
@@ -285,6 +289,7 @@ public class Logger {
 	private void file( String message ) {
 		try {
 			logWriter.write( message );
+			logWriter.newLine();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -321,7 +326,7 @@ public class Logger {
 	}
 
 	private String appendTime( String message ) {
-		return "[" + LocalDateTime.now().format( dtf ) + "] " + message;
+		return "[" + LocalDateTime.now().format( contentTimeFormat ) + "] " + message;
 	}
 	
 }

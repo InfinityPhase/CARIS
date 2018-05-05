@@ -84,7 +84,8 @@ public class Constants {
 		public static final String ENCODING = "UTF-8";
 		
 		// Date format settings
-		public static final String DATEFORMAT = "yyyyMMddhhmm";
+		public static final String FILEDATEFORMAT = "yyyyMMddhhmm"; // For file names
+		public static final String TIMEFORMAT = "yyyy-MM-dd'T'hh:mm:ss"; // ISO_LOCAL_DATE_TIME
 		
 		// Maybe move the declaration of the eval here, so that the logger isn't imported here
 		public final static level DEFAULT_LEVEL = level.STATUS;
