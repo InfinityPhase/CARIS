@@ -55,34 +55,41 @@ public class Constants {
 	// SAVETIME uses milliseconds
 	// Default is 6000000 ms
 	public static final int SAVETIME = 20000;
-	public static final boolean PREPENDDATE = true;
 	public static final boolean SAVESTATE = false;
-	public static final boolean LOG_FILE = false;
-	public static final boolean DEBUG_FILE = false;
 	public static final String SAVEFILE = "CARIS_State";
-	public static final String DEBUG_FILE_NAME = "DebugLog";
-	public static final String LOG_FILE_NAME = "StatusLog";
-	public static final String SAVEEXTENTION = ".caris";
-	public static final String DATEFORMAT = "yyyyMMddhhmm";
-	public static final String ENCODING = "UTF-8";
 
 	// Controls the order of thoughts in the message log
 	public static final String[] THOUGHT_ORDER = { "Author", "Time" };
 	public static final boolean MEMORY_RESPECT_LIST = true; // Should memories only be run on channels that are not excluded?
 
 	// Logger constants
-	public final static String INDENT_STRING = "=";
-	public final static String DEFAULT_HEADER = ">";
-	public final static int DEFAULT_INDENT = 0;
-	public final static int DEFAULT_BASE_INDENT = 0;
-	public final static boolean INDENT_FILE = true;
-	public final static boolean INDENT_CONSOLE = true;
-	public final static boolean OUTPUT_TIME = false;
-	public final static boolean OUTPUT_TYPE = false;
-	public final static boolean DEFAULT_SHOULD_INDENT = true;
-	// Maybe move the declaration of the eval here, so that the logger isn't imported here
-	public final static level DEFAULT_LEVEL = level.STATUS;
-	public final static output DEFUALT_OUTPUT = output.ALL;
+	public static final class Logger {
+		public final static String INDENT_STRING = "=";
+		public final static String DEFAULT_HEADER = ">";
+		public final static int DEFAULT_INDENT = 0;
+		public final static int DEFAULT_BASE_INDENT = 0;
+		public final static boolean INDENT_FILE = true;
+		public final static boolean INDENT_CONSOLE = true;
+		public final static boolean OUTPUT_TIME = false;
+		public final static boolean OUTPUT_TYPE = false;
+		public final static boolean DEFAULT_SHOULD_INDENT = true;
+		
+		// Log file settings
+		public static final boolean PREPENDDATE = true;
+		public static final boolean LOG_FILE = false;
+		public static final boolean DEBUG_FILE = false;
+		public static final String DEBUG_FILE_NAME = "DebugLog";
+		public static final String LOG_FILE_NAME = "StatusLog";
+		public static final String SAVEEXTENTION = ".caris";
+		public static final String ENCODING = "UTF-8";
+		
+		// Date format settings
+		public static final String DATEFORMAT = "yyyyMMddhhmm";
+		
+		// Maybe move the declaration of the eval here, so that the logger isn't imported here
+		public final static level DEFAULT_LEVEL = level.STATUS;
+		public final static output DEFUALT_OUTPUT = output.ALL;
+	}
 
 	// Channel Setting Constants
 	public static final boolean LISTEN_BLACKLIST = false;

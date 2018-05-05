@@ -7,25 +7,25 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import library.Constants;
 
 public class Logger {
-	SimpleDateFormat sdf = new SimpleDateFormat( Constants.DATEFORMAT );
+	DateTimeFormatter dtf = DateTimeFormatter.ofPattern("");
 
 	BufferedWriter logWriter;
 
-	private int defaultIndent = Constants.DEFAULT_INDENT;
-	private int baseIndent = Constants.DEFAULT_BASE_INDENT;
-	private String debugHeader = Constants.DEFAULT_HEADER;
-	private String defaultIndentString = Constants.INDENT_STRING;
-	private boolean defaultShouldAppendTime = Constants.OUTPUT_TIME;
-	private boolean defaultShouldAppendLevel = Constants.OUTPUT_TYPE;
-	private boolean defaultShouldIndent = Constants.DEFAULT_SHOULD_INDENT;
-	private level defaultLevel = Constants.DEFAULT_LEVEL;
-	private output defaultOutput = Constants.DEFUALT_OUTPUT;
+	private int defaultIndent = Constants.Logger.DEFAULT_INDENT;
+	private int baseIndent = Constants.Logger.DEFAULT_BASE_INDENT;
+	private String debugHeader = Constants.Logger.DEFAULT_HEADER;
+	private String defaultIndentString = Constants.Logger.INDENT_STRING;
+	private boolean defaultShouldAppendTime = Constants.Logger.OUTPUT_TIME;
+	private boolean defaultShouldAppendLevel = Constants.Logger.OUTPUT_TYPE;
+	private boolean defaultShouldIndent = Constants.Logger.DEFAULT_SHOULD_INDENT;
+	private level defaultLevel = Constants.Logger.DEFAULT_LEVEL;
+	private output defaultOutput = Constants.Logger.DEFUALT_OUTPUT;
 	
 	// TODO: Logging Features
 	// Custom header
@@ -62,7 +62,7 @@ public class Logger {
 	public Logger() {
 		try {
 			this.logWriter = new BufferedWriter( new OutputStreamWriter( new FileOutputStream( 
-					new File( ( Constants.PREPENDDATE ? sdf.format( Calendar.getInstance().getTime() ) + "_" : "" ) + Constants.LOG_FILE_NAME + Constants.SAVEEXTENTION ) ), Constants.ENCODING));
+					new File( ( Constants.Logger.PREPENDDATE ? LocalDateTime.now().format( dtf ) + "_" : "" ) + Constants.Logger.LOG_FILE_NAME + Constants.Logger.SAVEEXTENTION ) ), Constants.Logger.ENCODING));
 		} catch (UnsupportedEncodingException | FileNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -321,7 +321,7 @@ public class Logger {
 	}
 
 	private String appendTime( String message ) {
-		return "[" + sdf.format( Calendar.getInstance().getTime() ) + "] " + message;
+		return "[" + LocalDateTime.now().format( dtf ) + "] " + message;
 	}
 	
 }
