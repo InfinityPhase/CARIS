@@ -193,6 +193,24 @@ public class Logger {
 
 		reset();
 	}
+	
+	// Flush and/or close the writer
+	
+	public void flush() {
+		try {
+			logWriter.flush();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void close() {
+		try {
+			logWriter.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 
 	// Send messages places
 	

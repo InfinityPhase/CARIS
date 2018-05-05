@@ -67,6 +67,8 @@ public class Brain {
 	public static IDiscordClient cli = null;
 
 	public static void main(String[] args) {
+		
+		Runtime.getRuntime().addShutdownHook( new Shutdown() );
 
 		init();
 
@@ -109,6 +111,7 @@ public class Brain {
 		while( true ) {
 			calendarHandler.check();
 		}
+		
 	}
 
 	public static void init() { // add handlers to their appropriate categories here
@@ -275,4 +278,5 @@ public class Brain {
 		}
 		return false;
 	}
+	
 }
