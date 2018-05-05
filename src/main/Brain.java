@@ -68,7 +68,7 @@ public class Brain {
 
 	public static void main(String[] args) {
 		
-		Runtime.getRuntime().addShutdownHook( new Shutdown() );
+		Runtime.getRuntime().addShutdownHook( new LoggerShutdown() );
 
 		init();
 
