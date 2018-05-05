@@ -92,6 +92,9 @@ public class Constants {
 
 	// Build Season Clock
 	public static Calendar kickoff = Calendar.getInstance();
+	
+	// Channel for the Location Channel Invoker
+	public static String LOCATION_CHANNEL_NAME = "location-update";
 
 	// Default Off Modules
 	public static final String[] DEFAULT_DISBABLED = new String[] {
