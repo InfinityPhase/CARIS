@@ -59,6 +59,7 @@ public class Brain {
 
 	/* Gigantic Variable Library */	
 	public static CalendarHandler calendarHandler = new CalendarHandler();
+	public static Calendar current = Calendar.getInstance();
 
 	/* Music Stuff */
 	public static AudioPlayerManager playerManager;
@@ -67,8 +68,6 @@ public class Brain {
 	public static IDiscordClient cli = null;
 
 	public static void main(String[] args) {
-		
-		Runtime.getRuntime().addShutdownHook( new LoggerShutdown() );
 
 		init();
 
@@ -109,9 +108,9 @@ public class Brain {
 		}
 
 		while( true ) {
+			current = Calendar.getInstance();
 			calendarHandler.check();
 		}
-		
 	}
 
 	public static void init() { // add handlers to their appropriate categories here
@@ -278,5 +277,4 @@ public class Brain {
 		}
 		return false;
 	}
-	
 }
