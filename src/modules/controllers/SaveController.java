@@ -20,7 +20,7 @@ public class SaveController extends Controller {
 		tokenSetup(event);
 		if( tokens.size() > 0 ) {
 			if( tokens.get(0).equals("save") ) {
-				Variables.ds.save();
+				// TODO save state
 				response = "Data saved.";
 			}
 		}
