@@ -19,7 +19,7 @@ import library.Variables;
 import memories.AuthorMemory;
 import memories.Memory;
 import memories.TimeMemory;
-import modules.Handler.Status;
+import modules.Module.Status;
 import modules.constructors.Constructor;
 import modules.controllers.Controller;
 import modules.invokers.Invoker;

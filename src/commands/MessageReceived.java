@@ -11,7 +11,7 @@ import library.Variables;
 import main.Brain;
 import main.GuildInfo;
 import memories.Memory;
-import modules.Handler.Avalibility;
+import modules.Module.Avalibility;
 import modules.constructors.Constructor;
 import modules.controllers.Controller;
 import modules.invokers.Invoker;

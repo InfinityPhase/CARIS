@@ -1,68 +1,24 @@
 package modules;
 
 import java.util.ArrayList;
-import java.util.Set;
 
 import library.Variables;
 import main.Brain;
 import main.GuildInfo;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
-import sx.blah.discord.handle.obj.IChannel;
-import sx.blah.discord.util.EmbedBuilder;
 import tokens.Response;
-import utilities.Logger;
 
-public class Handler {
-	// The base handler class. Extend this into other classes.
+public class Handler extends Module {
+	// Handles modules that depend on user interaction
 
-	protected enum Setup {
-		UNSET,
-		TOKEN,
-		MESSAGE
-	};
-
-	public enum Status {
-		ENABLED,
-		DISABLED,
-		ADMIN,
-		LIMITED
-	};
-
-	public enum Avalibility {
-		// Alters how this module responds to blacklists, and other control lists
-		STANDARD, // Respects blacklists and whitelists
-		ALWAYS // Can never be blocked
-	};
-
-	public enum Access {
-		PUBLIC,
-		ADMIN,
-		DEVELOPER
-	}
-	
-	public Status status = Status.DISABLED; // If you don't set this, then don't even try to work
-	public Avalibility avalibility = Avalibility.STANDARD; // This should almost always be used
-	public String name;
 	public String prefix;
 
-	public String help = "This module does not have a help document attached.\n" + 
-			"Please contact the maintainers so that they will do their job, and add more information for me.";
-
-	protected Setup setupType = Setup.UNSET;
-
-	protected Logger log = new Logger().setDefaultIndent( 0 ).setBaseIndent( 2 ).build();
-
-	protected String response;
 	protected String message;
-	protected EmbedBuilder embed;
 	protected String messageText;
-	protected IChannel recipient;
 	protected ArrayList<String> tokens;
 	protected GuildInfo variables;
 
-	public Handler() {
-
-	}
+	public Handler() {}
 
 	public Response process(MessageReceivedEvent event) {
 		conditionalSetup(event);
@@ -78,27 +34,21 @@ public class Handler {
 	}
 
 	protected void tokenSetup(MessageReceivedEvent event) {
+		setup();
 		setupType = Setup.TOKEN;
-		response = "";
 		message = "";
-		embed = null;
 		messageText = format(event);
 		tokens = tokenize(event);
 		variables = Variables.guildIndex.get(event.getGuild());
 	}
 
 	protected void messageSetup(MessageReceivedEvent event) {
+		setup();
 		setupType = Setup.MESSAGE;
-		response = "";
 		message = "";
-		embed = null;
 		messageText = messageFormat(event);
 		tokens = tokenize(event);
 		variables = Variables.guildIndex.get(event.getGuild());
-	}
-
-	protected int getPriority() {
-		return 0;
 	}
 
 	protected String format(MessageReceivedEvent event) {
@@ -141,89 +91,8 @@ public class Handler {
 		return Brain.tp.parse(s);
 	}
 
-	protected Response build() {
-		if( embed == null ) {
-			return buildResponse();
-		} else {
-			return buildEmbed();
-		}
-	}
-
-	protected Response buildResponse() {
-		if( recipient == null ) {
-			return new Response(response, getPriority());
-		} else {
-			return new Response(response, getPriority(), recipient, true);
-		}
-	}
-	protected Response buildEmbed() {
-		if( recipient == null ) {
-			return new Response(embed, getPriority());
-		} else {
-			return new Response(embed, getPriority(), recipient, true);
-		}
-	}
-
-	protected boolean hasIgnoreCase(ArrayList<String> a, String b) {
-		for( String token: a ) {
-			if( token.equalsIgnoreCase(b) ) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	protected boolean hasIgnoreCase(String[] a, String b) {
-		for( String token: a ) {
-			if( token.equalsIgnoreCase(b) ) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	protected boolean hasIgnoreCase(Set<String> a, String b) {
-		for( String token: a ) {
-			if( token.equalsIgnoreCase(b) ) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	protected boolean containsIgnoreCase(String a, String b) {
-		return a.toLowerCase().contains(b.toLowerCase());
-	}
-
-	protected boolean containsIgnoreCase(ArrayList<String> a, String b) {
-		for( String token : a ) {
-			if( containsIgnoreCase(token, b) ) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	protected boolean containsIgnoreCase(String[] a, String b) {
-		for( String token : a ) {
-			if( containsIgnoreCase(token, b) ) {
-				return true;
-			}
-		}
-		return false;
-	}
-
 	protected boolean containsAnyQuotes( String s ) {
 		return s.contains("\"") || s.contains("�") || s.contains("�");
-	}
-
-	protected Boolean containsIgnoreCase(Set<String> a, String b) {
-		for( String token : a ) {
-			if( containsIgnoreCase(token, b) ) {
-				return true;
-			}
-		}
-		return false;
 	}
 
 	protected String remainder( String prefix ) {
