@@ -52,6 +52,12 @@ public class Module {
 	
 	protected Logger log = new Logger().setDefaultIndent( 0 ).setBaseIndent( 2 ).build();
 	
+	// General purpose processer
+	
+	public Response process() {
+		return build();
+	}
+	
 	// Setup variables
 	
 	protected void setup() {
