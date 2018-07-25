@@ -28,21 +28,21 @@ public class DiceInvoker extends Invoker {
     String token = tokens.get(0);
 		Random r = new Random();
     int n = 0;
-    if( token.equals("d2" ) {
+    if( token.equals("d2") ) {
 		  n = r.nextInt(2)+1;
-		} else if( token.equals("d4" ) {
+		} else if( token.equals("d4") ) {
 		  n = r.nextInt(4)+1;
-		} else if( token.equals("d6" ) {
+		} else if( token.equals("d6") ) {
 		  n = r.nextInt(6)+1;
-		} else if( token.equals("d8" ) {
+		} else if( token.equals("d8") ) {
 		  n = r.nextInt(8)+1;
-		} else if( token.equals("d10" ) {
+		} else if( token.equals("d10") ) {
 		  n = r.nextInt(10)+1;
-		} else if( token.equals("d12" ) {
+		} else if( token.equals("d12") ) {
 		  n = r.nextInt(12)+1;
-		} else if( token.equals("d20" ) {
+		} else if( token.equals("d20") ) {
 		  n = r.nextInt(20)+1;
-		} else if( token.equals("d100" ) {
+		} else if( token.equals("d100") ) {
 		  n = r.nextInt(100)+1;
 		}
     response = "You rolled a " + n + "!";
