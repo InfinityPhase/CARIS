@@ -1,11 +1,9 @@
-package conditions;
+package conditions.status;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 
-import modules.independent.Independent;
-
-public class WeekDay implements Independent.Condition {
+public class WeekDay implements StatusCondition {
 	private DayOfWeek activeDay;
 	
 	public WeekDay( DayOfWeek activeDay ) {
