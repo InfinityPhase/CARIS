@@ -1,6 +1,7 @@
 package modules;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import sx.blah.discord.handle.obj.IChannel;
@@ -45,7 +46,7 @@ public class Module {
 	public String help = "This module does not have a help document attached.\n" + 
 			"Please contact the maintainers so that they will do their job, and add more information for me.";
 	protected Setup setupType = Setup.UNSET;
-	protected IChannel recipient;
+	protected List<IChannel> recipient;
 
 	protected String response;
 	protected EmbedBuilder embed;

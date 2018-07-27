@@ -1,5 +1,7 @@
 package tokens;
 
+import java.util.List;
+
 import sx.blah.discord.handle.obj.IChannel;
 import sx.blah.discord.handle.obj.IMessage;
 import sx.blah.discord.util.EmbedBuilder;
@@ -11,23 +13,53 @@ public class Response implements Comparable<Response> {
 	public int priority;
 	public EmbedBuilder builder;
 	public boolean embed;
-	public IChannel recipient;
+	public List<IChannel> recipient;
 	public boolean proxy;
-	
-	
+
+	// On these three, we have to cast to avoid an ambiguous constructor call
 	public Response(String text, int priority) {
-		this(text, priority, null, false);
+		this(text, priority, (IChannel) null, false);
 	}
-	
+
 	public Response(IMessage m, int priority) {
-		this(m, priority, null, false);
+		this(m, priority, (IChannel) null, false);
 	}
-	
+
 	public Response( EmbedBuilder builder, int priority ) {
-		this(builder, priority, null, false);
+		this(builder, priority, (IChannel) null, false);
+	}
+
+	public Response(String text, int priority, IChannel recipient, boolean proxy) {
+		this.text = text;
+		this.priority = priority;
+		this.message = null;
+		this.builder = new EmbedBuilder();
+		this.recipient.add( recipient );
+		this.proxy = proxy;
+		embed = false;
+	}
+
+	public Response(IMessage m, int priority, IChannel recipient, boolean proxy ) {
+		this.text = m.getContent();
+		this.priority = priority;
+		this.message = m;
+		this.builder = new EmbedBuilder();
+		this.recipient.add( recipient );
+		this.proxy = proxy;
+		embed = false;
+	}
+
+	public Response( EmbedBuilder builder, int priority, IChannel recipient, boolean proxy ) {
+		this.text = "";
+		this.priority = priority;
+		this.message = null;
+		this.builder = builder;
+		this.recipient.add( recipient );
+		this.proxy = proxy;
+		embed = true;
 	}
 	
-	public Response(String text, int priority, IChannel recipient, boolean proxy) {
+	public Response(String text, int priority, List<IChannel> recipient, boolean proxy) {
 		this.text = text;
 		this.priority = priority;
 		this.message = null;
@@ -36,8 +68,8 @@ public class Response implements Comparable<Response> {
 		this.proxy = proxy;
 		embed = false;
 	}
-	
-	public Response(IMessage m, int priority, IChannel recipient, boolean proxy ) {
+
+	public Response(IMessage m, int priority, List<IChannel> recipient, boolean proxy ) {
 		this.text = m.getContent();
 		this.priority = priority;
 		this.message = m;
@@ -46,8 +78,8 @@ public class Response implements Comparable<Response> {
 		this.proxy = proxy;
 		embed = false;
 	}
-	
-	public Response( EmbedBuilder builder, int priority, IChannel recipient, boolean proxy ) {
+
+	public Response( EmbedBuilder builder, int priority, List<IChannel> recipient, boolean proxy ) {
 		this.text = "";
 		this.priority = priority;
 		this.message = null;
@@ -56,7 +88,7 @@ public class Response implements Comparable<Response> {
 		this.proxy = proxy;
 		embed = true;
 	}
-	
+
 	@Override
 	public int compareTo(Response r) { // sort with higher priority first
 		int compare = r.priority;
