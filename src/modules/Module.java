@@ -49,7 +49,7 @@ public class Module {
 	protected List<IChannel> recipient;
 
 	protected String response;
-	protected EmbedBuilder embed;
+	protected List<EmbedBuilder> embed;
 	
 	protected Logger log = new Logger().setDefaultIndent( 0 ).setBaseIndent( 2 ).build();
 	

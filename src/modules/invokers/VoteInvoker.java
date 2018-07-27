@@ -35,7 +35,7 @@ public class VoteInvoker extends Invoker {
 				Poll p = variables.polls.get(name);
 				builder.appendField(p.name, p.getVotes() + "vote(s)!", false);
 			}
-			embed = builder;
+			embed.add( builder );
 		} else if( command.tokens.size() > 1 ) { // Has arguments		
 			log.indent(1).log("VoteInvoker triggered.");
 			if( command.tokens.size() < 2 ) {
@@ -51,13 +51,13 @@ public class VoteInvoker extends Invoker {
 			} else {
 				Poll p = variables.polls.get(target);
 				if( command.tokens.size() < 3 ) {
-					embed = variables.pollBuilder.check(p, event.getAuthor());
+					embed.add( variables.pollBuilder.check(p, event.getAuthor()) );
 				} else {
 					String option = command.tokens.get(2).toLowerCase();
 					if( !p.options.keySet().contains(option)) {
 						response = "Please enter a valid option.";
 					} else {
-						embed = variables.pollBuilder.cast(p, event.getAuthor(), option);
+						embed.add( variables.pollBuilder.cast( p, event.getAuthor(), option ) );
 					}
 				}
 			}

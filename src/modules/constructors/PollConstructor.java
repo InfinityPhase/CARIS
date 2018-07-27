@@ -48,7 +48,7 @@ public class PollConstructor extends Constructor {
 				Poll p = variables.polls.get(name);
 				builder.appendField(p.name, p.getVotes() + " vote(s)!", false);
 			}
-			embed = builder;
+			embed.add( builder );
 		} else if( tokens.size() > 1 ) { // Has arguments
 			log.indent(1).log("PollInvoker triggered.");
 			String target = remainder(primaryLineSet.tokens.get(0), primaryLineSet.line).toLowerCase();
@@ -59,7 +59,7 @@ public class PollConstructor extends Constructor {
 			} else if( variables.polls.containsKey(target) ) {
 				Poll p = variables.polls.get(target);
 				if( auxiliaryLineSets.isEmpty() ) {
-					embed = variables.pollBuilder.check(p, event.getAuthor());
+					embed.add( variables.pollBuilder.check( p, event.getAuthor() ) );
 				} else if( !p.author.equals(event.getAuthor()) ) {
 					response = "You do not have permission to edit this poll.";
 					return build();
@@ -74,7 +74,7 @@ public class PollConstructor extends Constructor {
 								response += "Please enter a valid option.";
 							} else {
 								if( auxiliaryLineSets.size() == 1 ) {
-									embed = variables.pollBuilder.add(p, choice);
+									embed.add( variables.pollBuilder.add(p, choice) );
 								} else {
 									variables.pollBuilder.add(p, choice);
 								}
@@ -87,19 +87,19 @@ public class PollConstructor extends Constructor {
 								response += "Please enter a valid option.";
 							} else {
 								if( auxiliaryLineSets.size() == 1 ) {
-									embed = variables.pollBuilder.remove(p, choice);
+									embed.add( variables.pollBuilder.remove(p, choice) );
 								} else {
 									variables.pollBuilder.remove(p, choice);
 								}
 							}
 						} else if( command.equalsIgnoreCase("reset") ) {
 							if( auxiliaryLineSets.size() == 1 ) {
-								embed = variables.pollBuilder.reset(p);
+								embed.add( variables.pollBuilder.reset(p) );
 							} else {
 								variables.pollBuilder.reset(p);
 							}
 						} else if( command.equalsIgnoreCase("end") ) {
-							embed = variables.pollBuilder.end(p);
+							embed.add( variables.pollBuilder.end(p) );
 							break;
 						} else if( command.equalsIgnoreCase("desc") || command.equalsIgnoreCase("description") ) {
 							String text = remainder(ls.tokens.get(0), ls.line);
@@ -108,13 +108,13 @@ public class PollConstructor extends Constructor {
 							} else {
 								p.description = text;
 								if( auxiliaryLineSets.size() == 1 ) {
-									embed = variables.pollBuilder.check(p, event.getAuthor());
+									embed.add( variables.pollBuilder.check(p, event.getAuthor()) );
 								}
 							}
 						}
 					}
 					if( auxiliaryLineSets.size() > 1 ) {
-						embed = variables.pollBuilder.check(p, event.getAuthor());
+						embed.add( variables.pollBuilder.check(p, event.getAuthor()) );
 					}
 				}
 			} else {
@@ -140,7 +140,7 @@ public class PollConstructor extends Constructor {
 					}
 				}
 				variables.polls.put(target, new Poll(target, description, options, event.getAuthor(), event.getGuild()));
-				embed = variables.pollBuilder.start(variables.polls.get(target));
+				embed.add( variables.pollBuilder.start( variables.polls.get(target) ) );
 				event.getMessage().delete();
 			}
 		}

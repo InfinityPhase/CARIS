@@ -1,5 +1,6 @@
 package tokens;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import sx.blah.discord.handle.obj.IChannel;
@@ -11,7 +12,7 @@ public class Response implements Comparable<Response> {
 	public String text;
 	public IMessage message;
 	public int priority;
-	public EmbedBuilder builder;
+	public List<EmbedBuilder> builder;
 	public boolean embed;
 	public List<IChannel> recipient;
 	public boolean proxy;
@@ -28,12 +29,16 @@ public class Response implements Comparable<Response> {
 	public Response( EmbedBuilder builder, int priority ) {
 		this(builder, priority, (IChannel) null, false);
 	}
+	
+	public Response( List<EmbedBuilder> builder, int priority ) {
+		this(builder, priority, (IChannel) null, false);
+	}
 
 	public Response(String text, int priority, IChannel recipient, boolean proxy) {
 		this.text = text;
 		this.priority = priority;
 		this.message = null;
-		this.builder = new EmbedBuilder();
+		this.builder = new ArrayList<>();
 		this.recipient.add( recipient );
 		this.proxy = proxy;
 		embed = false;
@@ -43,13 +48,24 @@ public class Response implements Comparable<Response> {
 		this.text = m.getContent();
 		this.priority = priority;
 		this.message = m;
-		this.builder = new EmbedBuilder();
+		this.builder = new ArrayList<>();
 		this.recipient.add( recipient );
 		this.proxy = proxy;
 		embed = false;
 	}
 
 	public Response( EmbedBuilder builder, int priority, IChannel recipient, boolean proxy ) {
+		this.text = "";
+		this.priority = priority;
+		this.message = null;
+		this.builder = new ArrayList<>();
+		this.builder.add( builder );
+		this.recipient.add( recipient );
+		this.proxy = proxy;
+		embed = true;
+	}
+	
+	public Response( List<EmbedBuilder> builder, int priority, IChannel recipient, boolean proxy ) {
 		this.text = "";
 		this.priority = priority;
 		this.message = null;
@@ -63,7 +79,7 @@ public class Response implements Comparable<Response> {
 		this.text = text;
 		this.priority = priority;
 		this.message = null;
-		this.builder = new EmbedBuilder();
+		this.builder = new ArrayList<>();
 		this.recipient = recipient;
 		this.proxy = proxy;
 		embed = false;
@@ -73,13 +89,24 @@ public class Response implements Comparable<Response> {
 		this.text = m.getContent();
 		this.priority = priority;
 		this.message = m;
-		this.builder = new EmbedBuilder();
+		this.builder = new ArrayList<>();
 		this.recipient = recipient;
 		this.proxy = proxy;
 		embed = false;
 	}
 
 	public Response( EmbedBuilder builder, int priority, List<IChannel> recipient, boolean proxy ) {
+		this.text = "";
+		this.priority = priority;
+		this.message = null;
+		this.builder = new ArrayList<>();
+		this.builder.add( builder );
+		this.recipient = recipient;
+		this.proxy = proxy;
+		embed = true;
+	}
+	
+	public Response( List<EmbedBuilder> builder, int priority, List<IChannel> recipient, boolean proxy ) {
 		this.text = "";
 		this.priority = priority;
 		this.message = null;

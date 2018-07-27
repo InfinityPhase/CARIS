@@ -55,6 +55,14 @@ public class BotUtils {
 			sendMessage( c, embed );
 		}
 	}
+	
+	public static void sendMessage( List<IChannel> channel, List<EmbedBuilder> embed ) {
+		for( IChannel c : channel ) {
+			for( EmbedBuilder e : embed ) {
+				sendMessage( c, e );
+			}
+		}
+	}
 
 	public static void sendMessage( IChannel[] channel, EmbedObject embed ) {
 		for( IChannel c : channel ) {
