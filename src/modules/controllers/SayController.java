@@ -28,7 +28,7 @@ public class SayController extends Controller {
 			for( IGuild g : Variables.guildIndex.keySet() ) {
 				for( IChannel c : g.getChannels() ) {
 					if(tokens.get(1).equals(c.getStringID())) {
-						recipient = c;
+						recipient.add(c);
 						response = message;
 					}
 				}
