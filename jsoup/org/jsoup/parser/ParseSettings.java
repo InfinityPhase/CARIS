@@ -1,8 +1,8 @@
 package org.jsoup.parser;
 
-import org.jsoup.nodes.Attributes;
-
 import static org.jsoup.internal.Normalizer.lowerCase;
+
+import org.jsoup.nodes.Attributes;
 
 /**
  * Controls parser settings, to optionally preserve tag and/or attribute name case.

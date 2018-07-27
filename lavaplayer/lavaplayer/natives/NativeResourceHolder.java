@@ -1,9 +1,9 @@
 package lavaplayer.natives;
 
+import java.util.concurrent.atomic.AtomicBoolean;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * Abstract instance of a class which holds native resources that must be freed.

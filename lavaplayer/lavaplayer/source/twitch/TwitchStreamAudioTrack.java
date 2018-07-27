@@ -1,5 +1,10 @@
 package lavaplayer.source.twitch;
 
+import static lavaplayer.source.twitch.TwitchStreamAudioSourceManager.getChannelIdentifierFromUrl;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import lavaplayer.source.AudioSourceManager;
 import lavaplayer.source.stream.M3uStreamAudioTrack;
 import lavaplayer.source.stream.M3uStreamSegmentUrlProvider;
@@ -7,11 +12,6 @@ import lavaplayer.tools.io.HttpInterface;
 import lavaplayer.track.AudioTrack;
 import lavaplayer.track.AudioTrackInfo;
 import lavaplayer.track.playback.LocalAudioTrackExecutor;
-
-import static lavaplayer.source.twitch.TwitchStreamAudioSourceManager.getChannelIdentifierFromUrl;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Audio track that handles processing Twitch tracks.

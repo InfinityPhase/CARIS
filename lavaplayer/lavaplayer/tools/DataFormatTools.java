@@ -1,8 +1,5 @@
 package lavaplayer.tools;
 
-import org.apache.commons.io.IOUtils;
-import org.apache.http.NameValuePair;
-
 import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
@@ -12,6 +9,9 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
+
+import org.apache.commons.io.IOUtils;
+import org.apache.http.NameValuePair;
 
 /**
  * Helper methods related to strings and maps.

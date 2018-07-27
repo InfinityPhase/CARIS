@@ -1,16 +1,16 @@
 package lavaplayer.track.playback;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import lavaplayer.format.AudioDataFormat;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicBoolean;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import lavaplayer.format.AudioDataFormat;
 
 /**
  * A frame buffer. Stores the specified duration worth of frames in the internal buffer.

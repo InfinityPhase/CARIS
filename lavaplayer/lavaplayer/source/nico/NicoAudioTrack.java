@@ -1,13 +1,11 @@
 package lavaplayer.source.nico;
 
-import lavaplayer.container.mpeg.MpegAudioTrack;
-import lavaplayer.source.AudioSourceManager;
-import lavaplayer.tools.io.HttpInterface;
-import lavaplayer.tools.io.PersistentHttpStream;
-import lavaplayer.track.AudioTrack;
-import lavaplayer.track.AudioTrackInfo;
-import lavaplayer.track.DelegatedAudioTrack;
-import lavaplayer.track.playback.LocalAudioTrackExecutor;
+import static lavaplayer.tools.DataFormatTools.convertToMapLayout;
+
+import java.io.IOException;
+import java.net.URI;
+import java.nio.charset.StandardCharsets;
+import java.util.Map;
 
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -16,12 +14,14 @@ import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import static lavaplayer.tools.DataFormatTools.convertToMapLayout;
-
-import java.io.IOException;
-import java.net.URI;
-import java.nio.charset.StandardCharsets;
-import java.util.Map;
+import lavaplayer.container.mpeg.MpegAudioTrack;
+import lavaplayer.source.AudioSourceManager;
+import lavaplayer.tools.io.HttpInterface;
+import lavaplayer.tools.io.PersistentHttpStream;
+import lavaplayer.track.AudioTrack;
+import lavaplayer.track.AudioTrackInfo;
+import lavaplayer.track.DelegatedAudioTrack;
+import lavaplayer.track.playback.LocalAudioTrackExecutor;
 
 /**
  * Audio track that handles processing NicoNico tracks.

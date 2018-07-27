@@ -1,12 +1,12 @@
 package lavaplayer.container.flac;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import lavaplayer.tools.io.SeekableInputStream;
 import lavaplayer.track.AudioTrackInfo;
 import lavaplayer.track.BaseAudioTrack;
 import lavaplayer.track.playback.LocalAudioTrackExecutor;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Audio track that handles a FLAC stream

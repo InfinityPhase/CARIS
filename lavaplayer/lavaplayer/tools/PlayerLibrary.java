@@ -1,9 +1,9 @@
 package lavaplayer.tools;
 
-import org.apache.commons.io.IOUtils;
-
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+
+import org.apache.commons.io.IOUtils;
 
 public class PlayerLibrary {
   public static final String VERSION = readVersion();

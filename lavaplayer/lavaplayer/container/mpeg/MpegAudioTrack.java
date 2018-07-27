@@ -1,5 +1,13 @@
 package lavaplayer.container.mpeg;
 
+import static lavaplayer.tools.FriendlyException.Severity.FAULT;
+import static lavaplayer.tools.FriendlyException.Severity.SUSPICIOUS;
+
+import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import lavaplayer.container.mpeg.reader.MpegFileTrackProvider;
 import lavaplayer.tools.ExceptionTools;
 import lavaplayer.tools.FriendlyException;
@@ -8,14 +16,6 @@ import lavaplayer.track.AudioTrackInfo;
 import lavaplayer.track.BaseAudioTrack;
 import lavaplayer.track.playback.AudioProcessingContext;
 import lavaplayer.track.playback.LocalAudioTrackExecutor;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import static lavaplayer.tools.FriendlyException.Severity.FAULT;
-import static lavaplayer.tools.FriendlyException.Severity.SUSPICIOUS;
-
-import java.util.List;
 
 /**
  * Audio track that handles the processing of MP4 format

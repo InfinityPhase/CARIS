@@ -1,16 +1,16 @@
 package lavaplayer.container.mpeg.reader.fragmented;
 
+import java.io.IOException;
+import java.nio.channels.Channels;
+import java.nio.channels.ReadableByteChannel;
+import java.util.concurrent.atomic.AtomicReference;
+
 import lavaplayer.container.mpeg.MpegTrackConsumer;
 import lavaplayer.container.mpeg.reader.MpegFileTrackProvider;
 import lavaplayer.container.mpeg.reader.MpegReader;
 import lavaplayer.container.mpeg.reader.MpegSectionInfo;
 import lavaplayer.container.mpeg.reader.MpegVersionedSectionInfo;
 import lavaplayer.tools.io.DetachedByteChannel;
-
-import java.io.IOException;
-import java.nio.channels.Channels;
-import java.nio.channels.ReadableByteChannel;
-import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * Track provider for fragmented MP4 file format.

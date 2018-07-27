@@ -1,8 +1,8 @@
 package lavaplayer.tools.io;
 
-import org.apache.http.client.config.RequestConfig;
-
 import java.util.function.Function;
+
+import org.apache.http.client.config.RequestConfig;
 
 /**
  * Represents a class where HTTP request configuration can be changed.

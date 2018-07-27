@@ -1,15 +1,15 @@
 package org.jsoup.nodes;
 
+import java.nio.charset.Charset;
+import java.nio.charset.CharsetEncoder;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.jsoup.helper.StringUtil;
 import org.jsoup.helper.Validate;
 import org.jsoup.parser.ParseSettings;
 import org.jsoup.parser.Tag;
 import org.jsoup.select.Elements;
-
-import java.nio.charset.Charset;
-import java.nio.charset.CharsetEncoder;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  A HTML Document.

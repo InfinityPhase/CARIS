@@ -1,14 +1,14 @@
 package lavaplayer.tools;
 
-import org.slf4j.Logger;
-
-import lavaplayer.tools.FriendlyException.Severity;
-
 import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.slf4j.Logger;
+
+import lavaplayer.tools.FriendlyException.Severity;
 
 /**
  * Contains common helper methods for dealing with exceptions.

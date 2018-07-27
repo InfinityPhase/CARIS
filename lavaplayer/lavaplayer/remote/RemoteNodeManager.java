@@ -1,5 +1,16 @@
 package lavaplayer.remote;
 
+import static lavaplayer.tools.FriendlyException.Severity.SUSPICIOUS;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
+
+import org.apache.commons.io.IOUtils;
+
 import lavaplayer.player.AudioPlayer;
 import lavaplayer.player.DefaultAudioPlayerManager;
 import lavaplayer.player.event.AudioEventAdapter;
@@ -11,17 +22,6 @@ import lavaplayer.track.AudioTrack;
 import lavaplayer.track.AudioTrackEndReason;
 import lavaplayer.track.InternalAudioTrack;
 import lavaplayer.track.playback.AudioTrackExecutor;
-
-import org.apache.commons.io.IOUtils;
-
-import static lavaplayer.tools.FriendlyException.Severity.SUSPICIOUS;
-
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.concurrent.ScheduledThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * Manager of remote nodes for audio processing.

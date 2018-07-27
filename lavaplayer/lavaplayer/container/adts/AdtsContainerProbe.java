@@ -1,5 +1,10 @@
 package lavaplayer.container.adts;
 
+import java.io.IOException;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import lavaplayer.container.MediaContainerDetection;
 import lavaplayer.container.MediaContainerDetectionResult;
 import lavaplayer.container.MediaContainerHints;
@@ -8,11 +13,6 @@ import lavaplayer.tools.io.SeekableInputStream;
 import lavaplayer.track.AudioReference;
 import lavaplayer.track.AudioTrack;
 import lavaplayer.track.AudioTrackInfo;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.io.IOException;
 
 /**
  * Container detection probe for ADTS stream format.

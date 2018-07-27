@@ -1,9 +1,9 @@
 package lavaplayer.format;
 
+import static javax.sound.sampled.AudioFormat.Encoding.PCM_SIGNED;
+
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioSystem;
-
-import static javax.sound.sampled.AudioFormat.Encoding.PCM_SIGNED;
 
 /**
  * Tools to deal with audio data formats.

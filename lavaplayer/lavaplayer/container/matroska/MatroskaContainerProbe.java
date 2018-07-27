@@ -1,5 +1,16 @@
 package lavaplayer.container.matroska;
 
+import static lavaplayer.container.MediaContainerDetection.UNKNOWN_ARTIST;
+import static lavaplayer.container.MediaContainerDetection.UNKNOWN_TITLE;
+import static lavaplayer.container.MediaContainerDetection.checkNextBytes;
+
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import lavaplayer.container.MediaContainerDetectionResult;
 import lavaplayer.container.MediaContainerHints;
 import lavaplayer.container.MediaContainerProbe;
@@ -8,17 +19,6 @@ import lavaplayer.tools.io.SeekableInputStream;
 import lavaplayer.track.AudioReference;
 import lavaplayer.track.AudioTrack;
 import lavaplayer.track.AudioTrackInfo;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import static lavaplayer.container.MediaContainerDetection.UNKNOWN_ARTIST;
-import static lavaplayer.container.MediaContainerDetection.UNKNOWN_TITLE;
-import static lavaplayer.container.MediaContainerDetection.checkNextBytes;
-
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * Container detection probe for matroska format.

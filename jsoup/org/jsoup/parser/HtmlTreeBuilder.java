@@ -1,5 +1,12 @@
 package org.jsoup.parser;
 
+import static org.jsoup.helper.StringUtil.inSorted;
+
+import java.io.Reader;
+import java.io.StringReader;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.jsoup.helper.StringUtil;
 import org.jsoup.helper.Validate;
 import org.jsoup.nodes.CDataNode;
@@ -11,13 +18,6 @@ import org.jsoup.nodes.FormElement;
 import org.jsoup.nodes.Node;
 import org.jsoup.nodes.TextNode;
 import org.jsoup.select.Elements;
-
-import java.io.Reader;
-import java.io.StringReader;
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.jsoup.helper.StringUtil.inSorted;
 
 /**
  * HTML Tree Builder; creates a DOM from Tokens.

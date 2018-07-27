@@ -1,5 +1,19 @@
 package lavaplayer.source.http;
 
+import static lavaplayer.tools.FriendlyException.Severity.COMMON;
+import static lavaplayer.tools.FriendlyException.Severity.SUSPICIOUS;
+import static lavaplayer.tools.io.HttpClientTools.getHeaderValue;
+
+import java.io.DataInput;
+import java.io.DataOutput;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.function.Function;
+
+import org.apache.http.HttpStatus;
+import org.apache.http.client.config.RequestConfig;
+
 import lavaplayer.container.MediaContainer;
 import lavaplayer.container.MediaContainerDetection;
 import lavaplayer.container.MediaContainerDetectionResult;
@@ -18,20 +32,6 @@ import lavaplayer.track.AudioItem;
 import lavaplayer.track.AudioReference;
 import lavaplayer.track.AudioTrack;
 import lavaplayer.track.AudioTrackInfo;
-
-import org.apache.http.HttpStatus;
-import org.apache.http.client.config.RequestConfig;
-
-import java.io.DataInput;
-import java.io.DataOutput;
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.function.Function;
-
-import static lavaplayer.tools.FriendlyException.Severity.COMMON;
-import static lavaplayer.tools.FriendlyException.Severity.SUSPICIOUS;
-import static lavaplayer.tools.io.HttpClientTools.getHeaderValue;
 
 /**
  * Audio source manager which implements finding audio files from HTTP addresses.

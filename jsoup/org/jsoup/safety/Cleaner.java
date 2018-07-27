@@ -1,5 +1,7 @@
 package org.jsoup.safety;
 
+import java.util.List;
+
 import org.jsoup.helper.Validate;
 import org.jsoup.nodes.Attribute;
 import org.jsoup.nodes.Attributes;
@@ -13,8 +15,6 @@ import org.jsoup.parser.Parser;
 import org.jsoup.parser.Tag;
 import org.jsoup.select.NodeTraversor;
 import org.jsoup.select.NodeVisitor;
-
-import java.util.List;
 
 
 /**

@@ -1,13 +1,13 @@
 package lavaplayer.container.flac;
 
+import java.io.IOException;
+
 import lavaplayer.container.flac.frame.FlacFrameReader;
 import lavaplayer.filter.FilterChainBuilder;
 import lavaplayer.filter.SplitShortPcmAudioFilter;
 import lavaplayer.tools.io.BitStreamReader;
 import lavaplayer.tools.io.SeekableInputStream;
 import lavaplayer.track.playback.AudioProcessingContext;
-
-import java.io.IOException;
 
 /**
  * A provider of audio frames from a FLAC track.

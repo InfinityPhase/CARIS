@@ -1,11 +1,11 @@
 package org.jsoup.nodes;
 
-import org.jsoup.SerializationException;
-import org.jsoup.helper.Validate;
-
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Map;
+
+import org.jsoup.SerializationException;
+import org.jsoup.helper.Validate;
 
 /**
  A single key + value attribute. (Only used for presentation.)

@@ -1,19 +1,19 @@
 package lavaplayer.container;
 
-import lavaplayer.tools.ExceptionTools;
-import lavaplayer.tools.io.GreedyInputStream;
-import lavaplayer.tools.io.SavedHeadSeekableInputStream;
-import lavaplayer.tools.io.SeekableInputStream;
-import lavaplayer.track.AudioReference;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import static lavaplayer.tools.FriendlyException.Severity.SUSPICIOUS;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.regex.Pattern;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import lavaplayer.tools.ExceptionTools;
+import lavaplayer.tools.io.GreedyInputStream;
+import lavaplayer.tools.io.SavedHeadSeekableInputStream;
+import lavaplayer.tools.io.SeekableInputStream;
+import lavaplayer.track.AudioReference;
 
 /**
  * Detects the container used by a file and whether the specific file is supported for playback.

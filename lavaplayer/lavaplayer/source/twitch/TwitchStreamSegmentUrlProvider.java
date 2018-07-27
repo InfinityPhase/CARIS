@@ -1,11 +1,12 @@
 package lavaplayer.source.twitch;
 
-import lavaplayer.source.stream.ExtendedM3uParser;
-import lavaplayer.source.stream.M3uStreamSegmentUrlProvider;
-import lavaplayer.tools.FriendlyException;
-import lavaplayer.tools.JsonBrowser;
-import lavaplayer.tools.io.HttpClientTools;
-import lavaplayer.tools.io.HttpInterface;
+import static lavaplayer.source.twitch.TwitchStreamAudioSourceManager.createGetRequest;
+import static lavaplayer.tools.FriendlyException.Severity.SUSPICIOUS;
+
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.List;
 
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -14,13 +15,12 @@ import org.apache.http.client.utils.URIBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.List;
-
-import static lavaplayer.source.twitch.TwitchStreamAudioSourceManager.createGetRequest;
-import static lavaplayer.tools.FriendlyException.Severity.SUSPICIOUS;
+import lavaplayer.source.stream.ExtendedM3uParser;
+import lavaplayer.source.stream.M3uStreamSegmentUrlProvider;
+import lavaplayer.tools.FriendlyException;
+import lavaplayer.tools.JsonBrowser;
+import lavaplayer.tools.io.HttpClientTools;
+import lavaplayer.tools.io.HttpInterface;
 
 /**
  * Provider for Twitch segment URLs from a channel.

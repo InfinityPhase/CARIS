@@ -1,17 +1,10 @@
 package lavaplayer.track.playback;
 
-import lavaplayer.format.AudioDataFormat;
-import lavaplayer.player.AudioConfiguration;
-import lavaplayer.tools.ExceptionTools;
-import lavaplayer.tools.FriendlyException;
-import lavaplayer.track.AudioTrackState;
-import lavaplayer.track.InternalAudioTrack;
-import lavaplayer.track.TrackMarker;
-import lavaplayer.track.TrackMarkerTracker;
-import lavaplayer.track.TrackStateListener;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import static lavaplayer.tools.ExceptionTools.findDeepException;
+import static lavaplayer.tools.FriendlyException.Severity.FAULT;
+import static lavaplayer.tools.FriendlyException.Severity.SUSPICIOUS;
+import static lavaplayer.track.TrackMarkerHandler.MarkerState.ENDED;
+import static lavaplayer.track.TrackMarkerHandler.MarkerState.STOPPED;
 
 import java.io.InterruptedIOException;
 import java.util.concurrent.TimeUnit;
@@ -21,11 +14,18 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
 
-import static lavaplayer.tools.ExceptionTools.findDeepException;
-import static lavaplayer.tools.FriendlyException.Severity.FAULT;
-import static lavaplayer.tools.FriendlyException.Severity.SUSPICIOUS;
-import static lavaplayer.track.TrackMarkerHandler.MarkerState.ENDED;
-import static lavaplayer.track.TrackMarkerHandler.MarkerState.STOPPED;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import lavaplayer.format.AudioDataFormat;
+import lavaplayer.player.AudioConfiguration;
+import lavaplayer.tools.ExceptionTools;
+import lavaplayer.tools.FriendlyException;
+import lavaplayer.track.AudioTrackState;
+import lavaplayer.track.InternalAudioTrack;
+import lavaplayer.track.TrackMarker;
+import lavaplayer.track.TrackMarkerTracker;
+import lavaplayer.track.TrackStateListener;
 
 /**
  * Handles the execution and output buffering of an audio track.

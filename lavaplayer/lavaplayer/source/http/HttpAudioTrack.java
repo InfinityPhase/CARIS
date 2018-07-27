@@ -1,5 +1,10 @@
 package lavaplayer.source.http;
 
+import java.net.URI;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import lavaplayer.container.MediaContainerProbe;
 import lavaplayer.source.AudioSourceManager;
 import lavaplayer.tools.io.HttpInterface;
@@ -9,11 +14,6 @@ import lavaplayer.track.AudioTrackInfo;
 import lavaplayer.track.DelegatedAudioTrack;
 import lavaplayer.track.InternalAudioTrack;
 import lavaplayer.track.playback.LocalAudioTrackExecutor;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.net.URI;
 
 /**
  * Audio track that handles processing HTTP addresses as audio tracks.

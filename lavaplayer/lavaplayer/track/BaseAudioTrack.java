@@ -1,15 +1,15 @@
 package lavaplayer.track;
 
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicLong;
+
 import lavaplayer.player.AudioPlayerManager;
 import lavaplayer.source.AudioSourceManager;
 import lavaplayer.track.playback.AudioFrame;
 import lavaplayer.track.playback.AudioTrackExecutor;
 import lavaplayer.track.playback.PrimordialAudioTrackExecutor;
-
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * Abstract base for all audio tracks with an executor
