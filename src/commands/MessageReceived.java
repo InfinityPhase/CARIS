@@ -30,7 +30,7 @@ import utilities.Logger;
 public class MessageReceived extends SuperEvent {
 	private Logger log = new Logger().setDefaultIndent(1).build();
 
-	@EventSubscriber
+	@EventSubscriber // WE'VE BEEN ABLE TO THAT THIS ENTIRE GODDAMN TIME?!
 	@Override
 	public void onMessageReceived( MessageReceivedEvent event ) {
 		List<IChannel> recipient = new ArrayList<>();
