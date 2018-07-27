@@ -1,12 +1,12 @@
 package music;
 
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
+
 import lavaplayer.player.AudioPlayer;
 import lavaplayer.player.event.AudioEventAdapter;
 import lavaplayer.track.AudioTrack;
 import lavaplayer.track.AudioTrackEndReason;
-
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
 
 /**
  * This class schedules tracks for the audio player. It contains the queue of tracks.
