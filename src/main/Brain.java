@@ -8,6 +8,7 @@ import org.reflections.Reflections;
 
 import commands.CalendarHandler;
 import commands.GuildCreate;
+import commands.IndependentHandler;
 import commands.MessageReceived;
 import commands.SuperEvent;
 import commands.UserJoin;
@@ -60,7 +61,6 @@ public class Brain {
 	public static UserJoin userJoin = new UserJoin();
 
 	/* Gigantic Variable Library */	
-	public static CalendarHandler calendarHandler = new CalendarHandler();
 	public static Calendar current = Calendar.getInstance();
 
 	/* Music Stuff */
@@ -111,7 +111,8 @@ public class Brain {
 
 		while( true ) {
 			current = Calendar.getInstance();
-			calendarHandler.check();
+			CalendarHandler.check();
+			IndependentHandler.check();
 		}
 	}
 

@@ -11,9 +11,9 @@ import utilities.BotUtils;
 import utilities.Logger;
 
 public class CalendarHandler {
-	Logger log = new Logger().setBaseIndent(1).setDefaultShouldAppendTime(true).build();
+	static Logger log = new Logger().setBaseIndent(1).setDefaultShouldAppendTime(true).build();
 	
-	public void check() {
+	public static void check() {
 		for( IGuild guild : Variables.guildIndex.keySet() ) {
 			GuildInfo info = Variables.guildIndex.get(guild);
 			for( Calendar c : info.reminders.keySet() ) {
