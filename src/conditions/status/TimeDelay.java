@@ -1,11 +1,9 @@
-package conditions;
+package conditions.status;
 
 import java.time.LocalTime;
 import java.time.temporal.TemporalAmount;
 
-import modules.independent.Independent;
-
-public class TimeDelay implements Independent.Condition {
+public class TimeDelay implements StatusCondition {
 	private LocalTime previous;
 	private TemporalAmount diffrence;
 	

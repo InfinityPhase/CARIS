@@ -1,10 +1,8 @@
-package conditions;
+package conditions.status;
 
 import java.time.LocalTime;
 
-import modules.independent.Independent;
-
-public class UntilTime implements Independent.Condition {
+public class UntilTime implements StatusCondition {
 	private LocalTime time;
 	
 	public UntilTime( LocalTime time ) {
