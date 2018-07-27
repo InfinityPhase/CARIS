@@ -1,20 +1,20 @@
 package lavaplayer.source.beam;
 
-import lavaplayer.source.stream.ExtendedM3uParser;
-import lavaplayer.source.stream.M3uStreamSegmentUrlProvider;
-import lavaplayer.tools.FriendlyException;
-import lavaplayer.tools.io.HttpInterface;
+import static lavaplayer.tools.FriendlyException.Severity.SUSPICIOUS;
+import static lavaplayer.tools.io.HttpClientTools.fetchResponseLines;
+
+import java.io.IOException;
+import java.util.List;
 
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-import java.util.List;
-
-import static lavaplayer.tools.FriendlyException.Severity.SUSPICIOUS;
-import static lavaplayer.tools.io.HttpClientTools.fetchResponseLines;
+import lavaplayer.source.stream.ExtendedM3uParser;
+import lavaplayer.source.stream.M3uStreamSegmentUrlProvider;
+import lavaplayer.tools.FriendlyException;
+import lavaplayer.tools.io.HttpInterface;
 
 /**
  * Provider for Beam segment URLs from a channel.

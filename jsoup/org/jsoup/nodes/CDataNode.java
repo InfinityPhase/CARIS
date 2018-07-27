@@ -1,8 +1,8 @@
 package org.jsoup.nodes;
 
-import org.jsoup.UncheckedIOException;
-
 import java.io.IOException;
+
+import org.jsoup.UncheckedIOException;
 
 /**
  * A Character Data node, to support CDATA sections.

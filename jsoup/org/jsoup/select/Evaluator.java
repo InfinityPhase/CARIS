@@ -1,5 +1,12 @@
 package org.jsoup.select;
 
+import static org.jsoup.internal.Normalizer.lowerCase;
+import static org.jsoup.internal.Normalizer.normalize;
+
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.jsoup.helper.Validate;
 import org.jsoup.nodes.Comment;
 import org.jsoup.nodes.Document;
@@ -9,13 +16,6 @@ import org.jsoup.nodes.Node;
 import org.jsoup.nodes.PseudoTextElement;
 import org.jsoup.nodes.TextNode;
 import org.jsoup.nodes.XmlDeclaration;
-
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import static org.jsoup.internal.Normalizer.lowerCase;
-import static org.jsoup.internal.Normalizer.normalize;
 
 
 /**

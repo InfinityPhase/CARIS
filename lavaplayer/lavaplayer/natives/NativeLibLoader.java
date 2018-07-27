@@ -1,6 +1,7 @@
 package lavaplayer.natives;
 
-import org.apache.commons.io.IOUtils;
+import static java.nio.file.attribute.PosixFilePermissions.asFileAttribute;
+import static java.nio.file.attribute.PosixFilePermissions.fromString;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -13,8 +14,7 @@ import java.nio.file.Path;
 import java.util.HashSet;
 import java.util.Set;
 
-import static java.nio.file.attribute.PosixFilePermissions.asFileAttribute;
-import static java.nio.file.attribute.PosixFilePermissions.fromString;
+import org.apache.commons.io.IOUtils;
 
 /**
  * Loads native libraries by name. Libraries are expected to be in classpath /natives/[arch]/[prefix]name[suffix]

@@ -1,18 +1,18 @@
 package lavaplayer.container.ogg;
 
+import static lavaplayer.tools.FriendlyException.Severity.SUSPICIOUS;
+
+import java.io.IOException;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import lavaplayer.tools.FriendlyException;
 import lavaplayer.tools.io.SeekableInputStream;
 import lavaplayer.track.AudioTrackInfo;
 import lavaplayer.track.BaseAudioTrack;
 import lavaplayer.track.playback.AudioProcessingContext;
 import lavaplayer.track.playback.LocalAudioTrackExecutor;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import static lavaplayer.tools.FriendlyException.Severity.SUSPICIOUS;
-
-import java.io.IOException;
 
 /**
  * Audio track which handles an OGG stream.

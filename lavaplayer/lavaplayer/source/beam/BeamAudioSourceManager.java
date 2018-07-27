@@ -1,5 +1,17 @@
 package lavaplayer.source.beam;
 
+import static lavaplayer.tools.FriendlyException.Severity.SUSPICIOUS;
+
+import java.io.DataInput;
+import java.io.DataOutput;
+import java.io.IOException;
+import java.util.function.Function;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import org.apache.http.client.config.RequestConfig;
+import org.apache.http.client.methods.HttpGet;
+
 import lavaplayer.player.DefaultAudioPlayerManager;
 import lavaplayer.source.AudioSourceManager;
 import lavaplayer.tools.FriendlyException;
@@ -12,18 +24,6 @@ import lavaplayer.track.AudioItem;
 import lavaplayer.track.AudioReference;
 import lavaplayer.track.AudioTrack;
 import lavaplayer.track.AudioTrackInfo;
-
-import org.apache.http.client.config.RequestConfig;
-import org.apache.http.client.methods.HttpGet;
-
-import static lavaplayer.tools.FriendlyException.Severity.SUSPICIOUS;
-
-import java.io.DataInput;
-import java.io.DataOutput;
-import java.io.IOException;
-import java.util.function.Function;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * Audio source manager which detects Beam.pro tracks by URL.

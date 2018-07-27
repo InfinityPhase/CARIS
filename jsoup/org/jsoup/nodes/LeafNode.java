@@ -1,8 +1,8 @@
 package org.jsoup.nodes;
 
-import org.jsoup.helper.Validate;
-
 import java.util.List;
+
+import org.jsoup.helper.Validate;
 
 abstract class LeafNode extends Node {
     Object value; // either a string value, or an attribute map (in the rare case multiple attributes are set)

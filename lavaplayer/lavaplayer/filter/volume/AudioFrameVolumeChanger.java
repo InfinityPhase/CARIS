@@ -1,5 +1,9 @@
 package lavaplayer.filter.volume;
 
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+import java.nio.ShortBuffer;
+
 import lavaplayer.format.AudioDataFormat;
 import lavaplayer.format.transcoder.AudioChunkDecoder;
 import lavaplayer.format.transcoder.AudioChunkEncoder;
@@ -11,10 +15,6 @@ import lavaplayer.player.AudioConfiguration;
 import lavaplayer.track.playback.AudioFrame;
 import lavaplayer.track.playback.AudioFrameRebuilder;
 import lavaplayer.track.playback.AudioProcessingContext;
-
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
-import java.nio.ShortBuffer;
 
 /**
  * A frame rebuilder to apply a specific volume level to the frames.

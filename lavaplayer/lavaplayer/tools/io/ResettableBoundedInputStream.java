@@ -1,9 +1,9 @@
 package lavaplayer.tools.io;
 
+import static org.apache.commons.io.IOUtils.EOF;
+
 import java.io.IOException;
 import java.io.InputStream;
-
-import static org.apache.commons.io.IOUtils.EOF;
 
 /**
  * Bounded input stream where the limit can be set dynamically.

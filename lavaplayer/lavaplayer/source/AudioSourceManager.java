@@ -1,14 +1,14 @@
 package lavaplayer.source;
 
+import java.io.DataInput;
+import java.io.DataOutput;
+import java.io.IOException;
+
 import lavaplayer.player.DefaultAudioPlayerManager;
 import lavaplayer.track.AudioItem;
 import lavaplayer.track.AudioReference;
 import lavaplayer.track.AudioTrack;
 import lavaplayer.track.AudioTrackInfo;
-
-import java.io.DataInput;
-import java.io.DataOutput;
-import java.io.IOException;
 
 /**
  * Manager for a source of audio items.

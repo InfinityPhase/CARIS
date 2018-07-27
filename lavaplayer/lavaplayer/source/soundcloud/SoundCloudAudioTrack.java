@@ -1,5 +1,11 @@
 package lavaplayer.source.soundcloud;
 
+import java.io.IOException;
+import java.net.URI;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import lavaplayer.container.mp3.Mp3AudioTrack;
 import lavaplayer.source.AudioSourceManager;
 import lavaplayer.tools.io.HttpInterface;
@@ -8,12 +14,6 @@ import lavaplayer.track.AudioTrack;
 import lavaplayer.track.AudioTrackInfo;
 import lavaplayer.track.DelegatedAudioTrack;
 import lavaplayer.track.playback.LocalAudioTrackExecutor;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.io.IOException;
-import java.net.URI;
 
 /**
  * Audio track that handles processing SoundCloud tracks.

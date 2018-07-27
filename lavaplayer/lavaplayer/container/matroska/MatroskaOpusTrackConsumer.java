@@ -1,10 +1,10 @@
 package lavaplayer.container.matroska;
 
+import java.nio.ByteBuffer;
+
 import lavaplayer.container.common.OpusPacketRouter;
 import lavaplayer.container.matroska.format.MatroskaFileTrack;
 import lavaplayer.track.playback.AudioProcessingContext;
-
-import java.nio.ByteBuffer;
 
 /**
  * Consumes OPUS track data from a matroska file.

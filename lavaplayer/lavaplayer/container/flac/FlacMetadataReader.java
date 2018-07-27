@@ -1,7 +1,5 @@
 package lavaplayer.container.flac;
 
-import org.apache.commons.io.IOUtils;
-
 import static lavaplayer.container.flac.FlacMetadataHeader.BLOCK_COMMENT;
 import static lavaplayer.container.flac.FlacMetadataHeader.BLOCK_SEEKTABLE;
 
@@ -10,6 +8,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+
+import org.apache.commons.io.IOUtils;
 
 /**
  * Handles reading one FLAC metadata blocks.

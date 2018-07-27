@@ -1,10 +1,10 @@
 package org.jsoup.nodes;
 
+import java.io.IOException;
+
 import org.jsoup.helper.StringUtil;
 import org.jsoup.helper.Validate;
 import org.jsoup.nodes.Document.OutputSettings.Syntax;
-
-import java.io.IOException;
 
 /**
  * A {@code <!DOCTYPE>} node.

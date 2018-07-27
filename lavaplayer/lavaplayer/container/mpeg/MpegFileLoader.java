@@ -1,5 +1,12 @@
 package lavaplayer.container.mpeg;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicBoolean;
+
 import lavaplayer.container.mpeg.reader.MpegFileTrackProvider;
 import lavaplayer.container.mpeg.reader.MpegParseStopChecker;
 import lavaplayer.container.mpeg.reader.MpegReader;
@@ -8,13 +15,6 @@ import lavaplayer.container.mpeg.reader.MpegVersionedSectionInfo;
 import lavaplayer.container.mpeg.reader.fragmented.MpegFragmentedFileTrackProvider;
 import lavaplayer.container.mpeg.reader.standard.MpegStandardFileTrackProvider;
 import lavaplayer.tools.io.SeekableInputStream;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * Handles processing an MP4 file for the purpose of streaming one specific track from it. Only performs seeks when

@@ -1,23 +1,5 @@
 package lavaplayer.source.youtube;
 
-import lavaplayer.tools.DaemonThreadFactory;
-import lavaplayer.tools.ExceptionTools;
-import lavaplayer.tools.ExecutorTools;
-import lavaplayer.tools.FriendlyException;
-import lavaplayer.tools.io.HttpInterface;
-import lavaplayer.track.AudioItem;
-import lavaplayer.track.AudioPlaylist;
-import lavaplayer.track.AudioTrack;
-import lavaplayer.track.BasicAudioPlaylist;
-
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import static lavaplayer.tools.FriendlyException.Severity.SUSPICIOUS;
 
 import java.io.IOException;
@@ -30,6 +12,24 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
+
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import lavaplayer.tools.DaemonThreadFactory;
+import lavaplayer.tools.ExceptionTools;
+import lavaplayer.tools.ExecutorTools;
+import lavaplayer.tools.FriendlyException;
+import lavaplayer.tools.io.HttpInterface;
+import lavaplayer.track.AudioItem;
+import lavaplayer.track.AudioPlaylist;
+import lavaplayer.track.AudioTrack;
+import lavaplayer.track.BasicAudioPlaylist;
 
 /**
  * Handles loading of YouTube mixes.

@@ -1,11 +1,11 @@
 package org.jsoup.select;
 
-import org.jsoup.helper.StringUtil;
-import org.jsoup.nodes.Element;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+
+import org.jsoup.helper.StringUtil;
+import org.jsoup.nodes.Element;
 
 /**
  * Base combining (and, or) evaluator.

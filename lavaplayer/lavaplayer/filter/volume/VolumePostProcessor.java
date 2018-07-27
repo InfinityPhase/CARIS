@@ -1,9 +1,9 @@
 package lavaplayer.filter.volume;
 
+import java.nio.ShortBuffer;
+
 import lavaplayer.filter.AudioPostProcessor;
 import lavaplayer.track.playback.AudioProcessingContext;
-
-import java.nio.ShortBuffer;
 
 /**
  * Audio chunk post processor to apply selected volume.

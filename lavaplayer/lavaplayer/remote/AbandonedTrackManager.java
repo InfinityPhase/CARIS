@@ -1,12 +1,5 @@
 package lavaplayer.remote;
 
-import lavaplayer.remote.message.NodeStatisticsMessage;
-import lavaplayer.tools.FriendlyException;
-import lavaplayer.track.AudioTrackState;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import static lavaplayer.tools.FriendlyException.Severity.COMMON;
 
 import java.util.ArrayList;
@@ -14,6 +7,13 @@ import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import lavaplayer.remote.message.NodeStatisticsMessage;
+import lavaplayer.tools.FriendlyException;
+import lavaplayer.track.AudioTrackState;
 
 /**
  * Takes over tracks of offline remote nodes.

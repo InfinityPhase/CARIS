@@ -1,5 +1,15 @@
 package lavaplayer.source.bandcamp;
 
+import java.io.IOException;
+import java.net.URI;
+import java.nio.charset.StandardCharsets;
+
+import org.apache.commons.io.IOUtils;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import lavaplayer.container.mp3.Mp3AudioTrack;
 import lavaplayer.source.AudioSourceManager;
 import lavaplayer.tools.JsonBrowser;
@@ -9,16 +19,6 @@ import lavaplayer.track.AudioTrack;
 import lavaplayer.track.AudioTrackInfo;
 import lavaplayer.track.DelegatedAudioTrack;
 import lavaplayer.track.playback.LocalAudioTrackExecutor;
-
-import org.apache.commons.io.IOUtils;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.io.IOException;
-import java.net.URI;
-import java.nio.charset.StandardCharsets;
 
 /**
  * Audio track that handles processing Bandcamp tracks.

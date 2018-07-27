@@ -1,5 +1,12 @@
 package org.jsoup.safety;
 
+import static org.jsoup.internal.Normalizer.lowerCase;
+
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
 /*
     Thank you to Ryan Grove (wonko.com) for the Ruby HTML cleaner http://github.com/rgrove/sanitize/, which inspired
     this whitelist configuration, and the initial defaults.
@@ -9,13 +16,6 @@ import org.jsoup.helper.Validate;
 import org.jsoup.nodes.Attribute;
 import org.jsoup.nodes.Attributes;
 import org.jsoup.nodes.Element;
-
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-
-import static org.jsoup.internal.Normalizer.lowerCase;
 
 
 /**

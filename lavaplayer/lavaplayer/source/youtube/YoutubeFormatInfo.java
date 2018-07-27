@@ -1,6 +1,12 @@
 package lavaplayer.source.youtube;
 
-import static lavaplayer.container.Formats.*;
+import static lavaplayer.container.Formats.CODEC_AAC_LC;
+import static lavaplayer.container.Formats.CODEC_OPUS;
+import static lavaplayer.container.Formats.CODEC_VORBIS;
+import static lavaplayer.container.Formats.MIME_AUDIO_MP4;
+import static lavaplayer.container.Formats.MIME_AUDIO_WEBM;
+import static lavaplayer.container.Formats.MIME_VIDEO_MP4;
+import static lavaplayer.container.Formats.MIME_VIDEO_WEBM;
 
 import org.apache.http.entity.ContentType;
 

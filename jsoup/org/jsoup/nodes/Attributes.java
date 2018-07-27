@@ -1,7 +1,6 @@
 package org.jsoup.nodes;
 
-import org.jsoup.SerializationException;
-import org.jsoup.helper.Validate;
+import static org.jsoup.internal.Normalizer.lowerCase;
 
 import java.io.IOException;
 import java.util.AbstractMap;
@@ -14,7 +13,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import static org.jsoup.internal.Normalizer.lowerCase;
+import org.jsoup.SerializationException;
+import org.jsoup.helper.Validate;
 
 /**
  * The attributes of an Element.

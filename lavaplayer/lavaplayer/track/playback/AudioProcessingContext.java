@@ -1,9 +1,9 @@
 package lavaplayer.track.playback;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 import lavaplayer.format.AudioDataFormat;
 import lavaplayer.player.AudioConfiguration;
-
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Context for processing audio. Contains configuration for encoding and the output where the frames go to.

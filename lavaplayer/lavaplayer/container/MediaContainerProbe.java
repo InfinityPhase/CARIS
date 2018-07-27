@@ -1,11 +1,11 @@
 package lavaplayer.container;
 
+import java.io.IOException;
+
 import lavaplayer.tools.io.SeekableInputStream;
 import lavaplayer.track.AudioReference;
 import lavaplayer.track.AudioTrack;
 import lavaplayer.track.AudioTrackInfo;
-
-import java.io.IOException;
 
 /**
  * Track information probe for one meida container type and factory for tracks for that container.

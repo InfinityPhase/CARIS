@@ -1,5 +1,17 @@
 package lavaplayer.source.vimeo;
 
+import static lavaplayer.tools.FriendlyException.Severity.SUSPICIOUS;
+
+import java.io.IOException;
+import java.net.URI;
+import java.nio.charset.StandardCharsets;
+
+import org.apache.commons.io.IOUtils;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import lavaplayer.container.mpeg.MpegAudioTrack;
 import lavaplayer.source.AudioSourceManager;
 import lavaplayer.tools.FriendlyException;
@@ -10,18 +22,6 @@ import lavaplayer.track.AudioTrack;
 import lavaplayer.track.AudioTrackInfo;
 import lavaplayer.track.DelegatedAudioTrack;
 import lavaplayer.track.playback.LocalAudioTrackExecutor;
-
-import org.apache.commons.io.IOUtils;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import static lavaplayer.tools.FriendlyException.Severity.SUSPICIOUS;
-
-import java.io.IOException;
-import java.net.URI;
-import java.nio.charset.StandardCharsets;
 
 /**
  * Audio track that handles processing Vimeo tracks.

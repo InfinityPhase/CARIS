@@ -1,10 +1,10 @@
 package lavaplayer.remote;
 
-import lavaplayer.remote.message.NodeStatisticsMessage;
-import lavaplayer.track.AudioTrack;
-
 import java.util.List;
 import java.util.Map;
+
+import lavaplayer.remote.message.NodeStatisticsMessage;
+import lavaplayer.track.AudioTrack;
 
 /**
  * A remote node interface which provides information about a specific node.

@@ -1,5 +1,22 @@
 package lavaplayer.player;
 
+import static lavaplayer.track.AudioTrackEndReason.CLEANUP;
+import static lavaplayer.track.AudioTrackEndReason.FINISHED;
+import static lavaplayer.track.AudioTrackEndReason.LOAD_FAILED;
+import static lavaplayer.track.AudioTrackEndReason.REPLACED;
+import static lavaplayer.track.AudioTrackEndReason.STOPPED;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import lavaplayer.player.event.AudioEvent;
 import lavaplayer.player.event.AudioEventListener;
 import lavaplayer.player.event.PlayerPauseEvent;
@@ -17,23 +34,6 @@ import lavaplayer.track.TrackStateListener;
 import lavaplayer.track.playback.AudioFrame;
 import lavaplayer.track.playback.AudioFrameProvider;
 import lavaplayer.track.playback.AudioFrameProviderTools;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import static lavaplayer.track.AudioTrackEndReason.CLEANUP;
-import static lavaplayer.track.AudioTrackEndReason.FINISHED;
-import static lavaplayer.track.AudioTrackEndReason.LOAD_FAILED;
-import static lavaplayer.track.AudioTrackEndReason.REPLACED;
-import static lavaplayer.track.AudioTrackEndReason.STOPPED;
-
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * An audio player that is capable of playing audio tracks and provides audio frames from the currently playing track.

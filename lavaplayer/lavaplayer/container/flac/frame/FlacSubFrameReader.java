@@ -1,9 +1,9 @@
 package lavaplayer.container.flac.frame;
 
+import java.io.IOException;
+
 import lavaplayer.container.flac.FlacStreamInfo;
 import lavaplayer.tools.io.BitStreamReader;
-
-import java.io.IOException;
 
 /**
  * Contains methods for reading a FLAC subframe

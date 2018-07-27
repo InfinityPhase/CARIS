@@ -1,10 +1,10 @@
 package lavaplayer.filter;
 
+import java.nio.ShortBuffer;
+
 import lavaplayer.format.transcoder.AudioChunkEncoder;
 import lavaplayer.track.playback.AudioFrame;
 import lavaplayer.track.playback.AudioProcessingContext;
-
-import java.nio.ShortBuffer;
 
 /**
  * Post processor which encodes audio chunks and passes them as audio frames to the frame buffer.

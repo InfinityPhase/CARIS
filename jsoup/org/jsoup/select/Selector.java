@@ -1,11 +1,11 @@
 package org.jsoup.select;
 
-import org.jsoup.helper.Validate;
-import org.jsoup.nodes.Element;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.IdentityHashMap;
+
+import org.jsoup.helper.Validate;
+import org.jsoup.nodes.Element;
 
 /**
  * CSS-like element selector, that finds elements matching a query.

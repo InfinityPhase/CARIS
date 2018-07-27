@@ -1,14 +1,14 @@
 package lavaplayer.container.wav;
 
-import lavaplayer.tools.io.SeekableInputStream;
-import lavaplayer.track.playback.AudioProcessingContext;
-
 import static lavaplayer.container.MediaContainerDetection.checkNextBytes;
 
 import java.io.DataInput;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+
+import lavaplayer.tools.io.SeekableInputStream;
+import lavaplayer.track.playback.AudioProcessingContext;
 
 /**
  * Loads either WAV header information or a WAV track provider from a stream.

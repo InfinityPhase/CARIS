@@ -1,6 +1,17 @@
 package lavaplayer.source.local;
 
-import lavaplayer.container.*;
+import static lavaplayer.tools.FriendlyException.Severity.SUSPICIOUS;
+
+import java.io.DataInput;
+import java.io.DataOutput;
+import java.io.File;
+import java.io.IOException;
+
+import lavaplayer.container.MediaContainer;
+import lavaplayer.container.MediaContainerDetection;
+import lavaplayer.container.MediaContainerDetectionResult;
+import lavaplayer.container.MediaContainerHints;
+import lavaplayer.container.MediaContainerProbe;
 import lavaplayer.player.DefaultAudioPlayerManager;
 import lavaplayer.source.ProbingAudioSourceManager;
 import lavaplayer.tools.FriendlyException;
@@ -8,13 +19,6 @@ import lavaplayer.track.AudioItem;
 import lavaplayer.track.AudioReference;
 import lavaplayer.track.AudioTrack;
 import lavaplayer.track.AudioTrackInfo;
-
-import static lavaplayer.tools.FriendlyException.Severity.SUSPICIOUS;
-
-import java.io.DataInput;
-import java.io.DataOutput;
-import java.io.File;
-import java.io.IOException;
 
 /**
  * Audio source manager that implements finding audio files from the local file system.

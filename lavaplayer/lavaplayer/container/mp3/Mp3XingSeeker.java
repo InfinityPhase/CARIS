@@ -1,15 +1,15 @@
 package lavaplayer.container.mp3;
 
-import lavaplayer.natives.mp3.Mp3Decoder;
-import lavaplayer.tools.io.SeekableInputStream;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import static lavaplayer.natives.mp3.Mp3Decoder.SAMPLES_PER_FRAME;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import lavaplayer.natives.mp3.Mp3Decoder;
+import lavaplayer.tools.io.SeekableInputStream;
 
 /**
  * Seeking support for VBR files with Xing header.

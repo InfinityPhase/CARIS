@@ -1,15 +1,15 @@
 package org.jsoup.select;
 
-import org.jsoup.helper.StringUtil;
-import org.jsoup.helper.Validate;
-import org.jsoup.parser.TokenQueue;
+import static org.jsoup.internal.Normalizer.normalize;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static org.jsoup.internal.Normalizer.normalize;
+import org.jsoup.helper.StringUtil;
+import org.jsoup.helper.Validate;
+import org.jsoup.parser.TokenQueue;
 
 /**
  * Parses a CSS selector into an Evaluator tree.

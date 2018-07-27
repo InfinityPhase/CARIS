@@ -1,13 +1,13 @@
 package lavaplayer.container.mp3;
 
-import lavaplayer.natives.mp3.Mp3Decoder;
-import lavaplayer.tools.io.SeekableInputStream;
-
 import static lavaplayer.natives.mp3.Mp3Decoder.HEADER_SIZE;
 
 import java.io.DataInput;
 import java.io.DataInputStream;
 import java.io.IOException;
+
+import lavaplayer.natives.mp3.Mp3Decoder;
+import lavaplayer.tools.io.SeekableInputStream;
 
 /**
  * Handles reading MP3 frames from a stream.

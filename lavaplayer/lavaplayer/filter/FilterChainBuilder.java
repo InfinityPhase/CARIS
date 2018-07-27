@@ -1,14 +1,14 @@
 package lavaplayer.filter;
 
+import java.util.Arrays;
+import java.util.Collection;
+
 import lavaplayer.filter.volume.VolumePostProcessor;
 import lavaplayer.format.AudioDataFormat;
 import lavaplayer.format.transcoder.AudioChunkEncoder;
 import lavaplayer.format.transcoder.OpusChunkEncoder;
 import lavaplayer.format.transcoder.PcmChunkEncoder;
 import lavaplayer.track.playback.AudioProcessingContext;
-
-import java.util.Arrays;
-import java.util.Collection;
 
 /**
  * Builds audio filter chains based on the input format.

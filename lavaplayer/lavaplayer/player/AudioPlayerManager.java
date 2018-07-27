@@ -1,5 +1,11 @@
 package lavaplayer.player;
 
+import java.io.IOException;
+import java.util.concurrent.Future;
+import java.util.function.Function;
+
+import org.apache.http.client.config.RequestConfig;
+
 import lavaplayer.player.hook.AudioOutputHookFactory;
 import lavaplayer.remote.RemoteNodeRegistry;
 import lavaplayer.source.AudioSourceManager;
@@ -7,12 +13,6 @@ import lavaplayer.tools.io.MessageInput;
 import lavaplayer.tools.io.MessageOutput;
 import lavaplayer.track.AudioTrack;
 import lavaplayer.track.DecodedTrackHolder;
-
-import org.apache.http.client.config.RequestConfig;
-
-import java.io.IOException;
-import java.util.concurrent.Future;
-import java.util.function.Function;
 
 /**
  * Audio player manager which is used for creating audio players and loading tracks and playlists.

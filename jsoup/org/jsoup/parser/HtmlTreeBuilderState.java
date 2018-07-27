@@ -1,5 +1,7 @@
 package org.jsoup.parser;
 
+import java.util.ArrayList;
+
 import org.jsoup.helper.StringUtil;
 import org.jsoup.nodes.Attribute;
 import org.jsoup.nodes.Attributes;
@@ -7,8 +9,6 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.DocumentType;
 import org.jsoup.nodes.Element;
 import org.jsoup.nodes.Node;
-
-import java.util.ArrayList;
 
 /**
  * The Tree Builder's current state. Each state embodies the processing for the state, and transitions to other states.

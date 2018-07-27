@@ -1,15 +1,15 @@
 package lavaplayer.container.flac.frame;
 
-import lavaplayer.container.flac.FlacStreamInfo;
-import lavaplayer.container.flac.frame.FlacFrameInfo.ChannelDelta;
-import lavaplayer.tools.io.BitStreamReader;
-
 import static lavaplayer.container.flac.frame.FlacFrameInfo.ChannelDelta.LEFT_SIDE;
 import static lavaplayer.container.flac.frame.FlacFrameInfo.ChannelDelta.MID_SIDE;
 import static lavaplayer.container.flac.frame.FlacFrameInfo.ChannelDelta.NONE;
 import static lavaplayer.container.flac.frame.FlacFrameInfo.ChannelDelta.RIGHT_SIDE;
 
 import java.io.IOException;
+
+import lavaplayer.container.flac.FlacStreamInfo;
+import lavaplayer.container.flac.frame.FlacFrameInfo.ChannelDelta;
+import lavaplayer.tools.io.BitStreamReader;
 
 /**
  * Contains methods for reading a frame header.

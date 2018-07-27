@@ -1,8 +1,8 @@
 package org.jsoup.nodes;
 
-import org.jsoup.parser.Tag;
-
 import java.io.IOException;
+
+import org.jsoup.parser.Tag;
 
 /**
  * Represents a {@link TextNode} as an {@link Element}, to enable text nodes to be selected with

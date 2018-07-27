@@ -1,5 +1,7 @@
 package lavaplayer.source.local;
 
+import java.io.File;
+
 import lavaplayer.container.MediaContainerProbe;
 import lavaplayer.source.AudioSourceManager;
 import lavaplayer.track.AudioTrack;
@@ -7,8 +9,6 @@ import lavaplayer.track.AudioTrackInfo;
 import lavaplayer.track.DelegatedAudioTrack;
 import lavaplayer.track.InternalAudioTrack;
 import lavaplayer.track.playback.LocalAudioTrackExecutor;
-
-import java.io.File;
 
 /**
  * Audio track that handles processing local files as audio tracks.

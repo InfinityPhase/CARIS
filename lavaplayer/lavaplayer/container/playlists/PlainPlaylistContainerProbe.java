@@ -1,5 +1,16 @@
 package lavaplayer.container.playlists;
 
+import static lavaplayer.container.MediaContainerDetection.STREAM_SCAN_DISTANCE;
+import static lavaplayer.container.MediaContainerDetection.matchNextBytesAsRegex;
+
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import lavaplayer.container.MediaContainerDetectionResult;
 import lavaplayer.container.MediaContainerHints;
 import lavaplayer.container.MediaContainerProbe;
@@ -8,17 +19,6 @@ import lavaplayer.tools.io.SeekableInputStream;
 import lavaplayer.track.AudioReference;
 import lavaplayer.track.AudioTrack;
 import lavaplayer.track.AudioTrackInfo;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import static lavaplayer.container.MediaContainerDetection.STREAM_SCAN_DISTANCE;
-import static lavaplayer.container.MediaContainerDetection.matchNextBytesAsRegex;
-
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * Probe for a playlist containing the raw link without any format.
