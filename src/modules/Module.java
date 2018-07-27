@@ -13,7 +13,9 @@ public class Module {
 	// The base class of any module
 	// Use for modules that do not depend on user interaction
 	
-	public Module() {}
+	public Module() {
+		
+	}
 	
 	protected enum Setup {
 		UNSET,
@@ -63,13 +65,14 @@ public class Module {
 	
 	protected void setup() {
 		response = "";
-		embed = null;
+		recipient = new ArrayList<>();
+		embed = new ArrayList<>();
 	}
 	
 	// Build and send the message
 	
 	protected Response build() {
-		if( embed == null ) {
+		if( embed.isEmpty() ) {
 			return buildResponse();
 		} else {
 			return buildEmbed();
@@ -77,14 +80,14 @@ public class Module {
 	}
 
 	protected Response buildResponse() {
-		if( recipient == null ) {
+		if( recipient.isEmpty() ) {
 			return new Response(response, getPriority());
 		} else {
 			return new Response(response, getPriority(), recipient, true);
 		}
 	}
 	protected Response buildEmbed() {
-		if( recipient == null ) {
+		if( recipient.isEmpty() ) {
 			return new Response(embed, getPriority());
 		} else {
 			return new Response(embed, getPriority(), recipient, true);
