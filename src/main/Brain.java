@@ -22,6 +22,7 @@ import memories.TimeMemory;
 import modules.Module.Status;
 import modules.constructors.Constructor;
 import modules.controllers.Controller;
+import modules.independent.Independent;
 import modules.invokers.Invoker;
 import modules.responders.Responder;
 import modules.tools.Tool;
@@ -47,6 +48,7 @@ public class Brain {
 	public static HashMap<String, Constructor> constructorModules = new HashMap<String, Constructor>();
 	public static HashMap<String, Tool> toolModules = new HashMap<String, Tool>();
 	public static HashMap<String, Controller> controllerModules = new HashMap<String, Controller>();
+	public static HashMap<String, Independent> independentModules = new HashMap<>();
 	
 	/* Things that think */
 	public static AuthorMemory authorMemory = new AuthorMemory();
@@ -260,6 +262,25 @@ public class Brain {
 			if( ( t != null ) && ( t.status == Status.ENABLED ) && !contains( t.name, Constants.DISABLED_CONTROLLERS ) ) {
 				log.indent(2).log("Adding " + t.name + " to the controllerModules map");
 				controllerModules.put( t.name, t );
+			}
+		}
+		
+		// Load Independent Modules 
+		log.indent(1).log("Loading Independent Modules...");
+		reflect = new Reflections("modules.independent");
+		for( Class<?> c : reflect.getSubTypesOf( modules.independent.Independent.class ) ) {
+			Independent t = null;
+			try {
+				t = (Independent) c.newInstance();
+			} catch (InstantiationException e) {
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+			}
+			
+			if( ( t != null ) && ( t.status == Status.ENABLED ) && !contains( t.name, Constants.DISABLED_INDEPENDENTS ) ) {
+				log.indent(2).log("Adding " + t.name + " to the independentModules map");
+				independentModules.put( t.name, t );
 			}
 		}
 		

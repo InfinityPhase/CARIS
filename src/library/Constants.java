@@ -101,4 +101,5 @@ public class Constants {
 	};
 	
 	public static final String COMMAND_SEPERATOR = ":"; // Eg: cEcho: Hey there
+	public static final String[] DISABLED_INDEPENDENTS = {};
 }
