@@ -64,11 +64,9 @@ public class Brain {
 		cli = BotUtils.getBuiltDiscordClient(token);
 		log.log("Client built successfully.");
 
-		for( String s : handlers.keySet() ) {
-			Handler e = handlers.get( s );
-			cli.getDispatcher().registerListener( e );
-		}
+		cli.getDispatcher().registerListener( eventManager );
 
+		// TODO: Incorporate these back into the new framework
 		for( String s : memoryModules.keySet() ) {
 			Memory m = memoryModules.get( s );
 			cli.getDispatcher().registerListener( m );
@@ -111,7 +109,7 @@ public class Brain {
 
 		// Load Responder modules
 		log.indent(1).log("Loading Handlers...");
-		Reflections reflect = new Reflections("caris.framework.handlers");
+		Reflections reflect = new Reflections("caris.modular.handlers");
 		for( Class<?> c : reflect.getSubTypesOf( caris.framework.handlers.Handler.class ) ) {
 			Handler h = null;
 			try {

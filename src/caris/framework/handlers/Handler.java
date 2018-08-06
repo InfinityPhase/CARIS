@@ -12,6 +12,10 @@ public class Handler {
 		name = "";
 	}
 	
+	public Handler(String name) {
+		this.name = name;
+	}
+	
 	public Reaction handle(Event event) {
 		if( isTriggered(event) ) {
 			return process(event);
@@ -20,11 +24,11 @@ public class Handler {
 		}
 	}
 	
-	private boolean isTriggered(Event event) {
+	protected boolean isTriggered(Event event) {
 		return false;
 	}
 	
-	private Reaction process(Event event) {
+	protected Reaction process(Event event) {
 		return new Reaction();
 	}
 	

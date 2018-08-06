@@ -15,6 +15,7 @@ public class EventManager extends SuperEvent {
 	@EventSubscriber
 	@Override
 	public void onEvent(Event event) {
+		System.out.println("Ping");
 		ArrayList<Reaction> reactions = new ArrayList<Reaction>();
 		for( Handler h : Brain.handlers.values() ) {
 			Reaction r = h.handle(event);
