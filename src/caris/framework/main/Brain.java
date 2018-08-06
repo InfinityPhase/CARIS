@@ -6,14 +6,12 @@ import java.util.Map;
 
 import org.reflections.Reflections;
 
-import caris.framework.events.EventHandler;
+import caris.framework.events.EventManager;
 import caris.framework.handlers.Handler;
-import commands.CalendarHandler;
-import commands.IndependentHandler;
 import lavaplayer.player.AudioPlayerManager;
 import lavaplayer.player.DefaultAudioPlayerManager;
 import lavaplayer.source.AudioSourceManagers;
-import library.Constants;
+import caris.framework.library.Constants;
 import memories.AuthorMemory;
 import memories.Memory;
 import memories.TimeMemory;
@@ -24,10 +22,6 @@ import utilities.Logger;
 import utilities.TokenParser;
 
 public class Brain {
-
-	/*	IMPORTANT NOTES
-	 * 	- Responders ignore case by setting messages to lower case before parsing
-	 */
 
 	public static TokenParser tp = new TokenParser();
 	public static Logger log = new Logger().setDefaultIndent(0).build();
@@ -40,7 +34,7 @@ public class Brain {
 	public static TimeMemory timeMemory = new TimeMemory();
 
 	/* Event Handlers */
-	public static EventHandler eventHandler = new EventHandler();
+	public static EventManager eventManager = new EventManager();
 
 	/* Gigantic Variable Library */	
 	public static Calendar current = Calendar.getInstance();
@@ -93,8 +87,6 @@ public class Brain {
 
 		while( true ) {
 			current = Calendar.getInstance();
-			CalendarHandler.check();
-			IndependentHandler.check();
 		}
 	}
 

@@ -9,7 +9,7 @@ import caris.framework.reactions.Reaction;
 import sx.blah.discord.api.events.Event;
 import sx.blah.discord.api.events.EventSubscriber;
 
-public class EventHandler extends SuperEvent {
+public class EventManager extends SuperEvent {
 
 	@EventSubscriber
 	@Override
