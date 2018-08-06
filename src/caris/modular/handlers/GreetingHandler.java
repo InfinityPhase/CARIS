@@ -38,8 +38,6 @@ public class GreetingHandler extends Handler {
 			"Hello",
 			"Hi",
 			"Hey",
-			"Sup ",
-			"'Sup",
 			"Salutations",
 			"Greetings",
 			"Hiya",
@@ -73,7 +71,7 @@ public class GreetingHandler extends Handler {
 	}
 	
 	private String getRandomGreeting() {
-		return (greetingsOutput.length > 0) ? greetingsOutput[(int) Math.random()*greetingsOutput.length] : "Hello";
+		return (greetingsOutput.length > 0) ? greetingsOutput[(int) (Math.random()*greetingsOutput.length)] : "Hello";
 	}
 	
 }
