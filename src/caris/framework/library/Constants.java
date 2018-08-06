@@ -1,7 +1,7 @@
 package caris.framework.library;
 
-import utilities.Logger.level;
-import utilities.Logger.output;
+import caris.framework.utilities.Logger.level;
+import caris.framework.utilities.Logger.output;
 
 public class Constants {
 	public static final String ADMIN_PREFIX = "==> ";

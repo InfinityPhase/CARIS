@@ -12,14 +12,14 @@ import lavaplayer.player.AudioPlayerManager;
 import lavaplayer.player.DefaultAudioPlayerManager;
 import lavaplayer.source.AudioSourceManagers;
 import caris.framework.library.Constants;
-import memories.AuthorMemory;
-import memories.Memory;
-import memories.TimeMemory;
-import music.GuildMusicManager;
+import caris.framework.memories.AuthorMemory;
+import caris.framework.memories.Memory;
+import caris.framework.memories.TimeMemory;
+import caris.framework.music.GuildMusicManager;
 import sx.blah.discord.api.IDiscordClient;
-import utilities.BotUtils;
-import utilities.Logger;
-import utilities.TokenParser;
+import caris.framework.utilities.BotUtils;
+import caris.framework.utilities.Logger;
+import caris.framework.utilities.TokenParser;
 
 public class Brain {
 

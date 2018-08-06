@@ -9,7 +9,7 @@ import caris.framework.library.GuildInfo;
 import sx.blah.discord.handle.obj.IChannel;
 import sx.blah.discord.handle.obj.IGuild;
 import sx.blah.discord.handle.obj.IUser;
-import utilities.DataSaver;
+import caris.framework.utilities.DataSaver;
 
 public class Variables {
 	// Dynamic global variables

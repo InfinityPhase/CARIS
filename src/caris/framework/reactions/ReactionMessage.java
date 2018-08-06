@@ -1,7 +1,7 @@
 package caris.framework.reactions;
 
 import sx.blah.discord.handle.obj.IChannel;
-import utilities.BotUtils;
+import caris.framework.utilities.BotUtils;
 
 public class ReactionMessage extends Reaction {
 	
