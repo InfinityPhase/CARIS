@@ -1,7 +1,5 @@
 package caris.framework.reactions;
 
-import tokens.Response;
-
 public class Reaction implements Comparable<Reaction> {
 	
 	public int priority;

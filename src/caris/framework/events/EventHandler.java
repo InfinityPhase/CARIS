@@ -8,7 +8,6 @@ import caris.framework.main.Brain;
 import caris.framework.reactions.Reaction;
 import sx.blah.discord.api.events.Event;
 import sx.blah.discord.api.events.EventSubscriber;
-import tokens.Response;
 
 public class EventHandler extends SuperEvent {
 
