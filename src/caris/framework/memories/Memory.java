@@ -3,11 +3,12 @@ package caris.framework.memories;
 import java.util.ArrayList;
 import java.util.List;
 
+import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
+import sx.blah.discord.handle.obj.IMessage;
+
 import caris.framework.library.Variables;
 import caris.framework.main.Brain;
 import caris.framework.library.GuildInfo;
-import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
-import sx.blah.discord.handle.obj.IMessage;
 import caris.framework.tokens.Thought;
 
 public class Memory {

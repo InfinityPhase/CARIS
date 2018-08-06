@@ -9,12 +9,13 @@ import java.util.Calendar;
 
 import org.json.JSONObject;
 
+import sx.blah.discord.handle.obj.IGuild;
+import sx.blah.discord.handle.obj.IUser;
+
 import caris.framework.library.Variables;
 import caris.framework.library.GuildInfo;
 import caris.framework.utilities.Logger.level;
 import caris.framework.library.UserInfo;
-import sx.blah.discord.handle.obj.IGuild;
-import sx.blah.discord.handle.obj.IUser;
 import caris.framework.tokens.Poll;
 import caris.framework.tokens.Reminder;
 

@@ -1,7 +1,8 @@
 package caris.framework.handlers;
 
-import caris.framework.reactions.Reaction;
 import sx.blah.discord.api.events.Event;
+
+import caris.framework.reactions.Reaction;
 
 public class Handler {
 	

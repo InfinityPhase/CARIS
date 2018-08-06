@@ -3,11 +3,12 @@ package caris.framework.events;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import sx.blah.discord.api.events.Event;
+import sx.blah.discord.api.events.EventSubscriber;
+
 import caris.framework.handlers.Handler;
 import caris.framework.main.Brain;
 import caris.framework.reactions.Reaction;
-import sx.blah.discord.api.events.Event;
-import sx.blah.discord.api.events.EventSubscriber;
 
 public class EventManager extends SuperEvent {
 

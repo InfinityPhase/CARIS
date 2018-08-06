@@ -2,6 +2,7 @@ package caris.framework.reactions;
 
 import sx.blah.discord.handle.obj.IChannel;
 import sx.blah.discord.util.EmbedBuilder;
+
 import caris.framework.utilities.BotUtils;
 
 public class ReactionEmbed extends Reaction {

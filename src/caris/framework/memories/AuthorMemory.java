@@ -1,6 +1,7 @@
 package caris.framework.memories;
 
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
+
 import caris.framework.tokens.Thought;
 
 public class AuthorMemory extends Memory {

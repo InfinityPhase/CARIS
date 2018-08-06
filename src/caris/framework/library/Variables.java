@@ -4,11 +4,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import caris.framework.main.Brain;
-import caris.framework.library.GuildInfo;
 import sx.blah.discord.handle.obj.IChannel;
 import sx.blah.discord.handle.obj.IGuild;
 import sx.blah.discord.handle.obj.IUser;
+
+import caris.framework.main.Brain;
+import caris.framework.library.GuildInfo;
 import caris.framework.utilities.DataSaver;
 
 public class Variables {

@@ -6,20 +6,23 @@ import java.util.Map;
 
 import org.reflections.Reflections;
 
-import caris.framework.events.EventManager;
-import caris.framework.handlers.Handler;
+import sx.blah.discord.api.IDiscordClient;
+
 import lavaplayer.player.AudioPlayerManager;
 import lavaplayer.player.DefaultAudioPlayerManager;
 import lavaplayer.source.AudioSourceManagers;
+
+import caris.framework.events.EventManager;
+import caris.framework.handlers.Handler;
 import caris.framework.library.Constants;
 import caris.framework.memories.AuthorMemory;
 import caris.framework.memories.Memory;
 import caris.framework.memories.TimeMemory;
 import caris.framework.music.GuildMusicManager;
-import sx.blah.discord.api.IDiscordClient;
 import caris.framework.utilities.BotUtils;
 import caris.framework.utilities.Logger;
 import caris.framework.utilities.TokenParser;
+
 
 public class Brain {
 

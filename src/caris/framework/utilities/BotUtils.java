@@ -2,8 +2,6 @@ package caris.framework.utilities;
 
 import java.util.List;
 
-import caris.framework.library.Variables;
-import caris.framework.utilities.Logger.level;
 import sx.blah.discord.api.ClientBuilder;
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.api.internal.json.objects.EmbedObject;
@@ -12,6 +10,9 @@ import sx.blah.discord.handle.obj.IGuild;
 import sx.blah.discord.util.DiscordException;
 import sx.blah.discord.util.EmbedBuilder;
 import sx.blah.discord.util.RequestBuffer;
+
+import caris.framework.library.Variables;
+import caris.framework.utilities.Logger.level;
 
 public class BotUtils {
 	private static Logger log = new Logger().setDefaultIndent(0).setDefaultLevel( level.INFO );

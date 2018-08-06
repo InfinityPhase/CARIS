@@ -1,9 +1,10 @@
 package caris.framework.music;
 
-import lavaplayer.player.AudioPlayer;
-import lavaplayer.track.playback.AudioFrame;
 import sx.blah.discord.handle.audio.AudioEncodingType;
 import sx.blah.discord.handle.audio.IAudioProvider;
+
+import lavaplayer.player.AudioPlayer;
+import lavaplayer.track.playback.AudioFrame;
 
 /**
  * This is a wrapper around AudioPlayer which makes it behave as an IAudioProvider for D4J. As D4J calls canProvide

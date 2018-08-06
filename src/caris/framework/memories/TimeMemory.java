@@ -2,8 +2,9 @@ package caris.framework.memories;
 
 import java.text.SimpleDateFormat;
 
-import caris.framework.library.Constants;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
+
+import caris.framework.library.Constants;
 import caris.framework.tokens.Thought;
 
 public class TimeMemory extends Memory {

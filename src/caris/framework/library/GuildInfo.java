@@ -5,14 +5,16 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
-import caris.framework.embedbuilders.ModuleStatusBuilder;
-import caris.framework.embedbuilders.PollBuilder;
-import caris.framework.library.Constants;
 import sx.blah.discord.handle.obj.IChannel;
 import sx.blah.discord.handle.obj.IGuild;
 import sx.blah.discord.handle.obj.IUser;
+
+import caris.framework.embedbuilders.ModuleStatusBuilder;
+import caris.framework.embedbuilders.PollBuilder;
+import caris.framework.library.Constants;
 import caris.framework.tokens.Poll;
 import caris.framework.tokens.Reminder;
+
 
 public class GuildInfo {
 	/* Basic Information */
