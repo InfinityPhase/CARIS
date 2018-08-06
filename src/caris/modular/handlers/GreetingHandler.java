@@ -12,6 +12,7 @@ public class GreetingHandler extends Handler {
 	private String[] greetingsInput = new String[] {
 			"Hello",
 			"Hi ",
+			"Hi,",
 			"Howdy",
 			"G'day",
 			"Gday",
@@ -24,7 +25,9 @@ public class GreetingHandler extends Handler {
 			"Afternoon",
 			"Hey",
 			"Yo ",
+			"Yo,",
 			"Sup ",
+			"Sup,",
 			"'Sup",
 			"Salutations",
 			"Greetings",
