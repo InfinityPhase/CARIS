@@ -41,9 +41,7 @@ public class AutoRoleHandler extends MessageHandler {
 				for( int f=3; f<tokens.size(); f++ ) {
 					String token = tokens.get(f);
 					List<IRole> roles = messageReceivedEvent.getGuild().getRolesByName(token);
-					if( !roles.isEmpty() ) {
-						Variables.guildIndex.get(messageReceivedEvent.getGuild()).autoRoles.addAll((Collection<? extends Role>) roles);
-					}
+					Variables.guildIndex.get(messageReceivedEvent.getGuild()).autoRoles.addAll((Collection<? extends Role>) roles);
 				}
 				return new ReactionMessage( "AutoRoles updated successfully!", messageReceivedEvent.getChannel() );
 			} else if( tokens.get(2).equals("remove") ) {

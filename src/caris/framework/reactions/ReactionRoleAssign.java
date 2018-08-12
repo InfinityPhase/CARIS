@@ -1,41 +1,29 @@
 package caris.framework.reactions;
 
 import sx.blah.discord.handle.impl.obj.Role;
-import sx.blah.discord.handle.obj.IChannel;
 import sx.blah.discord.handle.obj.IUser;
 
 public class ReactionRoleAssign extends Reaction {
 
 	public IUser user;
 	public Role role;
-	public IChannel channel;
 	
-	public ReactionRoleAssign( IUser user, Role role, IChannel channel ) {
-		super(1);
-		this.user = user;
-		this.role = role;
-		this.channel = channel;
+	public ReactionRoleAssign( IUser user, Role role ) {
+		this(user, role, 1, false);
 	}
 	
-	public ReactionRoleAssign( IUser user, Role role, IChannel channel, int priority ) {
-		super(priority);
-		this.user = user;
-		this.role = role;
-		this.channel = channel;
+	public ReactionRoleAssign( IUser user, Role role, int priority ) {
+		this(user, role, priority, false);
 	}
 	
-	public ReactionRoleAssign( IUser user, Role role, IChannel channel, boolean passive ) {
-		super(passive);
-		this.user = user;
-		this.role = role;
-		this.channel = channel;
+	public ReactionRoleAssign( IUser user, Role role, boolean passive ) {
+		this(user, role, 1, passive);
 	}
 	
-	public ReactionRoleAssign( IUser user, Role role, IChannel channel, int priority, boolean passive ) {
+	public ReactionRoleAssign( IUser user, Role role, int priority, boolean passive ) {
 		super(priority, passive);
 		this.user = user;
 		this.role = role;
-		this.channel = channel;
 	}
 	
 	public void execute() {
