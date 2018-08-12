@@ -18,6 +18,7 @@ public class Handler {
 	
 	public Reaction handle(Event event) {
 		if( isTriggered(event) ) {
+			System.out.println("Processing " + name);
 			return process(event);
 		} else {
 			return null;

@@ -4,7 +4,7 @@ import caris.framework.utilities.Logger.level;
 import caris.framework.utilities.Logger.output;
 
 public class Constants {
-	public static final String ADMIN_PREFIX = "==> ";
+	public static final String ADMIN_PREFIX = "==>";
 	public static final String DEFAULT_PLAYING_TEXT = "Type \"cHelp\" for help!";
 
 	public static final String[] DISABLED_RESPONDERS = new String[] {
