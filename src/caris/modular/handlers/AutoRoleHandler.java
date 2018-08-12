@@ -15,14 +15,10 @@ import sx.blah.discord.handle.impl.obj.Role;
 import sx.blah.discord.handle.obj.IRole;
 
 public class AutoRoleHandler extends MessageHandler {
-
-	public AutoRoleHandler() {
-		super();
-		invocation = "autorole";
-	}
 	
-	public AutoRoleHandler(String name) {
-		super(name);
+	public AutoRoleHandler() {
+		super("AutoRole Handler");
+		invocation = "autorole";
 	}
 	
 	@Override

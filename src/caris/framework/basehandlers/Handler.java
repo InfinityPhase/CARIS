@@ -9,7 +9,7 @@ public class Handler {
 	public String name;
 	
 	public Handler() {
-		name = "";
+		this("");
 	}
 	
 	public Handler(String name) {

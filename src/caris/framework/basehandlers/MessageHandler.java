@@ -14,7 +14,7 @@ public class MessageHandler extends Handler {
 	public String invocation = "";
 	
 	public MessageHandler() {
-		super();
+		this("");
 	}
 	
 	public MessageHandler(String name) {

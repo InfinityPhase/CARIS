@@ -13,11 +13,7 @@ import sx.blah.discord.handle.obj.IChannel;
 public class GuildCreateHandler extends Handler {
 
 	public GuildCreateHandler() {
-		super();
-	}
-	
-	public GuildCreateHandler(String name) {
-		super(name);
+		super("GuildCreate Handler");
 	}
 	
 	@Override
