@@ -3,7 +3,7 @@ package caris.framework.utilities;
 import java.util.ArrayList;
 
 public class TokenParser {
-	public char[] punctuation = new char[] {
+	public static char[] punctuation = new char[] {
 			'.',
 			',',
 			'!',
@@ -12,9 +12,7 @@ public class TokenParser {
 			'@',
 	};
 	
-	public TokenParser() {}
-	
-	public ArrayList<String> parse(String line) {
+	public static ArrayList<String> parse(String line) {
 		ArrayList<String> tokens = new ArrayList<String>();
 		while( line.contains("  ") ) {
 			line = line.replace("  ", " ");
@@ -65,7 +63,28 @@ public class TokenParser {
 		return tokens;
 	}
 	
-	public ArrayList<String> parse(String line, char[] punctList) {
+	public static ArrayList<String> parseQuoted(String line) {
+		ArrayList<String> tokens = new ArrayList<String>();
+		line += " ";
+		while( line.contains("“") ) {
+			line = line.replace("“", "\"");
+		}
+		while( line.contains("”") ) {
+			line = line.replace("”", "\"");
+		}
+		while( line.contains("\"") ) {
+			int indexA = line.indexOf('\"');
+			int indexB = line.indexOf('\"');
+			if( !(indexA == -1 || indexB == -1) ) {
+				String token = line.substring(indexA+1, indexB);
+				tokens.add(token);
+			}
+			line = line.substring(indexB+1);
+		}
+		return tokens;
+	}
+	
+	public static ArrayList<String> parse(String line, char[] punctList) {
 		ArrayList<String> tokens = new ArrayList<String>();
 		line += " ";
 		while( line.contains("  ") ) {

@@ -1,4 +1,4 @@
-package caris.framework.handlers;
+package caris.framework.basehandlers;
 
 import sx.blah.discord.api.events.Event;
 

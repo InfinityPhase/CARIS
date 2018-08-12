@@ -6,14 +6,8 @@ import java.util.Map;
 
 import org.reflections.Reflections;
 
-import sx.blah.discord.api.IDiscordClient;
-
-import lavaplayer.player.AudioPlayerManager;
-import lavaplayer.player.DefaultAudioPlayerManager;
-import lavaplayer.source.AudioSourceManagers;
-
+import caris.framework.basehandlers.Handler;
 import caris.framework.events.EventManager;
-import caris.framework.handlers.Handler;
 import caris.framework.library.Constants;
 import caris.framework.memories.AuthorMemory;
 import caris.framework.memories.Memory;
@@ -21,12 +15,14 @@ import caris.framework.memories.TimeMemory;
 import caris.framework.music.GuildMusicManager;
 import caris.framework.utilities.BotUtils;
 import caris.framework.utilities.Logger;
-import caris.framework.utilities.TokenParser;
+import lavaplayer.player.AudioPlayerManager;
+import lavaplayer.player.DefaultAudioPlayerManager;
+import lavaplayer.source.AudioSourceManagers;
+import sx.blah.discord.api.IDiscordClient;
 
 
 public class Brain {
 
-	public static TokenParser tp = new TokenParser();
 	public static Logger log = new Logger().setDefaultIndent(0).build();
 
 	public static Map<String, Handler> handlers = new HashMap<String, Handler>();
@@ -109,8 +105,24 @@ public class Brain {
 
 		// Load Responder modules
 		log.indent(1).log("Loading Handlers...");
-		Reflections reflect = new Reflections("caris.modular.handlers");
-		for( Class<?> c : reflect.getSubTypesOf( caris.framework.handlers.Handler.class ) ) {
+		Reflections reflect = new Reflections("caris.framework.handlers");
+		for( Class<?> c : reflect.getSubTypesOf( caris.framework.basehandlers.Handler.class ) ) {
+			Handler h = null;
+			try {
+				h = (Handler) c.newInstance();
+			} catch (InstantiationException e) {
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+			}
+			
+			if( h != null ) {
+				log.indent(2).log("Adding " + h.name + " to the Handler Map");
+				handlers.put( h.name, h );
+			}
+		}
+		reflect = new Reflections("caris.modular.handlers");
+		for( Class<?> c : reflect.getSubTypesOf( caris.framework.basehandlers.Handler.class ) ) {
 			Handler h = null;
 			try {
 				h = (Handler) c.newInstance();
@@ -130,14 +142,5 @@ public class Brain {
 		for( String s : handlers.keySet() ) {
 			log.indent(3).log(s);
 		}
-	}
-
-	private static boolean contains( String s, String[] array ) {
-		for( int i = 0; i < array.length; i++ ) {
-			if( array[i].equalsIgnoreCase(s) ) {
-				return true;
-			}
-		}
-		return false;
 	}
 }

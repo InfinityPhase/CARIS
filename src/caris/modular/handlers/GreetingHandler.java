@@ -1,6 +1,6 @@
 package caris.modular.handlers;
 
-import caris.framework.handlers.Handler;
+import caris.framework.basehandlers.Handler;
 import caris.framework.library.Constants;
 import caris.framework.reactions.Reaction;
 import caris.framework.reactions.ReactionMessage;

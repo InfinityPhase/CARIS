@@ -10,6 +10,7 @@ import caris.framework.library.Variables;
 import caris.framework.main.Brain;
 import caris.framework.library.GuildInfo;
 import caris.framework.tokens.Thought;
+import caris.framework.utilities.TokenParser;
 
 public class Memory {
 	// Base Memory class
@@ -37,7 +38,7 @@ public class Memory {
 		
 	protected void setup(MessageReceivedEvent event) {
 		messageText = format(event);
-		tokens = Brain.tp.parse(event.getMessage().getContent());
+		tokens = TokenParser.parse(event.getMessage().getContent());
 		variables = Variables.guildIndex.get(event.getGuild());
 		
 		text = new ArrayList<String>();

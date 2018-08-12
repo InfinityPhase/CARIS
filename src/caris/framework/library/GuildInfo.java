@@ -5,6 +5,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
+import sx.blah.discord.handle.impl.obj.Role;
 import sx.blah.discord.handle.obj.IChannel;
 import sx.blah.discord.handle.obj.IGuild;
 import sx.blah.discord.handle.obj.IUser;
@@ -39,6 +40,9 @@ public class GuildInfo {
 	public HashMap<String, String> translator; // we might not need this if people just @ everyone else // Yeah right.
 	public HashMap<IUser, UserInfo> userIndex;
 	public HashMap<Calendar, Reminder> reminders;
+	
+	// Role related things
+	public ArrayList<Role> autoRoles;
 	
 	// Channel settings
 	public long logChannel; // Perhaps should be the actual channel? Probably?
@@ -95,6 +99,8 @@ public class GuildInfo {
 		
 		pollBuilder = new PollBuilder();
 		moduleStatusBuilder = new ModuleStatusBuilder();
+		
+		autoRoles = new ArrayList<Role>();
 		
 		init();
 	}

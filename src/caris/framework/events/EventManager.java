@@ -5,8 +5,7 @@ import java.util.Arrays;
 
 import sx.blah.discord.api.events.Event;
 import sx.blah.discord.api.events.EventSubscriber;
-
-import caris.framework.handlers.Handler;
+import caris.framework.basehandlers.Handler;
 import caris.framework.main.Brain;
 import caris.framework.reactions.Reaction;
 

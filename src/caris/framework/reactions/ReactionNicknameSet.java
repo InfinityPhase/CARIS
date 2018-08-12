@@ -10,14 +10,19 @@ public class ReactionNicknameSet extends Reaction {
 	public String nick;
 	
 	public ReactionNicknameSet( IGuild guild, IUser user, String nick ) {
-		super(1);
-		this.guild = guild;
-		this.user = user;
-		this.nick = nick;
+		this(guild, user, nick, 1, false);
 	}
 	
 	public ReactionNicknameSet( IGuild guild, IUser user, String nick, int priority ) {
-		super(priority);
+		this(guild, user, nick, priority, false);
+	}
+	
+	public ReactionNicknameSet( IGuild guild, IUser user, String nick, boolean passive ) {
+		this(guild, user, nick, 1, passive);
+	}
+	
+	public ReactionNicknameSet( IGuild guild, IUser user, String nick, int priority, boolean passive ) {
+		super(priority, passive);
 		this.guild = guild;
 		this.user = user;
 		this.nick = nick;
