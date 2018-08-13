@@ -17,7 +17,7 @@ public class Logger {
 	
 	public static void say(String message, IChannel channel) {
 		String output = "(" + channel.getLongID() + ") <" + channel.getName() + "> [CARIS]: " + message;
-		System.out.println(ConsoleColors.BLUE + output + ConsoleColors.RESET);
+		System.out.println(output);
 		log(output);
 	}
 	
@@ -26,12 +26,13 @@ public class Logger {
 	}
 	
 	public static void error(String message, int level) {
-		String output = "";
+		String output = "[ERROR]";
 		for( int f=0; f<level*Constants.DEFAULT_INDENT_INCREMENT; f++ ) {
 			output += Constants.ERROR_INDENT;
 		}
 		output += Constants.HEADER;
-		System.out.println(ConsoleColors.RED + output + ConsoleColors.RESET);
+		output += message;
+		System.out.println(output);
 		if( Constants.LOG ) {
 			log(output);
 		}
@@ -43,13 +44,14 @@ public class Logger {
 	
 	public static void debug(String message, int level) {
 		if( Constants.DEBUG_VERBOSITY == -1 || Constants.DEBUG_VERBOSITY >= level ) {
-			String output = "";
+			String output = "[DEBUG]";
 			if( Constants.DEBUG ) {
 				for( int f=0; f<level*Constants.DEFAULT_INDENT_INCREMENT; f++ ) {
 					output += Constants.DEBUG_INDENT;
 				}
 				output += Constants.HEADER;
-				System.out.println(ConsoleColors.YELLOW + output + ConsoleColors.RESET);
+				output += message;
+				System.out.println(output);
 				if( Constants.LOG && ( Constants.LOG_VERBOSITY == -1 || Constants.LOG_VERBOSITY >= level )) {
 					log(output);
 				}
@@ -63,12 +65,13 @@ public class Logger {
 	
 	public static void print(String message, int level) {
 		if( Constants.PRINT_VERBOSITY == -1 || Constants.PRINT_VERBOSITY >= level ) {
-			String output = "";
+			String output = "[PRINT]";
 			if( Constants.PRINT ) {
 				for( int f=0; f<level*Constants.DEFAULT_INDENT_INCREMENT; f++ ) {
 					output += Constants.PRINT_INDENT;
 				}
 				output += Constants.HEADER;
+				output += message;
 				System.out.println(output);
 				if( Constants.LOG && ( Constants.LOG_VERBOSITY == -1 || Constants.LOG_VERBOSITY >= level )) {
 					log(output);

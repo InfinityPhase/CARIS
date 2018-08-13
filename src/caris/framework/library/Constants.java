@@ -37,7 +37,7 @@ public class Constants {
 			Long.parseLong("365715538166415362"),
 	};
 
-	public static final boolean DEBUG = true;
+	public static final boolean DEBUG = false;
 	public static final boolean PRINT = true;
 	public static final boolean LOG = true;
 	
@@ -64,7 +64,7 @@ public class Constants {
 	public final static String PRINT_INDENT = "=";
 	public final static String DEBUG_INDENT = ".";
 	public final static String ERROR_INDENT = "!";
-	public final static String HEADER = ">";
+	public final static String HEADER = "> ";
 	public final static int DEFAULT_INDENT_LEVEL = 0;
 	public final static int DEFAULT_INDENT_INCREMENT = 2;
 
