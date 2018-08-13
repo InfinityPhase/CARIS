@@ -26,7 +26,10 @@ public class Logger {
 	
 	public static void hear(String message, IUser user, IChannel channel) {
 		if( Constants.HEAR ) {
-			String output = "(" + channel.getLongID() + ") <" + channel.getName() + "> [" + user.getName() + "]: " + message;
+			String output = "(" + channel.getLongID() + ") <";
+			output += channel.getName() + "> [";
+			output += user.getName() + "]: ";
+			output += message;
 			System.out.println(output);
 			log(output);
 		}

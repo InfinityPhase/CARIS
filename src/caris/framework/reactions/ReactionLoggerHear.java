@@ -17,6 +17,7 @@ public class ReactionLoggerHear extends Reaction {
 	public ReactionLoggerHear(String message, IUser user, IChannel channel, int priority) {
 		super(priority);
 		this.message = message;
+		this.user = user;
 		this.channel = channel;
 		this.priority = priority;
 	}
