@@ -9,19 +9,16 @@ import java.util.Calendar;
 
 import org.json.JSONObject;
 
+import caris.framework.library.GuildInfo;
+import caris.framework.library.UserInfo;
+import caris.framework.library.Variables;
+import caris.framework.tokens.Poll;
+import caris.framework.tokens.Reminder;
 import sx.blah.discord.handle.obj.IGuild;
 import sx.blah.discord.handle.obj.IUser;
 
-import caris.framework.library.Variables;
-import caris.framework.library.GuildInfo;
-import caris.framework.utilities.Logger.level;
-import caris.framework.library.UserInfo;
-import caris.framework.tokens.Poll;
-import caris.framework.tokens.Reminder;
-
 public class DataSaver {
-	private Logger log = new Logger().indent(2).setDefaultLevel( level.INFO ).build();
-
+	
 	public DataSaver() {}
 	
 	public void save() {
@@ -137,7 +134,7 @@ public class DataSaver {
 				fbw.close();
 			}
 		} catch(Exception e) {
-			log.level( level.ERROR ).log("Couldn't print to the file");
+			Logger.error("Couldn't print to the file");
 		}
 	}
 }

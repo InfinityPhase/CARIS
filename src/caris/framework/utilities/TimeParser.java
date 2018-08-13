@@ -3,10 +3,7 @@ package caris.framework.utilities;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-import caris.framework.utilities.Logger.level;
-
 public class TimeParser {
-	private static Logger log = new Logger().setDefaultIndent(2).setDefaultLevel( level.DEBUG ).setDefaultIndent(2).build();
 	
 	public static Calendar parseTimer(ArrayList<String> tokens) {
 		Calendar previous = Calendar.getInstance();
@@ -108,7 +105,6 @@ public class TimeParser {
 				day = order;
 				dayChange = true;
 			} else if( isInteger(token) ) {
-				log.log(token);
 				int possibleYear = Integer.parseInt(token);
 				if( possibleYear >= target.get(Calendar.YEAR) ) {
 					year = possibleYear;
@@ -117,8 +113,6 @@ public class TimeParser {
 			} else if( token.contains(":") ) {
 				int posHour = parseHour(token);
 				int posMinute = parseMinute(token);
-				log.log( posHour );
-				log.log( posMinute);
 				if( hour != -1 ) {
 					hour = posHour;
 					hourChange = true;
@@ -128,7 +122,6 @@ public class TimeParser {
 					minuteChange = true;
 				}
 			} else if( token.equalsIgnoreCase("PM") ) {
-				log.log("pm");
 				pm = true;
 			}
 		}

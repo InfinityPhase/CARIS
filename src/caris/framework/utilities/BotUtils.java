@@ -2,6 +2,7 @@ package caris.framework.utilities;
 
 import java.util.List;
 
+import caris.framework.library.Variables;
 import sx.blah.discord.api.ClientBuilder;
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.api.internal.json.objects.EmbedObject;
@@ -11,14 +12,8 @@ import sx.blah.discord.util.DiscordException;
 import sx.blah.discord.util.EmbedBuilder;
 import sx.blah.discord.util.RequestBuffer;
 
-import caris.framework.library.Variables;
-import caris.framework.utilities.Logger.level;
-
 public class BotUtils {
-	private static Logger log = new Logger().setDefaultIndent(0).setDefaultLevel( level.INFO );
-
-	// Constants:
-
+	
 	// Actually creates the client object.
 	// Magic!
 	public static IDiscordClient getBuiltDiscordClient(String token) {
@@ -38,7 +33,7 @@ public class BotUtils {
 				channel.sendMessage(message);
 			}
 			catch (DiscordException e) {
-				log.log("Message could not be sent with error: ");
+				Logger.error("Message could not be sent with error: ");
 				e.printStackTrace();
 			}
 		});
@@ -84,7 +79,7 @@ public class BotUtils {
 					c.sendMessage(message);
 				}
 				catch (DiscordException e) {
-					log.log("Message could not be sent with error: ");
+					Logger.error("Message could not be sent with error: ");
 					e.printStackTrace();
 				}
 			});
@@ -97,7 +92,7 @@ public class BotUtils {
 				channel.sendMessage( embed.build() );
 			}
 			catch (DiscordException e) {
-				log.log("Message could not be sent with error: ");
+				Logger.error("Message could not be sent with error: ");
 				e.printStackTrace();
 			}
 		});
@@ -109,7 +104,7 @@ public class BotUtils {
 				channel.sendMessage( embed );
 			}
 			catch (DiscordException e) {
-				log.log("Message could not be sent with error: ");
+				Logger.error("Message could not be sent with error: ");
 				e.printStackTrace();
 			}
 		});

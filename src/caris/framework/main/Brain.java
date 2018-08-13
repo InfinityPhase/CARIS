@@ -20,8 +20,6 @@ import sx.blah.discord.api.IDiscordClient;
 
 public class Brain {
 
-	public static Logger log = new Logger().setDefaultIndent(0).build();
-
 	public static Map<String, Handler> handlers = new HashMap<String, Handler>();
 
 	/* Event Handlers */
@@ -41,8 +39,8 @@ public class Brain {
 		init();
 
 		if (!(args.length >= 1)) {
-			log.log("Please pass the TOKEN as the first argument.");
-			log.log("# java -jar SimpleResponder.jar TOKEN");
+			Logger.error("Please pass the TOKEN as the first argument.");
+			Logger.error("# java -jar SimpleResponder.jar TOKEN");
 			System.exit(0);
 		}
 
@@ -50,19 +48,17 @@ public class Brain {
 		String token = args[0];
 
 		cli = BotUtils.getBuiltDiscordClient(token);
-		log.log("Client built successfully.");
+		Logger.print("Client built successfully.");
 
 		cli.getDispatcher().registerListener( eventManager );
-
-		log.log("Listener established successfully.");
+		Logger.print("Listener established successfully.");
 
 		// Only login after all event registering is done
 		cli.login();
+		Logger.print("Client logged in.");
+		Logger.print("Loaded Channel Map.");
+
 		cli.changePlayingText(Constants.DEFAULT_PLAYING_TEXT);
-
-		log.log("Client logged in.");
-
-		log.log("Loaded Channel Map.");
 
 		while( !cli.isReady() ) {
 			// Wait to do anything else
@@ -74,7 +70,7 @@ public class Brain {
 	}
 
 	public static void init() { // add handlers to their appropriate categories here
-		log.log("Initializing.");
+		Logger.print("Initializing.");
 
 		// Build Season Time
 
@@ -86,7 +82,7 @@ public class Brain {
 		AudioSourceManagers.registerLocalSource(playerManager);
 		
 		// Load Responder modules
-		log.indent(1).log("Loading Handlers...");
+		Logger.print("Loading Handlers...", 1);
 		Reflections reflect = new Reflections("caris.framework.handlers");
 		for( Class<?> c : reflect.getSubTypesOf( caris.framework.basehandlers.Handler.class ) ) {
 			Handler h = null;
@@ -99,7 +95,7 @@ public class Brain {
 			}
 			
 			if( h != null ) {
-				log.indent(2).log("Adding " + h.name + " to the Handler Map");
+				Logger.print("Adding " + h.name + " to the Handler Map", 2);
 				handlers.put( h.name, h );
 			}
 		}
@@ -115,14 +111,15 @@ public class Brain {
 			}
 			
 			if( h != null ) {
-				log.indent(2).log("Adding " + h.name + " to the Handler Map");
+				Logger.print("Adding " + h.name + " to the Handler Map", 2);
 				handlers.put( h.name, h );
 			}
 		}
 		
-		log.indent(2).log("Loaded Handlers:");
+		Logger.print("Loaded Handlers:", 1);
 		for( String s : handlers.keySet() ) {
-			log.indent(3).log(s);
+			Logger.print(s, 2);
 		}
+		Logger.print("Initialization complete.");
 	}
 }
