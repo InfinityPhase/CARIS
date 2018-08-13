@@ -18,7 +18,7 @@ public class Logger {
 	
 	public static void say(String message, IChannel channel) {
 		if( Constants.SAY ) {
-			String output = "(" + channel.getLongID() + ") <" + channel.getName() + "> [CARIS]: " + message;
+			String output = "(" + channel.getLongID() + ") <" + channel.getName() + ">: " + message;
 			System.out.println(output);
 			log(output);
 		}
