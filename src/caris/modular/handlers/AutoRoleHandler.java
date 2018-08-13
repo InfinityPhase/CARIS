@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import caris.framework.basehandlers.MessageHandler;
+import caris.framework.basehandlers.InvokedHandler;
 import caris.framework.library.Variables;
 import caris.framework.reactions.Reaction;
 import caris.framework.reactions.ReactionMessage;
@@ -14,7 +14,7 @@ import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedE
 import sx.blah.discord.handle.impl.obj.Role;
 import sx.blah.discord.handle.obj.IRole;
 
-public class AutoRoleHandler extends MessageHandler {
+public class AutoRoleHandler extends InvokedHandler {
 	
 	public AutoRoleHandler() {
 		super("AutoRole Handler");

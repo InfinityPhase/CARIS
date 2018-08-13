@@ -9,15 +9,15 @@ import caris.framework.utilities.TokenParser;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import sx.blah.discord.handle.obj.Permissions;
 
-public class MessageHandler extends Handler {
+public class InvokedHandler extends Handler {
 
 	public String invocation = "";
 	
-	public MessageHandler() {
+	public InvokedHandler() {
 		this("");
 	}
 	
-	public MessageHandler(String name) {
+	public InvokedHandler(String name) {
 		super(name);
 	}
 	
