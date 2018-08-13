@@ -9,9 +9,6 @@ import org.reflections.Reflections;
 import caris.framework.basehandlers.Handler;
 import caris.framework.events.EventManager;
 import caris.framework.library.Constants;
-import caris.framework.memories.AuthorMemory;
-import caris.framework.memories.Memory;
-import caris.framework.memories.TimeMemory;
 import caris.framework.music.GuildMusicManager;
 import caris.framework.utilities.BotUtils;
 import caris.framework.utilities.Logger;
@@ -26,11 +23,6 @@ public class Brain {
 	public static Logger log = new Logger().setDefaultIndent(0).build();
 
 	public static Map<String, Handler> handlers = new HashMap<String, Handler>();
-	public static Map<String, Memory> memoryModules = new HashMap<String, Memory>();
-	
-	/* Things that think */
-	public static AuthorMemory authorMemory = new AuthorMemory();
-	public static TimeMemory timeMemory = new TimeMemory();
 
 	/* Event Handlers */
 	public static EventManager eventManager = new EventManager();
@@ -62,12 +54,6 @@ public class Brain {
 
 		cli.getDispatcher().registerListener( eventManager );
 
-		// TODO: Incorporate these back into the new framework
-		for( String s : memoryModules.keySet() ) {
-			Memory m = memoryModules.get( s );
-			cli.getDispatcher().registerListener( m );
-		}
-
 		log.log("Listener established successfully.");
 
 		// Only login after all event registering is done
@@ -98,11 +84,7 @@ public class Brain {
 		playerManager = new DefaultAudioPlayerManager();
 		AudioSourceManagers.registerRemoteSources(playerManager);
 		AudioSourceManagers.registerLocalSource(playerManager);
-
-		// Memory Map
-		memoryModules.put("Author Memory", authorMemory);
-		memoryModules.put("Time Memory", timeMemory);
-
+		
 		// Load Responder modules
 		log.indent(1).log("Loading Handlers...");
 		Reflections reflect = new Reflections("caris.framework.handlers");
