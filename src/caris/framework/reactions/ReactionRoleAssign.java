@@ -1,5 +1,6 @@
 package caris.framework.reactions;
 
+import caris.framework.utilities.Logger;
 import sx.blah.discord.handle.impl.obj.Role;
 import sx.blah.discord.handle.obj.IUser;
 
@@ -28,7 +29,6 @@ public class ReactionRoleAssign extends Reaction {
 	
 	public void execute() {
 		user.addRole(role);
-		// change this to logging later
-		System.out.println("Role " + role.getName() + " added to " + user.getName());
+		Logger.print("Role \"" + role.getName() + "\" added to " + user.getName());
 	}
 }

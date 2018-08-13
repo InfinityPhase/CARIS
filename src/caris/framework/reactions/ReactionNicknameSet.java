@@ -1,5 +1,6 @@
 package caris.framework.reactions;
 
+import caris.framework.utilities.Logger;
 import sx.blah.discord.handle.obj.IGuild;
 import sx.blah.discord.handle.obj.IUser;
 
@@ -30,6 +31,7 @@ public class ReactionNicknameSet extends Reaction {
 	
 	@Override
 	public void execute() {
+		Logger.print(user.getName() + "'s nickname in Guild (" + guild.getLongID() + ") <" + guild.getName() + "> set to \"" + nick + "\"", 1);
 		guild.setUserNickname(user, nick);
 	}
 }

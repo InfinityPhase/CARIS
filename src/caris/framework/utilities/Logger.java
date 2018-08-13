@@ -9,10 +9,17 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import caris.framework.library.Constants;
+import sx.blah.discord.handle.obj.IChannel;
 
 public class Logger {
 	
 	public static SimpleDateFormat sdf = new SimpleDateFormat( Constants.DATEFORMAT );
+	
+	public static void say(String message, IChannel channel) {
+		String output = "(" + channel.getLongID() + ") <" + channel.getName() + "> [CARIS]: " + message;
+		System.out.println(ConsoleColors.BLUE + output + ConsoleColors.RESET);
+		log(output);
+	}
 	
 	public static void error(String message) {
 		error(message, Constants.DEFAULT_INDENT_LEVEL);
