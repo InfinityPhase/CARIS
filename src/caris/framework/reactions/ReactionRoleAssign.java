@@ -10,19 +10,11 @@ public class ReactionRoleAssign extends Reaction {
 	public Role role;
 	
 	public ReactionRoleAssign( IUser user, Role role ) {
-		this(user, role, 1, false);
+		this(user, role, 1);
 	}
 	
 	public ReactionRoleAssign( IUser user, Role role, int priority ) {
-		this(user, role, priority, false);
-	}
-	
-	public ReactionRoleAssign( IUser user, Role role, boolean passive ) {
-		this(user, role, 1, passive);
-	}
-	
-	public ReactionRoleAssign( IUser user, Role role, int priority, boolean passive ) {
-		super(priority, passive);
+		super(priority);
 		this.user = user;
 		this.role = role;
 	}

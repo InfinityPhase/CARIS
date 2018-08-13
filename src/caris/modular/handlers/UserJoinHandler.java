@@ -39,7 +39,7 @@ public class UserJoinHandler extends Handler {
 		} else {
 			reactionQueue.add(new ReactionMessage(("Welcome, " + userJoinEvent.getUser().getName() + "!"), userJoinEvent.getGuild().getDefaultChannel()));
 		}
-		return new MultiReaction(reactionQueue, true);
+		return new MultiReaction(reactionQueue, -1);
 	}
 	
 }

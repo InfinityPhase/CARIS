@@ -10,19 +10,11 @@ public class ReactionMessage extends Reaction {
 	public IChannel channel;
 	
 	public ReactionMessage( String message, IChannel channel ) {
-		this(message, channel, 1, false);
+		this(message, channel, 1);
 	}
 	
 	public ReactionMessage( String message, IChannel channel, int priority ) {
-		this(message, channel, priority, false);
-	}
-	
-	public ReactionMessage( String message, IChannel channel, boolean passive ) {
-		this(message, channel, 1, passive);
-	}
-	
-	public ReactionMessage( String message, IChannel channel, int priority, boolean passive ) {
-		super(priority, passive);
+		super(priority);
 		this.message = message;
 		this.channel = channel;
 	}

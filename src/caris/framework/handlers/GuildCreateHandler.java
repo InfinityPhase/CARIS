@@ -3,6 +3,7 @@ package caris.framework.handlers;
 import java.util.HashMap;
 
 import caris.framework.reactions.Reaction;
+import caris.framework.reactions.ReactionLoggerPrint;
 import caris.framework.library.Variables;
 import caris.framework.basehandlers.Handler;
 import caris.framework.library.GuildInfo;
@@ -33,7 +34,7 @@ public class GuildCreateHandler extends Handler {
 				}
 			}
 		}
-		return new Reaction(); // TODO: Change to a logging reaction
+		return new ReactionLoggerPrint("Guild (" + guildCreateEvent.getGuild().getLongID() + ") <" + guildCreateEvent.getGuild().getName() + "> loaded", 0);
 	}
 	
 }

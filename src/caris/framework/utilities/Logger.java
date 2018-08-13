@@ -10,15 +10,26 @@ import java.util.Calendar;
 
 import caris.framework.library.Constants;
 import sx.blah.discord.handle.obj.IChannel;
+import sx.blah.discord.handle.obj.IUser;
 
 public class Logger {
 	
 	public static SimpleDateFormat sdf = new SimpleDateFormat( Constants.DATEFORMAT );
 	
 	public static void say(String message, IChannel channel) {
-		String output = "(" + channel.getLongID() + ") <" + channel.getName() + "> [CARIS]: " + message;
-		System.out.println(output);
-		log(output);
+		if( Constants.SAY ) {
+			String output = "(" + channel.getLongID() + ") <" + channel.getName() + "> [CARIS]: " + message;
+			System.out.println(output);
+			log(output);
+		}
+	}
+	
+	public static void hear(String message, IUser user, IChannel channel) {
+		if( Constants.HEAR ) {
+			String output = "(" + channel.getLongID() + ") <" + channel.getName() + "> [" + user.getName() + "]: " + message;
+			System.out.println(output);
+			log(output);
+		}
 	}
 	
 	public static void error(String message) {

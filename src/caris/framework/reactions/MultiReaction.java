@@ -7,19 +7,11 @@ public class MultiReaction extends Reaction {
 	public ArrayList<Reaction> reactions;
 	
 	public MultiReaction(ArrayList<Reaction> reactions) {
-		this(reactions, 1, false);
+		this(reactions, 1);
 	}
 	
 	public MultiReaction(ArrayList<Reaction> reactions, int priority) {
-		this(reactions, priority, false);
-	}
-	
-	public MultiReaction(ArrayList<Reaction> reactions, boolean passive) {
-		this(reactions, 1, passive);
-	}
-	
-	public MultiReaction(ArrayList<Reaction> reactions, int priority, boolean passive) {
-		super(priority, passive);
+		super(priority);
 		this.reactions = reactions;
 	}
 	

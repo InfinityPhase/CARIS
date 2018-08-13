@@ -37,9 +37,12 @@ public class Constants {
 			Long.parseLong("365715538166415362"),
 	};
 
+	// Debug Constants
 	public static final boolean DEBUG = false;
 	public static final boolean PRINT = true;
 	public static final boolean LOG = true;
+	public static final boolean SAY = true;
+	public static final boolean HEAR = true;
 	
 	public static final int DEBUG_VERBOSITY = -1;
 	public static final int PRINT_VERBOSITY = -1;

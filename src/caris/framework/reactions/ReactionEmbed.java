@@ -12,19 +12,11 @@ public class ReactionEmbed extends Reaction {
 	public IChannel channel;
 	
 	public ReactionEmbed(EmbedBuilder embed, IChannel channel) {
-		this(embed, channel, 2, false);
+		this(embed, channel, 2);
 	}
 	
 	public ReactionEmbed(EmbedBuilder embed, IChannel channel, int priority) {
-		this(embed, channel, priority, false);
-	}
-	
-	public ReactionEmbed(EmbedBuilder embed, IChannel channel, boolean passive) {
-		this(embed, channel, 2, passive);
-	}
-	
-	public ReactionEmbed(EmbedBuilder embed, IChannel channel, int priority, boolean passive) {
-		super(priority, passive);
+		super(priority);
 		this.embed = embed;
 		this.channel = channel;
 	}

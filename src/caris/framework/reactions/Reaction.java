@@ -3,23 +3,13 @@ package caris.framework.reactions;
 public class Reaction implements Comparable<Reaction> {
 	
 	public int priority;
-	public boolean passive;
 	
 	public Reaction() {
-		this(0, false);
+		this(0);
 	}
 	
 	public Reaction(int priority) {
-		this(priority, false);
-	}
-	
-	public Reaction(boolean passive) {
-		this(0, passive);
-	}
-	
-	public Reaction(int priority, boolean passive) {
 		this.priority = priority;
-		this.passive = passive;
 	}
 	
 	public void execute() {}
