@@ -18,10 +18,12 @@ public class EventManager extends SuperEvent {
 		ArrayList<Reaction> passiveQueue = new ArrayList<Reaction>();
 		for( Handler h : Brain.handlers.values() ) {
 			Reaction r = h.handle(event);
-			if( r.priority == -1 ) {
-				passiveQueue.add(r);
-			} else if( r != null ) {
-				reactions.add(r);
+			if( r != null ) {
+				if( r.priority == -1 ) {
+					passiveQueue.add(r);
+				} else {
+					reactions.add(r);
+				}
 			}
 		}
 		if( !reactions.isEmpty() ) {
