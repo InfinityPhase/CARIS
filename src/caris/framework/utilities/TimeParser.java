@@ -6,9 +6,9 @@ import java.util.Calendar;
 import caris.framework.utilities.Logger.level;
 
 public class TimeParser {
-	private Logger log = new Logger().setDefaultIndent(2).setDefaultLevel( level.DEBUG ).setDefaultIndent(2).build();
+	private static Logger log = new Logger().setDefaultIndent(2).setDefaultLevel( level.DEBUG ).setDefaultIndent(2).build();
 	
-	public Calendar parseTimer(ArrayList<String> tokens) {
+	public static Calendar parseTimer(ArrayList<String> tokens) {
 		Calendar previous = Calendar.getInstance();
 		Calendar target = Calendar.getInstance();
 		int year = 0;
@@ -52,7 +52,7 @@ public class TimeParser {
 		return null;
 	}
 	
-	public Calendar parseAlarm(ArrayList<String> tokens) {
+	public static Calendar parseAlarm(ArrayList<String> tokens) {
 		Calendar previous = Calendar.getInstance();
 		Calendar target = Calendar.getInstance();
 		int year = target.get(Calendar.YEAR);
@@ -158,10 +158,10 @@ public class TimeParser {
 		}
 		return null;
 	}
-	private boolean verify( Calendar p, Calendar t ) {
+	private static boolean verify( Calendar p, Calendar t ) {
 		return t.after(p);
 	}
-	private boolean verify(int year, int month, int day) {
+	private static boolean verify(int year, int month, int day) {
 		if( month == Calendar.JANUARY ) {
 			return day <= 31;
 		} else if( month == Calendar.FEBRUARY ) {
@@ -194,7 +194,7 @@ public class TimeParser {
 			return false;
 		}
 	}
-	private int parseOrder( String s ) {
+	private static int parseOrder( String s ) {
 		s = s.replace("st", "");
 		s = s.replace("nd", "");
 		s = s.replace("rd", "");
@@ -204,7 +204,7 @@ public class TimeParser {
 		}
 		return -1;
 	}
-	private int parseHour( String s ) {
+	private static int parseHour( String s ) {
 		int index = s.indexOf(":");
 		String hour = s.substring(0, index);
 		if( isInteger(hour) ) {
@@ -215,7 +215,7 @@ public class TimeParser {
 		}
 		return -1;
 	}
-	private int parseMinute( String s ) {
+	private static int parseMinute( String s ) {
 		int index = s.indexOf(":");
 		if( index == s.length()-1 ) {
 			return -1;
@@ -229,11 +229,11 @@ public class TimeParser {
 		}
 		return -1;
 	}
-	private boolean isInteger(String s) {
+	private static boolean isInteger(String s) {
 	    return isInteger(s,10);
 	}
 
-	private boolean isInteger(String s, int radix) {
+	private static boolean isInteger(String s, int radix) {
 	    if(s.isEmpty()) return false;
 	    for(int i = 0; i < s.length(); i++) {
 	        if(i == 0 && s.charAt(i) == '-') {
