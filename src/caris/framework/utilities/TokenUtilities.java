@@ -119,12 +119,15 @@ public class TokenUtilities {
 		}
 		while( line.contains("\"") ) {
 			int indexA = line.indexOf('\"');
+			line = line.substring(indexA+1);
 			int indexB = line.indexOf('\"');
-			if( !(indexA == -1 || indexB == -1) ) {
-				String token = line.substring(indexA+1, indexB);
+			if( indexB != -1 && indexB != 0 ) {
+				String token = line.substring(0, indexB);
 				tokens.add(token);
+				line = line.substring(indexB+1);
+			} else {
+				break;
 			}
-			line = line.substring(indexB+1);
 		}
 		return tokens;
 	}
