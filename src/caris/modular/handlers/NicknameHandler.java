@@ -15,6 +15,25 @@ import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedE
 
 public class NicknameHandler extends Handler {
 
+	private String[] tooLongResponses = new String[] {
+			"You ever tried to fit a camel through eye of a needle?"
+			+ "\nWell, that's me right now with your nickname and discord's nickname length policy.",
+			"I'd set your nickname to that, but it exceeds the max character limit.",
+			"Sorry! Your name has too many characters for me to set your nickname.",
+			"Your name, much like that cast of homestuck, has too many characters to be put into a nickname."
+	};
+	
+	private String[] myNameResponses = new String[] {
+		"But that's my name!",
+		"**_*THERE CAN ONLY BE ONE.*_**",
+		"Please give my name back,,,",
+		"Are you... me??!?!!1!?",
+		"What a coincidence!",
+		"If Alina would restore my ability to play music, I'd start playing the theme from *The Twilight Zone*.",
+		"I thought I was the only one!",
+		"I guess my name wasn't as unique as I thought!"
+	};
+	
 	public NicknameHandler() {
 		super("Nickname Handler");
 	}
@@ -35,7 +54,13 @@ public class NicknameHandler extends Handler {
 		ArrayList<String> quoted = TokenUtilities.parseQuoted(messageReceivedEvent.getMessage().getContent());
 		MultiReaction setName = new MultiReaction();
 		if( !quoted.isEmpty() ) {
-			if( quoted.get(0).equalsIgnoreCase("Inigo Montoya") ) {
+			if( quoted.get(0).length() > 32 ) {
+				setName.reactions.add(new ReactionMessage(tooLong(), messageReceivedEvent.getChannel()));
+			} else if( quoted.get(0).equalsIgnoreCase("CARIS") ) {
+				setName.reactions.add(new ReactionNicknameSet(messageReceivedEvent.getGuild(), messageReceivedEvent.getAuthor(), quoted.get(0)));
+				setName.reactions.add(new ReactionMessage(myName(), messageReceivedEvent.getChannel()));
+				Logger.print(messageReceivedEvent.getAuthor().getName() + "'s nickname set to \"" + quoted.get(0) + "\"", 2);
+			} else if( quoted.get(0).equalsIgnoreCase("Inigo Montoya") ) {
 				setName.reactions.add(new ReactionNicknameSet(messageReceivedEvent.getGuild(), messageReceivedEvent.getAuthor(), quoted.get(0)));
 				setName.reactions.add(new ReactionMessage("You killed my father. Prepare to die!", messageReceivedEvent.getChannel()));
 				Logger.print(messageReceivedEvent.getAuthor().getName() + "'s nickname set to \"" + quoted.get(0) + "\"", 2);
@@ -48,6 +73,14 @@ public class NicknameHandler extends Handler {
 			Logger.debug("Failed to set nickname because name was note quoted properly", 2);
 		}
 		return setName;
+	}
+	
+	private String tooLong() {
+		return (tooLongResponses.length > 0) ? tooLongResponses[(int) (Math.random()*tooLongResponses.length)] : "Nickname too long!";
+	}
+	
+	private String myName() {
+		return (myNameResponses.length > 0) ? myNameResponses[(int) (Math.random()*myNameResponses.length)] : "That's my name!";
 	}
 	
 }
