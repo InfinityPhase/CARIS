@@ -8,6 +8,7 @@ import caris.framework.reactions.MultiReaction;
 import caris.framework.reactions.Reaction;
 import caris.framework.reactions.ReactionMessage;
 import caris.framework.reactions.ReactionRoleAssign;
+import caris.framework.utilities.Logger;
 import sx.blah.discord.api.events.Event;
 import sx.blah.discord.handle.impl.events.guild.member.UserJoinEvent;
 import sx.blah.discord.handle.impl.obj.Role;
@@ -26,20 +27,21 @@ public class UserJoinHandler extends Handler {
 	@Override
 	protected Reaction process(Event event) {
 		UserJoinEvent userJoinEvent = (UserJoinEvent) event;
-		ArrayList<Reaction> reactionQueue = new ArrayList<Reaction>();
+		Logger.print("New user " + userJoinEvent.getUser().getLongID() + " joined (" + userJoinEvent.getGuild().getLongID() + ") <" + userJoinEvent.getGuild().getName() + ">", 0);
+		MultiReaction welcome = new MultiReaction(-1);
 		String addedRoles = "";
 		for( Role role : Variables.guildIndex.get(userJoinEvent.getGuild()).autoRoles ) {
-			reactionQueue.add(new ReactionRoleAssign(userJoinEvent.getUser(), role));
+			welcome.reactions.add(new ReactionRoleAssign(userJoinEvent.getUser(), role));
 			addedRoles += role.getName() + ", ";
 		}
-		if( !reactionQueue.isEmpty() ) {
+		if( !welcome.reactions.isEmpty() ) {
 			addedRoles = addedRoles.substring(0, addedRoles.length()-2);
-			reactionQueue.add(new ReactionMessage(("Welcome, " + userJoinEvent.getUser().getName() + "!" +  
+			welcome.reactions.add(new ReactionMessage(("Welcome, " + userJoinEvent.getUser().getName() + "!" +  
 					"\nYou have been given the following roles: "+ addedRoles + "!"), userJoinEvent.getGuild().getDefaultChannel()));
 		} else {
-			reactionQueue.add(new ReactionMessage(("Welcome, " + userJoinEvent.getUser().getName() + "!"), userJoinEvent.getGuild().getDefaultChannel()));
+			welcome.reactions.add(new ReactionMessage(("Welcome, " + userJoinEvent.getUser().getName() + "!"), userJoinEvent.getGuild().getDefaultChannel()));
 		}
-		return new MultiReaction(reactionQueue, -1);
+		return welcome;
 	}
 	
 }
