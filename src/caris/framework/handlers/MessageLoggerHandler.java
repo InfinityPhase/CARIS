@@ -22,6 +22,7 @@ public class MessageLoggerHandler extends Handler {
 	protected Reaction process(Event event) {
 		Logger.debug("Message detected", 2);
 		MessageReceivedEvent messageReceivedEvent = (MessageReceivedEvent) event;
+		Logger.debug("Reaction produced from " + name, 1, true);
 		return new ReactionLoggerHear(messageReceivedEvent.getMessage().getContent(), messageReceivedEvent.getAuthor(), messageReceivedEvent.getChannel());
 	}
 	

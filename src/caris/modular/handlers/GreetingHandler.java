@@ -62,6 +62,7 @@ public class GreetingHandler extends Handler {
 	
 	@Override
 	protected Reaction process(Event event) {
+		Logger.debug("Reaction produced from " + name, 1);
 		return new ReactionMessage(getRandomGreeting() + ", " + ((MessageReceivedEvent) event).getAuthor().getDisplayName(((MessageReceivedEvent) event).getGuild()) + "!", ((MessageReceivedEvent) event).getChannel());
 	}
 	

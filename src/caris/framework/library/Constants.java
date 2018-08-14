@@ -44,7 +44,7 @@ public class Constants {
 	public static final boolean SAY = true;
 	public static final boolean HEAR = true;
 	
-	public static final boolean VERBOSE = false;
+	public static final boolean VERBOSE = true;
 	
 	public static final int DEBUG_LEVEL = 4;
 	public static final int PRINT_LEVEL = -1;

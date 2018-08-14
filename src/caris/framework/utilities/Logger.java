@@ -65,7 +65,7 @@ public class Logger {
 	}
 	
 	public static void debug(String message, int level, boolean verbose) {
-		if( (Constants.DEBUG_LEVEL == -1 || Constants.DEBUG_LEVEL >= level) && !verbose ) {
+		if( (Constants.DEBUG_LEVEL == -1 || Constants.DEBUG_LEVEL >= level) && (!verbose || Constants.VERBOSE) ) {
 			String output = "[DEBUG]";
 			if( Constants.DEBUG ) {
 				for( int f=0; f<level*Constants.DEFAULT_INDENT_INCREMENT; f++ ) {

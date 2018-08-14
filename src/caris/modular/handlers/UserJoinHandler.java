@@ -39,6 +39,7 @@ public class UserJoinHandler extends Handler {
 			welcome.reactions.add(new ReactionMessage(("Welcome, " + userJoinEvent.getUser().getName() + "!" +  
 					"\nYou have been given the following roles: "+ addedRoles + "!"), userJoinEvent.getGuild().getDefaultChannel()));
 		} else {
+			Logger.debug("Reaction produced from " + name, 1, true);
 			welcome.reactions.add(new ReactionMessage(("Welcome, " + userJoinEvent.getUser().getName() + "!"), userJoinEvent.getGuild().getDefaultChannel()));
 		}
 		return welcome;

@@ -47,8 +47,10 @@ public class AutoRoleHandler extends InvokedHandler {
 				}
 				if( !autoRoles.isEmpty() ) {
 					autoRoles = autoRoles.substring(0, autoRoles.length()-2);
+					Logger.debug("Reaction produced from " + name, 1, true);
 					return new ReactionMessage( "Here are the current default roles for this server: " + autoRoles, messageReceivedEvent.getChannel() );
 				} else {
+					Logger.debug("Reaction produced from " + name, 1, true);
 					return new ReactionMessage( "There aren't any default roles set for this server yet.", messageReceivedEvent.getChannel() );
 				}
 			}
@@ -66,9 +68,11 @@ public class AutoRoleHandler extends InvokedHandler {
 					if( !addedRoles.isEmpty() ) {
 						addedRoles = addedRoles.substring(0, addedRoles.length()-2);
 						Logger.print("Added roles " + addedRoles + " to AutoRole list in Guild " + messageReceivedEvent.getGuild().getName(), 2 );
+						Logger.debug("Reaction produced from " + name, 1, true);
 						return new ReactionMessage( "AutoRoles updated successfully!", messageReceivedEvent.getChannel() );
 					} else {
 						Logger.debug("Failed to find requested roles", 2);
+						Logger.debug("Reaction produced from " + name, 1, true);
 						return new ReactionMessage( "Sorry, I couldn't find those roles. Did you capitalize them correctly?", messageReceivedEvent.getChannel() );
 					}
 				} else if( tokens.get(2).equals("remove") ) {
@@ -88,21 +92,26 @@ public class AutoRoleHandler extends InvokedHandler {
 					if( !removedRoles.isEmpty() ) {
 						removedRoles = removedRoles.substring(0, removedRoles.length()-2);
 						Logger.print("Removed roles " + removedRoles + " to AutoRole list in Guild " + messageReceivedEvent.getGuild().getName(), 2 );
+						Logger.debug("Reaction produced from " + name, 1, true);
 						return new ReactionMessage( "AutoRoles updated successfully!", messageReceivedEvent.getChannel() );
 					} else {
 						Logger.debug("Failed to find requested roles", 2);
+						Logger.debug("Reaction produced from " + name, 1, true);
 						return new ReactionMessage( "Sorry, I couldn't find those roles. Did you capitalize them correctly?", messageReceivedEvent.getChannel() );
 					}
 				} else {
 					Logger.debug("Operation failed due to syntax error", 2);
+					Logger.debug("Reaction produced from " + name, 1, true);
 					return new ReactionMessage( "Syntax Error!", messageReceivedEvent.getChannel() );
 				}
 			} else {
 				Logger.debug("Operation failed due to syntax error", 2);
+				Logger.debug("Reaction produced from " + name, 1, true);
 				return new ReactionMessage( "Syntax Error!", messageReceivedEvent.getChannel() );
 			}
 		} else {
 			Logger.debug("Operation failed due to syntax error", 2);
+			Logger.debug("Reaction produced from " + name, 1, true);
 			return new ReactionMessage( "Syntax Error!", messageReceivedEvent.getChannel());
 		}
 	}

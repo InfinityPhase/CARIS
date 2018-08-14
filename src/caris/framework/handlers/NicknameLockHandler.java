@@ -71,6 +71,7 @@ public class NicknameLockHandler extends InvokedHandler {
 			lockNickname.reactions.add(new ReactionMessage("You need to mention the users you want to lock/unlock.", messageReceivedEvent.getChannel()));
 			Logger.debug("Failed to update nickname because no users were specified.", 2);
 		}
+		Logger.debug("Reaction produced from " + name, 1, true);
 		return lockNickname;
 	}
 	

@@ -57,6 +57,7 @@ public class NicknameHandler extends Handler {
 		if( !quoted.isEmpty() ) {
 			if( quoted.get(0).length() > 32 ) {
 				setName.reactions.add(new ReactionMessage(tooLong(), messageReceivedEvent.getChannel()));
+				Logger.debug("Failed to set nickname because name was too long", 2);
 			} else if( quoted.get(0).equalsIgnoreCase("CARIS") ) {
 				setName.reactions.add(new ReactionNicknameSet(messageReceivedEvent.getGuild(), messageReceivedEvent.getAuthor(), quoted.get(0)));
 				setName.reactions.add(new ReactionMessage(myName(), messageReceivedEvent.getChannel()));
@@ -68,8 +69,9 @@ public class NicknameHandler extends Handler {
 				setName.reactions.add(new ReactionMessage("Nickname set to \"" + quoted.get(0) + "\"!", messageReceivedEvent.getChannel()));
 			}
 		} else {
-			Logger.debug("Failed to set nickname because name was note quoted properly", 2);
+			Logger.debug("Failed to set nickname because name was not quoted properly", 2);
 		}
+		Logger.debug("Reaction produced from " + name, 1, true);
 		return setName;
 	}
 	

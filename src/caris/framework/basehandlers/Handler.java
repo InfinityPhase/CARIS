@@ -19,7 +19,7 @@ public class Handler {
 	}
 	
 	public Reaction handle(Event event) {
-		Logger.debug("Checking " + name, 1, true);
+		Logger.debug("Checking " + name, 0, true);
 		if( isTriggered(event) ) {
 			Logger.debug("Processing " + name, 1, true);
 			return process(event);
