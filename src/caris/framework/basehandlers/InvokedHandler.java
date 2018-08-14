@@ -41,7 +41,7 @@ public class InvokedHandler extends Handler {
 	
 	protected boolean isInvoked(MessageReceivedEvent event) {
 		Logger.debug("Checking invocation", 3);
-		ArrayList<String> tokens = TokenUtilities.parseTokens(event.getMessage().getContent());
+		ArrayList<String> tokens = TokenUtilities.parseTokens(event.getMessage().getContent(), new char[] {});
 		Logger.debug("Message tokens: " + tokens.toString(), 4);
 		boolean check = false;
 		if( tokens.size() >= 1 ) {
@@ -57,7 +57,7 @@ public class InvokedHandler extends Handler {
 	
 	protected boolean isAdminInvoked(MessageReceivedEvent event) {
 		Logger.debug("Checking admin invocation", 3);
-		ArrayList<String> tokens = TokenUtilities.parseTokens(event.getMessage().getContent());
+		ArrayList<String> tokens = TokenUtilities.parseTokens(event.getMessage().getContent(), new char[] {});
 		Logger.debug("Message tokens: " + tokens.toString(), 4);
 		boolean check = false;
 		if( tokens.size() >= 2 ) {
