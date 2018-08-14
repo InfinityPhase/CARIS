@@ -52,7 +52,7 @@ public class NicknameHandler extends Handler {
 	protected Reaction process(Event event) {
 		MessageReceivedEvent messageReceivedEvent = (MessageReceivedEvent) event;
 		ArrayList<String> quoted = TokenUtilities.parseQuoted(messageReceivedEvent.getMessage().getContent());
-		MultiReaction setName = new MultiReaction();
+		MultiReaction setName = new MultiReaction(1);
 		if( !quoted.isEmpty() ) {
 			if( quoted.get(0).length() > 32 ) {
 				setName.reactions.add(new ReactionMessage(tooLong(), messageReceivedEvent.getChannel()));
