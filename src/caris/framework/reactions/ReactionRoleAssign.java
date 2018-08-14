@@ -21,6 +21,6 @@ public class ReactionRoleAssign extends Reaction {
 	
 	public void execute() {
 		user.addRole(role);
-		Logger.print("Role \"" + role.getName() + "\" added to " + user.getName());
+		Logger.print("Role \"" + role.getName() + "\" added to " + user.getName(), 1);
 	}
 }

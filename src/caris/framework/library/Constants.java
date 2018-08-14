@@ -38,15 +38,17 @@ public class Constants {
 	};
 
 	// Debug Constants
-	public static final boolean DEBUG = false;
+	public static final boolean DEBUG = true;
 	public static final boolean PRINT = true;
 	public static final boolean LOG = true;
 	public static final boolean SAY = true;
 	public static final boolean HEAR = true;
 	
-	public static final int DEBUG_VERBOSITY = -1;
-	public static final int PRINT_VERBOSITY = -1;
-	public static final int LOG_VERBOSITY = -1;
+	public static final boolean VERBOSE = false;
+	
+	public static final int DEBUG_LEVEL = 2;
+	public static final int PRINT_LEVEL = -1;
+	public static final int LOG_LEVEL = -1;
 
 	/* Settings for saving the state of CARIS */
 	// SAVETIME uses milliseconds

@@ -4,6 +4,7 @@ import caris.framework.basehandlers.Handler;
 import caris.framework.library.Constants;
 import caris.framework.reactions.Reaction;
 import caris.framework.reactions.ReactionMessage;
+import caris.framework.utilities.Logger;
 import sx.blah.discord.api.events.Event;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 
@@ -65,6 +66,7 @@ public class GreetingHandler extends Handler {
 	}
 	
 	private boolean startsWithAGreeting(String message) {
+		Logger.debug("Greeting detected", 3);
 		for( String greeting : greetingsInput ) {
 			if( message.toLowerCase().startsWith(greeting.toLowerCase()) ) {
 				return true;

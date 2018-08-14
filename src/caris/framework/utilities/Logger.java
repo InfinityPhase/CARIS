@@ -53,11 +53,19 @@ public class Logger {
 	}
 	
 	public static void debug(String message) {
-		debug(message, Constants.DEFAULT_INDENT_LEVEL);
+		debug(message, Constants.DEFAULT_INDENT_LEVEL, false);
+	}
+	
+	public static void debug(String message, boolean verbose) {
+		debug(message, Constants.DEFAULT_INDENT_LEVEL, verbose);
 	}
 	
 	public static void debug(String message, int level) {
-		if( Constants.DEBUG_VERBOSITY == -1 || Constants.DEBUG_VERBOSITY >= level ) {
+		debug(message, level, false);
+	}
+	
+	public static void debug(String message, int level, boolean verbose) {
+		if( (Constants.DEBUG_LEVEL == -1 || Constants.DEBUG_LEVEL >= level) && !verbose ) {
 			String output = "[DEBUG]";
 			if( Constants.DEBUG ) {
 				for( int f=0; f<level*Constants.DEFAULT_INDENT_INCREMENT; f++ ) {
@@ -66,7 +74,7 @@ public class Logger {
 				output += Constants.HEADER;
 				output += message;
 				System.out.println(output);
-				if( Constants.LOG && ( Constants.LOG_VERBOSITY == -1 || Constants.LOG_VERBOSITY >= level )) {
+				if( Constants.LOG && ( Constants.LOG_LEVEL == -1 || Constants.LOG_LEVEL >= level )) {
 					log(output);
 				}
 			}
@@ -78,7 +86,7 @@ public class Logger {
 	}
 	
 	public static void print(String message, int level) {
-		if( Constants.PRINT_VERBOSITY == -1 || Constants.PRINT_VERBOSITY >= level ) {
+		if( Constants.PRINT_LEVEL == -1 || Constants.PRINT_LEVEL >= level ) {
 			String output = "[PRINT]";
 			if( Constants.PRINT ) {
 				for( int f=0; f<level*Constants.DEFAULT_INDENT_INCREMENT; f++ ) {
@@ -87,7 +95,7 @@ public class Logger {
 				output += Constants.HEADER;
 				output += message;
 				System.out.println(output);
-				if( Constants.LOG && ( Constants.LOG_VERBOSITY == -1 || Constants.LOG_VERBOSITY >= level )) {
+				if( Constants.LOG && ( Constants.LOG_LEVEL == -1 || Constants.LOG_LEVEL >= level )) {
 					log(output);
 				}
 			}
