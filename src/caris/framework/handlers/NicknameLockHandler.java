@@ -8,6 +8,7 @@ import caris.framework.reactions.MultiReaction;
 import caris.framework.reactions.Reaction;
 import caris.framework.reactions.ReactionMessage;
 import caris.framework.reactions.ReactionNicknameSet;
+import caris.framework.utilities.Logger;
 import caris.framework.utilities.StringUtilities;
 import caris.framework.utilities.TokenUtilities;
 import sx.blah.discord.api.events.Event;
@@ -48,6 +49,7 @@ public class NicknameLockHandler extends InvokedHandler {
 			if( StringUtilities.containsIgnoreCase(messageReceivedEvent.getMessage().getContent(), "remove") || StringUtilities.containsIgnoreCase(messageReceivedEvent.getMessage().getContent(), "undo") || StringUtilities.containsIgnoreCase(messageReceivedEvent.getMessage().getContent(), "delete") || StringUtilities.containsIgnoreCase(messageReceivedEvent.getMessage().getContent(), "dismiss") || StringUtilities.containsIgnoreCase(messageReceivedEvent.getMessage().getContent(), "erase") || StringUtilities.containsIgnoreCase(messageReceivedEvent.getMessage().getContent(), "disperse") ) {
 				for( IUser user : users ) {
 					Variables.guildIndex.get(messageReceivedEvent.getGuild()).userIndex.get(user).nicknameLock = "";
+					Logger.print(user.getName() + "'s nickname has been unlocked.", 2);
 				}
 				lockNickname.reactions.add(new ReactionMessage("Nicknames unlocked!", messageReceivedEvent.getChannel()));
 			} else {
@@ -56,14 +58,17 @@ public class NicknameLockHandler extends InvokedHandler {
 					for( IUser user : users ) {
 						Variables.guildIndex.get(messageReceivedEvent.getGuild()).userIndex.get(user).nicknameLock = name;
 						lockNickname.reactions.add(new ReactionNicknameSet(messageReceivedEvent.getGuild(), user, name));
+						Logger.print(user.getName() + "'s nickname has been locked.", 2);
 					}
 					lockNickname.reactions.add(new ReactionMessage("Nicknames locked!", messageReceivedEvent.getChannel()));
 				} else {
 					lockNickname.reactions.add(new ReactionMessage("You need to specify a nickname. Did you use quotes?", messageReceivedEvent.getChannel()));
+					Logger.debug("Failed to lock nickname because no nickname was specified.", 2);
 				}
 			}
 		} else {
 			lockNickname.reactions.add(new ReactionMessage("You need to mention the users you want to lock/unlock.", messageReceivedEvent.getChannel()));
+			Logger.debug("Failed to update nickname because no users were specified.", 2);
 		}
 		return lockNickname;
 	}
