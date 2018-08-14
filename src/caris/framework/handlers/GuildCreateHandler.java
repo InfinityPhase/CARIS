@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import caris.framework.reactions.Reaction;
 import caris.framework.reactions.ReactionLoggerPrint;
+import caris.framework.utilities.Logger;
 import caris.framework.library.Variables;
 import caris.framework.basehandlers.Handler;
 import caris.framework.library.GuildInfo;
@@ -24,6 +25,7 @@ public class GuildCreateHandler extends Handler {
 	
 	@Override
 	protected Reaction process(Event event) {
+		Logger.debug("Guild creation detected", 2);
 		GuildCreateEvent guildCreateEvent = (GuildCreateEvent) event;
 		if( !Variables.guildIndex.containsKey( guildCreateEvent.getGuild() ) ) {
 			GuildInfo guildInfo = new GuildInfo( guildCreateEvent.getGuild().getName(), guildCreateEvent.getGuild() );

@@ -46,7 +46,7 @@ public class Constants {
 	
 	public static final boolean VERBOSE = false;
 	
-	public static final int DEBUG_LEVEL = 2;
+	public static final int DEBUG_LEVEL = 4;
 	public static final int PRINT_LEVEL = -1;
 	public static final int LOG_LEVEL = -1;
 

@@ -64,9 +64,9 @@ public class InvokedHandler extends Handler {
 			check = StringUtilities.equalsIgnoreCase(tokens.get(0), Constants.ADMIN_PREFIX) && StringUtilities.equalsIgnoreCase(tokens.get(1), invocation);
 		}
 		if( check ) {
-			Logger.debug("Admin invoked", 3);
+			Logger.debug("Admin invoked", 4);
 		} else {
-			Logger.debug("Admin uninvoked", 3);
+			Logger.debug("Admin uninvoked", 4);
 		}
 		return check;
 	}

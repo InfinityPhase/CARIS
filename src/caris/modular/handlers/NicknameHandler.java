@@ -50,6 +50,7 @@ public class NicknameHandler extends Handler {
 	
 	@Override
 	protected Reaction process(Event event) {
+		Logger.debug("Nickname request detected", 2);
 		MessageReceivedEvent messageReceivedEvent = (MessageReceivedEvent) event;
 		ArrayList<String> quoted = TokenUtilities.parseQuoted(messageReceivedEvent.getMessage().getContent());
 		MultiReaction setName = new MultiReaction(1);

@@ -66,7 +66,7 @@ public class GreetingHandler extends Handler {
 	}
 	
 	private boolean startsWithAGreeting(String message) {
-		Logger.debug("Greeting detected", 3);
+		Logger.debug("Greeting detected", 2);
 		for( String greeting : greetingsInput ) {
 			if( message.toLowerCase().startsWith(greeting.toLowerCase()) ) {
 				return true;

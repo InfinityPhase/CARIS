@@ -34,6 +34,7 @@ public class AutoRoleHandler extends InvokedHandler {
 	@SuppressWarnings("unchecked")
 	@Override
 	protected Reaction process(Event event) {
+		Logger.debug("AutoRole detected", 2);
 		MessageReceivedEvent messageReceivedEvent = (MessageReceivedEvent) event;
 		String text = messageReceivedEvent.getMessage().getContent();
 		ArrayList<String> tokens = TokenUtilities.parseTokens(text);

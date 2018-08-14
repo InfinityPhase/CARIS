@@ -32,6 +32,7 @@ public class NicknameLockHandler extends InvokedHandler {
 	
 	@Override
 	protected Reaction process(Event event) {
+		Logger.debug("NicknameLock detected", 2);
 		MessageReceivedEvent messageReceivedEvent = (MessageReceivedEvent) event;
 		ArrayList<String> tokens = TokenUtilities.parseTokens(messageReceivedEvent.getMessage().getContent());
 		ArrayList<String> quoted = TokenUtilities.parseQuoted(messageReceivedEvent.getMessage().getContent());

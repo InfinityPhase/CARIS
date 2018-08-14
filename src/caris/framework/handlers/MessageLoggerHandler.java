@@ -3,6 +3,7 @@ package caris.framework.handlers;
 import caris.framework.basehandlers.Handler;
 import caris.framework.reactions.Reaction;
 import caris.framework.reactions.ReactionLoggerHear;
+import caris.framework.utilities.Logger;
 import sx.blah.discord.api.events.Event;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 
@@ -19,6 +20,7 @@ public class MessageLoggerHandler extends Handler {
 	
 	@Override
 	protected Reaction process(Event event) {
+		Logger.debug("Message detected", 2);
 		MessageReceivedEvent messageReceivedEvent = (MessageReceivedEvent) event;
 		return new ReactionLoggerHear(messageReceivedEvent.getMessage().getContent(), messageReceivedEvent.getAuthor(), messageReceivedEvent.getChannel());
 	}
