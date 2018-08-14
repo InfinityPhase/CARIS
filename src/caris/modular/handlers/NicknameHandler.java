@@ -35,9 +35,15 @@ public class NicknameHandler extends Handler {
 		ArrayList<String> quoted = TokenUtilities.parseQuoted(messageReceivedEvent.getMessage().getContent());
 		MultiReaction setName = new MultiReaction();
 		if( !quoted.isEmpty() ) {
-			setName.reactions.add(new ReactionNicknameSet(messageReceivedEvent.getGuild(), messageReceivedEvent.getAuthor(), quoted.get(0)));
-			setName.reactions.add(new ReactionMessage("Nickname set to \"" + quoted.get(0) + "\"!", messageReceivedEvent.getChannel()));
-			Logger.print(messageReceivedEvent.getAuthor().getName() + "'s nickname set to \"" + quoted.get(0) + "\"", 2);
+			if( quoted.get(0).equalsIgnoreCase("Inigo Montoya") ) {
+				setName.reactions.add(new ReactionNicknameSet(messageReceivedEvent.getGuild(), messageReceivedEvent.getAuthor(), quoted.get(0)));
+				setName.reactions.add(new ReactionMessage("You killed my father. Prepare to die!", messageReceivedEvent.getChannel()));
+				Logger.print(messageReceivedEvent.getAuthor().getName() + "'s nickname set to \"" + quoted.get(0) + "\"", 2);
+			} else {
+				setName.reactions.add(new ReactionNicknameSet(messageReceivedEvent.getGuild(), messageReceivedEvent.getAuthor(), quoted.get(0)));
+				setName.reactions.add(new ReactionMessage("Nickname set to \"" + quoted.get(0) + "\"!", messageReceivedEvent.getChannel()));
+				Logger.print(messageReceivedEvent.getAuthor().getName() + "'s nickname set to \"" + quoted.get(0) + "\"", 2);
+			}
 		} else {
 			Logger.debug("Failed to set nickname because name was note quoted properly", 2);
 		}
