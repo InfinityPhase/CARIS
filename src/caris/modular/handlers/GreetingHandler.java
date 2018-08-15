@@ -63,13 +63,13 @@ public class GreetingHandler extends InvokedHandler {
 	
 	@Override
 	protected Reaction process(Event event) {
+		Logger.debug("Greeting detected", 2);
 		MessageReceivedEvent messageReceivedEvent = (MessageReceivedEvent) event;
 		Logger.debug("Reaction produced from " + name, 1);
 		return new ReactionMessage(getRandomGreeting() + ", " + messageReceivedEvent.getAuthor().getDisplayName(messageReceivedEvent.getGuild()) + "!", messageReceivedEvent.getChannel(), 0);
 	}
 	
 	private boolean startsWithAGreeting(String message) {
-		Logger.debug("Greeting detected", 2);
 		for( String greeting : greetingsInput ) {
 			if( message.toLowerCase().startsWith(greeting.toLowerCase()) ) {
 				return true;
