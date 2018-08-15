@@ -39,6 +39,17 @@ public class InvokedHandler extends Handler {
 		return check;
 	}
 	
+	protected boolean isMentioned(MessageReceivedEvent event) {
+		Logger.debug("Checking mention", 3);
+		boolean check = StringUtilities.containsIgnoreCase(event.getMessage().getContent(), Constants.NAME);
+		if( check ) {
+			Logger.debug("Name mentioned", 4);
+		} else {
+			Logger.debug("Name unmentioned", 4);
+		}
+		return check;
+	}
+	
 	protected boolean isInvoked(MessageReceivedEvent event) {
 		Logger.debug("Checking invocation", 3);
 		ArrayList<String> tokens = TokenUtilities.parseTokens(event.getMessage().getContent(), new char[] {});
@@ -48,9 +59,9 @@ public class InvokedHandler extends Handler {
 			check = StringUtilities.equalsIgnoreCase(tokens.get(0), invocation);
 		}
 		if( check ) {
-			Logger.debug("Handler invoked", 2);
+			Logger.debug("Handler invoked", 4);
 		} else {
-			Logger.debug("Handler uninvoked", 2);
+			Logger.debug("Handler uninvoked", 4);
 		}
 		return check;
 	}
