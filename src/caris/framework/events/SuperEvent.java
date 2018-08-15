@@ -78,7 +78,7 @@ public class SuperEvent {
 	@EventSubscriber public void onUserBan( UserBanEvent event ) {}
 	@EventSubscriber public void onUserJoin( UserJoinEvent event ) {}
 	@EventSubscriber public void onUserLeave( UserLeaveEvent event ) {}
-	@EventSubscriber public void onUserPardont( UserPardonEvent event ) {}
+	@EventSubscriber public void onUserPardon( UserPardonEvent event ) {}
 	@EventSubscriber public void onUserRoleUpdate( UserRoleUpdateEvent event ) {}
 
 	// Guild Role Events
