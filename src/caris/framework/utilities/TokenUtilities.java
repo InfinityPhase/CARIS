@@ -132,4 +132,15 @@ public class TokenUtilities {
 		return tokens;
 	}
 	
+	public static ArrayList<Integer> parseNumbers(String line) {
+		ArrayList<Integer> tokens = new ArrayList<Integer>();
+		ArrayList<String> stringTokens = parseTokens(line);
+		for( String s : stringTokens ) {
+			try {
+				tokens.add(Integer.parseInt(s));
+			} catch(NumberFormatException e) {}
+		}
+		return tokens;
+	}
+	
 }
