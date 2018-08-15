@@ -46,7 +46,7 @@ public class Logger {
 		}
 		output += Constants.HEADER;
 		output += message;
-		System.out.println(output);
+		System.err.println(output);
 		if( Constants.LOG ) {
 			log(output);
 		}
