@@ -25,7 +25,7 @@ public class NicknameUpdateHandler extends Handler {
 		String nicknameLock = Variables.guildIndex.get(nicknameChangedEvent.getGuild()).userIndex.get(nicknameChangedEvent.getUser()).nicknameLock;
 		if( !nicknameLock.isEmpty() ) {
 			Logger.debug("Reaction produced from " + name, 1, true);
-			return new ReactionNicknameSet(nicknameChangedEvent.getGuild(), nicknameChangedEvent.getUser(), nicknameLock);
+			return new ReactionNicknameSet(nicknameChangedEvent.getGuild(), nicknameChangedEvent.getUser(), nicknameLock, -1);
 		} else {
 			return null;
 		}

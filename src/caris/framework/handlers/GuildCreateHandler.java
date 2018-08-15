@@ -38,7 +38,7 @@ public class GuildCreateHandler extends Handler {
 			}
 		}
 		Logger.debug("Reaction produced from " + name, 1, true);
-		return new ReactionLoggerPrint("Guild (" + guildCreateEvent.getGuild().getLongID() + ") <" + guildCreateEvent.getGuild().getName() + "> loaded", 0);
+		return new ReactionLoggerPrint("Guild (" + guildCreateEvent.getGuild().getLongID() + ") <" + guildCreateEvent.getGuild().getName() + "> loaded", -1);
 	}
 	
 }

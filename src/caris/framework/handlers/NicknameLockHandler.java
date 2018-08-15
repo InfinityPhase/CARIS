@@ -37,7 +37,7 @@ public class NicknameLockHandler extends InvokedHandler {
 		ArrayList<String> tokens = TokenUtilities.parseTokens(messageReceivedEvent.getMessage().getContent(), new char[] {});
 		ArrayList<String> quoted = TokenUtilities.parseQuoted(messageReceivedEvent.getMessage().getContent());
 		ArrayList<IUser> users = new ArrayList<IUser>();
-		MultiReaction lockNickname = new MultiReaction(1);
+		MultiReaction lockNickname = new MultiReaction(2);
 		for( IUser user : messageReceivedEvent.getGuild().getUsers() ) {
 			for( String token : tokens ) {
 				if( StringUtilities.equalsIgnoreCase(user.mention(), token) ) {
