@@ -3,30 +3,6 @@ package caris.framework.library;
 public class Constants {
 	public static final String ADMIN_PREFIX = "==>";
 	public static final String DEFAULT_PLAYING_TEXT = "Type \"cHelp\" for help!";
-
-	public static final String[] DISABLED_RESPONDERS = new String[] {
-			
-	};
-	
-	public static final String[] DISABLED_INVOKERS = new String[] {
-			
-	};
-	
-	public static final String[] DISABLED_CONSTRUCTORS = new String[] {
-			
-	};
-	
-	public static final String[] DISABLED_TOOLS = new String[] {
-			
-	};
-	
-	public static final String[] DISABLED_CONTROLLERS = new String[] {
-			
-	};
-	
-	public static final String[] COMMAND_EXACTS = new String[] {
-			
-	};
 	
 	public static final String NAME = "CARIS";
 	public static final boolean OFFLINE = false;
@@ -37,6 +13,8 @@ public class Constants {
 			Long.parseLong("365715538166415362"),
 	};
 
+	public static final int MAX_MESSAGE_HISTORY = 10000;
+	
 	// Debug Constants
 	public static final boolean DEBUG = true;
 	public static final boolean PRINT = true;

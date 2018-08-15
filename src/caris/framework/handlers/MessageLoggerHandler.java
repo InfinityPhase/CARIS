@@ -26,10 +26,6 @@ public class MessageLoggerHandler extends Handler {
 		MultiReaction logMessage = new MultiReaction(-1);
 		Logger.debug("Message detected", 2);
 		MessageReceivedEvent messageReceivedEvent = (MessageReceivedEvent) event;
-		boolean overflow = Variables.guildIndex.get(messageReceivedEvent.getGuild()).channelIndex.get(messageReceivedEvent.getChannel()).messageStack.push(messageReceivedEvent.getMessage());
-		if( overflow && Variables.guildIndex.get(messageReceivedEvent.getGuild()).channelIndex.get(messageReceivedEvent.getChannel()).messageStack.isBlackboxActive()) {
-			logMessage.reactions.add(new ReactionMessage("Warning: Your blackbox queue is overflowing!", messageReceivedEvent.getChannel()));
-		}
 		Logger.debug("Reaction produced from " + name, 1, true);
 		logMessage.reactions.add(new ReactionLoggerHear(messageReceivedEvent.getMessage().getContent(), messageReceivedEvent.getAuthor(), messageReceivedEvent.getChannel()));
 		return logMessage;

@@ -1,10 +1,6 @@
 package caris.framework.library;
 
-import java.util.ArrayList;
-
-import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import sx.blah.discord.handle.obj.IChannel;
-import sx.blah.discord.handle.obj.IMessage;
 
 public class ChannelInfo {
 	
@@ -15,8 +11,8 @@ public class ChannelInfo {
 	/* Channel Settings */
 	public boolean blacklisted;
 	
-	/* History */
-	public ArrayList<IMessage> messageHistory;
+	public boolean blackboxActive;
+	public Long blackboxStart;
 	
 	public ChannelInfo( String name, IChannel channel ) {
 		this.name = name;
@@ -24,7 +20,36 @@ public class ChannelInfo {
 		
 		blacklisted = false;
 		
-		messageHistory = new ArrayList<IMessage>();
+		blackboxActive = false;
+		blackboxStart = -1L;
+	}
+	
+	public boolean openBlackbox(Long id) {
+		if( !blackboxActive ) {
+			blackboxStart = id;
+			blackboxActive = true;
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public Long closeBlackbox() {
+		if( blackboxActive ) {
+			return blackboxStart;
+		} else {
+			return -1L;
+		}
+	}
+	
+	public boolean cancelBlackbox() {
+		if( blackboxActive ) {
+			blackboxActive = false;
+			blackboxStart = -1L;
+			return true;
+		} else {
+			return false;
+		}
 	}
 	
 }
