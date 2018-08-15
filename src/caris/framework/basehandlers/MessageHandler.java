@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import caris.framework.library.Constants;
+import caris.framework.reactions.Reaction;
 import caris.framework.utilities.Logger;
 import caris.framework.utilities.StringUtilities;
 import caris.framework.utilities.TokenUtilities;
@@ -11,26 +12,55 @@ import sx.blah.discord.api.events.Event;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import sx.blah.discord.handle.obj.Permissions;
 
-public class InvokedHandler extends Handler {
+public class MessageHandler extends Handler {
 
+	public MessageReceivedEvent mrEvent;
+	public String message;
+	public boolean setupComplete;
+	
 	public String invocation = "";
 	
-	public InvokedHandler() {
+	public MessageHandler() {
 		this("");
 	}
 	
-	public InvokedHandler(String name) {
+	public MessageHandler(String name) {
 		super(name);
+		mrEvent = null;
+		message = "";
 	}
 	
-	protected boolean isMessageReceivedEvent(Event event) {
-		return event instanceof MessageReceivedEvent;
+	@Override
+	public Reaction handle(Event event) {
+		Logger.debug("Checking " + name, 0, true);
+		setup(event);
+		if( setupComplete ) {
+			if( isTriggered(event) ) {
+				Logger.debug("Processing " + name, 1, true);
+				return process(event);
+			} else {
+				Logger.debug("Ignoring " + name, 1, true);
+				return null;
+			}
+		}
+		Logger.debug("Ignoring " + name, 1, true);
+		return null;
+	}
+	
+	protected void setup(Event event) {
+		if( event instanceof MessageReceivedEvent ) {
+			mrEvent = (MessageReceivedEvent) event;
+			message = mrEvent.getMessage().getContent();
+			setupComplete = true;
+		} else {
+			setupComplete = false;
+		}
 	}
 	
 	@SuppressWarnings("unlikely-arg-type")
-	protected boolean isAdmin(MessageReceivedEvent event) {
+	protected boolean isAdmin() {
 		Logger.debug("Checking if admin", 3);
-		boolean check = event.getAuthor().getPermissionsForGuild(event.getGuild()).contains(Permissions.ADMINISTRATOR) || Arrays.asList(Constants.ADMIN_IDS).contains(event.getAuthor().getLongID());
+		boolean check = mrEvent.getAuthor().getPermissionsForGuild(mrEvent.getGuild()).contains(Permissions.ADMINISTRATOR) || Arrays.asList(Constants.ADMIN_IDS).contains(mrEvent.getAuthor().getLongID());
 		if( check ) {
 			Logger.debug("Admin confirmed", 4);
 		} else {
@@ -39,9 +69,9 @@ public class InvokedHandler extends Handler {
 		return check;
 	}
 	
-	protected boolean isMentioned(MessageReceivedEvent event) {
+	protected boolean isMentioned() {
 		Logger.debug("Checking mention", 3);
-		boolean check = StringUtilities.containsIgnoreCase(event.getMessage().getContent(), Constants.NAME);
+		boolean check = StringUtilities.containsIgnoreCase(message, Constants.NAME);
 		if( check ) {
 			Logger.debug("Name mentioned", 4);
 		} else {
@@ -50,9 +80,9 @@ public class InvokedHandler extends Handler {
 		return check;
 	}
 	
-	protected boolean isInvoked(MessageReceivedEvent event) {
+	protected boolean isInvoked() {
 		Logger.debug("Checking invocation", 3);
-		ArrayList<String> tokens = TokenUtilities.parseTokens(event.getMessage().getContent(), new char[] {});
+		ArrayList<String> tokens = TokenUtilities.parseTokens(message, new char[] {});
 		Logger.debug("Message tokens: " + tokens.toString(), 4);
 		boolean check = false;
 		if( tokens.size() >= 1 ) {
@@ -66,9 +96,9 @@ public class InvokedHandler extends Handler {
 		return check;
 	}
 	
-	protected boolean isAdminInvoked(MessageReceivedEvent event) {
+	protected boolean isAdminInvoked() {
 		Logger.debug("Checking admin invocation", 3);
-		ArrayList<String> tokens = TokenUtilities.parseTokens(event.getMessage().getContent(), new char[] {});
+		ArrayList<String> tokens = TokenUtilities.parseTokens(message, new char[] {});
 		Logger.debug("Message tokens: " + tokens.toString(), 4);
 		boolean check = false;
 		if( tokens.size() >= 2 ) {

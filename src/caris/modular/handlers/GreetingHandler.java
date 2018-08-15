@@ -1,13 +1,12 @@
 package caris.modular.handlers;
 
-import caris.framework.basehandlers.InvokedHandler;
+import caris.framework.basehandlers.MessageHandler;
 import caris.framework.reactions.Reaction;
 import caris.framework.reactions.ReactionMessage;
 import caris.framework.utilities.Logger;
 import sx.blah.discord.api.events.Event;
-import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 
-public class GreetingHandler extends InvokedHandler {
+public class GreetingHandler extends MessageHandler {
 	
 	private String[] greetingsInput = new String[] {
 			"Hello",
@@ -52,19 +51,14 @@ public class GreetingHandler extends InvokedHandler {
 	
 	@Override
 	protected boolean isTriggered(Event event) {
-		if( !isMessageReceivedEvent(event) ) {
-			return false;
-		}
-		MessageReceivedEvent messageReceivedEvent = (MessageReceivedEvent) event;
-		return startsWithAGreeting(messageReceivedEvent.getMessage().getContent()) && isMentioned(messageReceivedEvent);
+		return startsWithAGreeting(message) && isMentioned();
 	}
 	
 	@Override
 	protected Reaction process(Event event) {
 		Logger.debug("Greeting detected", 2);
-		MessageReceivedEvent messageReceivedEvent = (MessageReceivedEvent) event;
 		Logger.debug("Reaction produced from " + name, 1);
-		return new ReactionMessage(getRandomGreeting() + ", " + messageReceivedEvent.getAuthor().getDisplayName(messageReceivedEvent.getGuild()) + "!", messageReceivedEvent.getChannel(), 0);
+		return new ReactionMessage(getRandomGreeting() + ", " + mrEvent.getAuthor().getDisplayName(mrEvent.getGuild()) + "!", mrEvent.getChannel(), 0);
 	}
 	
 	private boolean startsWithAGreeting(String message) {
