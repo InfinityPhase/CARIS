@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 
-import caris.framework.embedbuilders.ModuleStatusBuilder;
-import caris.framework.embedbuilders.PollBuilder;
 import caris.framework.tokens.Poll;
 import caris.framework.tokens.Reminder;
 import sx.blah.discord.handle.impl.obj.Role;
@@ -37,10 +35,6 @@ public class GuildInfo {
 	public HashMap<String, Poll> polls;
 	public HashMap<Calendar, Reminder> reminders;
 	
-	/* Builders */
-	public PollBuilder pollBuilder;
-	public ModuleStatusBuilder moduleStatusBuilder;
-	
 	public GuildInfo(String name, IGuild guild) {	
 		this.name = name;
 		this.guild = guild;
@@ -57,9 +51,6 @@ public class GuildInfo {
 				
 		this.userIndex = new HashMap<IUser, UserInfo>();
 		this.channelIndex = new HashMap<IChannel, ChannelInfo>();
-		
-		pollBuilder = new PollBuilder();
-		moduleStatusBuilder = new ModuleStatusBuilder();
 		
 		init();
 	}
