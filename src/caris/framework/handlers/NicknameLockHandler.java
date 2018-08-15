@@ -41,7 +41,7 @@ public class NicknameLockHandler extends InvokedHandler {
 		MultiReaction lockNickname = new MultiReaction(2);
 		for( IUser user : messageReceivedEvent.getGuild().getUsers() ) {
 			for( String token : tokens ) {
-				if( StringUtilities.equalsIgnoreCase(user.mention(), token) ) {
+				if( StringUtilities.equalsIgnoreCase(user.mention(false), token) ) {
 					users.add(user);
 				}
 			}
@@ -62,8 +62,8 @@ public class NicknameLockHandler extends InvokedHandler {
 					lockNickname.reactions.add(new ReactionMessage("Nickname(s) locked!", messageReceivedEvent.getChannel()));
 				} else {
 					for( IUser user : users ) {
-						lockNickname.reactions.add(new ReactionNicknameLock(messageReceivedEvent.getGuild(), user, user.getName()));
-						lockNickname.reactions.add(new ReactionNicknameSet(messageReceivedEvent.getGuild(), user, user.getName()));
+						lockNickname.reactions.add(new ReactionNicknameLock(messageReceivedEvent.getGuild(), user, user.getDisplayName(messageReceivedEvent.getGuild())));
+						lockNickname.reactions.add(new ReactionNicknameSet(messageReceivedEvent.getGuild(), user, user.getDisplayName(messageReceivedEvent.getGuild())));
 					}
 					lockNickname.reactions.add(new ReactionMessage("Nickname(s) locked!", messageReceivedEvent.getChannel()));
 				}
