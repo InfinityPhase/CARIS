@@ -76,14 +76,6 @@ public class DataSaver {
 				location.put(f+"", l.get(f));
 			}
 		}
-		JSONObject people = new JSONObject();
-		for( String s : guildInfo.people.keySet() ) {
-			people.put(s, guildInfo.people.get(s));
-		}
-		JSONObject translator = new JSONObject();
-		for( String s : guildInfo.translator.keySet() ) {
-			translator.put(s, guildInfo.translator.get(s));
-		}
 		JSONObject userIndex = new JSONObject();
 		for( IUser s : guildInfo.userIndex.keySet() ) {
 			UserInfo d = guildInfo.userIndex.get(s);
@@ -111,8 +103,6 @@ public class DataSaver {
 		json.put("modules", modules);
 		json.put("polls", polls);
 		json.put("locations", locations);
-		json.put("people", people);
-		json.put("translator", translator);
 		json.put("userIndex", userIndex);
 		json.put("reminders", reminders);
 		

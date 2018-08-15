@@ -7,6 +7,7 @@ import caris.framework.reactions.ReactionLoggerPrint;
 import caris.framework.utilities.Logger;
 import caris.framework.library.Variables;
 import caris.framework.basehandlers.Handler;
+import caris.framework.library.ChannelInfo;
 import caris.framework.library.GuildInfo;
 import sx.blah.discord.api.events.Event;
 import sx.blah.discord.handle.impl.events.guild.GuildCreateEvent;
@@ -31,8 +32,8 @@ public class GuildCreateHandler extends Handler {
 			GuildInfo guildInfo = new GuildInfo( guildCreateEvent.getGuild().getName(), guildCreateEvent.getGuild() );
 			Variables.guildIndex.put( guildCreateEvent.getGuild(), guildInfo );			
 			for( IChannel c : guildCreateEvent.getGuild().getChannels() ) {
-				if( !Variables.guildIndex.get( guildCreateEvent.getGuild() ).settings.containsKey( c ) ) {
-					Variables.guildIndex.get( guildCreateEvent.getGuild() ).settings.put( c, new HashMap<String, Object>() );
+				if( !Variables.guildIndex.get( guildCreateEvent.getGuild() ).channelIndex.containsKey( c ) ) {
+					Variables.guildIndex.get( guildCreateEvent.getGuild() ).channelIndex.put( c, new ChannelInfo( c.getName(), c ) );
 				}
 			}
 		}

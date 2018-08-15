@@ -112,8 +112,8 @@ public class BotUtils {
 
 	public static void sendLog( IGuild guild, String message ) {
 		// Send the message to the guild's log channel, if it exists
-		if( Variables.guildIndex.get( guild ).logChannel != -1 ) {
-			sendMessage( guild.getChannelByID( Variables.guildIndex.get( guild ).logChannel ), message );
+		if( Variables.guildIndex.get( guild ).logChannel != null ) {
+			sendMessage( Variables.guildIndex.get( guild ).logChannel, message );
 		}
 	}
 
