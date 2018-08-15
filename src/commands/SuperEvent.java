@@ -1,5 +1,6 @@
 package commands;
 
+import sx.blah.discord.api.events.Event;
 import sx.blah.discord.api.events.EventSubscriber;
 
 import sx.blah.discord.handle.impl.events.guild.*;
@@ -20,6 +21,9 @@ import sx.blah.discord.util.audio.events.*;
 
 public class SuperEvent {
 	// A catch all class for events.
+	
+	// The One True Catch-All
+	@EventSubscriber public void onEvent( Event event ) {}
 	
     // Guild Events
 	@EventSubscriber public void onAllUsersReceived( AllUsersReceivedEvent event ) {}

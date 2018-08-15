@@ -39,6 +39,7 @@ public class Response implements Comparable<Response> {
 		this.priority = priority;
 		this.message = null;
 		this.builder = new ArrayList<>();
+		this.recipient = new ArrayList<>();
 		this.recipient.add( recipient );
 		this.proxy = proxy;
 		embed = false;
@@ -49,6 +50,7 @@ public class Response implements Comparable<Response> {
 		this.priority = priority;
 		this.message = m;
 		this.builder = new ArrayList<>();
+		this.recipient = new ArrayList<>();
 		this.recipient.add( recipient );
 		this.proxy = proxy;
 		embed = false;
@@ -60,6 +62,7 @@ public class Response implements Comparable<Response> {
 		this.message = null;
 		this.builder = new ArrayList<>();
 		this.builder.add( builder );
+		this.recipient = new ArrayList<>();
 		this.recipient.add( recipient );
 		this.proxy = proxy;
 		embed = true;
@@ -70,6 +73,7 @@ public class Response implements Comparable<Response> {
 		this.priority = priority;
 		this.message = null;
 		this.builder = builder;
+		this.recipient = new ArrayList<>();
 		this.recipient.add( recipient );
 		this.proxy = proxy;
 		embed = true;
@@ -80,6 +84,7 @@ public class Response implements Comparable<Response> {
 		this.priority = priority;
 		this.message = null;
 		this.builder = new ArrayList<>();
+		this.recipient = new ArrayList<>();
 		this.recipient = recipient;
 		this.proxy = proxy;
 		embed = false;
@@ -90,6 +95,7 @@ public class Response implements Comparable<Response> {
 		this.priority = priority;
 		this.message = m;
 		this.builder = new ArrayList<>();
+		this.recipient = new ArrayList<>();
 		this.recipient = recipient;
 		this.proxy = proxy;
 		embed = false;
@@ -101,6 +107,7 @@ public class Response implements Comparable<Response> {
 		this.message = null;
 		this.builder = new ArrayList<>();
 		this.builder.add( builder );
+		this.recipient = new ArrayList<>();
 		this.recipient = recipient;
 		this.proxy = proxy;
 		embed = true;

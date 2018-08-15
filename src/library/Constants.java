@@ -90,9 +90,6 @@ public class Constants {
 	public static final String BLACKLIST_HEADER = "NOBOT";
 	public static final String WHITELIST_HEADER = "BOT";
 
-	// Build Season Clock
-	public static Calendar kickoff = Calendar.getInstance();
-
 	// Default Off Modules
 	public static final String[] DEFAULT_DISBABLED = new String[] {
 			"Fortune Invoker",

@@ -120,7 +120,6 @@ public class Brain {
 		log.log("Initializing.");
 
 		// Build Season Time
-		Constants.kickoff.set(2018, Calendar.JANUARY, 6, 7, 0, 0);
 
 		// Music
 		musicManagers = new HashMap<>();
