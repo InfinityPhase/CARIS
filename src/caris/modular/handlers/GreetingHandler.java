@@ -54,17 +54,18 @@ public class GreetingHandler extends InvokedHandler {
 	
 	@Override
 	protected boolean isTriggered(Event event) {
-		if( event instanceof MessageReceivedEvent ) {
-			return startsWithAGreeting(((MessageReceivedEvent) event).getMessage().getContent()) && isMentioned((MessageReceivedEvent) event);
-		} else {
+		if( !isMessageReceivedEvent(event) ) {
 			return false;
 		}
+		MessageReceivedEvent messageReceivedEvent = (MessageReceivedEvent) event;
+		return startsWithAGreeting(messageReceivedEvent.getMessage().getContent()) && isMentioned(messageReceivedEvent);
 	}
 	
 	@Override
 	protected Reaction process(Event event) {
+		MessageReceivedEvent messageReceivedEvent = (MessageReceivedEvent) event;
 		Logger.debug("Reaction produced from " + name, 1);
-		return new ReactionMessage(getRandomGreeting() + ", " + ((MessageReceivedEvent) event).getAuthor().getDisplayName(((MessageReceivedEvent) event).getGuild()) + "!", ((MessageReceivedEvent) event).getChannel(), 0);
+		return new ReactionMessage(getRandomGreeting() + ", " + messageReceivedEvent.getAuthor().getDisplayName(messageReceivedEvent.getGuild()) + "!", messageReceivedEvent.getChannel(), 0);
 	}
 	
 	private boolean startsWithAGreeting(String message) {
