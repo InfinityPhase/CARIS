@@ -41,7 +41,7 @@ public class NicknameLockHandler extends InvokedHandler {
 		MultiReaction lockNickname = new MultiReaction(2);
 		for( IUser user : messageReceivedEvent.getGuild().getUsers() ) {
 			for( String token : tokens ) {
-				if( StringUtilities.equalsIgnoreCase(user.mention(false), token) ) {
+				if( StringUtilities.equalsIgnoreCase(user.mention(false), token) || StringUtilities.equalsIgnoreCase(user.mention(true), token) ) {
 					users.add(user);
 				}
 			}
