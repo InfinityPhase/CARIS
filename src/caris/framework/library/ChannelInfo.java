@@ -14,8 +14,8 @@ public class ChannelInfo {
 	public boolean blackboxActive;
 	public Long blackboxStart;
 	
-	public ChannelInfo( String name, IChannel channel ) {
-		this.name = name;
+	public ChannelInfo( IChannel channel ) {
+		this.name = channel.getName();
 		this.channel = channel;
 		
 		blacklisted = false;
@@ -36,6 +36,7 @@ public class ChannelInfo {
 	
 	public Long closeBlackbox() {
 		if( blackboxActive ) {
+			blackboxActive = false;
 			return blackboxStart;
 		} else {
 			return -1L;

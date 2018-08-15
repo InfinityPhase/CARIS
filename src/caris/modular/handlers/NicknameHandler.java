@@ -45,7 +45,7 @@ public class NicknameHandler extends Handler {
 		}
 		MessageReceivedEvent messageReceivedEvent = (MessageReceivedEvent) event;
 		ArrayList<String> tokens = TokenUtilities.parseTokens(messageReceivedEvent.getMessage().getContent());
-		return StringUtilities.hasIgnoreCase( tokens, "my" ) && StringUtilities.hasIgnoreCase( tokens, "name" );
+		return StringUtilities.hasAllOfIgnoreCase( tokens, "my", "name" );
 	}
 	
 	@Override

@@ -68,10 +68,17 @@ public class GuildInfo {
 		for( IUser u : guild.getUsers() ) {
 			userIndex.put( u, new UserInfo(u) );
 		}
+		for( IChannel c : guild.getChannels() ) {
+			channelIndex.put( c, new ChannelInfo(c));
+		}
 	}
 	
 	public void addUser( IUser u ) {
 		userIndex.put( u, new UserInfo(u) );
+	}
+	
+	public void addChannel( IChannel c ) {
+		channelIndex.put( c, new ChannelInfo(c));
 	}
 	
 	public boolean checkDisabled(String module) {

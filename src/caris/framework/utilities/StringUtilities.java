@@ -7,7 +7,20 @@ import java.util.Set;
 public class StringUtilities {
 	
 	public static boolean equalsIgnoreCase( String a, String b ) {
-		return a.toLowerCase().equals(b);
+		return a.toLowerCase().equals(b.toLowerCase());
+	}
+	
+	public static boolean equalsAnyOfIgnoreCase( String a, String...b ) {
+		return equalsAnyOfIgnoreCase(a, Arrays.asList(b));
+	}
+	
+	public static boolean equalsAnyOfIgnoreCase( String a, List<String> b ) {
+		for( String token : b ) {
+			if( equalsIgnoreCase(a, token) ) {
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	public static boolean hasIgnoreCase(String[] a, String b) {
@@ -22,7 +35,7 @@ public class StringUtilities {
 		}
 		return false;
 	}
-
+	
 	public static boolean hasIgnoreCase(Set<String> a, String b) {
 		for( String token: a ) {
 			if( token.equalsIgnoreCase(b) ) {
@@ -31,7 +44,49 @@ public class StringUtilities {
 		}
 		return false;
 	}
+	
+	public static boolean hasAnyOfIgnoreCase(String[] a, String... b) {
+		return hasAnyOfIgnoreCase(Arrays.asList(a), b);
+	}
+	
+	public static boolean hasAnyOfIgnoreCase(String[] a, List<String> b) {
+		return hasAnyOfIgnoreCase(Arrays.asList(a), b);
+	}
+	
+	public static boolean hasAnyOfIgnoreCase(List<String> a, String... b) {
+		return hasAnyOfIgnoreCase(a, Arrays.asList(b));
+	}
+	
+	public static boolean hasAnyOfIgnoreCase(List<String> a, List<String> b) {
+		for( String token : b ) {
+			if( hasIgnoreCase(a, token) ) {
+				return true;
+			}
+		}
+		return false;
+	}
 
+	public static boolean hasAllOfIgnoreCase(String[] a, String... b) {
+		return hasAllOfIgnoreCase(Arrays.asList(a), b);
+	}
+	
+	public static boolean hasAllOfIgnoreCase(String[] a, List<String> b) {
+		return hasAllOfIgnoreCase(Arrays.asList(a), b);
+	}
+	
+	public static boolean hasAllOfIgnoreCase(List<String> a, String... b) {
+		return hasAllOfIgnoreCase(a, Arrays.asList(b));
+	}
+	
+	public static boolean hasAllOfIgnoreCase(List<String> a, List<String> b) {
+		for( String token : b ) {
+			if( !hasIgnoreCase(a, token) ) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
 	public static boolean containsIgnoreCase(String a, String b) {
 		return a.toLowerCase().contains(b.toLowerCase());
 	}

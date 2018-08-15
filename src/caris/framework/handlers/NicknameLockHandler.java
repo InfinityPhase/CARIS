@@ -22,7 +22,7 @@ public class NicknameLockHandler extends MessageHandler {
 	
 	@Override
 	protected boolean isTriggered(Event event) {
-		return isMentioned() && isAdmin() && ((StringUtilities.containsIgnoreCase(message, "name"))) && StringUtilities.containsIgnoreCase(message, "lock");
+		return isMentioned() && isAdmin() && StringUtilities.containsAllOfIgnoreCase(message, "name", "lock");
 	}
 	
 	@Override
@@ -34,13 +34,13 @@ public class NicknameLockHandler extends MessageHandler {
 		MultiReaction lockNickname = new MultiReaction(2);
 		for( IUser user : mrEvent.getGuild().getUsers() ) {
 			for( String token : tokens ) {
-				if( StringUtilities.equalsIgnoreCase(user.mention(false), token) || StringUtilities.equalsIgnoreCase(user.mention(true), token) ) {
+				if( StringUtilities.equalsAnyOfIgnoreCase(token, user.mention(true), user.mention(false)) ) {
 					users.add(user);
 				}
 			}
 		}
 		if( !users.isEmpty() ) {
-			if( StringUtilities.containsIgnoreCase(message, "unlock") || StringUtilities.containsIgnoreCase(message, "remove") || StringUtilities.containsIgnoreCase(message, "undo") || StringUtilities.containsIgnoreCase(message, "delete") || StringUtilities.containsIgnoreCase(message, "dismiss") || StringUtilities.containsIgnoreCase(message, "erase") || StringUtilities.containsIgnoreCase(message, "disperse") ) {
+			if( StringUtilities.containsAnyOfIgnoreCase(message, "unlock", "remove", "undo", "delete", "dismiss", "erase", "disperse") ) {
 				for( IUser user : users ) {
 					lockNickname.reactions.add(new ReactionNicknameLock(mrEvent.getGuild(), user, ""));
 				}
