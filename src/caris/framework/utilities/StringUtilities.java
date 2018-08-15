@@ -58,7 +58,7 @@ public class StringUtilities {
 		return false;
 	}
 	
-	public static boolean containsAnyOfIgnoreCase(String a, String[] b) {
+	public static boolean containsAnyOfIgnoreCase(String a, String... b) {
 		return containsAnyOfIgnoreCase(a, Arrays.asList(b));
 	}
 	
@@ -71,7 +71,7 @@ public class StringUtilities {
 		return false;
 	}
 	
-	public static boolean containsAllOfIgnoreCase(String a, String[] b) {
+	public static boolean containsAllOfIgnoreCase(String a, String... b) {
 		return containsAllOfIgnoreCase(a, Arrays.asList(b));
 	}
 
