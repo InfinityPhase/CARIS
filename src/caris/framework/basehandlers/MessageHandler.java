@@ -18,7 +18,7 @@ public class MessageHandler extends Handler {
 	public String message;
 	public boolean setupComplete;
 	
-	public String invocation = "";
+	public String keyword = "";
 	
 	public MessageHandler() {
 		this("");
@@ -80,34 +80,34 @@ public class MessageHandler extends Handler {
 		return check;
 	}
 	
+	protected boolean keywordMatched() {
+		Logger.debug("Checking keyword", 3);
+		ArrayList<String> tokens = TokenUtilities.parseTokens(message, new char[] {});
+		Logger.debug("Message tokens: " + tokens.toString(), 4);
+		boolean check = false;
+		if( tokens.size() >= 1 ) {
+			check = tokens.get(0).equalsIgnoreCase(keyword);
+		}
+		if( check ) {
+			Logger.debug("Keyword matched", 4);
+		} else {
+			Logger.debug("Keyword match failed", 4);
+		}
+		return check;
+	}
+	
 	protected boolean isInvoked() {
 		Logger.debug("Checking invocation", 3);
 		ArrayList<String> tokens = TokenUtilities.parseTokens(message, new char[] {});
 		Logger.debug("Message tokens: " + tokens.toString(), 4);
 		boolean check = false;
-		if( tokens.size() >= 1 ) {
-			check = StringUtilities.equalsIgnoreCase(tokens.get(0), invocation);
+		if( tokens.size() >= 2 ) {
+			check = tokens.get(0).equalsIgnoreCase(Constants.INVOCATION_PREFIX) && tokens.get(1).equalsIgnoreCase(keyword);
 		}
 		if( check ) {
 			Logger.debug("Handler invoked", 4);
 		} else {
 			Logger.debug("Handler uninvoked", 4);
-		}
-		return check;
-	}
-	
-	protected boolean isAdminInvoked() {
-		Logger.debug("Checking admin invocation", 3);
-		ArrayList<String> tokens = TokenUtilities.parseTokens(message, new char[] {});
-		Logger.debug("Message tokens: " + tokens.toString(), 4);
-		boolean check = false;
-		if( tokens.size() >= 2 ) {
-			check = StringUtilities.equalsIgnoreCase(tokens.get(0), Constants.ADMIN_PREFIX) && StringUtilities.equalsIgnoreCase(tokens.get(1), invocation);
-		}
-		if( check ) {
-			Logger.debug("Admin invoked", 4);
-		} else {
-			Logger.debug("Admin uninvoked", 4);
 		}
 		return check;
 	}

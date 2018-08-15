@@ -6,17 +6,13 @@ import java.util.Set;
 
 public class StringUtilities {
 	
-	public static boolean equalsIgnoreCase( String a, String b ) {
-		return a.toLowerCase().equals(b.toLowerCase());
-	}
-	
 	public static boolean equalsAnyOfIgnoreCase( String a, String...b ) {
 		return equalsAnyOfIgnoreCase(a, Arrays.asList(b));
 	}
 	
 	public static boolean equalsAnyOfIgnoreCase( String a, List<String> b ) {
 		for( String token : b ) {
-			if( equalsIgnoreCase(a, token) ) {
+			if( a.equalsIgnoreCase(token) ) {
 				return true;
 			}
 		}
