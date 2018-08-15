@@ -1,7 +1,5 @@
 package caris.modular.handlers;
 
-import java.util.ArrayList;
-
 import caris.framework.basehandlers.Handler;
 import caris.framework.library.Variables;
 import caris.framework.reactions.MultiReaction;

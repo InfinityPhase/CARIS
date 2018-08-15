@@ -12,7 +12,6 @@ import caris.framework.utilities.StringUtilities;
 import caris.framework.utilities.TokenUtilities;
 import sx.blah.discord.api.events.Event;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
-import sx.blah.discord.handle.obj.IChannel;
 import sx.blah.discord.util.MessageHistory;
 
 public class MessagePurgeHandler extends InvokedHandler {

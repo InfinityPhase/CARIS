@@ -1,15 +1,11 @@
 package caris.framework.handlers;
 
 import caris.framework.basehandlers.Handler;
-import caris.framework.library.ChannelInfo;
-import caris.framework.library.GuildInfo;
-import caris.framework.library.Variables;
 import caris.framework.reactions.Reaction;
 import caris.framework.reactions.ReactionCreateGuild;
 import caris.framework.utilities.Logger;
 import sx.blah.discord.api.events.Event;
 import sx.blah.discord.handle.impl.events.guild.GuildCreateEvent;
-import sx.blah.discord.handle.obj.IChannel;
 
 public class GuildCreateHandler extends Handler {
 

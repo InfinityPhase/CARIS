@@ -1,8 +1,6 @@
 package caris.modular.handlers;
 
-import caris.framework.basehandlers.Handler;
 import caris.framework.basehandlers.InvokedHandler;
-import caris.framework.library.Constants;
 import caris.framework.reactions.Reaction;
 import caris.framework.reactions.ReactionMessage;
 import caris.framework.utilities.Logger;

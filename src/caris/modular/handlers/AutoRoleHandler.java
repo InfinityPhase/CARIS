@@ -1,7 +1,6 @@
 package caris.modular.handlers;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import caris.framework.basehandlers.InvokedHandler;
@@ -34,7 +33,6 @@ public class AutoRoleHandler extends InvokedHandler {
 		return isAdmin(messageReceivedEvent) && isAdminInvoked(messageReceivedEvent);
 	}
 	
-	@SuppressWarnings("unchecked")
 	@Override
 	protected Reaction process(Event event) {
 		Logger.debug("AutoRole detected", 2);
@@ -57,8 +55,7 @@ public class AutoRoleHandler extends InvokedHandler {
 					Logger.debug("Reaction produced from " + name, 1, true);
 					modifyAutoRoles.reactions.add(new ReactionMessage( "There aren't any default roles set for this server yet.", messageReceivedEvent.getChannel()));
 				}
-			}
-			if( tokens.size() >= 4 ) {
+			} else if( tokens.size() >= 4 ) {
 				if( tokens.get(2).equals("add") ) {
 					boolean modified = false;
 					for( int f=3; f<tokens.size(); f++ ) {

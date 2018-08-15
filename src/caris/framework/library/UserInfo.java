@@ -1,10 +1,7 @@
 package caris.framework.library;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
-import sx.blah.discord.handle.obj.IGuild;
-import sx.blah.discord.handle.obj.IMessage;
 import sx.blah.discord.handle.obj.IUser;
 
 public class UserInfo {

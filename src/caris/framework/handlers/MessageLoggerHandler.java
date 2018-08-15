@@ -1,11 +1,9 @@
 package caris.framework.handlers;
 
 import caris.framework.basehandlers.Handler;
-import caris.framework.library.Variables;
 import caris.framework.reactions.MultiReaction;
 import caris.framework.reactions.Reaction;
 import caris.framework.reactions.ReactionLoggerHear;
-import caris.framework.reactions.ReactionMessage;
 import caris.framework.utilities.Logger;
 import sx.blah.discord.api.events.Event;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
