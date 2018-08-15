@@ -6,7 +6,10 @@ import java.util.List;
 
 import caris.framework.basehandlers.InvokedHandler;
 import caris.framework.library.Variables;
+import caris.framework.reactions.MultiReaction;
 import caris.framework.reactions.Reaction;
+import caris.framework.reactions.ReactionAutoRoleAdd;
+import caris.framework.reactions.ReactionAutoRoleRemove;
 import caris.framework.reactions.ReactionMessage;
 import caris.framework.utilities.Logger;
 import caris.framework.utilities.TokenUtilities;
@@ -37,6 +40,7 @@ public class AutoRoleHandler extends InvokedHandler {
 		Logger.debug("AutoRole detected", 2);
 		MessageReceivedEvent messageReceivedEvent = (MessageReceivedEvent) event;
 		String text = messageReceivedEvent.getMessage().getContent();
+		MultiReaction modifyAutoRoles = new MultiReaction(2);
 		ArrayList<String> tokens = TokenUtilities.parseTokens(text);
 		if( tokens.size() >= 3 ) {
 			if( tokens.get(2).equals("get") ) {
@@ -48,72 +52,69 @@ public class AutoRoleHandler extends InvokedHandler {
 				if( !autoRoles.isEmpty() ) {
 					autoRoles = autoRoles.substring(0, autoRoles.length()-2);
 					Logger.debug("Reaction produced from " + name, 1, true);
-					return new ReactionMessage( "Here are the current default roles for this server: " + autoRoles, messageReceivedEvent.getChannel() );
+					modifyAutoRoles.reactions.add(new ReactionMessage( "Here are the current default roles for this server: " + autoRoles, messageReceivedEvent.getChannel()));
 				} else {
 					Logger.debug("Reaction produced from " + name, 1, true);
-					return new ReactionMessage( "There aren't any default roles set for this server yet.", messageReceivedEvent.getChannel() );
+					modifyAutoRoles.reactions.add(new ReactionMessage( "There aren't any default roles set for this server yet.", messageReceivedEvent.getChannel()));
 				}
 			}
 			if( tokens.size() >= 4 ) {
 				if( tokens.get(2).equals("add") ) {
-					String addedRoles = "";
+					boolean modified = false;
 					for( int f=3; f<tokens.size(); f++ ) {
 						String token = tokens.get(f);
 						List<IRole> roles = messageReceivedEvent.getGuild().getRolesByName(token);
-						Variables.guildIndex.get(messageReceivedEvent.getGuild()).autoRoles.addAll((Collection<? extends Role>) roles);
 						for( IRole role : roles ) {
-							addedRoles += role.getName() + ", ";
+							modifyAutoRoles.reactions.add(new ReactionAutoRoleAdd(messageReceivedEvent.getGuild(), role));
+							modified = true;
 						}
 					}
-					if( !addedRoles.isEmpty() ) {
-						addedRoles = addedRoles.substring(0, addedRoles.length()-2);
-						Logger.print("Added roles " + addedRoles + " to AutoRole list in Guild " + messageReceivedEvent.getGuild().getName(), 2 );
+					if( modified ) {
 						Logger.debug("Reaction produced from " + name, 1, true);
-						return new ReactionMessage( "AutoRoles updated successfully!", messageReceivedEvent.getChannel() );
+						modifyAutoRoles.reactions.add(new ReactionMessage( "AutoRoles updated successfully!", messageReceivedEvent.getChannel()));
 					} else {
 						Logger.debug("Failed to find requested roles", 2);
 						Logger.debug("Reaction produced from " + name, 1, true);
-						return new ReactionMessage( "Sorry, I couldn't find those roles. Did you capitalize them correctly?", messageReceivedEvent.getChannel() );
+						modifyAutoRoles.reactions.add(new ReactionMessage( "Sorry, I couldn't find those roles. Did you capitalize them correctly?", messageReceivedEvent.getChannel()));
 					}
 				} else if( tokens.get(2).equals("remove") ) {
-					String removedRoles = "";
+					boolean modified = false;
 					for( int f=3; f<tokens.size(); f++ ) {
 						String token = tokens.get(f);
 						List<IRole> roles = messageReceivedEvent.getGuild().getRolesByName(token);
 						if( !roles.isEmpty() ) {
 							for( IRole role : roles ) {
 								if( Variables.guildIndex.get(messageReceivedEvent.getGuild()).autoRoles.contains(role) ) {
-									Variables.guildIndex.get(messageReceivedEvent.getGuild()).autoRoles.remove(role);
-									removedRoles += role.getName() + ", ";
+									modifyAutoRoles.reactions.add(new ReactionAutoRoleRemove(messageReceivedEvent.getGuild(), role));
+									modified = true;
 								}
 							}
 						}
 					}
-					if( !removedRoles.isEmpty() ) {
-						removedRoles = removedRoles.substring(0, removedRoles.length()-2);
-						Logger.print("Removed roles " + removedRoles + " to AutoRole list in Guild " + messageReceivedEvent.getGuild().getName(), 2 );
+					if( modified ) {
 						Logger.debug("Reaction produced from " + name, 1, true);
-						return new ReactionMessage( "AutoRoles updated successfully!", messageReceivedEvent.getChannel() );
+						modifyAutoRoles.reactions.add(new ReactionMessage( "AutoRoles updated successfully!", messageReceivedEvent.getChannel()));
 					} else {
 						Logger.debug("Failed to find requested roles", 2);
 						Logger.debug("Reaction produced from " + name, 1, true);
-						return new ReactionMessage( "Sorry, I couldn't find those roles. Did you capitalize them correctly?", messageReceivedEvent.getChannel() );
+						modifyAutoRoles.reactions.add(new ReactionMessage( "Sorry, I couldn't find those roles. Did you capitalize them correctly?", messageReceivedEvent.getChannel()));
 					}
 				} else {
 					Logger.debug("Operation failed due to syntax error", 2);
 					Logger.debug("Reaction produced from " + name, 1, true);
-					return new ReactionMessage( "Syntax Error!", messageReceivedEvent.getChannel() );
+					modifyAutoRoles.reactions.add(new ReactionMessage( "Syntax Error!", messageReceivedEvent.getChannel()));
 				}
 			} else {
 				Logger.debug("Operation failed due to syntax error", 2);
 				Logger.debug("Reaction produced from " + name, 1, true);
-				return new ReactionMessage( "Syntax Error!", messageReceivedEvent.getChannel() );
+				modifyAutoRoles.reactions.add(new ReactionMessage( "Syntax Error!", messageReceivedEvent.getChannel()));
 			}
 		} else {
 			Logger.debug("Operation failed due to syntax error", 2);
 			Logger.debug("Reaction produced from " + name, 1, true);
-			return new ReactionMessage( "Syntax Error!", messageReceivedEvent.getChannel());
+			modifyAutoRoles.reactions.add(new ReactionMessage( "Syntax Error!", messageReceivedEvent.getChannel()));
 		}
+		return modifyAutoRoles;
 	}
 	
 }
