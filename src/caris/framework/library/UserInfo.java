@@ -13,6 +13,8 @@ public class UserInfo {
 	
 	public String nicknameLock;
 	
+	public HashMap<IUser, String> incomingMail;
+	
 	public HashMap< String, Object > genericInfo;
 	
 	public UserInfo( IUser user ) {
@@ -22,6 +24,8 @@ public class UserInfo {
 		this.lastMessage = "";
 		
 		nicknameLock = "";
+		
+		incomingMail = new HashMap<IUser, String>();
 		
 		genericInfo = new HashMap<String, Object>();
 	}

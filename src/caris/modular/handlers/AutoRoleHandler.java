@@ -20,12 +20,12 @@ public class AutoRoleHandler extends MessageHandler {
 	
 	public AutoRoleHandler() {
 		super("AutoRole Handler");
-		invocation = "autorole";
+		keyword = "autorole";
 	}
 	
 	@Override
 	protected boolean isTriggered(Event event) {
-		return isAdmin() && isAdminInvoked();
+		return isAdmin() && isInvoked();
 	}
 	
 	@Override
