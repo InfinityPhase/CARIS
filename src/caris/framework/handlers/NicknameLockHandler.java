@@ -7,6 +7,7 @@ import caris.framework.library.Variables;
 import caris.framework.reactions.MultiReaction;
 import caris.framework.reactions.Reaction;
 import caris.framework.reactions.ReactionMessage;
+import caris.framework.reactions.ReactionNicknameLock;
 import caris.framework.reactions.ReactionNicknameSet;
 import caris.framework.utilities.Logger;
 import caris.framework.utilities.StringUtilities;
@@ -48,24 +49,21 @@ public class NicknameLockHandler extends InvokedHandler {
 		if( !users.isEmpty() ) {
 			if( StringUtilities.containsIgnoreCase(messageReceivedEvent.getMessage().getContent(), "unlock") || StringUtilities.containsIgnoreCase(messageReceivedEvent.getMessage().getContent(), "remove") || StringUtilities.containsIgnoreCase(messageReceivedEvent.getMessage().getContent(), "undo") || StringUtilities.containsIgnoreCase(messageReceivedEvent.getMessage().getContent(), "delete") || StringUtilities.containsIgnoreCase(messageReceivedEvent.getMessage().getContent(), "dismiss") || StringUtilities.containsIgnoreCase(messageReceivedEvent.getMessage().getContent(), "erase") || StringUtilities.containsIgnoreCase(messageReceivedEvent.getMessage().getContent(), "disperse") ) {
 				for( IUser user : users ) {
-					Variables.guildIndex.get(messageReceivedEvent.getGuild()).userIndex.get(user).nicknameLock = "";
-					Logger.print(user.getName() + "'s nickname has been unlocked.", 2);
+					lockNickname.reactions.add(new ReactionNicknameLock(messageReceivedEvent.getGuild(), user, ""));
 				}
 				lockNickname.reactions.add(new ReactionMessage("Nickname(s) unlocked!", messageReceivedEvent.getChannel()));
 			} else {
 				if( !quoted.isEmpty() ) {
 					String name = quoted.get(0);
 					for( IUser user : users ) {
-						Variables.guildIndex.get(messageReceivedEvent.getGuild()).userIndex.get(user).nicknameLock = name;
+						lockNickname.reactions.add(new ReactionNicknameLock(messageReceivedEvent.getGuild(), user, name));
 						lockNickname.reactions.add(new ReactionNicknameSet(messageReceivedEvent.getGuild(), user, name));
-						Logger.print(user.getName() + "'s nickname has been locked.", 2);
 					}
 					lockNickname.reactions.add(new ReactionMessage("Nickname(s) locked!", messageReceivedEvent.getChannel()));
 				} else {
 					for( IUser user : users ) {
-						Variables.guildIndex.get(messageReceivedEvent.getGuild()).userIndex.get(user).nicknameLock = user.getName();
+						lockNickname.reactions.add(new ReactionNicknameLock(messageReceivedEvent.getGuild(), user, user.getName()));
 						lockNickname.reactions.add(new ReactionNicknameSet(messageReceivedEvent.getGuild(), user, user.getName()));
-						Logger.print(user.getName() + "'s nickname has been locked.", 2);
 					}
 					lockNickname.reactions.add(new ReactionMessage("Nickname(s) locked!", messageReceivedEvent.getChannel()));
 				}
