@@ -46,7 +46,7 @@ public class NicknameLockHandler extends InvokedHandler {
 			}
 		}
 		if( !users.isEmpty() ) {
-			if( StringUtilities.containsIgnoreCase(messageReceivedEvent.getMessage().getContent(), "remove") || StringUtilities.containsIgnoreCase(messageReceivedEvent.getMessage().getContent(), "undo") || StringUtilities.containsIgnoreCase(messageReceivedEvent.getMessage().getContent(), "delete") || StringUtilities.containsIgnoreCase(messageReceivedEvent.getMessage().getContent(), "dismiss") || StringUtilities.containsIgnoreCase(messageReceivedEvent.getMessage().getContent(), "erase") || StringUtilities.containsIgnoreCase(messageReceivedEvent.getMessage().getContent(), "disperse") ) {
+			if( StringUtilities.containsIgnoreCase(messageReceivedEvent.getMessage().getContent(), "unlock") || StringUtilities.containsIgnoreCase(messageReceivedEvent.getMessage().getContent(), "remove") || StringUtilities.containsIgnoreCase(messageReceivedEvent.getMessage().getContent(), "undo") || StringUtilities.containsIgnoreCase(messageReceivedEvent.getMessage().getContent(), "delete") || StringUtilities.containsIgnoreCase(messageReceivedEvent.getMessage().getContent(), "dismiss") || StringUtilities.containsIgnoreCase(messageReceivedEvent.getMessage().getContent(), "erase") || StringUtilities.containsIgnoreCase(messageReceivedEvent.getMessage().getContent(), "disperse") ) {
 				for( IUser user : users ) {
 					Variables.guildIndex.get(messageReceivedEvent.getGuild()).userIndex.get(user).nicknameLock = "";
 					Logger.print(user.getName() + "'s nickname has been unlocked.", 2);
