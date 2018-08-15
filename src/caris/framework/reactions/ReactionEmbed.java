@@ -1,10 +1,10 @@
 package caris.framework.reactions;
 
-import sx.blah.discord.handle.obj.IChannel;
-import sx.blah.discord.util.EmbedBuilder;
-
+import caris.framework.embedbuilders.Builder;
 import caris.framework.utilities.BotUtils;
 import caris.framework.utilities.Logger;
+import sx.blah.discord.handle.obj.IChannel;
+import sx.blah.discord.util.EmbedBuilder;
 
 public class ReactionEmbed extends Reaction {
 
@@ -15,9 +15,19 @@ public class ReactionEmbed extends Reaction {
 		this(embed, channel, 2);
 	}
 	
+	public ReactionEmbed(Builder builder, IChannel channel) {
+		this(builder, channel, 2);
+	}
+	
 	public ReactionEmbed(EmbedBuilder embed, IChannel channel, int priority) {
 		super(priority);
 		this.embed = embed;
+		this.channel = channel;
+	}
+	
+	public ReactionEmbed(Builder builder, IChannel channel, int priority) {
+		super(priority);
+		this.embed = builder.getEmbed();
 		this.channel = channel;
 	}
 	
