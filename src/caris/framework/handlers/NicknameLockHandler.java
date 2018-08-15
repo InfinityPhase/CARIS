@@ -27,7 +27,7 @@ public class NicknameLockHandler extends InvokedHandler {
 			return false;
 		}
 		MessageReceivedEvent messageReceivedEvent = (MessageReceivedEvent) event;
-		return isAdmin(messageReceivedEvent) && ((StringUtilities.containsIgnoreCase(messageReceivedEvent.getMessage().getContent(), "name"))) && StringUtilities.containsIgnoreCase(messageReceivedEvent.getMessage().getContent(), "lock");
+		return isMentioned(messageReceivedEvent) && isAdmin(messageReceivedEvent) && ((StringUtilities.containsIgnoreCase(messageReceivedEvent.getMessage().getContent(), "name"))) && StringUtilities.containsIgnoreCase(messageReceivedEvent.getMessage().getContent(), "lock");
 	}
 	
 	@Override

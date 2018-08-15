@@ -1,6 +1,7 @@
 package caris.modular.handlers;
 
 import caris.framework.basehandlers.Handler;
+import caris.framework.basehandlers.InvokedHandler;
 import caris.framework.library.Constants;
 import caris.framework.reactions.Reaction;
 import caris.framework.reactions.ReactionMessage;
@@ -8,7 +9,7 @@ import caris.framework.utilities.Logger;
 import sx.blah.discord.api.events.Event;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 
-public class GreetingHandler extends Handler {
+public class GreetingHandler extends InvokedHandler {
 	
 	private String[] greetingsInput = new String[] {
 			"Hello",
@@ -54,7 +55,7 @@ public class GreetingHandler extends Handler {
 	@Override
 	protected boolean isTriggered(Event event) {
 		if( event instanceof MessageReceivedEvent ) {
-			return startsWithAGreeting(((MessageReceivedEvent) event).getMessage().getContent()) && ((MessageReceivedEvent) event).getMessage().getContent().toLowerCase().contains(Constants.NAME.toLowerCase());
+			return startsWithAGreeting(((MessageReceivedEvent) event).getMessage().getContent()) && isMentioned((MessageReceivedEvent) event);
 		} else {
 			return false;
 		}
