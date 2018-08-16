@@ -21,6 +21,7 @@ public class ReactionBlackboxClose extends Reaction {
 	public void execute() {
 		Long messageID = Variables.guildIndex.get(channel.getGuild()).channelIndex.get(channel).closeBlackbox();
 		channel.getMessageHistoryTo(messageID).bulkDelete();
+		channel.getMessageHistory(1).bulkDelete();
 		Logger.print("Blackbox closed in (" + channel.getLongID() + ") <" + channel.getName() + ">", 2);
 	}
 	
