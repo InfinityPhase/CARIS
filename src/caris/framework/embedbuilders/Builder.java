@@ -1,22 +1,25 @@
 package caris.framework.embedbuilders;
 
+import java.util.ArrayList;
+
 import sx.blah.discord.util.EmbedBuilder;
 
 public abstract class Builder {
 
-	protected EmbedBuilder builder;
+	protected ArrayList<EmbedBuilder> embeds;
 	
 	public Builder() {
-		builder = new EmbedBuilder();
+		embeds = new ArrayList<EmbedBuilder>();
 	}
 	
-	public EmbedBuilder getEmbed() {
-		buildEmbed();
-		return builder;
+	public ArrayList<EmbedBuilder> getEmbeds() {
+		embeds = new ArrayList<EmbedBuilder>();
+		buildEmbeds();
+		return embeds;
 	}
 	
-	protected void buildEmbed() {
-		// Build embed
+	protected void buildEmbeds() {
+		// Build embeds
 	}
 
 }

@@ -1,36 +1,33 @@
 package caris.framework.embedbuilders;
 
-import caris.framework.library.GuildInfo;
-import caris.framework.library.Variables;
-import sx.blah.discord.handle.obj.IChannel;
+import caris.framework.library.Constants;
+import caris.framework.main.Brain;
 import sx.blah.discord.handle.obj.IGuild;
-import sx.blah.discord.handle.obj.IUser;
+import sx.blah.discord.util.EmbedBuilder;
 
 public class GuildInfoBuilder extends Builder {
 	
-	private GuildInfo guildInfo;
-	private IGuild guild;
-	
-	public GuildInfoBuilder(IGuild guild) {
+	public GuildInfoBuilder() {
 		super();
-		this.guild = guild;
-		this.guildInfo = Variables.guildIndex.get(guild);
 	}
 	
 	@Override
-	protected void buildEmbed() {
-		builder.withAuthorName(guildInfo.name);
-		builder.withTitle("*ID: " + guild.getStringID() + "*");
-		String channels = "";
-		for( IChannel channel : guild.getChannels() ) {
-			channels += "**[" + channel.getName() + "]** *(" + channel.getLongID() + ")*\n";
+	protected void buildEmbeds() {
+		embeds.add(new EmbedBuilder());
+		embeds.get(0).withAuthorName(Constants.NAME + " [Guild Data]");
+		embeds.get(0).withDesc("__Guilds__");
+		int count = 0;
+		for( IGuild guild : Brain.cli.getGuilds() ) {
+			if( count != 0 && count%25 == 0 ) {
+				embeds.add(new EmbedBuilder());
+				embeds.get(count/25).withAuthorName(Constants.NAME + "[Guild Data]");
+			}
+			embeds.get(count/25).appendField("**" + guild.getName() + "**", "*(" + guild.getLongID() + ")*", false);
+			count++;
 		}
-		builder.appendField("**__Channels__**", channels, false);
-		String users = "";
-		for ( IUser user : guild.getUsers() ) {
-			users += "**[" + user.getName() + "#" + user.getDiscriminator() + "]** *<" + user.getDisplayName(guild) + "> (" + user.getLongID() + ")*\n";
+		for( int f=0; f<embeds.size(); f++ ) {
+			embeds.get(f).withFooterText("Page " + (f+1) + " / " + embeds.size());
 		}
-		builder.appendField("**__Users__**", users, false);
 	}
 	
 }
