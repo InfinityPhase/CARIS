@@ -64,7 +64,7 @@ public class MailHandler extends MessageHandler {
 				} else if( StringUtilities.equalsAnyOfIgnoreCase(tokens.get(2), "open", "delete") ) {
 					try {
 						int number = Integer.parseInt(tokens.get(3));
-						if( number >= 1 && number < Variables.guildIndex.get(mrEvent.getGuild()).userIndex.get(mrEvent.getAuthor()).incomingMail.size() ) {
+						if( number >= 1 && number < Variables.guildIndex.get(mrEvent.getGuild()).userIndex.get(mrEvent.getAuthor()).incomingMail.size()+1 ) {
 							if( tokens.get(2).equalsIgnoreCase("open") ) {
 								return new ReactionEmbed(new MailOpenBuilder(Variables.guildIndex.get(mrEvent.getGuild()).userIndex.get(mrEvent.getAuthor()).incomingMail.get(number-1)).getEmbeds(), mrEvent.getChannel(), 1);
 							} else if( tokens.get(2).equalsIgnoreCase("delete") ) {
