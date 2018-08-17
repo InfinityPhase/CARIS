@@ -20,7 +20,7 @@ public class ReactionMailDelete extends Reaction {
 	
 	@Override
 	public void execute() {
-		userInfo.incomingMail.remove(number-1);
+		userInfo.mailbox.remove(number-1);
 		Logger.print("Message deleted from " + "<" + userInfo.user.getName() + "#" + userInfo.user.getDiscriminator() + "> (" + userInfo.user.getLongID() + ")'s mailbox.", 3);
 	}
 	

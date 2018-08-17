@@ -9,7 +9,9 @@ import caris.framework.library.Variables;
 import caris.framework.reactions.MultiReaction;
 import caris.framework.reactions.Reaction;
 import caris.framework.reactions.ReactionEmbed;
+import caris.framework.reactions.ReactionMailClear;
 import caris.framework.reactions.ReactionMailDelete;
+import caris.framework.reactions.ReactionMailOpen;
 import caris.framework.reactions.ReactionMailSend;
 import caris.framework.reactions.ReactionMessage;
 import caris.framework.tokens.Mail;
@@ -40,6 +42,8 @@ public class MailHandler extends MessageHandler {
 		if( tokens.size() >= 3 ) {
 			if( tokens.get(2).equalsIgnoreCase("check") ) {
 				mailbox.reactions.add(new ReactionEmbed(new MailCheckBuilder(Variables.guildIndex.get(mrEvent.getGuild()).userIndex.get(mrEvent.getAuthor())).getEmbeds(), mrEvent.getChannel(), 1));
+			} else if( tokens.get(2).equalsIgnoreCase("clear") ) {
+				mailbox.reactions.add(new ReactionMailClear(Variables.guildIndex.get(mrEvent.getGuild()).userIndex.get(mrEvent.getAuthor())));
 			} else if( tokens.size() >= 4 ) {
 				if( tokens.get(2).equalsIgnoreCase("send") ) {
 					if( !quotes.isEmpty() ) {
@@ -47,7 +51,7 @@ public class MailHandler extends MessageHandler {
 						for( IUser user : mrEvent.getGuild().getUsers() ) {
 							if( StringUtilities.equalsAnyOfIgnoreCase(tokens.get(3), user.mention(true), user.mention(false)) ) {
 								userFound = true;
-								mailbox.reactions.add(new ReactionMailSend(Variables.guildIndex.get(mrEvent.getGuild()).userIndex.get(mrEvent.getAuthor()), new Mail(user, quotes.get(0))));
+								mailbox.reactions.add(new ReactionMailSend(Variables.guildIndex.get(mrEvent.getGuild()).userIndex.get(user), new Mail(mrEvent.getAuthor(), quotes.get(0))));
 								mailbox.reactions.add(new ReactionMessage("Message sent!", mrEvent.getChannel()));
 							}
 						}
@@ -64,9 +68,10 @@ public class MailHandler extends MessageHandler {
 				} else if( StringUtilities.equalsAnyOfIgnoreCase(tokens.get(2), "open", "delete") ) {
 					try {
 						int number = Integer.parseInt(tokens.get(3));
-						if( number >= 1 && number < Variables.guildIndex.get(mrEvent.getGuild()).userIndex.get(mrEvent.getAuthor()).incomingMail.size()+1 ) {
+						if( number >= 1 && number < Variables.guildIndex.get(mrEvent.getGuild()).userIndex.get(mrEvent.getAuthor()).mailbox.size()+1 ) {
 							if( tokens.get(2).equalsIgnoreCase("open") ) {
-								return new ReactionEmbed(new MailOpenBuilder(Variables.guildIndex.get(mrEvent.getGuild()).userIndex.get(mrEvent.getAuthor()).incomingMail.get(number-1)).getEmbeds(), mrEvent.getChannel(), 1);
+								mailbox.reactions.add(new ReactionMailOpen(Variables.guildIndex.get(mrEvent.getGuild()).userIndex.get(mrEvent.getAuthor()).mailbox.get(number-1)));
+								mailbox.reactions.add(new ReactionEmbed(new MailOpenBuilder(Variables.guildIndex.get(mrEvent.getGuild()).userIndex.get(mrEvent.getAuthor()).mailbox.get(number-1)).getEmbeds(), mrEvent.getChannel(), 1));
 							} else if( tokens.get(2).equalsIgnoreCase("delete") ) {
 								mailbox.reactions.add(new ReactionMailDelete(Variables.guildIndex.get(mrEvent.getGuild()).userIndex.get(mrEvent.getAuthor()), number));
 								mailbox.reactions.add(new ReactionMessage("Message deleted!", mrEvent.getChannel()));

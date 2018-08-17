@@ -22,15 +22,15 @@ public class MailCheckBuilder extends Builder {
 		embeds.add(new EmbedBuilder());
 		embeds.get(0).withAuthorName(user.getName() + "#" + user.getDiscriminator() + "'s Mailbox");
 		embeds.get(0).withDescription("Type `" + Constants.INVOCATION_PREFIX + " mailbox open <#>` to open a message!"
-				+ "\n" + "Type `" + Constants.INVOCATION_PREFIX + " mailbox delete <#>` to delete a message without reading it!"
+				+ "\n" + "Type `" + Constants.INVOCATION_PREFIX + " mailbox delete <#>` to delete a message!"
 				+ "\n" + "Type `" + Constants.INVOCATION_PREFIX + " mailbox send <@user> \"message\"` to send a message!");
-		if( userInfo.incomingMail.isEmpty() ) {
+		if( userInfo.mailbox.isEmpty() ) {
 			embeds.get(0).withTitle(":mailbox_with_no_mail: *Your mailbox is empty!*");
 		} else {
 			embeds.get(0).withTitle(":mailbox_with_mail: *You've got mail!*");
 		}
 		int count = 0;
-		for( Mail mail : userInfo.incomingMail ) {
+		for( Mail mail : userInfo.mailbox.getMail() ) {
 			if( count != 0 && count%25 == 0 ) {
 				embeds.add(new EmbedBuilder());
 				embeds.get(count/25).withAuthorName(user.getName() + "#" + user.getDiscriminator() + "'s Mailbox");

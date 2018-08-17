@@ -35,7 +35,7 @@ public class UserOnlineHandler extends Handler {
 		MultiReaction userOnline = new MultiReaction(-1);
 		for( IGuild guild : Variables.guildIndex.keySet() ) {
 			if( guild.getUsers().contains(presenceUpdateEvent.getUser()) ) {
-				if( !Variables.guildIndex.get(guild).userIndex.get(presenceUpdateEvent.getUser()).incomingMail.isEmpty() ) {
+				if( !Variables.guildIndex.get(guild).userIndex.get(presenceUpdateEvent.getUser()).mailbox.isEmpty() ) {
 					userOnline.reactions.add(new ReactionMessage("Welcome back, " + presenceUpdateEvent.getUser().mention() + "! You have incoming mail!"
 							+ "\nType `" + Constants.INVOCATION_PREFIX + " mailbox check` to read it!", guild.getDefaultChannel()));
 				}
