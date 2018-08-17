@@ -42,7 +42,7 @@ public class MailHandler extends MessageHandler {
 				mailbox.reactions.add(new ReactionEmbed(new MailCheckBuilder(Variables.guildIndex.get(mrEvent.getGuild()).userIndex.get(mrEvent.getAuthor())).getEmbeds(), mrEvent.getChannel(), 1));
 			} else if( tokens.size() >= 4 ) {
 				if( tokens.get(2).equalsIgnoreCase("send") ) {
-					if( !quotes.get(0).isEmpty() ) {
+					if( !quotes.isEmpty() ) {
 						boolean userFound = false;
 						for( IUser user : mrEvent.getGuild().getUsers() ) {
 							if( StringUtilities.equalsAnyOfIgnoreCase(tokens.get(3), user.mention(true), user.mention(false)) ) {
