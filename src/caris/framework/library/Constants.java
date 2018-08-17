@@ -1,7 +1,7 @@
 package caris.framework.library;
 
 public class Constants {
-	public static final String INVOCATION_PREFIX = "==>";
+	public static final String INVOCATION_PREFIX = "===>";
 	public static final String DEFAULT_PLAYING_TEXT = "Type \"cHelp\" for help!";
 	
 	public static final String NAME = "CARIS";
