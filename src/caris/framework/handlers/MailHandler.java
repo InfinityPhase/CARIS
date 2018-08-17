@@ -69,7 +69,6 @@ public class MailHandler extends MessageHandler {
 								return new ReactionEmbed(new MailOpenBuilder(Variables.guildIndex.get(mrEvent.getGuild()).userIndex.get(mrEvent.getAuthor()).incomingMail.get(number-1)).getEmbeds(), mrEvent.getChannel(), 1);
 							} else if( tokens.get(2).equalsIgnoreCase("delete") ) {
 								mailbox.reactions.add(new ReactionMailDelete(Variables.guildIndex.get(mrEvent.getGuild()).userIndex.get(mrEvent.getAuthor()), number));
-								Variables.guildIndex.get(mrEvent.getGuild()).userIndex.get(mrEvent.getAuthor()).incomingMail.remove(number);
 								mailbox.reactions.add(new ReactionMessage("Message deleted!", mrEvent.getChannel()));
 							} else {
 								Logger.debug("Operation failed due to syntax error", 2);
