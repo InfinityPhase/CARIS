@@ -35,7 +35,11 @@ public class MailCheckBuilder extends Builder {
 				embeds.add(new EmbedBuilder());
 				embeds.get(count/25).withAuthorName(user.getName() + "#" + user.getDiscriminator() + "'s Mailbox");
 			}
-			embeds.get(count/25).appendField("**" + (count+1) + ". " + mail.user.getName() + "#" + mail.user.getDiscriminator() + "**", ">> *" + mail.getPreview() + "*", false);
+			if( mail.read ) {
+				embeds.get(count/25).appendField("**" + (count+1) + ". " + mail.user.getName() + "#" + mail.user.getDiscriminator() + "**", ">> *" + mail.getPreview() + "*", false);
+			} else {
+				embeds.get(count/25).appendField((count+1) + ". " + mail.user.getName() + "#" + mail.user.getDiscriminator(), ">> *" + mail.getPreview() + "*", false);
+			}
 			count++;
 		}
 		for( int f=0; f<embeds.size(); f++ ) {
