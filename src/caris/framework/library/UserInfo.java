@@ -1,7 +1,9 @@
 package caris.framework.library;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
+import caris.framework.tokens.Mail;
 import sx.blah.discord.handle.obj.IUser;
 
 public class UserInfo {
@@ -13,7 +15,7 @@ public class UserInfo {
 	
 	public String nicknameLock;
 	
-	public HashMap<IUser, String> incomingMail;
+	public ArrayList<Mail> incomingMail;
 	
 	public HashMap< String, Object > genericInfo;
 	
@@ -25,7 +27,7 @@ public class UserInfo {
 		
 		nicknameLock = "";
 		
-		incomingMail = new HashMap<IUser, String>();
+		incomingMail = new ArrayList<Mail>();
 		
 		genericInfo = new HashMap<String, Object>();
 	}
