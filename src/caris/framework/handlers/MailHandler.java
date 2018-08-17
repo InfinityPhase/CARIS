@@ -66,7 +66,7 @@ public class MailHandler extends MessageHandler {
 						int number = Integer.parseInt(tokens.get(3));
 						if( number >= 1 && number < Variables.guildIndex.get(mrEvent.getGuild()).userIndex.get(mrEvent.getAuthor()).incomingMail.size() ) {
 							if( tokens.get(2).equalsIgnoreCase("open") ) {
-								return new ReactionEmbed(new MailOpenBuilder(Variables.guildIndex.get(mrEvent.getGuild()).userIndex.get(mrEvent.getAuthor()).incomingMail.get(number)).getEmbeds(), mrEvent.getChannel(), 1);
+								return new ReactionEmbed(new MailOpenBuilder(Variables.guildIndex.get(mrEvent.getGuild()).userIndex.get(mrEvent.getAuthor()).incomingMail.get(number-1)).getEmbeds(), mrEvent.getChannel(), 1);
 							} else if( tokens.get(2).equalsIgnoreCase("delete") ) {
 								mailbox.reactions.add(new ReactionMailDelete(Variables.guildIndex.get(mrEvent.getGuild()).userIndex.get(mrEvent.getAuthor()), number));
 								Variables.guildIndex.get(mrEvent.getGuild()).userIndex.get(mrEvent.getAuthor()).incomingMail.remove(number);
