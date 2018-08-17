@@ -103,13 +103,13 @@ public class Logger {
 	}
 	
 	public static void log(String message) {
-		BufferedWriter logWriter;
-		try {
-			logWriter = new BufferedWriter( new OutputStreamWriter( new FileOutputStream( 
-					new File( ( Constants.PREPENDDATE ? sdf.format( Calendar.getInstance().getTime() ) + "_" : "" ) + Constants.LOG_FILE_NAME + Constants.SAVEEXTENTION ) ), Constants.ENCODING));
-			logWriter.write(message);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+//		BufferedWriter logWriter;
+//		try {
+//			logWriter = new BufferedWriter( new OutputStreamWriter( new FileOutputStream( 
+//					new File( ( Constants.PREPENDDATE ? sdf.format( Calendar.getInstance().getTime() ) + "_" : "" ) + Constants.LOG_FILE_NAME + Constants.SAVEEXTENTION ) ), Constants.ENCODING));
+//			logWriter.write(message);
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
 	}
 }
