@@ -33,7 +33,6 @@ public class MessagePurgeHandler extends MessageHandler {
 			int number = numbers.get(0);
 			if( number > 0 ) {
 				MessageHistory history = mrEvent.getChannel().getMessageHistory(number);
-				history.add(mrEvent.getMessage());
 				purgeMessages.reactions.add(new ReactionPurgeMessages(mrEvent.getChannel(), history));
 				purgeMessages.reactions.add(new ReactionMessage("Purged " + number + " messages!", mrEvent.getChannel(), 2));
 			} else {
