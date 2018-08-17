@@ -86,7 +86,7 @@ public class MessageHandler extends Handler {
 		Logger.debug("Message tokens: " + tokens.toString(), 4);
 		boolean check = false;
 		if( tokens.size() >= 1 ) {
-			check = tokens.get(0).equalsIgnoreCase(keyword);
+			check = tokens.get(1).equalsIgnoreCase(keyword);
 		}
 		if( check ) {
 			Logger.debug("Keyword matched", 4);
