@@ -13,7 +13,7 @@ public class Mail {
 	}
 	
 	public String getPreview() {
-		return (message.length() < 16) ? message : message.substring(0, 16);
+		return (message.length() < 16) ? message : message.substring(0, 16) + "...";
 	}
 	
 }
