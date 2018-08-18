@@ -1,12 +1,6 @@
 package caris.framework.utilities;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 
 import caris.framework.library.Constants;
 import sx.blah.discord.handle.obj.IChannel;

@@ -22,6 +22,7 @@ public class GuildInfo {
 	public HashMap<String, Boolean> modules;
 	public String rules;
 	public IChannel logChannel;
+	public IChannel defaultChannel;
 	
 	// Role Settings
 	public ArrayList<Role> autoRoles;

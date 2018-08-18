@@ -4,14 +4,10 @@ import java.util.ArrayList;
 
 import caris.framework.basehandlers.MessageHandler;
 import caris.framework.embedbuilders.MailCheckBuilder;
-import caris.framework.embedbuilders.MailOpenBuilder;
 import caris.framework.library.Variables;
 import caris.framework.reactions.MultiReaction;
 import caris.framework.reactions.Reaction;
 import caris.framework.reactions.ReactionEmbed;
-import caris.framework.reactions.ReactionMailClear;
-import caris.framework.reactions.ReactionMailDelete;
-import caris.framework.reactions.ReactionMailOpen;
 import caris.framework.reactions.ReactionMailSend;
 import caris.framework.reactions.ReactionMessage;
 import caris.framework.tokens.Mail;
@@ -25,7 +21,7 @@ public class MailHandler extends MessageHandler {
 
 	public MailHandler() {
 		super("Mail Handler");
-		keyword = "mailbox";
+		keyword = "mail";
 	}
 	
 	@Override
@@ -42,8 +38,6 @@ public class MailHandler extends MessageHandler {
 		if( tokens.size() >= 3 ) {
 			if( tokens.get(2).equalsIgnoreCase("check") ) {
 				mailbox.reactions.add(new ReactionEmbed(new MailCheckBuilder(Variables.guildIndex.get(mrEvent.getGuild()).userIndex.get(mrEvent.getAuthor())).getEmbeds(), mrEvent.getChannel(), 1));
-			} else if( tokens.get(2).equalsIgnoreCase("clear") ) {
-				mailbox.reactions.add(new ReactionMailClear(Variables.guildIndex.get(mrEvent.getGuild()).userIndex.get(mrEvent.getAuthor())));
 			} else if( tokens.size() >= 4 ) {
 				if( tokens.get(2).equalsIgnoreCase("send") ) {
 					if( !quotes.isEmpty() ) {
@@ -52,7 +46,7 @@ public class MailHandler extends MessageHandler {
 							if( StringUtilities.equalsAnyOfIgnoreCase(tokens.get(3), user.mention(true), user.mention(false)) ) {
 								userFound = true;
 								mailbox.reactions.add(new ReactionMailSend(Variables.guildIndex.get(mrEvent.getGuild()).userIndex.get(user), new Mail(mrEvent.getAuthor(), quotes.get(0))));
-								mailbox.reactions.add(new ReactionMessage("Message sent!", mrEvent.getChannel()));
+								mailbox.reactions.add(new ReactionMessage(":incoming_envelope: Message sent!", mrEvent.getChannel()));
 							}
 						}
 						if( !userFound ) {
@@ -64,31 +58,6 @@ public class MailHandler extends MessageHandler {
 						Logger.debug("Operation failed because no message included", 2);
 						Logger.debug("Reaction produced from " + name, 1, true);
 						mailbox.reactions.add(new ReactionMessage("You need to include a message to send! Did you use quotes?", mrEvent.getChannel()));
-					}
-				} else if( StringUtilities.equalsAnyOfIgnoreCase(tokens.get(2), "open", "delete") ) {
-					try {
-						int number = Integer.parseInt(tokens.get(3));
-						if( number >= 1 && number < Variables.guildIndex.get(mrEvent.getGuild()).userIndex.get(mrEvent.getAuthor()).mailbox.size()+1 ) {
-							if( tokens.get(2).equalsIgnoreCase("open") ) {
-								mailbox.reactions.add(new ReactionMailOpen(Variables.guildIndex.get(mrEvent.getGuild()).userIndex.get(mrEvent.getAuthor()).mailbox.get(number-1)));
-								mailbox.reactions.add(new ReactionEmbed(new MailOpenBuilder(Variables.guildIndex.get(mrEvent.getGuild()).userIndex.get(mrEvent.getAuthor()).mailbox.get(number-1)).getEmbeds(), mrEvent.getChannel(), 1));
-							} else if( tokens.get(2).equalsIgnoreCase("delete") ) {
-								mailbox.reactions.add(new ReactionMailDelete(Variables.guildIndex.get(mrEvent.getGuild()).userIndex.get(mrEvent.getAuthor()), number));
-								mailbox.reactions.add(new ReactionMessage("Message deleted!", mrEvent.getChannel()));
-							} else {
-								Logger.debug("Operation failed due to syntax error", 2);
-								Logger.debug("Reaction produced from " + name, 1, true);
-								mailbox.reactions.add(new ReactionMessage("Syntax Error!", mrEvent.getChannel()));
-							}
-						} else {
-							Logger.debug("Operation failed because invalid number selected", 2);
-							Logger.debug("Reaction produced from " + name, 1, true);
-							mailbox.reactions.add(new ReactionMessage("That's not a valid number!", mrEvent.getChannel()));
-						}
-					} catch(NumberFormatException e) {
-						Logger.debug("Operation failed because no number selected", 2);
-						Logger.debug("Reaction produced from " + name, 1, true);
-						mailbox.reactions.add(new ReactionMessage("You need to select a number!", mrEvent.getChannel()));
 					}
 				} else {
 					Logger.debug("Operation failed due to syntax error", 2);
