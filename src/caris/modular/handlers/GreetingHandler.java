@@ -4,7 +4,6 @@ import caris.framework.basehandlers.MessageHandler;
 import caris.framework.library.Constants;
 import caris.framework.reactions.MultiReaction;
 import caris.framework.reactions.Reaction;
-import caris.framework.reactions.ReactionJoinCall;
 import caris.framework.reactions.ReactionMessage;
 import caris.framework.utilities.Logger;
 import sx.blah.discord.api.events.Event;
@@ -49,8 +48,12 @@ public class GreetingHandler extends MessageHandler {
 	};
 	
 	private String[] correctionOutput = new String[] {
-			"Actually, it's pronounced *Care*-is.",
-			"The capital of France is pronounced *Pare*-is, not *Par*-is!",
+			"/tts * Caris.",
+			"/tts * Caris.",
+			"/tts * Caris.",
+			"/tts * Caris.",
+			"/tts * Caris.",
+			"The capital of France is pronounced *Pair* Is, not *Par* Is!",
 			"Mikki, we've been over this.",
 			"Mikki please.",
 			"Do you want me to start pronouncing your name *Made*-ison??",
@@ -71,12 +74,7 @@ public class GreetingHandler extends MessageHandler {
 		Logger.debug("Greeting detected", 2);
 		MultiReaction returnGreeting = new MultiReaction(0);
 		if( mrEvent.getAuthor().getLongID() == Constants.MIKKI_ID ) {
-			if( mrEvent.getAuthor().getVoiceStateForGuild(mrEvent.getGuild()).getChannel() != null ) {
-				returnGreeting.reactions.add(new ReactionJoinCall(mrEvent.getAuthor().getVoiceStateForGuild(mrEvent.getGuild()).getChannel()));
-				returnGreeting.reactions.add(new ReactionMessage("/tts It's pronounced Caris!", mrEvent.getChannel()));
-			} else {
-				returnGreeting.reactions.add(new ReactionMessage(getRandomCorrection(), mrEvent.getChannel(), 0));
-			}
+			returnGreeting.reactions.add(new ReactionMessage(getRandomCorrection(), mrEvent.getChannel(), 0));
 		} else {
 			returnGreeting.reactions.add(new ReactionMessage(getRandomGreeting() + ", " + mrEvent.getAuthor().getDisplayName(mrEvent.getGuild()) + "!", mrEvent.getChannel(), 0));
 		}
