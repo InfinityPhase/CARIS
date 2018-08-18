@@ -48,11 +48,7 @@ public class GreetingHandler extends MessageHandler {
 	};
 	
 	private String[] correctionOutput = new String[] {
-			"/tts * Caris.",
-			"/tts * Caris.",
-			"/tts * Caris.",
-			"/tts * Caris.",
-			"/tts * Caris.",
+			"Actually, it's pronounced *Care*-is.",
 			"The capital of France is pronounced *Pair* Is, not *Par* Is!",
 			"Mikki, we've been over this.",
 			"Mikki please.",
