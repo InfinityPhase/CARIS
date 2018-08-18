@@ -1,10 +1,10 @@
 package caris.framework.library;
 
 public class Constants {
-	public static final String INVOCATION_PREFIX = "===>";
+	public static final String INVOCATION_PREFIX = "==>";
 	public static final String DEFAULT_PLAYING_TEXT = "Type \"cHelp\" for help!";
 	
-	public static final String NAME = "PROTO";
+	public static final String NAME = "CARIS";
 	public static final boolean OFFLINE = false;
 	public static final boolean RESPOND_TO_BOT = false; // If the user is a bot, ignore.
 

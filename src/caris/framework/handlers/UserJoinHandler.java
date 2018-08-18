@@ -1,4 +1,4 @@
-package caris.modular.handlers;
+package caris.framework.handlers;
 
 import caris.framework.basehandlers.Handler;
 import caris.framework.library.Variables;
@@ -6,6 +6,7 @@ import caris.framework.reactions.MultiReaction;
 import caris.framework.reactions.Reaction;
 import caris.framework.reactions.ReactionMessage;
 import caris.framework.reactions.ReactionRoleAssign;
+import caris.framework.reactions.ReactionUserJoin;
 import caris.framework.utilities.Logger;
 import sx.blah.discord.api.events.Event;
 import sx.blah.discord.handle.impl.events.guild.member.UserJoinEvent;
@@ -27,6 +28,7 @@ public class UserJoinHandler extends Handler {
 		UserJoinEvent userJoinEvent = (UserJoinEvent) event;
 		Logger.print("New user " + userJoinEvent.getUser().getLongID() + " joined (" + userJoinEvent.getGuild().getLongID() + ") <" + userJoinEvent.getGuild().getName() + ">", 0);
 		MultiReaction welcome = new MultiReaction(-1);
+		welcome.reactions.add(new ReactionUserJoin(userJoinEvent.getGuild(), userJoinEvent.getUser()));
 		String addedRoles = "";
 		for( Role role : Variables.guildIndex.get(userJoinEvent.getGuild()).autoRoles ) {
 			welcome.reactions.add(new ReactionRoleAssign(userJoinEvent.getUser(), role));
