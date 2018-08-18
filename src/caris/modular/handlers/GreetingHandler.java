@@ -96,7 +96,7 @@ public class GreetingHandler extends MessageHandler {
 	}
 	
 	private String getRandomCorrection() {
-		return (correctionOutput.length > 0) ? greetingsOutput[(int) (Math.random()*greetingsOutput.length)] : "Actually, it's pronounced *Care*-is.";
+		return (correctionOutput.length > 0) ? correctionOutput[(int) (Math.random()*correctionOutput.length)] : "Actually, it's pronounced *Care*-is.";
 	}
 	
 }
