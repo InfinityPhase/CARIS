@@ -21,7 +21,7 @@ public class MessagePurgeHandler extends MessageHandler {
 	
 	@Override
 	protected boolean isTriggered(Event event) {
-		return isMentioned() && isAdmin() && StringUtilities.containsAllOfIgnoreCase(message, "purge", "message");
+		return isMentioned() && isAdmin() && StringUtilities.containsAnyOfIgnoreCase(message, "purge", "clear");
 	}
 	
 	@Override
@@ -39,6 +39,10 @@ public class MessagePurgeHandler extends MessageHandler {
 				Logger.debug("Purge failed because incorrect number specified", 2);
 				purgeMessages.reactions.add(new ReactionMessage("You need to specify a positive number!", mrEvent.getChannel()));
 			}
+		} else if( StringUtilities.containsIgnoreCase(message, "last") ) {
+			MessageHistory history = mrEvent.getChannel().getMessageHistory(2);
+			purgeMessages.reactions.add(new ReactionPurgeMessages(mrEvent.getChannel(), history));
+			purgeMessages.reactions.add(new ReactionMessage("Purged the last message!", mrEvent.getChannel(), 2));
 		} else {
 			Logger.debug("Purge failed because no number specified", 2);
 			purgeMessages.reactions.add(new ReactionMessage("You need to specify the number of messages to delete!", mrEvent.getChannel(), 2));
