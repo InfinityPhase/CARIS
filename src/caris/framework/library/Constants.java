@@ -12,6 +12,8 @@ public class Constants {
 			Long.parseLong("246562987651891200"),
 			Long.parseLong("365715538166415362"),
 	};
+	
+	public static final Long MIKKI_ID = Long.parseLong("263908795808350208");
 
 	public static final int MAX_MESSAGE_HISTORY = 10000;
 	
