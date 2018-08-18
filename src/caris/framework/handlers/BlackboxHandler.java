@@ -27,7 +27,7 @@ public class BlackboxHandler extends MessageHandler {
 	protected Reaction process(Event event) {
 		Logger.print("Blackbox detected!", 2);
 		MultiReaction modifyBlackbox = new MultiReaction(2);
-		if( StringUtilities.containsAnyOfIgnoreCase(message, "open", "create", "activate", "enable", "start", "commence", "establish", "set up", "turn on", "switch on") ) {
+		if( StringUtilities.containsAnyOfIgnoreCase(message, "open", "create", "activate", "enable", "start", "commence", "establish", "set up", "turn on", "switch on", "initiate", " up") ) {
 			if( Variables.guildIndex.get(mrEvent.getGuild()).channelIndex.get(mrEvent.getChannel()).blackboxActive ) {
 				Logger.print("Failed to open blackbox because blackbox was already open.");
 				modifyBlackbox.reactions.add(new ReactionMessage("A blackbox is already open!", mrEvent.getChannel()));
@@ -35,7 +35,7 @@ public class BlackboxHandler extends MessageHandler {
 				modifyBlackbox.reactions.add(new ReactionBlackboxOpen(mrEvent.getChannel(), mrEvent.getMessageID()));
 				modifyBlackbox.reactions.add(new ReactionMessage("Blackbox opened!", mrEvent.getChannel()));
 			}
-		} else if( StringUtilities.containsAnyOfIgnoreCase(message, "close", "finish", "complete", "end", "conclude", "stop", "terminate", "wrap up") ) {
+		} else if( StringUtilities.containsAnyOfIgnoreCase(message, "close", "finish", "complete", "end", "conclude", "stop", "terminate", "wrap up", "down") ) {
 			if( !Variables.guildIndex.get(mrEvent.getGuild()).channelIndex.get(mrEvent.getChannel()).blackboxActive ) {
 				Logger.print("Failed to close blackbox because no blackbox was open.");
 				modifyBlackbox.reactions.add(new ReactionMessage("No blackbox is currently open!", mrEvent.getChannel()));
