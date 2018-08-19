@@ -1,4 +1,4 @@
-package caris.framework.reactions;
+package caris.framework.basereactions;
 
 import java.util.ArrayList;
 
@@ -25,9 +25,9 @@ public class MultiReaction extends Reaction {
 	}
 	
 	@Override
-	public void execute() {
+	public void run() {
 		for( Reaction reaction : reactions ) {
-			reaction.execute();
+			reaction.run();
 		}
 	}
 	

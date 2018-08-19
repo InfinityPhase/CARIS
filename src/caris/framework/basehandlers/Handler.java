@@ -2,8 +2,8 @@ package caris.framework.basehandlers;
 
 import sx.blah.discord.api.events.Event;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
+import caris.framework.basereactions.Reaction;
 import caris.framework.library.Constants;
-import caris.framework.reactions.Reaction;
 import caris.framework.utilities.Logger;
 
 public class Handler {

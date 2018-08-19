@@ -3,8 +3,8 @@ package caris.framework.basehandlers;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import caris.framework.basereactions.Reaction;
 import caris.framework.library.Constants;
-import caris.framework.reactions.Reaction;
 import caris.framework.utilities.Logger;
 import caris.framework.utilities.StringUtilities;
 import caris.framework.utilities.TokenUtilities;

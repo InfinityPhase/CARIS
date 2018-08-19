@@ -1,5 +1,6 @@
 package caris.framework.reactions;
 
+import caris.framework.basereactions.Reaction;
 import caris.framework.library.UserInfo;
 import caris.framework.utilities.Logger;
 
@@ -19,7 +20,7 @@ public class ReactionMailDelete extends Reaction {
 	}
 	
 	@Override
-	public void execute() {
+	public void run() {
 		userInfo.mailbox.remove(number-1);
 		Logger.print("Message deleted from " + "<" + userInfo.user.getName() + "#" + userInfo.user.getDiscriminator() + "> (" + userInfo.user.getLongID() + ")'s mailbox.", 3);
 	}

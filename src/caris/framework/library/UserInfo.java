@@ -9,7 +9,6 @@ import sx.blah.discord.handle.obj.IUser;
 public class UserInfo {
 	
 	public IUser user;
-	public int karma;
 	public String location;
 	public String lastMessage;
 	
@@ -21,9 +20,8 @@ public class UserInfo {
 	
 	public UserInfo( IUser user ) {
 		this.user = user;
-		karma = 0;
 		location = "";
-		this.lastMessage = "";
+		lastMessage = "";
 		
 		nicknameLock = "";
 		

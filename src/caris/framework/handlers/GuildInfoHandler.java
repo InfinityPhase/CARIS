@@ -3,11 +3,11 @@ package caris.framework.handlers;
 import java.util.ArrayList;
 
 import caris.framework.basehandlers.MessageHandler;
+import caris.framework.basereactions.Reaction;
 import caris.framework.embedbuilders.ChannelInfoBuilder;
 import caris.framework.embedbuilders.GuildInfoBuilder;
 import caris.framework.embedbuilders.UserInfoBuilder;
 import caris.framework.main.Brain;
-import caris.framework.reactions.Reaction;
 import caris.framework.reactions.ReactionEmbed;
 import caris.framework.utilities.Logger;
 import caris.framework.utilities.StringUtilities;

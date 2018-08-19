@@ -4,13 +4,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import sx.blah.discord.handle.obj.IChannel;
+import caris.framework.utilities.DataSaver;
 import sx.blah.discord.handle.obj.IGuild;
 import sx.blah.discord.handle.obj.IUser;
-
-import caris.framework.main.Brain;
-import caris.framework.library.GuildInfo;
-import caris.framework.utilities.DataSaver;
 
 public class Variables {
 	// Dynamic global variables
@@ -24,19 +20,7 @@ public class Variables {
 	public static List<String> commandExacts = new ArrayList<String>();
 	public static List<String> toolPrefixes = new ArrayList<String>();
 	
-	public static IChannel getChannel( String channel ) {
-		return getChannel( new Long( channel ) );
-	}
+	/* Global UserData */
+	public static HashMap<IUser, GlobalUserInfo> globalUserInfo = new HashMap<IUser, GlobalUserInfo>();
 	
-	public static IChannel getChannel( long channel ) {
-		return Brain.cli.getChannelByID( channel );
-	}
-	
-	public static IUser getUser( long user ) {
-		return Brain.cli.getUserByID( user );
-	}
-	
-	public static IUser getUser( String user ) {
-		return Brain.cli.getUserByID( new Long( user) );
-	}
 }

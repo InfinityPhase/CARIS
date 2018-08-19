@@ -2,6 +2,7 @@ package caris.framework.reactions;
 
 import java.util.ArrayList;
 
+import caris.framework.basereactions.Reaction;
 import caris.framework.utilities.BotUtils;
 import caris.framework.utilities.Logger;
 import sx.blah.discord.handle.obj.IChannel;
@@ -34,7 +35,7 @@ public class ReactionEmbed extends Reaction {
 	}
 	
 	@Override
-	public void execute() {
+	public void run() {
 		Logger.say(embeds.toString(), channel);
 		for( EmbedBuilder embed : embeds ) {
 			BotUtils.sendMessage(channel, embed);

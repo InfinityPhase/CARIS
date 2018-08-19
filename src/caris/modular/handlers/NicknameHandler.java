@@ -3,8 +3,8 @@ package caris.modular.handlers;
 import java.util.ArrayList;
 
 import caris.framework.basehandlers.Handler;
-import caris.framework.reactions.MultiReaction;
-import caris.framework.reactions.Reaction;
+import caris.framework.basereactions.MultiReaction;
+import caris.framework.basereactions.Reaction;
 import caris.framework.reactions.ReactionMessage;
 import caris.framework.reactions.ReactionNicknameSet;
 import caris.framework.utilities.Logger;

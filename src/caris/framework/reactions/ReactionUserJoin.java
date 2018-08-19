@@ -1,5 +1,6 @@
 package caris.framework.reactions;
 
+import caris.framework.basereactions.Reaction;
 import caris.framework.library.Variables;
 import caris.framework.utilities.Logger;
 import sx.blah.discord.handle.obj.IGuild;
@@ -21,7 +22,7 @@ public class ReactionUserJoin extends Reaction {
 	}
 	
 	@Override
-	public void execute() {
+	public void run() {
 		Variables.guildIndex.get(guild).addUser(user);
 		Logger.print("User <" + user.getName() + "#" + user.getDiscriminator() + "> (" + user.getLongID() + ") joined Guild <" + guild.getName() + "> (" + guild.getLongID() + ")", 0);
 	}

@@ -1,5 +1,6 @@
 package caris.framework.reactions;
 
+import caris.framework.basereactions.Reaction;
 import caris.framework.library.UserInfo;
 import caris.framework.utilities.Logger;
 
@@ -17,7 +18,7 @@ public class ReactionMailClear extends Reaction {
 	}
 	
 	@Override
-	public void execute() {
+	public void run() {
 		Logger.print(userInfo.user.getName() + "#" + userInfo.user.getDiscriminator() + "'s mailbox cleared!", 3);
 		userInfo.mailbox.clear();
 	}

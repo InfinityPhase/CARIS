@@ -1,8 +1,8 @@
 package caris.framework.handlers;
 
 import caris.framework.basehandlers.Handler;
+import caris.framework.basereactions.Reaction;
 import caris.framework.library.Variables;
-import caris.framework.reactions.Reaction;
 import caris.framework.reactions.ReactionNicknameSet;
 import caris.framework.utilities.Logger;
 import sx.blah.discord.api.events.Event;

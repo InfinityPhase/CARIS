@@ -1,5 +1,6 @@
 package caris.framework.reactions;
 
+import caris.framework.basereactions.Reaction;
 import caris.framework.library.Variables;
 import caris.framework.utilities.Logger;
 import sx.blah.discord.handle.obj.IGuild;
@@ -23,7 +24,7 @@ public class ReactionNicknameLock extends Reaction {
 	}
 	
 	@Override
-	public void execute() {
+	public void run() {
 		Variables.guildIndex.get(guild).userIndex.get(user).nicknameLock = nick;
 		if( nick.isEmpty() ) {
 			Logger.print(user.getName() + "'s nickname has been unlocked.", 2);

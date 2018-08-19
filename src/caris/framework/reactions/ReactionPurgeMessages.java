@@ -1,5 +1,6 @@
 package caris.framework.reactions;
 
+import caris.framework.basereactions.Reaction;
 import caris.framework.utilities.Logger;
 import sx.blah.discord.handle.obj.IChannel;
 import sx.blah.discord.util.MessageHistory;
@@ -20,7 +21,7 @@ public class ReactionPurgeMessages extends Reaction {
 	}
 	
 	@Override
-	public void execute() {
+	public void run() {
 		int count = history.bulkDelete().size();
 		Logger.print("Deleted " + count + " messages from (" + channel.getLongID() + ") <" + channel.getName() + ">", 2);
 	}

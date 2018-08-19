@@ -1,5 +1,6 @@
 package caris.framework.reactions;
 
+import caris.framework.basereactions.Reaction;
 import caris.framework.utilities.BotUtils;
 import caris.framework.utilities.Logger;
 import sx.blah.discord.handle.obj.IChannel;
@@ -20,7 +21,7 @@ public class ReactionMessage extends Reaction {
 	}
 	
 	@Override
-	public void execute() {
+	public void run() {
 		Logger.say(message, channel);
 		BotUtils.sendMessage(channel, message);
 	}

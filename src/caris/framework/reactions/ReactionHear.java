@@ -1,5 +1,6 @@
 package caris.framework.reactions;
 
+import caris.framework.basereactions.Reaction;
 import caris.framework.library.Variables;
 import caris.framework.utilities.Logger;
 import sx.blah.discord.handle.obj.IChannel;
@@ -24,7 +25,7 @@ public class ReactionHear extends Reaction {
 	}
 	
 	@Override
-	public void execute() {
+	public void run() {
 		Variables.guildIndex.get(channel.getGuild()).userIndex.get(user).lastMessage = message;
 		Logger.hear(message, user, channel);
 	}

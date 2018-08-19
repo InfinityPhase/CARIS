@@ -1,5 +1,6 @@
 package caris.framework.reactions;
 
+import caris.framework.basereactions.Reaction;
 import caris.framework.library.Variables;
 import caris.framework.utilities.Logger;
 import sx.blah.discord.handle.impl.obj.Role;
@@ -22,7 +23,7 @@ public class ReactionAutoRoleAdd extends Reaction {
 	}
 	
 	@Override
-	public void execute() {
+	public void run() {
 		Variables.guildIndex.get(guild).autoRoles.add((Role) role);
 		Logger.print("Added role " + role + " to AutoRole list in Guild " + guild.getName(), 2 );
 	}

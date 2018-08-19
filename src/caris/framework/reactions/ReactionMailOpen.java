@@ -1,5 +1,6 @@
 package caris.framework.reactions;
 
+import caris.framework.basereactions.Reaction;
 import caris.framework.tokens.Mail;
 import caris.framework.utilities.Logger;
 
@@ -17,7 +18,7 @@ public class ReactionMailOpen extends Reaction{
 	}
 	
 	@Override
-	public void execute() {
+	public void run() {
 		Logger.print("Mail marked as read", 3);
 		mail.read();
 	}

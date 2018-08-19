@@ -1,9 +1,9 @@
 package caris.framework.handlers;
 
 import caris.framework.basehandlers.MessageHandler;
+import caris.framework.basereactions.MultiReaction;
+import caris.framework.basereactions.Reaction;
 import caris.framework.library.Variables;
-import caris.framework.reactions.MultiReaction;
-import caris.framework.reactions.Reaction;
 import caris.framework.reactions.ReactionBlackboxCancel;
 import caris.framework.reactions.ReactionBlackboxClose;
 import caris.framework.reactions.ReactionBlackboxOpen;

@@ -1,9 +1,9 @@
 package caris.modular.handlers;
 
 import caris.framework.basehandlers.MessageHandler;
+import caris.framework.basereactions.MultiReaction;
+import caris.framework.basereactions.Reaction;
 import caris.framework.library.Constants;
-import caris.framework.reactions.MultiReaction;
-import caris.framework.reactions.Reaction;
 import caris.framework.reactions.ReactionMessage;
 import caris.framework.utilities.Logger;
 import sx.blah.discord.api.events.Event;

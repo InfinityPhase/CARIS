@@ -1,5 +1,6 @@
 package caris.framework.reactions;
 
+import caris.framework.basereactions.Reaction;
 import caris.framework.utilities.Logger;
 import sx.blah.discord.handle.obj.IVoiceChannel;
 
@@ -17,7 +18,7 @@ public class ReactionJoinCall extends Reaction {
 	}
 	
 	@Override
-	public void execute() {
+	public void run() {
 		channel.join();
 		Logger.print("Joined voice channel <" + channel.getName() + "> (" + channel.getLongID() + ").", 3);
 	}

@@ -1,5 +1,6 @@
 package caris.framework.reactions;
 
+import caris.framework.basereactions.Reaction;
 import caris.framework.library.Variables;
 import caris.framework.utilities.Logger;
 import sx.blah.discord.handle.obj.IChannel;
@@ -18,7 +19,7 @@ public class ReactionBlackboxClose extends Reaction {
 	}
 	
 	@Override
-	public void execute() {
+	public void run() {
 		Long messageID = Variables.guildIndex.get(channel.getGuild()).channelIndex.get(channel).closeBlackbox();
 		channel.getMessageHistoryTo(messageID).bulkDelete();
 		channel.getMessageHistory(1).bulkDelete();

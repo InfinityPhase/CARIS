@@ -67,6 +67,9 @@ public class GuildInfo {
 	
 	public void addUser( IUser u ) {
 		userIndex.put( u, new UserInfo(u) );
+		if( !Variables.globalUserInfo.containsKey(u) ) {
+			Variables.globalUserInfo.put(u, new GlobalUserInfo(u));
+		}
 	}
 	
 	public void addChannel( IChannel c ) {

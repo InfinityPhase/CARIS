@@ -6,8 +6,8 @@ import java.util.Arrays;
 import sx.blah.discord.api.events.Event;
 import sx.blah.discord.api.events.EventSubscriber;
 import caris.framework.basehandlers.Handler;
+import caris.framework.basereactions.Reaction;
 import caris.framework.main.Brain;
-import caris.framework.reactions.Reaction;
 
 public class EventManager extends SuperEvent {
 
@@ -32,10 +32,10 @@ public class EventManager extends SuperEvent {
 				options[f] = reactions.get(f);
 			}
 			Arrays.sort(options);
-			options[0].execute();
+			options[0].run();
 		}
 		for( Reaction r : passiveQueue ) {
-			r.execute();
+			r.run();
 		}
 	}
 }

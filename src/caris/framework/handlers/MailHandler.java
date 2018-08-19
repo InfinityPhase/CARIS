@@ -3,10 +3,10 @@ package caris.framework.handlers;
 import java.util.ArrayList;
 
 import caris.framework.basehandlers.MessageHandler;
+import caris.framework.basereactions.MultiReaction;
+import caris.framework.basereactions.Reaction;
 import caris.framework.embedbuilders.MailCheckBuilder;
 import caris.framework.library.Variables;
-import caris.framework.reactions.MultiReaction;
-import caris.framework.reactions.Reaction;
 import caris.framework.reactions.ReactionEmbed;
 import caris.framework.reactions.ReactionMailSend;
 import caris.framework.reactions.ReactionMessage;

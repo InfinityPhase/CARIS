@@ -1,6 +1,6 @@
-package caris.framework.reactions;
+package caris.framework.basereactions;
 
-public class Reaction implements Comparable<Reaction> {
+public class Reaction implements Runnable, Comparable<Reaction> {
 	
 	public int priority;
 	
@@ -12,7 +12,8 @@ public class Reaction implements Comparable<Reaction> {
 		this.priority = priority;
 	}
 	
-	public void execute() {}
+	@Override
+	public void run() {}
 	
 	@Override
 	public int compareTo(Reaction r) {

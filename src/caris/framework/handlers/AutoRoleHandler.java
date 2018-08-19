@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import caris.framework.basehandlers.MessageHandler;
+import caris.framework.basereactions.MultiReaction;
+import caris.framework.basereactions.Reaction;
 import caris.framework.library.Variables;
-import caris.framework.reactions.MultiReaction;
-import caris.framework.reactions.Reaction;
 import caris.framework.reactions.ReactionAutoRoleAdd;
 import caris.framework.reactions.ReactionAutoRoleRemove;
 import caris.framework.reactions.ReactionMessage;
