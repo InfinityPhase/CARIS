@@ -82,7 +82,6 @@ public class DataSaver {
 			JSONObject userData = new JSONObject();
 			JSONObject contactInfo = new JSONObject();
 			// TODO: Find way to iterate over the variables automagically.
-			userData.put("karma", d.karma);
 			userData.put("location", d.location);
 			userData.put("contactInfo", contactInfo);
 			userData.put("location", d.location);
