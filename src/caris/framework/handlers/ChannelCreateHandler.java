@@ -2,7 +2,7 @@ package caris.framework.handlers;
 
 import caris.framework.basehandlers.Handler;
 import caris.framework.basereactions.Reaction;
-import caris.framework.reactions.ReactionChannelCreate;
+import caris.framework.reactions.ReactionChannelTrack;
 import caris.framework.utilities.Logger;
 import sx.blah.discord.api.events.Event;
 import sx.blah.discord.handle.impl.events.guild.channel.ChannelCreateEvent;
@@ -23,7 +23,7 @@ public class ChannelCreateHandler extends Handler {
 		Logger.debug("Channel creation detected", 2);
 		ChannelCreateEvent channelCreateEvent = (ChannelCreateEvent) event;
 		Logger.debug("Reaction produced from " + name, 1, true);
-		return new ReactionChannelCreate(channelCreateEvent.getGuild(), channelCreateEvent.getChannel(), -1);
+		return new ReactionChannelTrack(channelCreateEvent.getGuild(), channelCreateEvent.getChannel(), -1);
 	}
 	
 }

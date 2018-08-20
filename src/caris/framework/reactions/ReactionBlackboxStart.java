@@ -5,16 +5,16 @@ import caris.framework.library.Variables;
 import caris.framework.utilities.Logger;
 import sx.blah.discord.handle.obj.IChannel;
 
-public class ReactionBlackboxOpen extends Reaction {
+public class ReactionBlackboxStart extends Reaction {
 
 	public IChannel channel;
 	public Long messageID;
 	
-	public ReactionBlackboxOpen(IChannel channel, Long messageID) {
+	public ReactionBlackboxStart(IChannel channel, Long messageID) {
 		this(channel, messageID, 2);
 	}
 	
-	public ReactionBlackboxOpen(IChannel channel, Long messageID, int priority) {
+	public ReactionBlackboxStart(IChannel channel, Long messageID, int priority) {
 		super(priority);
 		this.channel = channel;
 		this.messageID = messageID;

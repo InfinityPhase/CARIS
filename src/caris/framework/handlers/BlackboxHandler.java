@@ -4,9 +4,8 @@ import caris.framework.basehandlers.MessageHandler;
 import caris.framework.basereactions.MultiReaction;
 import caris.framework.basereactions.Reaction;
 import caris.framework.library.Variables;
-import caris.framework.reactions.ReactionBlackboxCancel;
-import caris.framework.reactions.ReactionBlackboxClose;
-import caris.framework.reactions.ReactionBlackboxOpen;
+import caris.framework.reactions.ReactionBlackboxEnd;
+import caris.framework.reactions.ReactionBlackboxStart;
 import caris.framework.reactions.ReactionMessage;
 import caris.framework.utilities.Logger;
 import caris.framework.utilities.StringUtilities;
@@ -32,7 +31,7 @@ public class BlackboxHandler extends MessageHandler {
 				Logger.print("Failed to open blackbox because blackbox was already open.");
 				modifyBlackbox.reactions.add(new ReactionMessage("A blackbox is already open!", mrEvent.getChannel()));
 			} else {
-				modifyBlackbox.reactions.add(new ReactionBlackboxOpen(mrEvent.getChannel(), mrEvent.getMessageID()));
+				modifyBlackbox.reactions.add(new ReactionBlackboxStart(mrEvent.getChannel(), mrEvent.getMessageID()));
 				modifyBlackbox.reactions.add(new ReactionMessage("Blackbox opened!", mrEvent.getChannel()));
 			}
 		} else if( StringUtilities.containsAnyOfIgnoreCase(message, "close", "finish", "complete", "end", "conclude", "stop", "terminate", "wrap up", "down") ) {
@@ -40,7 +39,7 @@ public class BlackboxHandler extends MessageHandler {
 				Logger.print("Failed to close blackbox because no blackbox was open.");
 				modifyBlackbox.reactions.add(new ReactionMessage("No blackbox is currently open!", mrEvent.getChannel()));
 			} else {
-				modifyBlackbox.reactions.add(new ReactionBlackboxClose(mrEvent.getChannel()));
+				modifyBlackbox.reactions.add(new ReactionBlackboxEnd(mrEvent.getChannel(), ReactionBlackboxEnd.Operation.CLOSE));
 				modifyBlackbox.reactions.add(new ReactionMessage("Blackbox closed!", mrEvent.getChannel()));
 			}
 		} else if( StringUtilities.containsAnyOfIgnoreCase(message, "cancel", "abort", "disable", "deactivate", "remove", "delete", "destroy", "trash", "do away with", "turn off", "switch off", "disestablish", "call off", "kill", "dismiss") ) {
@@ -48,7 +47,7 @@ public class BlackboxHandler extends MessageHandler {
 				Logger.print("Failed to close blackbox because no blackbox was open.");
 				modifyBlackbox.reactions.add(new ReactionMessage("No blackbox is currently open!", mrEvent.getChannel()));
 			} else {
-				modifyBlackbox.reactions.add(new ReactionBlackboxCancel(mrEvent.getChannel()));
+				modifyBlackbox.reactions.add(new ReactionBlackboxEnd(mrEvent.getChannel(), ReactionBlackboxEnd.Operation.CANCEL));
 				modifyBlackbox.reactions.add(new ReactionMessage("Blackbox cancelled!", mrEvent.getChannel()));
 			}
 		}

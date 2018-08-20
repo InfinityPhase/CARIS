@@ -7,8 +7,7 @@ import caris.framework.basehandlers.MessageHandler;
 import caris.framework.basereactions.MultiReaction;
 import caris.framework.basereactions.Reaction;
 import caris.framework.library.Variables;
-import caris.framework.reactions.ReactionAutoRoleAdd;
-import caris.framework.reactions.ReactionAutoRoleRemove;
+import caris.framework.reactions.ReactionAutoRole;
 import caris.framework.reactions.ReactionMessage;
 import caris.framework.utilities.Logger;
 import caris.framework.utilities.TokenUtilities;
@@ -56,7 +55,7 @@ public class AutoRoleHandler extends MessageHandler {
 						String token = tokens.get(f);
 						List<IRole> roles = mrEvent.getGuild().getRolesByName(token);
 						for( IRole role : roles ) {
-							modifyAutoRoles.reactions.add(new ReactionAutoRoleAdd(mrEvent.getGuild(), role));
+							modifyAutoRoles.reactions.add(new ReactionAutoRole(mrEvent.getGuild(), role, ReactionAutoRole.Operation.ADD));
 							modified = true;
 						}
 					}
@@ -76,7 +75,7 @@ public class AutoRoleHandler extends MessageHandler {
 						if( !roles.isEmpty() ) {
 							for( IRole role : roles ) {
 								if( Variables.guildIndex.get(mrEvent.getGuild()).autoRoles.contains(role) ) {
-									modifyAutoRoles.reactions.add(new ReactionAutoRoleRemove(mrEvent.getGuild(), role));
+									modifyAutoRoles.reactions.add(new ReactionAutoRole(mrEvent.getGuild(), role, ReactionAutoRole.Operation.REMOVE));
 									modified = true;
 								}
 							}

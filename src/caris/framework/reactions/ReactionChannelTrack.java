@@ -6,16 +6,16 @@ import caris.framework.utilities.Logger;
 import sx.blah.discord.handle.obj.IChannel;
 import sx.blah.discord.handle.obj.IGuild;
 
-public class ReactionChannelCreate extends Reaction {
+public class ReactionChannelTrack extends Reaction {
 		
 	public IGuild guild;
 	public IChannel channel;
 	
-	public ReactionChannelCreate(IGuild guild, IChannel channel) {
+	public ReactionChannelTrack(IGuild guild, IChannel channel) {
 		this(guild, channel, -1);
 	}
 	
-	public ReactionChannelCreate(IGuild guild, IChannel channel, int priority) {
+	public ReactionChannelTrack(IGuild guild, IChannel channel, int priority) {
 		super(priority);
 		this.guild = guild;
 		this.channel = channel;
