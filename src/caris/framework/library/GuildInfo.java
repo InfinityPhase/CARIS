@@ -14,6 +14,11 @@ import sx.blah.discord.handle.obj.IUser;
 
 public class GuildInfo {
 	
+	public enum SpecialChannel {
+		DEFAULT,
+		LOG
+	}
+	
 	/* Basic Information */
 	public String name;
 	public IGuild guild;
@@ -21,15 +26,14 @@ public class GuildInfo {
 	/* Guild Settings */
 	public HashMap<String, Boolean> modules;
 	public String rules;
-	public IChannel logChannel;
-	public IChannel defaultChannel;
-	
+		
 	// Role Settings
 	public ArrayList<Role> autoRoles;
 	
 	/* Indices */
 	public HashMap<IUser, UserInfo> userIndex;
 	public HashMap<IChannel, ChannelInfo> channelIndex;
+	public HashMap<SpecialChannel, IChannel> specialChannels;
 	
 	/* Token Storage */
 	public HashMap<String, ArrayList<String>> locations;
@@ -42,7 +46,6 @@ public class GuildInfo {
 		
 		modules = new HashMap<String, Boolean>();
 		rules = "";
-		logChannel = null;
 
 		locations = new HashMap<String, ArrayList<String>>();
 		polls = new HashMap<String, Poll>();
@@ -50,8 +53,9 @@ public class GuildInfo {
 		
 		autoRoles = new ArrayList<Role>();
 				
-		this.userIndex = new HashMap<IUser, UserInfo>();
-		this.channelIndex = new HashMap<IChannel, ChannelInfo>();
+		userIndex = new HashMap<IUser, UserInfo>();
+		channelIndex = new HashMap<IChannel, ChannelInfo>();
+		specialChannels = new HashMap<SpecialChannel, IChannel>();
 		
 		init();
 	}
@@ -83,5 +87,13 @@ public class GuildInfo {
 			}
 		}
 		return true;
+	}
+	
+	public IChannel getDefaultChannel() {
+		if( specialChannels.containsKey(SpecialChannel.DEFAULT) ) {
+			return specialChannels.get(SpecialChannel.DEFAULT);
+		} else {
+			return guild.getDefaultChannel();
+		}
 	}
 }
