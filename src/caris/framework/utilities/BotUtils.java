@@ -2,6 +2,7 @@ package caris.framework.utilities;
 
 import java.util.List;
 
+import caris.framework.library.GuildInfo;
 import caris.framework.library.Variables;
 import sx.blah.discord.api.ClientBuilder;
 import sx.blah.discord.api.IDiscordClient;
@@ -112,8 +113,8 @@ public class BotUtils {
 
 	public static void sendLog( IGuild guild, String message ) {
 		// Send the message to the guild's log channel, if it exists
-		if( Variables.guildIndex.get( guild ).logChannel != null ) {
-			sendMessage( Variables.guildIndex.get( guild ).logChannel, message );
+		if( Variables.guildIndex.get(guild).specialChannels.get(GuildInfo.SpecialChannel.LOG) != null ) {
+			sendMessage( Variables.guildIndex.get(guild).specialChannels.get(GuildInfo.SpecialChannel.LOG), message );
 		}
 	}
 

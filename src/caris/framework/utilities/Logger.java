@@ -3,7 +3,9 @@ package caris.framework.utilities;
 import java.text.SimpleDateFormat;
 
 import caris.framework.library.Constants;
+import caris.framework.library.Variables;
 import sx.blah.discord.handle.obj.IChannel;
+import sx.blah.discord.handle.obj.IGuild;
 import sx.blah.discord.handle.obj.IUser;
 
 public class Logger {
@@ -13,7 +15,7 @@ public class Logger {
 	public static void say(String message, IChannel channel) {
 		if( Constants.SAY ) {
 			String output = "(" + channel.getLongID() + ") <" + channel.getName() + ">: " + message;
-			System.out.println(output);
+			consolePrint(output);
 			log(output);
 		}
 	}
@@ -24,7 +26,7 @@ public class Logger {
 			output += channel.getName() + "> [";
 			output += user.getName() + "]: ";
 			output += message;
-			System.out.println(output);
+			consolePrint(output);
 			log(output);
 		}
 	}
@@ -67,7 +69,7 @@ public class Logger {
 				}
 				output += Constants.HEADER;
 				output += message;
-				System.out.println(output);
+				consolePrint(output);
 				if( Constants.LOG && ( Constants.LOG_LEVEL == -1 || Constants.LOG_LEVEL >= level )) {
 					log(output);
 				}
@@ -88,7 +90,7 @@ public class Logger {
 				}
 				output += Constants.HEADER;
 				output += message;
-				System.out.println(output);
+				consolePrint(output);
 				if( Constants.LOG && ( Constants.LOG_LEVEL == -1 || Constants.LOG_LEVEL >= level )) {
 					log(output);
 				}
@@ -105,5 +107,12 @@ public class Logger {
 //		} catch (IOException e) {
 //			e.printStackTrace();
 //		}
+	}
+	
+	public static void consolePrint(String s) {
+		System.out.println(s);
+		for( IGuild guild : Variables.guildIndex.keySet() ) {
+			BotUtils.sendLog(guild, s);
+		}
 	}
 }
