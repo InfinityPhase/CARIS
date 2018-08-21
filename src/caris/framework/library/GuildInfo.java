@@ -62,10 +62,10 @@ public class GuildInfo {
 	
 	private void init() {
 		for( IUser u : guild.getUsers() ) {
-			userIndex.put( u, new UserInfo(u) );
+			addUser(u);
 		}
 		for( IChannel c : guild.getChannels() ) {
-			channelIndex.put( c, new ChannelInfo(c));
+			addChannel(c);
 		}
 	}
 	
