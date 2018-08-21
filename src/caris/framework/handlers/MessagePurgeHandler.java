@@ -47,6 +47,7 @@ public class MessagePurgeHandler extends MessageHandler {
 			Logger.debug("Purge failed because no number specified", 2);
 			purgeMessages.reactions.add(new ReactionMessage("You need to specify the number of messages to delete!", mrEvent.getChannel(), 2));
 		}
+		Logger.debug("Response produced from " + name, 1, true);
 		return purgeMessages;
 	}
 }

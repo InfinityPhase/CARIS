@@ -50,7 +50,7 @@ public class MessageHandler extends Handler {
 		return null;
 	}
 	
-	protected void setup(Event event) {
+	private void setup(Event event) {
 		if( event instanceof MessageReceivedEvent ) {
 			mrEvent = (MessageReceivedEvent) event;
 			message = mrEvent.getMessage().getContent();
@@ -90,6 +90,8 @@ public class MessageHandler extends Handler {
 		boolean check = false;
 		if( tokens.size() >= 1 ) {
 			check = tokens.get(1).equalsIgnoreCase(keyword);
+		} else {
+			Logger.debug("No keyword specified", 4);
 		}
 		if( check ) {
 			Logger.debug("Keyword matched", 4);

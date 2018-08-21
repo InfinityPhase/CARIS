@@ -29,12 +29,12 @@ public class GuildInfoHandler extends MessageHandler {
 	@Override
 	protected Reaction process(Event event) {
 		Logger.print("GuildInfo detected", 2);
-		Logger.debug("Response produced from " + name, 1);
 		if( StringUtilities.containsIgnoreCase(message, "channel") ) {
 			ArrayList<String> tokens = TokenUtilities.parseTokens(message, new char[] {});
 			for( IGuild guild : Brain.cli.getGuilds() ) {
 				for( String token : tokens ) {
 					if( guild.getLongID() + "" == token ) {
+						Logger.debug("Response produced from " + name, 1, true);
 						return new ReactionEmbed(new ChannelInfoBuilder(Brain.cli.getGuildByID(guild.getLongID())).getEmbeds(), mrEvent.getChannel(), 2);
 					}
 				}
@@ -53,12 +53,15 @@ public class GuildInfoHandler extends MessageHandler {
 			for( IGuild guild : Brain.cli.getGuilds() ) {
 				for( Long number : numbers ) {
 					if( guild.getLongID() == number ) {
+						Logger.debug("Response produced from " + name, 1, true);
 						return new ReactionEmbed(new UserInfoBuilder(Brain.cli.getGuildByID(number)).getEmbeds(), mrEvent.getChannel(), 2);
 					}
 				}
 			}
+			Logger.debug("Response produced from " + name, 1, true);
 			return new ReactionEmbed(new UserInfoBuilder(mrEvent.getGuild()).getEmbeds(), mrEvent.getChannel(), 2);
 		} else if( StringUtilities.containsIgnoreCase(message, "guild") ) {
+			Logger.debug("Response produced from " + name, 1, true);
 			return new ReactionEmbed(new GuildInfoBuilder().getEmbeds(), mrEvent.getChannel(), 2);
 		} else {
 			return null;

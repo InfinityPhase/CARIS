@@ -51,7 +51,7 @@ public class BlackboxHandler extends MessageHandler {
 				modifyBlackbox.reactions.add(new ReactionMessage("Blackbox cancelled!", mrEvent.getChannel()));
 			}
 		}
-		Logger.print("Response produced from " + name, 1);
+		Logger.debug("Response produced from " + name, 1, true);
 		return modifyBlackbox;
 	}
 	

@@ -74,6 +74,7 @@ public class MailHandler extends MessageHandler {
 			Logger.debug("Reaction produced from " + name, 1, true);
 			mailbox.reactions.add(new ReactionMessage("Syntax Error!", mrEvent.getChannel()));
 		}
+		Logger.debug("Response produced from " + name, 1, true);
 		return mailbox;
 	}
 	
