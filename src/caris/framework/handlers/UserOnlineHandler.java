@@ -38,7 +38,7 @@ public class UserOnlineHandler extends Handler {
 				if( guild.getUsers().contains(presenceUpdateEvent.getUser()) ) {
 					if( !Variables.guildIndex.get(guild).userIndex.get(presenceUpdateEvent.getUser()).mailbox.isEmpty() ) {
 						userOnline.reactions.add(new ReactionMessage("Welcome back, " + presenceUpdateEvent.getUser().mention() + "! You have incoming mail!"
-								+ "\nType `" + Constants.INVOCATION_PREFIX + " mailbox check` to read it!", guild.getDefaultChannel()));
+								+ "\nType `" + Constants.INVOCATION_PREFIX + " mailbox check` to read it!", Variables.guildIndex.get(guild).getDefaultChannel()));
 					}
 				}
 			}
