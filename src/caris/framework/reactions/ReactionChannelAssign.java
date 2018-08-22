@@ -28,18 +28,32 @@ public class ReactionChannelAssign extends Reaction {
 	@Override
 	public void run() {
 		Variables.guildIndex.get(guild).specialChannels.put(channelType, channel);
-		switch(channelType) {
+		if( channel == null ) {
+			switch(channelType) {
 			case DEFAULT:
-				BotUtils.sendMessage(channel, "This channel has been set as the default channel!");
-				Logger.print("Channel (" + channel.getLongID() + ") <" + channel.getName() + "> set as default channel in guild <" + guild.getName() + "> (" + guild.getLongID() + ")", 3);
+				Logger.print("Default channel reset in guild <" + guild.getName() + "> (" + guild.getLongID() + ")", 3);
 				break;
 			case LOG:
-				BotUtils.sendMessage(channel, "This channel has been set as the log channel!");
-				Logger.print("Channel (" + channel.getLongID() + ") <" + channel.getName() + "> set as log channel in guild <" + guild.getName() + "> (" + guild.getLongID() + ")", 3);
+				Logger.print("Log channel reset in guild <" + guild.getName() + "> (" + guild.getLongID() + ")", 3);
 				break;
 			default:
 				Logger.error("Invalid ChannelType in ReactionChannelAssign");
 				break;	
+		}
+		} else {
+			switch(channelType) {
+				case DEFAULT:
+					BotUtils.sendMessage(channel, "This channel has been set as the default channel!");
+					Logger.print("Channel (" + channel.getLongID() + ") <" + channel.getName() + "> set as default channel in guild <" + guild.getName() + "> (" + guild.getLongID() + ")", 3);
+					break;
+				case LOG:
+					BotUtils.sendMessage(channel, "This channel has been set as the log channel!");
+					Logger.print("Channel (" + channel.getLongID() + ") <" + channel.getName() + "> set as log channel in guild <" + guild.getName() + "> (" + guild.getLongID() + ")", 3);
+					break;
+				default:
+					Logger.error("Invalid ChannelType in ReactionChannelAssign");
+					break;	
+			}
 		}
 	}
 	
