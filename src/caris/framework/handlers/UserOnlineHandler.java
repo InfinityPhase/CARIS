@@ -21,7 +21,11 @@ public class UserOnlineHandler extends Handler {
 	
 	@Override
 	protected boolean isTriggered(Event event) {
-		return event instanceof PresenceUpdateEvent;
+		if( !(event instanceof PresenceUpdateEvent) ) {
+			return false;
+		}
+		PresenceUpdateEvent presenceUpdateEvent = (PresenceUpdateEvent) event;
+		return presenceUpdateEvent.getNewPresence().equals(StatusType.ONLINE) || presenceUpdateEvent.getNewPresence().equals(StatusType.OFFLINE);
 	}
 	
 	@Override
