@@ -13,10 +13,10 @@ import sx.blah.discord.handle.impl.events.user.PresenceUpdateEvent;
 import sx.blah.discord.handle.obj.IGuild;
 import sx.blah.discord.handle.obj.StatusType;
 
-public class UserOnlineHandler extends Handler {
+public class PresenceUpdateHandler extends Handler {
 
-	public UserOnlineHandler() {
-		super("UserOnline Handler");
+	public PresenceUpdateHandler() {
+		super("PresenceUpdate Handler");
 	}
 	
 	@Override
@@ -25,18 +25,18 @@ public class UserOnlineHandler extends Handler {
 			return false;
 		}
 		PresenceUpdateEvent presenceUpdateEvent = (PresenceUpdateEvent) event;
-		return presenceUpdateEvent.getNewPresence().equals(StatusType.ONLINE) || presenceUpdateEvent.getNewPresence().equals(StatusType.OFFLINE);
+		return presenceUpdateEvent.getNewPresence().getStatus().equals(StatusType.ONLINE) || presenceUpdateEvent.getNewPresence().getStatus().equals(StatusType.OFFLINE);
 	}
 	
 	@Override
 	protected Reaction process(Event event) {
-		Logger.debug("PresenceUpdate detected", 2);
+		Logger.debug("PresenceUpdate detected", 2, true);
 		PresenceUpdateEvent presenceUpdateEvent = (PresenceUpdateEvent) event;
 		MultiReaction userOnline = new MultiReaction(-1);
 		if( presenceUpdateEvent.getNewPresence().getStatus().equals(StatusType.OFFLINE) && !Variables.globalUserInfo.get(presenceUpdateEvent.getUser()).hasGoneOffline ) {
 			userOnline.reactions.add(new ReactionUserOfflineUpdate(presenceUpdateEvent.getUser(), true));
 		} else if( presenceUpdateEvent.getNewPresence().getStatus().equals(StatusType.ONLINE) && Variables.globalUserInfo.get(presenceUpdateEvent.getUser()).hasGoneOffline ) {
-			Logger.print(" User [" + presenceUpdateEvent.getUser().getName() + "#" + presenceUpdateEvent.getUser().getDiscriminator() + "]" + "(" + presenceUpdateEvent.getUser().getLongID() + ") has come online.");
+			Logger.print(" User [" + presenceUpdateEvent.getUser().getName() + "#" + presenceUpdateEvent.getUser().getDiscriminator() + "]" + "(" + presenceUpdateEvent.getUser().getLongID() + ") has come online.", true);
 			userOnline.reactions.add(new ReactionUserOfflineUpdate(presenceUpdateEvent.getUser(), false));
 			for( IGuild guild : Variables.guildIndex.keySet() ) {
 				if( guild.getUsers().contains(presenceUpdateEvent.getUser()) ) {
@@ -47,7 +47,7 @@ public class UserOnlineHandler extends Handler {
 				}
 			}
 		}
-		Logger.print("Reaction produced from " + name, 1);
+		Logger.print("Reaction produced from " + name, 1, true);
 		return userOnline;
 	}
 	

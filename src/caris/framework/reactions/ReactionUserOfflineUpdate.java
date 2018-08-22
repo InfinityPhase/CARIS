@@ -24,9 +24,9 @@ public class ReactionUserOfflineUpdate extends Reaction {
 	public void run() {
 		Variables.globalUserInfo.get(user).hasGoneOffline = state;
 		if( state ) {
-			Logger.print(" User [" + user.getName() + "#" + user.getDiscriminator() + "]" + "(" + user.getLongID() + ") has gone offline.");
+			Logger.print(" User [" + user.getName() + "#" + user.getDiscriminator() + "]" + "(" + user.getLongID() + ") has gone offline.", true);
 		} else {
-			Logger.print(" User [" + user.getName() + "#" + user.getDiscriminator() + "]" + "(" + user.getLongID() + ") has come online.");
+			Logger.print(" User [" + user.getName() + "#" + user.getDiscriminator() + "]" + "(" + user.getLongID() + ") has come online.", true);
 		}
 	}
 	
