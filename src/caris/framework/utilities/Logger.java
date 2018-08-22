@@ -90,7 +90,7 @@ public class Logger {
 	}
 	
 	public static void print(String message, int level, boolean verbose) {
-		if( Constants.PRINT_LEVEL == -1 || Constants.PRINT_LEVEL >= level && (!verbose || Constants.VERBOSE)) {
+		if( (Constants.PRINT_LEVEL == -1 || Constants.PRINT_LEVEL >= level) && (!verbose || Constants.VERBOSE)) {
 			String output = "[PRINT]";
 			if( Constants.PRINT ) {
 				for( int f=0; f<level*Constants.DEFAULT_INDENT_INCREMENT; f++ ) {

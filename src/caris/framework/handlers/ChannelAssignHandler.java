@@ -18,18 +18,28 @@ public class ChannelAssignHandler extends MessageHandler {
 	
 	@Override
 	protected boolean isTriggered(Event event) {
-		return isAdmin() && isMentioned() && StringUtilities.containsAnyOfIgnoreCase(message, "set", "make") && StringUtilities.containsAnyOfIgnoreCase(message, "default", "log");
+		return isAdmin() && isMentioned() && (StringUtilities.containsAnyOfIgnoreCase(message, "remove", "unset") || StringUtilities.containsAnyOfIgnoreCase(message, "set", "make")) && StringUtilities.containsAnyOfIgnoreCase(message, "default", "log");
 	}
 	
 	@Override
 	protected Reaction process(Event event) {
 		MultiReaction channelAssign = new MultiReaction(2);
-		if( StringUtilities.containsIgnoreCase(message, "default") ) {
-			channelAssign.reactions.add(new ReactionChannelAssign(mrEvent.getGuild(), mrEvent.getChannel(), SpecialChannel.DEFAULT));
-			channelAssign.reactions.add(new ReactionMessage("Default Channel set successfully!", mrEvent.getChannel()));
-		} else if( StringUtilities.containsIgnoreCase(message, "log") ) {
-			channelAssign.reactions.add(new ReactionChannelAssign(mrEvent.getGuild(), mrEvent.getChannel(), SpecialChannel.LOG));
-			channelAssign.reactions.add(new ReactionMessage("Log Channel set successfully!", mrEvent.getChannel()));
+		if( StringUtilities.containsAnyOfIgnoreCase(message, "remove", "unset") ) {
+			if( StringUtilities.containsIgnoreCase(message, "default") ) {
+				channelAssign.reactions.add(new ReactionChannelAssign(mrEvent.getGuild(), null, SpecialChannel.DEFAULT));
+				channelAssign.reactions.add(new ReactionMessage("Default Channel removed successfully!", mrEvent.getChannel()));
+			} else if( StringUtilities.containsIgnoreCase(message, "log") ) {
+				channelAssign.reactions.add(new ReactionChannelAssign(mrEvent.getGuild(), null, SpecialChannel.LOG));
+				channelAssign.reactions.add(new ReactionMessage("Log Channel removed successfully!", mrEvent.getChannel()));
+			}
+		} else {
+			if( StringUtilities.containsIgnoreCase(message, "default") ) {
+				channelAssign.reactions.add(new ReactionChannelAssign(mrEvent.getGuild(), mrEvent.getChannel(), SpecialChannel.DEFAULT));
+				channelAssign.reactions.add(new ReactionMessage("Default Channel set successfully!", mrEvent.getChannel()));
+			} else if( StringUtilities.containsIgnoreCase(message, "log") ) {
+				channelAssign.reactions.add(new ReactionChannelAssign(mrEvent.getGuild(), mrEvent.getChannel(), SpecialChannel.LOG));
+				channelAssign.reactions.add(new ReactionMessage("Log Channel set successfully!", mrEvent.getChannel()));
+			}
 		}
 		Logger.debug("Reaction produced from " + name, 1, true);
 		return channelAssign;

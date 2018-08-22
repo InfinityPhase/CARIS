@@ -5,16 +5,16 @@ import caris.framework.library.Variables;
 import caris.framework.utilities.Logger;
 import sx.blah.discord.handle.obj.IUser;
 
-public class ReactionUserOfflineUpdate extends Reaction {
+public class ReactionUserStatusUpdate extends Reaction {
 	
 	public IUser user;
 	public boolean state;
 	
-	public ReactionUserOfflineUpdate(IUser user, boolean state) {
+	public ReactionUserStatusUpdate(IUser user, boolean state) {
 		this(user, state, -1);
 	}
 	
-	public ReactionUserOfflineUpdate(IUser user, boolean state, int priority) {
+	public ReactionUserStatusUpdate(IUser user, boolean state, int priority) {
 		super(priority);
 		this.user = user;
 		this.state = state;
@@ -24,9 +24,9 @@ public class ReactionUserOfflineUpdate extends Reaction {
 	public void run() {
 		Variables.globalUserInfo.get(user).hasGoneOffline = state;
 		if( state ) {
-			Logger.print(" User [" + user.getName() + "#" + user.getDiscriminator() + "]" + "(" + user.getLongID() + ") has gone offline.", true);
+			Logger.print(" User [" + user.getName() + "#" + user.getDiscriminator() + "]" + "(" + user.getLongID() + ") has gone offline.");
 		} else {
-			Logger.print(" User [" + user.getName() + "#" + user.getDiscriminator() + "]" + "(" + user.getLongID() + ") has come online.", true);
+			Logger.print(" User [" + user.getName() + "#" + user.getDiscriminator() + "]" + "(" + user.getLongID() + ") has come online.");
 		}
 	}
 	
