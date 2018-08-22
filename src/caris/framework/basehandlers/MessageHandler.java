@@ -1,7 +1,6 @@
 package caris.framework.basehandlers;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import caris.framework.basereactions.Reaction;
 import caris.framework.library.Constants;
@@ -66,10 +65,14 @@ public class MessageHandler extends Handler {
 		return check;
 	}
 	
-	@SuppressWarnings("unlikely-arg-type")
 	protected boolean isDeveloper() {
 		Logger.debug("Checking if developer", 3);
-		boolean check = Arrays.asList(Constants.ADMIN_IDS).contains(mrEvent.getAuthor().getLongID());
+		boolean check = false;
+		for( long id : Constants.ADMIN_IDS ) {
+			if( mrEvent.getAuthor().getLongID() == id ) {
+				check = true;
+			}
+		}
 		if( check ) {
 			Logger.debug("Developer confirmed", 4);
 		} else {
