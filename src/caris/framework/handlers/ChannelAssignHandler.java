@@ -18,7 +18,7 @@ public class ChannelAssignHandler extends MessageHandler {
 	
 	@Override
 	protected boolean isTriggered(Event event) {
-		return isAdmin() && isMentioned() && (StringUtilities.containsAnyOfIgnoreCase(message, "remove", "unset") || StringUtilities.containsAnyOfIgnoreCase(message, "set", "make")) && StringUtilities.containsAnyOfIgnoreCase(message, "default", "log");
+		return isElevated() && isMentioned() && (StringUtilities.containsAnyOfIgnoreCase(message, "remove", "unset") || StringUtilities.containsAnyOfIgnoreCase(message, "set", "make")) && (StringUtilities.containsIgnoreCase(message, "default") || StringUtilities.containsIgnoreCase(message, "log") && isDeveloper());
 	}
 	
 	@Override

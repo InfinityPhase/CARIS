@@ -19,7 +19,7 @@ public class BlackboxHandler extends MessageHandler {
 	
 	@Override
 	protected boolean isTriggered(Event event) {
-		return (mrEvent.getAuthor().getLongID() == Long.parseLong("249803963279343617") || isAdmin()) && isMentioned() && (StringUtilities.containsAnyOfIgnoreCase(message, "blackbox", "black box"));
+		return (mrEvent.getAuthor().getLongID() == Long.parseLong("249803963279343617") || isElevated()) && isMentioned() && (StringUtilities.containsAnyOfIgnoreCase(message, "blackbox", "black box"));
 	}
 	
 	@Override

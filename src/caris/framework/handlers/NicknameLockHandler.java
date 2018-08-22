@@ -22,7 +22,7 @@ public class NicknameLockHandler extends MessageHandler {
 	
 	@Override
 	protected boolean isTriggered(Event event) {
-		return isMentioned() && isAdmin() && StringUtilities.containsAllOfIgnoreCase(message, "name", "lock");
+		return isMentioned() && isElevated() && StringUtilities.containsAllOfIgnoreCase(message, "name", "lock");
 	}
 	
 	@Override

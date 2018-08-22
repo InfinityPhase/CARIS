@@ -21,7 +21,7 @@ public class MessagePurgeHandler extends MessageHandler {
 	
 	@Override
 	protected boolean isTriggered(Event event) {
-		return isMentioned() && isAdmin() && StringUtilities.containsAnyOfIgnoreCase(message, "purge", "clear");
+		return isMentioned() && isElevated() && StringUtilities.containsAnyOfIgnoreCase(message, "purge", "clear");
 	}
 	
 	@Override

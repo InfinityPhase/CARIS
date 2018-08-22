@@ -24,7 +24,7 @@ public class AutoRoleHandler extends MessageHandler {
 	
 	@Override
 	protected boolean isTriggered(Event event) {
-		return isAdmin() && isInvoked();
+		return isElevated() && isInvoked();
 	}
 	
 	@Override

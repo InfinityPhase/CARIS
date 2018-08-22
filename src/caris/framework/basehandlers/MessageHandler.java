@@ -60,10 +60,27 @@ public class MessageHandler extends Handler {
 		}
 	}
 	
+	protected boolean isElevated() {
+		Logger.debug("Checking if elevated", 3);
+		boolean check = isDeveloper() || isAdmin();
+		return check;
+	}
+	
 	@SuppressWarnings("unlikely-arg-type")
+	protected boolean isDeveloper() {
+		Logger.debug("Checking if developer", 3);
+		boolean check = Arrays.asList(Constants.ADMIN_IDS).contains(mrEvent.getAuthor().getLongID());
+		if( check ) {
+			Logger.debug("Developer confirmed", 4);
+		} else {
+			Logger.debug("Developer unconfirmed", 4);
+		}
+		return check;
+	}
+	
 	protected boolean isAdmin() {
 		Logger.debug("Checking if admin", 3);
-		boolean check = mrEvent.getAuthor().getPermissionsForGuild(mrEvent.getGuild()).contains(Permissions.ADMINISTRATOR) || Arrays.asList(Constants.ADMIN_IDS).contains(mrEvent.getAuthor().getLongID());
+		boolean check = mrEvent.getAuthor().getPermissionsForGuild(mrEvent.getGuild()).contains(Permissions.ADMINISTRATOR);
 		if( check ) {
 			Logger.debug("Admin confirmed", 4);
 		} else {

@@ -23,7 +23,7 @@ public class GuildInfoHandler extends MessageHandler {
 	
 	@Override
 	protected boolean isTriggered(Event event) {
-		return isAdmin() && isMentioned() && StringUtilities.containsAnyOfIgnoreCase(message, "info", "data", "analysis", "stats", "statistics") && StringUtilities.containsAnyOfIgnoreCase(message, "guild", "channel", "user", "people");
+		return isElevated() && isMentioned() && StringUtilities.containsAnyOfIgnoreCase(message, "info", "data", "analysis", "stats", "statistics") && StringUtilities.containsAnyOfIgnoreCase(message, "guild", "channel", "user", "people");
 	}
 	
 	@Override
