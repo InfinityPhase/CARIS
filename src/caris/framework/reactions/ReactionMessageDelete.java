@@ -3,18 +3,30 @@ package caris.framework.reactions;
 import caris.framework.basereactions.Reaction;
 import caris.framework.utilities.Logger;
 import sx.blah.discord.handle.obj.IChannel;
+import sx.blah.discord.handle.obj.IMessage;
 import sx.blah.discord.util.MessageHistory;
 
-public class ReactionPurgeMessages extends Reaction {
+public class ReactionMessageDelete extends Reaction {
 
 	public IChannel channel;
-	public MessageHistory history;
+	private IMessage message;
+	private MessageHistory history;
 	
-	public ReactionPurgeMessages( IChannel channel, MessageHistory messageLog ) {
+	public ReactionMessageDelete( IChannel channel, IMessage message ) {
+		this(channel, message, 2);
+	}
+	
+	public ReactionMessageDelete( IChannel channel, IMessage message, int priority) {
+		super(priority);
+		this.channel = channel;
+		this.message = message;
+	}
+	
+	public ReactionMessageDelete( IChannel channel, MessageHistory messageLog ) {
 		this(channel, messageLog, 2);
 	}
 	
-	public ReactionPurgeMessages( IChannel channel, MessageHistory messageLog, int priority ) {
+	public ReactionMessageDelete( IChannel channel, MessageHistory messageLog, int priority ) {
 		super(priority);
 		this.channel = channel;
 		this.history = messageLog;
@@ -22,8 +34,14 @@ public class ReactionPurgeMessages extends Reaction {
 	
 	@Override
 	public void run() {
-		int count = history.bulkDelete().size();
-		Logger.print("Deleted " + count + " messages from (" + channel.getLongID() + ") <" + channel.getName() + ">", 2);
+		if( message != null ) {
+			Long id = message.getLongID();
+			message.delete();
+			Logger.print("Message (" + id + ") deleted", 2);
+		} else {
+			int count = history.bulkDelete().size();
+			Logger.print("Deleted " + count + " messages from (" + channel.getLongID() + ") <" + channel.getName() + ">", 2);
+		}
 	}
 	
 }
