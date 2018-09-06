@@ -37,8 +37,11 @@ public class GuildInfo {
 	
 	/* Token Storage */
 	public HashMap<String, ArrayList<String>> locations;
-	public HashMap<String, Poll> polls;
+	public HashMap<Integer, Poll> polls;
 	public HashMap<Calendar, Reminder> reminders;
+	
+	/* References */
+	public EmojiSet emojiSet;
 	
 	public GuildInfo(String name, IGuild guild) {	
 		this.name = name;
@@ -48,7 +51,7 @@ public class GuildInfo {
 		rules = "";
 
 		locations = new HashMap<String, ArrayList<String>>();
-		polls = new HashMap<String, Poll>();
+		polls = new HashMap<Integer, Poll>();
 		reminders = new HashMap<Calendar, Reminder>();
 		
 		autoRoles = new ArrayList<Role>();
@@ -57,6 +60,7 @@ public class GuildInfo {
 		channelIndex = new HashMap<IChannel, ChannelInfo>();
 		specialChannels = new HashMap<SpecialChannel, IChannel>();
 		
+		emojiSet = new EmojiSet(guild);
 		init();
 	}
 	
