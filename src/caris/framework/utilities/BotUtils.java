@@ -9,11 +9,13 @@ import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.api.internal.json.objects.EmbedObject;
 import sx.blah.discord.handle.obj.IChannel;
 import sx.blah.discord.handle.obj.IGuild;
+import sx.blah.discord.handle.obj.IMessage;
 import sx.blah.discord.util.DiscordException;
 import sx.blah.discord.util.EmbedBuilder;
 import sx.blah.discord.util.RequestBuffer;
 
 public class BotUtils {
+	
 	
 	// Actually creates the client object.
 	// Magic!
@@ -28,17 +30,17 @@ public class BotUtils {
 				.build();
 	}
 
-	public static void sendMessage(IChannel channel, String message) {
-		RequestBuffer.request(() -> {
+	public static IMessage sendMessage(IChannel channel, String message) {
+		return RequestBuffer.request(() -> {
 			try {
-				channel.sendMessage(message);
+				return channel.sendMessage(message);
 			}
 			catch (DiscordException e) {
 				Logger.error("Message could not be sent with error: ");
 				e.printStackTrace();
+				return null;
 			}
-		});
-
+		}).get();
 	}
 
 	public static void sendMessage( IChannel[] channel, EmbedBuilder embed ) {
@@ -75,40 +77,34 @@ public class BotUtils {
 
 	public static void sendMessage( List<IChannel> channels, String message ) {
 		for( IChannel c : channels ) {
-			RequestBuffer.request(() -> {
-				try {
-					c.sendMessage(message);
-				}
-				catch (DiscordException e) {
-					Logger.error("Message could not be sent with error: ");
-					e.printStackTrace();
-				}
-			});
+			sendMessage(c, message);
 		}
 	}
 
-	public static void sendMessage( IChannel channel, EmbedBuilder embed ) {
-		RequestBuffer.request(() -> {
+	public static IMessage sendMessage( IChannel channel, EmbedBuilder embed ) {
+		return RequestBuffer.request(() -> {
 			try {
-				channel.sendMessage( embed.build() );
+				return channel.sendMessage( embed.build() );
 			}
 			catch (DiscordException e) {
 				Logger.error("Message could not be sent with error: ");
 				e.printStackTrace();
+				return null;
 			}
-		});
+		}).get();
 	}
 
-	public static void sendMessage( IChannel channel, EmbedObject embed ) {
-		RequestBuffer.request(() -> {
+	public static IMessage sendMessage( IChannel channel, EmbedObject embed ) {
+		return RequestBuffer.request(() -> {
 			try {
-				channel.sendMessage( embed );
+				return channel.sendMessage( embed );
 			}
 			catch (DiscordException e) {
 				Logger.error("Message could not be sent with error: ");
 				e.printStackTrace();
+				return null;
 			}
-		});
+		}).get();
 	}
 
 	public static void sendLog( IGuild guild, String message ) {

@@ -143,4 +143,18 @@ public class TokenUtilities {
 		return tokens;
 	}
 	
+	public static String[] combineStringArrays(String[]...s) {
+		ArrayList<String> joinedArrayList = new ArrayList<String>();
+		for( String[] stringArray : s ) {
+			for( String string : stringArray ) {
+				joinedArrayList.add(string);
+			}
+		}
+		String[] joinedArray = new String[joinedArrayList.size()];
+		for( int f=0; f<joinedArrayList.size(); f++ ) {
+			joinedArray[f] = joinedArrayList.get(f);
+		}
+		return joinedArray;
+	}
+	
 }
