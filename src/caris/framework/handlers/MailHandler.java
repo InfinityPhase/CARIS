@@ -8,6 +8,7 @@ import caris.framework.basereactions.Reaction;
 import caris.framework.embedbuilders.MailCheckBuilder;
 import caris.framework.library.Variables;
 import caris.framework.reactions.ReactionEmbed;
+import caris.framework.reactions.ReactionMailClear;
 import caris.framework.reactions.ReactionMailSend;
 import caris.framework.reactions.ReactionMessage;
 import caris.framework.tokens.Mail;
@@ -38,6 +39,9 @@ public class MailHandler extends MessageHandler {
 		if( tokens.size() >= 3 ) {
 			if( tokens.get(2).equalsIgnoreCase("check") ) {
 				mailbox.reactions.add(new ReactionEmbed(new MailCheckBuilder(Variables.guildIndex.get(mrEvent.getGuild()).userIndex.get(mrEvent.getAuthor())).getEmbeds(), mrEvent.getChannel(), 1));
+			} else if( tokens.get(2).equalsIgnoreCase("clear") ) {
+				mailbox.reactions.add(new ReactionMailClear(mrEvent.getGuild(), mrEvent.getAuthor()));
+				mailbox.reactions.add(new ReactionMessage("Mail cleared!", mrEvent.getChannel()));
 			} else if( tokens.size() >= 4 ) {
 				if( tokens.get(2).equalsIgnoreCase("send") ) {
 					if( !quotes.isEmpty() ) {

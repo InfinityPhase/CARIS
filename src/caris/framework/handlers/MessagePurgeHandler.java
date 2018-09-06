@@ -6,7 +6,7 @@ import caris.framework.basehandlers.MessageHandler;
 import caris.framework.basereactions.MultiReaction;
 import caris.framework.basereactions.Reaction;
 import caris.framework.reactions.ReactionMessage;
-import caris.framework.reactions.ReactionPurgeMessages;
+import caris.framework.reactions.ReactionMessageDelete;
 import caris.framework.utilities.Logger;
 import caris.framework.utilities.StringUtilities;
 import caris.framework.utilities.TokenUtilities;
@@ -33,7 +33,7 @@ public class MessagePurgeHandler extends MessageHandler {
 			int number = numbers.get(0);
 			if( number > 0 ) {
 				MessageHistory history = mrEvent.getChannel().getMessageHistory(number);
-				purgeMessages.reactions.add(new ReactionPurgeMessages(mrEvent.getChannel(), history));
+				purgeMessages.reactions.add(new ReactionMessageDelete(mrEvent.getChannel(), history));
 				purgeMessages.reactions.add(new ReactionMessage("Purged " + number + " messages!", mrEvent.getChannel(), 2));
 			} else {
 				Logger.debug("Purge failed because incorrect number specified", 2);
@@ -41,7 +41,7 @@ public class MessagePurgeHandler extends MessageHandler {
 			}
 		} else if( StringUtilities.containsIgnoreCase(message, "last") ) {
 			MessageHistory history = mrEvent.getChannel().getMessageHistory(2);
-			purgeMessages.reactions.add(new ReactionPurgeMessages(mrEvent.getChannel(), history));
+			purgeMessages.reactions.add(new ReactionMessageDelete(mrEvent.getChannel(), history));
 			purgeMessages.reactions.add(new ReactionMessage("Purged the last message!", mrEvent.getChannel(), 2));
 		} else {
 			Logger.debug("Purge failed because no number specified", 2);
