@@ -3,11 +3,12 @@ package caris.framework.events;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import sx.blah.discord.api.events.Event;
-import sx.blah.discord.api.events.EventSubscriber;
 import caris.framework.basehandlers.Handler;
+import caris.framework.basereactions.MultiReaction;
 import caris.framework.basereactions.Reaction;
 import caris.framework.main.Brain;
+import sx.blah.discord.api.events.Event;
+import sx.blah.discord.api.events.EventSubscriber;
 
 public class EventManager extends SuperEvent {
 
@@ -34,8 +35,7 @@ public class EventManager extends SuperEvent {
 			Arrays.sort(options);
 			options[0].run();
 		}
-		for( Reaction r : passiveQueue ) {
-			r.run();
-		}
+		MultiReaction passiveQueueExecutor = new MultiReaction(passiveQueue);
+		passiveQueueExecutor.run();
 	}
 }

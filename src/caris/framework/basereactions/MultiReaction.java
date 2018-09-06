@@ -28,6 +28,12 @@ public class MultiReaction extends Reaction {
 	public void run() {
 		for( Reaction reaction : reactions ) {
 			reaction.run();
+			try {
+				Thread.sleep(250);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 	
