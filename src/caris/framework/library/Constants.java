@@ -1,10 +1,10 @@
 package caris.framework.library;
 
 public class Constants {
-	public static final String INVOCATION_PREFIX = "==>";
+	public static final String INVOCATION_PREFIX = "===>";
 	public static final String DEFAULT_PLAYING_TEXT = "Type \"cHelp\" for help!";
 	
-	public static final String NAME = "CARIS";
+	public static final String NAME = "PROTO";
 	public static final boolean OFFLINE = false;
 	public static final boolean RESPOND_TO_BOT = false; // If the user is a bot, ignore.
 
@@ -16,6 +16,8 @@ public class Constants {
 	public static final Long MIKKI_ID = Long.parseLong("263908795808350208");
 
 	public static final int MAX_MESSAGE_HISTORY = 10000;
+	
+	public static final int REACTION_EXECUTE_DELAY = 250;
 	
 	// Debug Constants
 	public static final boolean DEBUG = true;
