@@ -30,7 +30,7 @@ public class BlackboxHandler extends MessageHandler {
 		MultiReaction modifyBlackbox = new MultiReaction(2);
 		if( StringUtilities.containsAnyOfIgnoreCase(message, Keywords.POSITIVE) ) {
 			if( Variables.guildIndex.get(mrEvent.getGuild()).channelIndex.get(mrEvent.getChannel()).blackboxActive ) {
-				Logger.print("Failed to open blackbox because blackbox was already open.");
+				Logger.print("Failed to open blackbox because blackbox was already open.", 2);
 				modifyBlackbox.reactions.add(new ReactionMessage("A blackbox is already open!", mrEvent.getChannel()));
 			} else {
 				modifyBlackbox.reactions.add(new ReactionBlackboxStart(mrEvent.getChannel(), mrEvent.getMessageID()));
@@ -38,7 +38,7 @@ public class BlackboxHandler extends MessageHandler {
 			}
 		} else if( StringUtilities.containsAnyOfIgnoreCase(message, Keywords.END) ) {
 			if( !Variables.guildIndex.get(mrEvent.getGuild()).channelIndex.get(mrEvent.getChannel()).blackboxActive ) {
-				Logger.print("Failed to close blackbox because no blackbox was open.");
+				Logger.print("Failed to close blackbox because no blackbox was open.", 2);
 				modifyBlackbox.reactions.add(new ReactionMessage("No blackbox is currently open!", mrEvent.getChannel()));
 			} else {
 				modifyBlackbox.reactions.add(new ReactionBlackboxEnd(mrEvent.getChannel(), ReactionBlackboxEnd.Operation.CLOSE));
@@ -46,7 +46,7 @@ public class BlackboxHandler extends MessageHandler {
 			}
 		} else if( StringUtilities.containsAnyOfIgnoreCase(message, TokenUtilities.combineStringArrays(Keywords.DESTROY, Keywords.DISABLE, Keywords.CANCEL)) ) {
 			if( !Variables.guildIndex.get(mrEvent.getGuild()).channelIndex.get(mrEvent.getChannel()).blackboxActive ) {
-				Logger.print("Failed to close blackbox because no blackbox was open.");
+				Logger.print("Failed to close blackbox because no blackbox was open.", 2);
 				modifyBlackbox.reactions.add(new ReactionMessage("No blackbox is currently open!", mrEvent.getChannel()));
 			} else {
 				modifyBlackbox.reactions.add(new ReactionBlackboxEnd(mrEvent.getChannel(), ReactionBlackboxEnd.Operation.CANCEL));
