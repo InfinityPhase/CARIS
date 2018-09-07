@@ -9,19 +9,29 @@ import caris.framework.utilities.Logger;
 public class Handler {
 	
 	public String name;
+	public boolean allowBots;
 	
 	public Handler() {
-		this("");
+		this("", false);
 	}
 	
 	public Handler(String name) {
+		this(name, false);
+	}
+	
+	public Handler(boolean allowBots) {
+		this("", allowBots);
+	}
+	
+	public Handler(String name, boolean allowBots) {
 		this.name = name;
+		this.allowBots = allowBots;
 		Logger.debug("Handler " + name + " initialized.", 1);
 	}
 	
 	public Reaction handle(Event event) {
 		Logger.debug("Checking " + name, 0, true);
-		if( botCheck(event) ) {
+		if( isBot(event) && !allowBots) {
 			Logger.debug("Event from a bot, ignoring", 1, true);
 			return null;
 		} if( isTriggered(event) ) {
@@ -33,7 +43,7 @@ public class Handler {
 		}
 	}
 	
-	protected boolean botCheck(Event event) {
+	protected boolean isBot(Event event) {
 		if( event instanceof MessageReceivedEvent ) {
 			if( !Constants.RESPOND_TO_BOT && ((MessageReceivedEvent) event).getAuthor().isBot() ) {
 				return true;
