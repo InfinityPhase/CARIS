@@ -31,7 +31,7 @@ public class Handler {
 	
 	public Reaction handle(Event event) {
 		Logger.debug("Checking " + name, 0, true);
-		if( isBot(event) && !allowBots) {
+		if( botFilter(event) ) {
 			Logger.debug("Event from a bot, ignoring", 1, true);
 			return null;
 		} if( isTriggered(event) ) {
@@ -41,6 +41,10 @@ public class Handler {
 			Logger.debug("Ignoring " + name, 1, true);
 			return null;
 		}
+	}
+	
+	protected boolean botFilter(Event event) {
+		return isBot(event) && !allowBots;
 	}
 	
 	protected boolean isBot(Event event) {
