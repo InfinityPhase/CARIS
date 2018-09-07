@@ -28,7 +28,7 @@ public class ReactionPollOpenStart extends MultiReaction {
 			return;
 		} else {
 			for( Option option : poll.getOptions() ) {
-				reactions.add(new ReactionAddReaction(poll.getMessage(), option.emoji));
+				reactions.add(new ReactionReactionAdd(poll.getMessage(), option.emoji));
 			}
 		}
 		Logger.debug("Poll " + poll.ID + " initialized", 4);
