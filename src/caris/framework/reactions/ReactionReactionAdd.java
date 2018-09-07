@@ -6,16 +6,16 @@ import caris.framework.basereactions.Reaction;
 import caris.framework.utilities.Logger;
 import sx.blah.discord.handle.obj.IMessage;
 
-public class ReactionAddReaction extends Reaction {
+public class ReactionReactionAdd extends Reaction {
 	
 	public IMessage message;
 	public Emoji emoji;
 	
-	public ReactionAddReaction(IMessage message, Emoji emoji) {
+	public ReactionReactionAdd(IMessage message, Emoji emoji) {
 		this(message, emoji, -1);
 	}
 	
-	public ReactionAddReaction(IMessage message, Emoji emoji, int priority) {
+	public ReactionReactionAdd(IMessage message, Emoji emoji, int priority) {
 		super(priority);
 		this.message = message;
 		this.emoji = emoji;
