@@ -33,7 +33,7 @@ public class PollHandler extends MessageHandler {
 		Logger.print("Poll detected!", 2);
 		MultiReaction manipulatePoll = new MultiReaction(2);
 		ArrayList<String> quoted = TokenUtilities.parseQuoted(message);
-		ArrayList<Integer> numbers = TokenUtilities.parseNumbers(message);
+		ArrayList<Integer> integers = TokenUtilities.parseIntegers(message);
 		if( StringUtilities.containsAnyOfIgnoreCase(message, Keywords.POSITIVE) ) {
 			if( quoted.size() == 0 ) {
 				Logger.debug("Operation failed due to syntax error", 2);
@@ -49,11 +49,11 @@ public class PollHandler extends MessageHandler {
 				manipulatePoll.reactions.add(new ReactionPollOpenStart(poll, mrEvent.getChannel()));
 			}
 		} else if( StringUtilities.containsAnyOfIgnoreCase(message, Keywords.NEGATIVE) ) {
-			if( numbers.size() == 0 ) {
+			if( integers.size() == 0 ) {
 				Logger.debug("Operation failed due to syntax error", 2);
 				manipulatePoll.reactions.add(new ReactionMessage("You need to specify a Poll ID!", mrEvent.getChannel()));
 			} else {
-				int number = numbers.get(0);
+				int number = integers.get(0);
 				if( number >= Variables.guildIndex.get(mrEvent.getGuild()).polls.size() ) {
 					Logger.debug("Operation failed due to syntax error", 2);
 					manipulatePoll.reactions.add(new ReactionMessage(number + " is not a valid Poll ID!", mrEvent.getChannel()));

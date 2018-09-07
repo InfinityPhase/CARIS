@@ -27,14 +27,14 @@ public class MessagePurgeHandler extends MessageHandler {
 	@Override
 	protected Reaction process(Event event) {
 		Logger.debug("MessagePurge detected", 2);
-		ArrayList<Integer> numbers = TokenUtilities.parseNumbers(message);
+		ArrayList<Integer> integers = TokenUtilities.parseIntegers(message);
 		MultiReaction purgeMessages = new MultiReaction(2);
-		if( !numbers.isEmpty() ) {
-			int number = numbers.get(0);
-			if( number > 0 ) {
-				MessageHistory history = mrEvent.getChannel().getMessageHistory(number);
+		if( !integers.isEmpty() ) {
+			int integer = integers.get(0);
+			if( integer > 0 ) {
+				MessageHistory history = mrEvent.getChannel().getMessageHistory(integer);
 				purgeMessages.reactions.add(new ReactionMessageDelete(mrEvent.getChannel(), history));
-				purgeMessages.reactions.add(new ReactionMessage("Purged " + number + " messages!", mrEvent.getChannel(), 2));
+				purgeMessages.reactions.add(new ReactionMessage("Purged " + integer + " messages!", mrEvent.getChannel(), 2));
 			} else {
 				Logger.debug("Purge failed because incorrect number specified", 2);
 				purgeMessages.reactions.add(new ReactionMessage("You need to specify a positive number!", mrEvent.getChannel()));
