@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import caris.framework.tokens.InputSources;
+import sx.blah.discord.handle.obj.IChannel;
 import sx.blah.discord.handle.obj.IGuild;
 import sx.blah.discord.handle.obj.IUser;
 
@@ -20,5 +22,8 @@ public class Variables {
 	
 	/* Global UserData */
 	public static HashMap<IUser, GlobalUserInfo> globalUserInfo = new HashMap<IUser, GlobalUserInfo>();
+	
+	/* Tracker Sets */
+	public static HashMap<IChannel, InputSources> trackerSets = new HashMap<IChannel, InputSources>();
 	
 }

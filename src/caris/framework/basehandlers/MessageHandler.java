@@ -37,7 +37,7 @@ public class MessageHandler extends Handler {
 			if( botCheck(event) ) {
 				Logger.debug("Event from a bot, ignoring", 1, true);
 				return null;
-			} if( isTriggered(event) ) {
+			} if( isTriggered(event) || isTriggered() ) {
 				Logger.debug("Processing " + name, 1, true);
 				return process(event);
 			} else {
