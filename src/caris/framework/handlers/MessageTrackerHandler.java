@@ -28,12 +28,12 @@ public class MessageTrackerHandler extends MessageHandler {
 		for( IChannel outputChannel : Variables.trackerSets.keySet() ) {
 			for( IChannel inputChannel : Variables.trackerSets.get(outputChannel).channels ) {
 				if( mrEvent.getChannel().equals(inputChannel) ) {
-					track.reactions.add(new ReactionEmbed(new MessageBlock(mrEvent).getEmbeds(), outputChannel));
+					track.reactions.add(new ReactionEmbed((new MessageBlock(mrEvent)).getEmbeds(), outputChannel));
 				}
 			}
 			for( IGuild inputGuild : Variables.trackerSets.get(outputChannel).guilds ) {
 				if( mrEvent.getGuild().equals(inputGuild) ) {
-					track.reactions.add(new ReactionEmbed(new MessageBlock(mrEvent).getEmbeds(), outputChannel));
+					track.reactions.add(new ReactionEmbed((new MessageBlock(mrEvent).getEmbeds()), outputChannel));
 				}
 			}
 		}

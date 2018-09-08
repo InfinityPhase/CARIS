@@ -16,6 +16,7 @@ public class ReactionTrackerAdd extends Reaction {
 	
 	public ReactionTrackerAdd(IChannel channel, InputSources inputSources, int priority) {
 		super(priority);
+		this.channel = channel;
 		this.inputSources = inputSources;
 	}
 	
