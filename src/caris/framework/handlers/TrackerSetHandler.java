@@ -26,7 +26,7 @@ public class TrackerSetHandler extends MessageHandler {
 	
 	@Override
 	protected boolean isTriggered(Event event) {
-		return isElevated() && isMentioned() && StringUtilities.containsAnyOfIgnoreCase(message, "track", "tracking");
+		return isDeveloper() && isMentioned() && StringUtilities.containsAnyOfIgnoreCase(message, "track", "tracking");
 	}
 	
 	@Override
