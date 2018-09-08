@@ -25,16 +25,10 @@ public class Logger {
 			String output = "(" + channel.getLongID() + ") <";
 			output += channel.getName() + "> [";
 			output += user.getName() + "]: ";
-			output += removeMentions(message);
+			output += message;
 			consolePrint(output);
 			log(output);
 		}
-	}
-	
-	private static String removeMentions(String text) {
-		text = text.replaceAll("<@", "<");
-		text = text.replaceAll("<@!", "<");
-		return text;
 	}
 	
 	public static void error(String message) {

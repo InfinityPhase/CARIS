@@ -24,7 +24,7 @@ public class MessageLoggerHandler extends Handler {
 		MultiReaction logMessage = new MultiReaction(-1);
 		Logger.debug("Message detected", 2);
 		MessageReceivedEvent messageReceivedEvent = (MessageReceivedEvent) event;
-		logMessage.reactions.add(new ReactionHear(messageReceivedEvent.getMessage().getContent(), messageReceivedEvent.getAuthor(), messageReceivedEvent.getChannel()));
+		logMessage.reactions.add(new ReactionHear(messageReceivedEvent.getMessage().getFormattedContent(), messageReceivedEvent.getAuthor(), messageReceivedEvent.getChannel()));
 		Logger.debug("Response produced from " + name, 1, true);
 		return logMessage;
 	}
