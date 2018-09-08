@@ -16,6 +16,7 @@ public class ReactionTrackerRemove extends Reaction {
 	
 	public ReactionTrackerRemove(IChannel channel, InputSources inputSources, int priority) {
 		super(priority);
+		this.channel = channel;
 		this.inputSources = inputSources;
 	}
 	

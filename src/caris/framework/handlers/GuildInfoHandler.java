@@ -29,11 +29,11 @@ public class GuildInfoHandler extends MessageHandler {
 	@Override
 	protected Reaction process(Event event) {
 		Logger.print("GuildInfo detected", 2);
+		ArrayList<Long> longs = TokenUtilities.parseLongs(message);
 		if( StringUtilities.containsIgnoreCase(message, "channel") ) {
-			ArrayList<String> tokens = TokenUtilities.parseTokens(message, new char[] {});
-			for( IGuild guild : Brain.cli.getGuilds() ) {
-				for( String token : tokens ) {
-					if( guild.getLongID() + "" == token ) {
+			if( !longs.isEmpty() ) {
+				for( IGuild guild : Brain.cli.getGuilds() ) {
+					if( guild.getLongID() == longs.get(0) ) {
 						Logger.debug("Response produced from " + name, 1, true);
 						return new ReactionEmbed(new ChannelInfoBuilder(Brain.cli.getGuildByID(guild.getLongID())).getEmbeds(), mrEvent.getChannel(), 2);
 					}
@@ -41,20 +41,11 @@ public class GuildInfoHandler extends MessageHandler {
 			}
 			return new ReactionEmbed(new ChannelInfoBuilder(mrEvent.getGuild()).getEmbeds(), mrEvent.getChannel(), 2);
 		} else if( StringUtilities.containsAnyOfIgnoreCase(message, "user", "people") ) {
-			ArrayList<String> tokens = TokenUtilities.parseTokens(message, new char[] {});
-			ArrayList<Long> numbers = new ArrayList<Long>();
-			for( String token : tokens ) {
-				try {
-					numbers.add(Long.parseLong(token));
-				} catch(NumberFormatException e) {
-					
-				}
-			}
-			for( IGuild guild : Brain.cli.getGuilds() ) {
-				for( Long number : numbers ) {
-					if( guild.getLongID() == number ) {
+			if( !longs.isEmpty() ) {
+				for( IGuild guild : Brain.cli.getGuilds() ) {
+					if( guild.getLongID() == longs.get(0) ) {
 						Logger.debug("Response produced from " + name, 1, true);
-						return new ReactionEmbed(new UserInfoBuilder(Brain.cli.getGuildByID(number)).getEmbeds(), mrEvent.getChannel(), 2);
+						return new ReactionEmbed(new UserInfoBuilder(Brain.cli.getGuildByID(guild.getLongID())).getEmbeds(), mrEvent.getChannel(), 2);
 					}
 				}
 			}
