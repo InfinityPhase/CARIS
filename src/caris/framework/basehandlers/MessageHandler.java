@@ -20,11 +20,19 @@ public class MessageHandler extends Handler {
 	public String keyword = "";
 	
 	public MessageHandler() {
-		this("");
+		this("", false);
 	}
 	
 	public MessageHandler(String name) {
-		super(name);
+		this(name, false);
+	}
+	
+	public MessageHandler(boolean allowBots) {
+		this("", allowBots);
+	}
+	
+	public MessageHandler(String name, boolean allowBots) {
+		super(name, allowBots);
 		mrEvent = null;
 		message = "";
 	}

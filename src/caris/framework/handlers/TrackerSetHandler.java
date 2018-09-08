@@ -18,9 +18,9 @@ import sx.blah.discord.api.events.Event;
 import sx.blah.discord.handle.obj.IChannel;
 import sx.blah.discord.handle.obj.IGuild;
 
-public class TrackerHandler extends MessageHandler {
+public class TrackerSetHandler extends MessageHandler {
 
-	public TrackerHandler() {
+	public TrackerSetHandler() {
 		super("Tracker Handler");
 	}
 	
