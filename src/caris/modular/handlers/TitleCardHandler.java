@@ -23,7 +23,7 @@ public class TitleCardHandler extends MessageHandler {
 	
 	@Override
 	protected boolean isTriggered(Event event) {
-		return message.startsWith("$im ");
+		return message.startsWith("$cim ");
 	}
 	
 	@Override
@@ -38,7 +38,7 @@ public class TitleCardHandler extends MessageHandler {
 		}
 		if( subject == null ) {
 			Logger.debug("Operation failed because no user specified", 2);
-			return new ReactionMessage( mrEvent.getAuthor().getDisplayName(mrEvent.getGuild()) + ", no one answered to the call and no work found.", mrEvent.getChannel() );
+			return new ReactionMessage( "**" + mrEvent.getAuthor().getDisplayName(mrEvent.getGuild()) + "**, no one answered to the call and no work found.", mrEvent.getChannel() );
 		} else {
 			Logger.debug("Response produced from " + name, 1, true);
 			return new ReactionEmbed((new TitleCardBuilder(subject, mrEvent.getGuild())).getEmbeds(), mrEvent.getChannel());
