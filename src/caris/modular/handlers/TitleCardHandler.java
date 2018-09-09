@@ -23,7 +23,7 @@ public class TitleCardHandler extends MessageHandler {
 	
 	@Override
 	protected boolean isTriggered(Event event) {
-		return message.startsWith("$cim ");
+		return message.startsWith(">im ");
 	}
 	
 	@Override
