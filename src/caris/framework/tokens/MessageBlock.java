@@ -20,7 +20,7 @@ public class MessageBlock extends Builder {
 		embeds.get(0).withAuthorName(mrEvent.getGuild().getName() + " | " + mrEvent.getChannel().getName());
 		embeds.get(0).withDescription(mrEvent.getMessage().getFormattedContent());
 		embeds.get(0).appendField("__Guild ID__", mrEvent.getGuild().getLongID() + "", true);
-		embeds.get(0).appendField("__Channel ID__", mrEvent.getGuild().getLongID() + "", true);
+		embeds.get(0).appendField("__Channel ID__", mrEvent.getChannel().getLongID() + "", true);
 		embeds.get(0).withFooterIcon(mrEvent.getAuthor().getAvatarURL());
 		embeds.get(0).withFooterText(mrEvent.getAuthor().getDisplayName(mrEvent.getGuild()) + " (" + mrEvent.getAuthor().getName() + "#" + mrEvent.getAuthor().getDiscriminator() + ")");
 	}
