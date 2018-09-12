@@ -82,4 +82,33 @@ public class Keywords {
 			"dismiss"
 	};
 	
+	public static final String[] YES_INPUT = new String[] {
+			"y",
+			"ye",
+			"yes",
+			"yea",
+			"yeah",
+			"yup",
+			"yep",
+			"affirmative",
+			"okay",
+			"fine",
+			"okay",
+			"mhm",
+			"mmhm",
+			"aye",
+			"sure"
+	};
+	
+	public static final String[] NO_INPUT = new String[] {
+			"n",
+			"no",
+			"nah",
+			"nay",
+			"nope",
+			"negative",
+			"not",
+			"dont",
+			"don't",
+	};
 }
