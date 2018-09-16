@@ -64,8 +64,8 @@ public class TitleCardHandler extends MessageHandler {
 			embeds.get(0).withDescription(guild.getName());
 			embeds.get(0).withImage(user.getAvatarURL());
 			if( user.getLongID() == Long.parseLong("246562987651891200") && guild.getLongID() == Long.parseLong("223606003491405824") ) {
-				embeds.get(0).withFooterIcon(guild.getUserByID(Long.parseLong("155149108183695360")).getAvatarURL());
-				embeds.get(0).withFooterText("Belongs to " + guild.getUserByID(Long.parseLong("155149108183695360")).getName() + " ~~ " + "1/1");
+				embeds.get(0).withFooterIcon(guild.getUserByID(Long.parseLong("298652669839671296")).getAvatarURL());
+				embeds.get(0).withFooterText("Belongs to " + guild.getUserByID(Long.parseLong("298652669839671296")).getName() + " ~~ " + "1/1");
 			}
 		}
 		
