@@ -109,22 +109,49 @@ public class TokenUtilities {
 	}
 	
 	public static ArrayList<String> parseQuoted(String line) {
-		ArrayList<String> tokens = new ArrayList<String>();
-		line += " ";
 		while( line.contains("“") ) {
 			line = line.replace("“", "\"");
 		}
 		while( line.contains("”") ) {
 			line = line.replace("”", "\"");
 		}
-		while( line.contains("\"") ) {
-			int indexA = line.indexOf('\"');
-			line = line.substring(indexA+1);
-			int indexB = line.indexOf('\"');
+		return parseCaptured(line, "\"");
+	}
+	
+	public static ArrayList<String> parseCaptured(String line, String boundary) {
+		ArrayList<String> tokens = new ArrayList<String>();
+		line += " ";
+		while( line.contains(boundary) ) {
+			int indexA = line.indexOf(boundary);
+			line = line.substring(indexA+boundary.length());
+			int indexB = line.indexOf(boundary);
 			if( indexB != -1 && indexB != 0 ) {
 				String token = line.substring(0, indexB);
 				tokens.add(token);
-				line = line.substring(indexB+1);
+				line = line.substring(indexB+boundary.length());
+			} else {
+				break;
+			}
+		}
+		return tokens;
+	}
+	
+	public static ArrayList<String> parseCaptured(String line, String open, String close) {
+		ArrayList<String> tokens = new ArrayList<String>();
+		line += " ";
+		while( line.contains(open) ) {
+			int indexOpenStart = line.indexOf(open);
+			int indexOpenEnd = indexOpenStart + open.length();
+			int indexCloseStart = -1;
+			int indexCloseEnd = -1;
+			if( indexOpenEnd < line.length() ) {
+				String tail = line.substring(indexOpenEnd+1);
+				indexCloseStart = tail.indexOf(close) + indexOpenEnd+1;
+			}
+			if( indexCloseStart != -1 ) {
+				indexCloseEnd = indexCloseStart + close.length();
+				tokens.add(line.substring(indexOpenEnd, indexCloseStart));
+				line = (indexCloseEnd == line.length()) ? "" : line.substring(indexCloseEnd+1);
 			} else {
 				break;
 			}
