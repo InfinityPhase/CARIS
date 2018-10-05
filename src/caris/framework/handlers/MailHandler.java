@@ -13,7 +13,6 @@ import caris.framework.reactions.ReactionMailSend;
 import caris.framework.reactions.ReactionMessage;
 import caris.framework.tokens.Mail;
 import caris.framework.utilities.Logger;
-import caris.framework.utilities.StringUtilities;
 import caris.framework.utilities.TokenUtilities;
 import sx.blah.discord.api.events.Event;
 import sx.blah.discord.handle.obj.IUser;
@@ -34,6 +33,7 @@ public class MailHandler extends MessageHandler {
 	public Reaction process(Event event) {
 		Logger.debug("Mail detected", 2);
 		ArrayList<String> tokens = TokenUtilities.parseTokens(message, new char[] {});
+		ArrayList<IUser> mentions = (ArrayList<IUser>) mrEvent.getMessage().getMentions();
 		ArrayList<String> quotes = TokenUtilities.parseQuoted(message);
 		MultiReaction mailbox = new MultiReaction(1);
 		if( tokens.size() >= 3 ) {
@@ -45,15 +45,12 @@ public class MailHandler extends MessageHandler {
 			} else if( tokens.size() >= 4 ) {
 				if( tokens.get(2).equalsIgnoreCase("send") ) {
 					if( !quotes.isEmpty() ) {
-						boolean userFound = false;
-						for( IUser user : mrEvent.getGuild().getUsers() ) {
-							if( StringUtilities.equalsAnyOfIgnoreCase(tokens.get(3), user.mention(true), user.mention(false)) ) {
-								userFound = true;
+						if( !mentions.isEmpty() ) {
+							for( IUser user : mentions ) {
 								mailbox.reactions.add(new ReactionMailSend(Variables.guildIndex.get(mrEvent.getGuild()).userIndex.get(user), new Mail(mrEvent.getAuthor(), quotes.get(0))));
 								mailbox.reactions.add(new ReactionMessage(":incoming_envelope: Message sent!", mrEvent.getChannel()));
 							}
-						}
-						if( !userFound ) {
+						} else {
 							Logger.debug("Operation failed because no user specified", 2);
 							Logger.debug("Reaction produced from " + name, 1, true);
 							mailbox.reactions.add(new ReactionMessage("You need to specify a user to send it to! Did you mention them?", mrEvent.getChannel()));

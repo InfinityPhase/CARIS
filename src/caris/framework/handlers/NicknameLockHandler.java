@@ -28,33 +28,25 @@ public class NicknameLockHandler extends MessageHandler {
 	@Override
 	protected Reaction process(Event event) {
 		Logger.debug("NicknameLock detected", 2);
-		ArrayList<String> tokens = TokenUtilities.parseTokens(message, new char[] {});
 		ArrayList<String> quoted = TokenUtilities.parseQuoted(message);
-		ArrayList<IUser> users = new ArrayList<IUser>();
+		ArrayList<IUser> mentions = (ArrayList<IUser>) mrEvent.getMessage().getMentions(); 
 		MultiReaction lockNickname = new MultiReaction(2);
-		for( IUser user : mrEvent.getGuild().getUsers() ) {
-			for( String token : tokens ) {
-				if( StringUtilities.equalsAnyOfIgnoreCase(token, user.mention(true), user.mention(false)) ) {
-					users.add(user);
-				}
-			}
-		}
-		if( !users.isEmpty() ) {
+		if( !mentions.isEmpty() ) {
 			if( StringUtilities.containsAnyOfIgnoreCase(message, "unlock", "remove", "undo", "delete", "dismiss", "erase", "disperse") ) {
-				for( IUser user : users ) {
+				for( IUser user : mentions ) {
 					lockNickname.reactions.add(new ReactionNicknameLock(mrEvent.getGuild(), user, ""));
 				}
 				lockNickname.reactions.add(new ReactionMessage("Nickname(s) unlocked!", mrEvent.getChannel()));
 			} else {
 				if( !quoted.isEmpty() ) {
 					String name = quoted.get(0);
-					for( IUser user : users ) {
+					for( IUser user : mentions ) {
 						lockNickname.reactions.add(new ReactionNicknameLock(mrEvent.getGuild(), user, name));
 						lockNickname.reactions.add(new ReactionNicknameSet(mrEvent.getGuild(), user, name));
 					}
 					lockNickname.reactions.add(new ReactionMessage("Nickname(s) locked!", mrEvent.getChannel()));
 				} else {
-					for( IUser user : users ) {
+					for( IUser user : mentions ) {
 						lockNickname.reactions.add(new ReactionNicknameLock(mrEvent.getGuild(), user, user.getDisplayName(mrEvent.getGuild())));
 						lockNickname.reactions.add(new ReactionNicknameSet(mrEvent.getGuild(), user, user.getDisplayName(mrEvent.getGuild())));
 					}
