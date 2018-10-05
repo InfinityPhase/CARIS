@@ -4,11 +4,15 @@ import java.util.ArrayList;
 
 import caris.framework.basereactions.Reaction;
 import caris.framework.library.Constants;
+import caris.framework.library.Variables;
+import caris.framework.tokens.RedirectedMessage;
 import caris.framework.utilities.Logger;
 import caris.framework.utilities.StringUtilities;
 import caris.framework.utilities.TokenUtilities;
 import sx.blah.discord.api.events.Event;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
+import sx.blah.discord.handle.obj.IChannel;
+import sx.blah.discord.handle.obj.IGuild;
 import sx.blah.discord.handle.obj.Permissions;
 
 public class MessageHandler extends Handler {
@@ -61,6 +65,28 @@ public class MessageHandler extends Handler {
 		if( event instanceof MessageReceivedEvent ) {
 			mrEvent = (MessageReceivedEvent) event;
 			message = mrEvent.getMessage().getContent();
+			ArrayList<String> tokens = TokenUtilities.parseTokens(message);
+			if( tokens.size() > 0 ) {
+				ArrayList<String> captured = TokenUtilities.parseCaptured(tokens.get(0), "{", "}");
+				if( captured.size() > 0 ) {
+					Long channelID = 0L;
+					try {
+						channelID = Long.parseLong(captured.get(0));
+					} catch (NumberFormatException e) {
+						// do nothing
+					}
+					if( channelID != 0L ) {
+						for( IGuild guild : Variables.guildIndex.keySet() ) {
+							for( IChannel channel : Variables.guildIndex.get(guild).channelIndex.keySet() ) {
+								if( channelID.equals(channel.getLongID()) ) {
+									String newMessage = message.substring(captured.get(0).length()+1);
+									mrEvent = new MessageReceivedEvent(new RedirectedMessage(mrEvent.getMessage(), channel, newMessage));
+								}
+							}
+						}
+					}
+				}
+			}
 			setupComplete = true;
 		} else {
 			setupComplete = false;
