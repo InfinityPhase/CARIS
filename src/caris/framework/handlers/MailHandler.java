@@ -53,7 +53,7 @@ public class MailHandler extends MessageHandler {
 						} else {
 							Logger.debug("Operation failed because no user specified", 2);
 							Logger.debug("Reaction produced from " + name, 1, true);
-							mailbox.reactions.add(new ReactionMessage("You need to specify a user to send it to! Did you mention them?", mrEvent.getChannel()));
+							mailbox.reactions.add(new ReactionMessage("You need to mention the users you want your message sent to!", mrEvent.getChannel()));
 						}
 					} else {
 						Logger.debug("Operation failed because no message included", 2);

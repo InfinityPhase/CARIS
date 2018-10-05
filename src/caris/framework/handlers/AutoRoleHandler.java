@@ -60,7 +60,7 @@ public class AutoRoleHandler extends MessageHandler {
 					} else {
 						Logger.debug("Failed to find requested roles", 2);
 						Logger.debug("Reaction produced from " + name, 1, true);
-						modifyAutoRoles.reactions.add(new ReactionMessage( "Sorry, I couldn't find those roles. Did you capitalize them correctly?", mrEvent.getChannel()));
+						modifyAutoRoles.reactions.add(new ReactionMessage( "You need to mention the roles you want added!", mrEvent.getChannel()));
 					}
 				} else if( tokens.get(2).equals("remove") ) {
 					if( !roleMentions.isEmpty() ) {
@@ -74,7 +74,7 @@ public class AutoRoleHandler extends MessageHandler {
 					} else {
 						Logger.debug("Failed to find requested roles", 2);
 						Logger.debug("Reaction produced from " + name, 1, true);
-						modifyAutoRoles.reactions.add(new ReactionMessage( "Sorry, I couldn't find those roles. Did you capitalize them correctly?", mrEvent.getChannel()));
+						modifyAutoRoles.reactions.add(new ReactionMessage( "You need to mention the roles you want removed!", mrEvent.getChannel()));
 					}
 				} else {
 					Logger.debug("Operation failed due to syntax error", 2);
