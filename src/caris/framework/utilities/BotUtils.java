@@ -1,8 +1,9 @@
-package utilities;
+package caris.framework.utilities;
 
 import java.util.List;
 
-import library.Variables;
+import caris.framework.library.GuildInfo;
+import caris.framework.library.Variables;
 import sx.blah.discord.api.ClientBuilder;
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.api.internal.json.objects.EmbedObject;
@@ -12,13 +13,10 @@ import sx.blah.discord.handle.obj.IMessage;
 import sx.blah.discord.util.DiscordException;
 import sx.blah.discord.util.EmbedBuilder;
 import sx.blah.discord.util.RequestBuffer;
-import utilities.Logger.level;
 
 public class BotUtils {
-	private static Logger log = new Logger().setDefaultIndent(0).setDefaultLevel( level.INFO );
-
-	// Constants:
-
+	
+	
 	// Actually creates the client object.
 	// Magic!
 	public static IDiscordClient getBuiltDiscordClient(String token) {
@@ -33,17 +31,16 @@ public class BotUtils {
 	}
 
 	public static IMessage sendMessage(IChannel channel, String message) {
-		return (IMessage) RequestBuffer.request(() -> {
+		return RequestBuffer.request(() -> {
 			try {
 				return channel.sendMessage(message);
 			}
 			catch (DiscordException e) {
-				log.log("Message could not be sent with error: ");
+				Logger.error("Message could not be sent with error: ");
 				e.printStackTrace();
 				return null;
 			}
-		});
-
+		}).get();
 	}
 
 	public static void sendMessage( IChannel[] channel, EmbedBuilder embed ) {
@@ -80,46 +77,40 @@ public class BotUtils {
 
 	public static void sendMessage( List<IChannel> channels, String message ) {
 		for( IChannel c : channels ) {
-			RequestBuffer.request(() -> {
-				try {
-					c.sendMessage(message);
-				}
-				catch (DiscordException e) {
-					log.log("Message could not be sent with error: ");
-					e.printStackTrace();
-				}
-			});
+			sendMessage(c, message);
 		}
 	}
 
-	public static void sendMessage( IChannel channel, EmbedBuilder embed ) {
-		RequestBuffer.request(() -> {
+	public static IMessage sendMessage( IChannel channel, EmbedBuilder embed ) {
+		return RequestBuffer.request(() -> {
 			try {
-				channel.sendMessage( embed.build() );
+				return channel.sendMessage( embed.build() );
 			}
 			catch (DiscordException e) {
-				log.log("Message could not be sent with error: ");
+				Logger.error("Message could not be sent with error: ");
 				e.printStackTrace();
+				return null;
 			}
-		});
+		}).get();
 	}
 
-	public static void sendMessage( IChannel channel, EmbedObject embed ) {
-		RequestBuffer.request(() -> {
+	public static IMessage sendMessage( IChannel channel, EmbedObject embed ) {
+		return RequestBuffer.request(() -> {
 			try {
-				channel.sendMessage( embed );
+				return channel.sendMessage( embed );
 			}
 			catch (DiscordException e) {
-				log.log("Message could not be sent with error: ");
+				Logger.error("Message could not be sent with error: ");
 				e.printStackTrace();
+				return null;
 			}
-		});
+		}).get();
 	}
 
 	public static void sendLog( IGuild guild, String message ) {
 		// Send the message to the guild's log channel, if it exists
-		if( Variables.guildIndex.get( guild ).logChannel != -1 ) {
-			sendMessage( guild.getChannelByID( Variables.guildIndex.get( guild ).logChannel ), message );
+		if( Variables.guildIndex.get(guild).specialChannels.get(GuildInfo.SpecialChannel.LOG) != null ) {
+			sendMessage( Variables.guildIndex.get(guild).specialChannels.get(GuildInfo.SpecialChannel.LOG), message );
 		}
 	}
 
