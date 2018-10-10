@@ -18,36 +18,32 @@ public class EventManager extends SuperEvent {
 	@EventSubscriber
 	@Override
 	public void onEvent(Event event) {
-		try {
-			instanceCount++;
-			if( instanceCount > 1 ) {
-				Logger.error("Number of instances: " + instanceCount);
-			}
-			ArrayList<Reaction> reactions = new ArrayList<Reaction>();
-			ArrayList<Reaction> passiveQueue = new ArrayList<Reaction>();
-			for( Handler h : Brain.handlers.values() ) {
-				Reaction r = h.handle(event);
-				if( r != null ) {
-					if( r.priority == -1 ) {
-						passiveQueue.add(r);
-					} else {
-						reactions.add(r);
-					}
-				}
-			}
-			if( !reactions.isEmpty() ) {
-				Reaction[] options = new Reaction[reactions.size()];
-				for( int f=0; f<reactions.size(); f++ ) {
-					options[f] = reactions.get(f);
-				}
-				Arrays.sort(options);
-				options[0].run();
-			}
-			MultiReaction passiveQueueExecutor = new MultiReaction(passiveQueue);
-			passiveQueueExecutor.run();
-			instanceCount--;
-		} catch (Exception E) {
-			return;
+		instanceCount++;
+		if( instanceCount > 1 ) {
+			Logger.error("Number of instances: " + instanceCount);
 		}
+		ArrayList<Reaction> reactions = new ArrayList<Reaction>();
+		ArrayList<Reaction> passiveQueue = new ArrayList<Reaction>();
+		for( Handler h : Brain.handlers.values() ) {
+			Reaction r = h.handle(event);
+			if( r != null ) {
+				if( r.priority == -1 ) {
+					passiveQueue.add(r);
+				} else {
+					reactions.add(r);
+				}
+			}
+		}
+		if( !reactions.isEmpty() ) {
+			Reaction[] options = new Reaction[reactions.size()];
+			for( int f=0; f<reactions.size(); f++ ) {
+				options[f] = reactions.get(f);
+			}
+			Arrays.sort(options);
+			options[0].run();
+		}
+		MultiReaction passiveQueueExecutor = new MultiReaction(passiveQueue);
+		passiveQueueExecutor.run();
+		instanceCount--;
 	}
 }
