@@ -1,16 +1,16 @@
 package org.jsoup;
 
-import org.jsoup.nodes.Document;
-import org.jsoup.parser.Parser;
-import org.jsoup.safety.Cleaner;
-import org.jsoup.safety.Whitelist;
-import org.jsoup.helper.DataUtil;
-import org.jsoup.helper.HttpConnection;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+
+import org.jsoup.helper.DataUtil;
+import org.jsoup.helper.HttpConnection;
+import org.jsoup.nodes.Document;
+import org.jsoup.parser.Parser;
+import org.jsoup.safety.Cleaner;
+import org.jsoup.safety.Whitelist;
 
 /**
  The core public access point to the jsoup functionality.

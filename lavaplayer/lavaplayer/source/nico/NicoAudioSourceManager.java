@@ -1,17 +1,17 @@
 package lavaplayer.source.nico;
 
-import lavaplayer.player.DefaultAudioPlayerManager;
-import lavaplayer.source.AudioSourceManager;
-import lavaplayer.tools.DataFormatTools;
-import lavaplayer.tools.FriendlyException;
-import lavaplayer.tools.io.HttpClientTools;
-import lavaplayer.tools.io.HttpConfigurable;
-import lavaplayer.tools.io.HttpInterface;
-import lavaplayer.tools.io.HttpInterfaceManager;
-import lavaplayer.track.AudioItem;
-import lavaplayer.track.AudioReference;
-import lavaplayer.track.AudioTrack;
-import lavaplayer.track.AudioTrackInfo;
+import static lavaplayer.tools.FriendlyException.Severity.COMMON;
+import static lavaplayer.tools.FriendlyException.Severity.SUSPICIOUS;
+
+import java.io.DataInput;
+import java.io.DataOutput;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.function.Function;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.http.Header;
 import org.apache.http.client.config.RequestConfig;
@@ -25,18 +25,18 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.parser.Parser;
 
-import static lavaplayer.tools.FriendlyException.Severity.COMMON;
-import static lavaplayer.tools.FriendlyException.Severity.SUSPICIOUS;
-
-import java.io.DataInput;
-import java.io.DataOutput;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.function.Function;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import lavaplayer.player.DefaultAudioPlayerManager;
+import lavaplayer.source.AudioSourceManager;
+import lavaplayer.tools.DataFormatTools;
+import lavaplayer.tools.FriendlyException;
+import lavaplayer.tools.io.HttpClientTools;
+import lavaplayer.tools.io.HttpConfigurable;
+import lavaplayer.tools.io.HttpInterface;
+import lavaplayer.tools.io.HttpInterfaceManager;
+import lavaplayer.track.AudioItem;
+import lavaplayer.track.AudioReference;
+import lavaplayer.track.AudioTrack;
+import lavaplayer.track.AudioTrackInfo;
 
 /**
  * Audio source manager that implements finding NicoNico tracks based on URL.

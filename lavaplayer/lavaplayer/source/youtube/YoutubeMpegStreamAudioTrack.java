@@ -1,5 +1,15 @@
 package lavaplayer.source.youtube;
 
+import static lavaplayer.tools.FriendlyException.Severity.SUSPICIOUS;
+
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.nio.charset.StandardCharsets;
+
+import org.apache.http.client.config.RequestConfig;
+import org.apache.http.client.utils.URIBuilder;
+
 import lavaplayer.container.mpeg.MpegAudioTrack;
 import lavaplayer.container.mpeg.MpegFileLoader;
 import lavaplayer.container.mpeg.MpegTrackConsumer;
@@ -7,21 +17,10 @@ import lavaplayer.container.mpeg.reader.MpegFileTrackProvider;
 import lavaplayer.tools.DataFormatTools;
 import lavaplayer.tools.FriendlyException;
 import lavaplayer.tools.io.HttpInterface;
-import lavaplayer.tools.io.PersistentHttpStream;
 import lavaplayer.tools.io.SeekableInputStream;
 import lavaplayer.track.AudioTrackInfo;
 import lavaplayer.track.playback.AudioProcessingContext;
 import lavaplayer.track.playback.LocalAudioTrackExecutor;
-
-import org.apache.http.client.config.RequestConfig;
-import org.apache.http.client.utils.URIBuilder;
-
-import static lavaplayer.tools.FriendlyException.Severity.SUSPICIOUS;
-
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.nio.charset.StandardCharsets;
 
 /**
  * YouTube segmented MPEG stream track. The base URL always gives the latest chunk. Every chunk contains the current

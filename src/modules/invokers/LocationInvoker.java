@@ -44,7 +44,7 @@ public class LocationInvoker extends Invoker {
 					builder.appendField(location, people, false);
 				}
 			}
-			embed = builder;
+			embed.add( builder );
 		} else {		
 			String location = command.tokens.get(1).toLowerCase();
 			if( command.tokens.size() < 3 ) {

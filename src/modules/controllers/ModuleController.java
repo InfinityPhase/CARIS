@@ -41,7 +41,7 @@ public class ModuleController extends Controller {
 						}
 					}
 					if( (tokens.get(1).equals("list") || tokens.get(1).equals("status") || tokens.get(1).equals("state")) && response.isEmpty() ) {
-						embed = variables.moduleStatusBuilder.list(variables.name, variables.modules);
+						embed.add( variables.moduleStatusBuilder.list(variables.name, variables.modules ) );
 					}
 				}
 			}

@@ -1,9 +1,9 @@
 package org.jsoup.nodes;
 
+import java.io.IOException;
+
 import org.jsoup.SerializationException;
 import org.jsoup.helper.Validate;
-
-import java.io.IOException;
 
 /**
  * An XML Declaration.

@@ -1,16 +1,18 @@
 package lavaplayer.source.youtube;
 
-import lavaplayer.container.matroska.MatroskaAudioTrack;
-import lavaplayer.container.mpeg.MpegAudioTrack;
-import lavaplayer.source.AudioSourceManager;
-import lavaplayer.tools.DataFormatTools;
-import lavaplayer.tools.FriendlyException;
-import lavaplayer.tools.JsonBrowser;
-import lavaplayer.tools.io.HttpInterface;
-import lavaplayer.track.AudioTrack;
-import lavaplayer.track.AudioTrackInfo;
-import lavaplayer.track.DelegatedAudioTrack;
-import lavaplayer.track.playback.LocalAudioTrackExecutor;
+import static lavaplayer.container.Formats.MIME_AUDIO_WEBM;
+import static lavaplayer.source.youtube.YoutubeAudioSourceManager.CHARSET;
+import static lavaplayer.tools.DataFormatTools.convertToMapLayout;
+import static lavaplayer.tools.FriendlyException.Severity.COMMON;
+import static lavaplayer.tools.FriendlyException.Severity.SUSPICIOUS;
+
+import java.io.IOException;
+import java.net.URI;
+import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.StringJoiner;
 
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -23,19 +25,17 @@ import org.jsoup.parser.Parser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-import java.net.URI;
-import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.StringJoiner;
-
-import static lavaplayer.container.Formats.MIME_AUDIO_WEBM;
-import static lavaplayer.source.youtube.YoutubeAudioSourceManager.CHARSET;
-import static lavaplayer.tools.DataFormatTools.convertToMapLayout;
-import static lavaplayer.tools.FriendlyException.Severity.COMMON;
-import static lavaplayer.tools.FriendlyException.Severity.SUSPICIOUS;
+import lavaplayer.container.matroska.MatroskaAudioTrack;
+import lavaplayer.container.mpeg.MpegAudioTrack;
+import lavaplayer.source.AudioSourceManager;
+import lavaplayer.tools.DataFormatTools;
+import lavaplayer.tools.FriendlyException;
+import lavaplayer.tools.JsonBrowser;
+import lavaplayer.tools.io.HttpInterface;
+import lavaplayer.track.AudioTrack;
+import lavaplayer.track.AudioTrackInfo;
+import lavaplayer.track.DelegatedAudioTrack;
+import lavaplayer.track.playback.LocalAudioTrackExecutor;
 
 /**
  * Audio track that handles processing Youtube videos as audio tracks.

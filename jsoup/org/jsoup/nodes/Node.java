@@ -1,5 +1,13 @@
 package org.jsoup.nodes;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+
 import org.jsoup.SerializationException;
 import org.jsoup.helper.StringUtil;
 import org.jsoup.helper.Validate;
@@ -7,9 +15,6 @@ import org.jsoup.parser.Parser;
 import org.jsoup.select.NodeFilter;
 import org.jsoup.select.NodeTraversor;
 import org.jsoup.select.NodeVisitor;
-
-import java.io.IOException;
-import java.util.*;
 
 /**
  The base, abstract Node model. Elements, Documents, Comments etc are all Node instances.

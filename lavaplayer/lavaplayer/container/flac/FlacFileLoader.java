@@ -1,13 +1,13 @@
 package lavaplayer.container.flac;
 
-import lavaplayer.tools.io.SeekableInputStream;
-import lavaplayer.track.playback.AudioProcessingContext;
-
 import static lavaplayer.container.MediaContainerDetection.checkNextBytes;
 
 import java.io.DataInput;
 import java.io.DataInputStream;
 import java.io.IOException;
+
+import lavaplayer.tools.io.SeekableInputStream;
+import lavaplayer.track.playback.AudioProcessingContext;
 
 /**
  * Loads either FLAC header information or a FLAC track object from a stream.

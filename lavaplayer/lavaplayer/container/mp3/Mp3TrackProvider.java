@@ -1,11 +1,5 @@
 package lavaplayer.container.mp3;
 
-import lavaplayer.filter.FilterChainBuilder;
-import lavaplayer.filter.ShortPcmAudioFilter;
-import lavaplayer.natives.mp3.Mp3Decoder;
-import lavaplayer.tools.io.SeekableInputStream;
-import lavaplayer.track.playback.AudioProcessingContext;
-
 import static lavaplayer.natives.mp3.Mp3Decoder.SAMPLES_PER_FRAME;
 
 import java.io.DataInputStream;
@@ -18,6 +12,12 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import lavaplayer.filter.FilterChainBuilder;
+import lavaplayer.filter.ShortPcmAudioFilter;
+import lavaplayer.natives.mp3.Mp3Decoder;
+import lavaplayer.tools.io.SeekableInputStream;
+import lavaplayer.track.playback.AudioProcessingContext;
 
 /**
  * Handles parsing MP3 files, seeking and sending the decoded frames to the specified frame consumer.

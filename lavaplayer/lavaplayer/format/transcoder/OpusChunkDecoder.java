@@ -1,10 +1,10 @@
 package lavaplayer.format.transcoder;
 
-import lavaplayer.format.AudioDataFormat;
-import lavaplayer.natives.opus.OpusDecoder;
-
 import java.nio.ByteBuffer;
 import java.nio.ShortBuffer;
+
+import lavaplayer.format.AudioDataFormat;
+import lavaplayer.natives.opus.OpusDecoder;
 
 /**
  * Audio chunk decoder for Opus codec.

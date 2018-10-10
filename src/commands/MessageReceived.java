@@ -11,7 +11,7 @@ import library.Variables;
 import main.Brain;
 import main.GuildInfo;
 import memories.Memory;
-import modules.Handler.Avalibility;
+import modules.Module.Avalibility;
 import modules.constructors.Constructor;
 import modules.controllers.Controller;
 import modules.invokers.Invoker;
@@ -33,11 +33,13 @@ public class MessageReceived extends SuperEvent {
 	@EventSubscriber
 	@Override
 	public void onMessageReceived( MessageReceivedEvent event ) {
-		IChannel recipient = event.getChannel();
+		List<IChannel> recipient = new ArrayList<>();
 		boolean blacklisted = false;
 		boolean notWhitelistedAndShouldBe = false; // True if there is a whitelist, and this channel is not on it.
 
 		log.log("Message received: \"" + event.getMessage().getContent() + "\" from User \"" + event.getAuthor().getName() + "\" on Guild \"" + event.getGuild().getName() + "\".");	
+		
+		recipient.add( event.getChannel() );
 
 		if( Variables.guildIndex.get( event.getGuild() ).blacklist.contains( event.getChannel() ) ){
 			blacklisted = true;

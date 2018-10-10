@@ -1,9 +1,6 @@
 package lavaplayer.container.wav;
 
-import lavaplayer.filter.FilterChainBuilder;
-import lavaplayer.filter.ShortPcmAudioFilter;
-import lavaplayer.tools.io.SeekableInputStream;
-import lavaplayer.track.playback.AudioProcessingContext;
+import static java.nio.ByteOrder.LITTLE_ENDIAN;
 
 import java.io.DataInput;
 import java.io.DataInputStream;
@@ -11,7 +8,10 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ShortBuffer;
 
-import static java.nio.ByteOrder.LITTLE_ENDIAN;
+import lavaplayer.filter.FilterChainBuilder;
+import lavaplayer.filter.ShortPcmAudioFilter;
+import lavaplayer.tools.io.SeekableInputStream;
+import lavaplayer.track.playback.AudioProcessingContext;
 
 /**
  * A provider of audio frames from a WAV track.

@@ -1,13 +1,13 @@
 package lavaplayer.remote.message;
 
+import java.io.DataInput;
+import java.io.DataOutput;
+import java.io.IOException;
+
 import lavaplayer.format.AudioDataFormat;
 import lavaplayer.format.StandardAudioDataFormats;
 import lavaplayer.player.AudioConfiguration;
 import lavaplayer.track.AudioTrackInfo;
-
-import java.io.DataInput;
-import java.io.DataOutput;
-import java.io.IOException;
 
 /**
  * Codec for track start message.

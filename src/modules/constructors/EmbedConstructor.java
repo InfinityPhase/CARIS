@@ -126,7 +126,7 @@ public class EmbedConstructor extends Constructor {
 				}
 			}
 			event.getMessage().delete();
-			embed = builder;
+			embed.add( builder );
 		}
 
 		return build();

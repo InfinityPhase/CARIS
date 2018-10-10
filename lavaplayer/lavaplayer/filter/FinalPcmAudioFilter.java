@@ -1,15 +1,15 @@
 package lavaplayer.filter;
 
-import lavaplayer.format.AudioDataFormat;
-import lavaplayer.track.playback.AudioProcessingContext;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.ShortBuffer;
 import java.util.Collection;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import lavaplayer.format.AudioDataFormat;
+import lavaplayer.track.playback.AudioProcessingContext;
 
 /**
  * Collects buffers of the required chunk size and passes them on to audio post processors.

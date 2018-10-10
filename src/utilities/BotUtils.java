@@ -8,6 +8,7 @@ import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.api.internal.json.objects.EmbedObject;
 import sx.blah.discord.handle.obj.IChannel;
 import sx.blah.discord.handle.obj.IGuild;
+import sx.blah.discord.handle.obj.IMessage;
 import sx.blah.discord.util.DiscordException;
 import sx.blah.discord.util.EmbedBuilder;
 import sx.blah.discord.util.RequestBuffer;
@@ -31,14 +32,15 @@ public class BotUtils {
 				.build();
 	}
 
-	public static void sendMessage(IChannel channel, String message) {
-		RequestBuffer.request(() -> {
+	public static IMessage sendMessage(IChannel channel, String message) {
+		return (IMessage) RequestBuffer.request(() -> {
 			try {
-				channel.sendMessage(message);
+				return channel.sendMessage(message);
 			}
 			catch (DiscordException e) {
 				log.log("Message could not be sent with error: ");
 				e.printStackTrace();
+				return null;
 			}
 		});
 
@@ -53,6 +55,14 @@ public class BotUtils {
 	public static void sendMessage( List<IChannel> channel, EmbedBuilder embed ) {
 		for( IChannel c : channel ) {
 			sendMessage( c, embed );
+		}
+	}
+	
+	public static void sendMessage( List<IChannel> channel, List<EmbedBuilder> embed ) {
+		for( IChannel c : channel ) {
+			for( EmbedBuilder e : embed ) {
+				sendMessage( c, e );
+			}
 		}
 	}
 

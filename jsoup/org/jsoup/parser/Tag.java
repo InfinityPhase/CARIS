@@ -1,9 +1,9 @@
 package org.jsoup.parser;
 
-import org.jsoup.helper.Validate;
-
 import java.util.HashMap;
 import java.util.Map;
+
+import org.jsoup.helper.Validate;
 
 /**
  * HTML Tag capabilities.

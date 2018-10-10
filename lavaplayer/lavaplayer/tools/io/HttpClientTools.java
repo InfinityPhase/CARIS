@@ -1,5 +1,19 @@
 package lavaplayer.tools.io;
 
+import static lavaplayer.tools.FriendlyException.Severity.COMMON;
+import static lavaplayer.tools.FriendlyException.Severity.SUSPICIOUS;
+
+import java.io.IOException;
+import java.net.SocketException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.nio.charset.StandardCharsets;
+
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLException;
+import javax.net.ssl.X509TrustManager;
+
 import org.apache.http.ConnectionClosedException;
 import org.apache.http.Header;
 import org.apache.http.HttpRequest;
@@ -45,20 +59,6 @@ import org.slf4j.LoggerFactory;
 import lavaplayer.tools.DataFormatTools;
 import lavaplayer.tools.FriendlyException;
 import lavaplayer.tools.JsonBrowser;
-
-import javax.net.ssl.HostnameVerifier;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLException;
-import javax.net.ssl.X509TrustManager;
-
-import static lavaplayer.tools.FriendlyException.Severity.COMMON;
-import static lavaplayer.tools.FriendlyException.Severity.SUSPICIOUS;
-
-import java.io.IOException;
-import java.net.SocketException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.nio.charset.StandardCharsets;
 
 /**
  * Tools for working with HttpClient

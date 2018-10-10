@@ -1,12 +1,10 @@
 package lavaplayer.source.youtube;
 
-import lavaplayer.tools.DataFormatTools;
-import lavaplayer.tools.ExceptionTools;
-import lavaplayer.tools.io.HttpInterface;
-import lavaplayer.track.AudioItem;
-import lavaplayer.track.AudioReference;
-import lavaplayer.track.AudioTrack;
-import lavaplayer.track.BasicAudioPlaylist;
+import java.io.IOException;
+import java.net.URI;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -17,11 +15,13 @@ import org.jsoup.nodes.Element;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-import java.net.URI;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.List;
+import lavaplayer.tools.DataFormatTools;
+import lavaplayer.tools.ExceptionTools;
+import lavaplayer.tools.io.HttpInterface;
+import lavaplayer.track.AudioItem;
+import lavaplayer.track.AudioReference;
+import lavaplayer.track.AudioTrack;
+import lavaplayer.track.BasicAudioPlaylist;
 
 /**
  * Handles processing YouTube searches.

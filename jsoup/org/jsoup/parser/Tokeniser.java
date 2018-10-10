@@ -1,10 +1,10 @@
 package org.jsoup.parser;
 
+import java.util.Arrays;
+
 import org.jsoup.helper.StringUtil;
 import org.jsoup.helper.Validate;
 import org.jsoup.nodes.Entities;
-
-import java.util.Arrays;
 
 /**
  * Readers the input stream into tokens.

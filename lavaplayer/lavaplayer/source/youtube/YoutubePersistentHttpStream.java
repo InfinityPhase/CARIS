@@ -1,12 +1,12 @@
 package lavaplayer.source.youtube;
 
+import java.net.URI;
+import java.net.URISyntaxException;
+
 import org.apache.http.client.utils.URIBuilder;
 
 import lavaplayer.tools.io.HttpInterface;
 import lavaplayer.tools.io.PersistentHttpStream;
-
-import java.net.URI;
-import java.net.URISyntaxException;
 
 /**
  * A persistent HTTP stream implementation that uses the range parameter instead of HTTP headers for specifying

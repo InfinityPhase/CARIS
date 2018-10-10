@@ -1,18 +1,6 @@
 package org.jsoup.nodes;
 
-import org.jsoup.helper.ChangeNotifyingArrayList;
-import org.jsoup.helper.StringUtil;
-import org.jsoup.helper.Validate;
-import org.jsoup.parser.ParseSettings;
-import org.jsoup.parser.Parser;
-import org.jsoup.parser.Tag;
-import org.jsoup.select.Collector;
-import org.jsoup.select.Elements;
-import org.jsoup.select.Evaluator;
-import org.jsoup.select.NodeTraversor;
-import org.jsoup.select.NodeVisitor;
-import org.jsoup.select.QueryParser;
-import org.jsoup.select.Selector;
+import static org.jsoup.internal.Normalizer.normalize;
 
 import java.io.IOException;
 import java.lang.ref.WeakReference;
@@ -27,7 +15,19 @@ import java.util.Set;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
-import static org.jsoup.internal.Normalizer.normalize;
+import org.jsoup.helper.ChangeNotifyingArrayList;
+import org.jsoup.helper.StringUtil;
+import org.jsoup.helper.Validate;
+import org.jsoup.parser.ParseSettings;
+import org.jsoup.parser.Parser;
+import org.jsoup.parser.Tag;
+import org.jsoup.select.Collector;
+import org.jsoup.select.Elements;
+import org.jsoup.select.Evaluator;
+import org.jsoup.select.NodeTraversor;
+import org.jsoup.select.NodeVisitor;
+import org.jsoup.select.QueryParser;
+import org.jsoup.select.Selector;
 
 /**
  * A HTML element consists of a tag name, attributes, and child nodes (including text nodes and

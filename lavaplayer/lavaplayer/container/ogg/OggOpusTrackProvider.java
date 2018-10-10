@@ -1,11 +1,11 @@
 package lavaplayer.container.ogg;
 
+import java.io.IOException;
+import java.nio.ByteBuffer;
+
 import lavaplayer.container.common.OpusPacketRouter;
 import lavaplayer.tools.io.DirectBufferStreamBroker;
 import lavaplayer.track.playback.AudioProcessingContext;
-
-import java.io.IOException;
-import java.nio.ByteBuffer;
 
 /**
  * OGG stream handler for Opus codec.

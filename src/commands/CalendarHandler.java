@@ -3,6 +3,7 @@ package commands;
 import java.util.Calendar;
 
 import library.Variables;
+import main.Brain;
 import main.GuildInfo;
 import sx.blah.discord.handle.obj.IGuild;
 import tokens.Reminder;
@@ -10,14 +11,14 @@ import utilities.BotUtils;
 import utilities.Logger;
 
 public class CalendarHandler {
-	Logger log = new Logger().setBaseIndent(1).setDefaultShouldAppendTime(true).build();
+	static Logger log = new Logger().setBaseIndent(1).setDefaultShouldAppendTime(true).build();
 	
-	public void check() {
+	public static void check() {
 		for( IGuild guild : Variables.guildIndex.keySet() ) {
 			GuildInfo info = Variables.guildIndex.get(guild);
 			for( Calendar c : info.reminders.keySet() ) {
 				Reminder reminder = info.reminders.get(c);
-				if( Calendar.getInstance().after(c) ) {
+				if( Brain.current.after(c) ) {
 					log.log("Sending reminder...");
 					log.indent(1).log("Guild: " + guild.getName() + " : " + guild.getStringID() );
 					log.indent(1).log("Channel: " + reminder.channelID );

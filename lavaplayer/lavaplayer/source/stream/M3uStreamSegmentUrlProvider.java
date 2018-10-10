@@ -1,10 +1,7 @@
 package lavaplayer.source.stream;
 
-import org.apache.commons.io.IOUtils;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-
-import lavaplayer.tools.io.HttpInterface;
+import static lavaplayer.source.twitch.TwitchStreamAudioSourceManager.createGetRequest;
+import static lavaplayer.tools.io.HttpClientTools.fetchResponseLines;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -12,8 +9,11 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
-import static lavaplayer.source.twitch.TwitchStreamAudioSourceManager.createGetRequest;
-import static lavaplayer.tools.io.HttpClientTools.fetchResponseLines;
+import org.apache.commons.io.IOUtils;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
+
+import lavaplayer.tools.io.HttpInterface;
 
 /**
  * Provides track segment URLs for streams which use the M3U segment format. There is a base M3U containing the list of

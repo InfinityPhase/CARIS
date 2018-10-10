@@ -1,10 +1,10 @@
 package lavaplayer.player;
 
+import java.util.function.Consumer;
+
 import lavaplayer.tools.FriendlyException;
 import lavaplayer.track.AudioPlaylist;
 import lavaplayer.track.AudioTrack;
-
-import java.util.function.Consumer;
 
 /**
  * Helper class for creating an audio result handler using only methods that can be passed as lambdas.

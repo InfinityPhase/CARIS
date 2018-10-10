@@ -1,11 +1,11 @@
 package lavaplayer.container.flac.frame;
 
+import java.io.IOException;
+import java.io.InputStream;
+
 import lavaplayer.container.flac.FlacStreamInfo;
 import lavaplayer.container.flac.frame.FlacFrameInfo.ChannelDelta;
 import lavaplayer.tools.io.BitStreamReader;
-
-import java.io.IOException;
-import java.io.InputStream;
 
 /**
  * Handles reading one FLAC audio frame.

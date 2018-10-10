@@ -1,13 +1,13 @@
 package org.jsoup.parser;
 
-import org.jsoup.UncheckedIOException;
-import org.jsoup.helper.Validate;
-
 import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
 import java.util.Arrays;
 import java.util.Locale;
+
+import org.jsoup.UncheckedIOException;
+import org.jsoup.helper.Validate;
 
 /**
  CharacterReader consumes tokens off a string. Used internally by jsoup. API subject to changes.

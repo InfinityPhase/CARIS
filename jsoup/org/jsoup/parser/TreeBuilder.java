@@ -1,12 +1,12 @@
 package org.jsoup.parser;
 
+import java.io.Reader;
+import java.util.ArrayList;
+
 import org.jsoup.helper.Validate;
 import org.jsoup.nodes.Attributes;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-
-import java.io.Reader;
-import java.util.ArrayList;
 
 /**
  * @author Jonathan Hedley

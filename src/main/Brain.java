@@ -8,6 +8,7 @@ import org.reflections.Reflections;
 
 import commands.CalendarHandler;
 import commands.GuildCreate;
+import commands.IndependentHandler;
 import commands.MessageReceived;
 import commands.SuperEvent;
 import commands.UserJoin;
@@ -19,9 +20,10 @@ import library.Variables;
 import memories.AuthorMemory;
 import memories.Memory;
 import memories.TimeMemory;
-import modules.Handler.Status;
+import modules.Module.Status;
 import modules.constructors.Constructor;
 import modules.controllers.Controller;
+import modules.independent.Independent;
 import modules.invokers.Invoker;
 import modules.responders.Responder;
 import modules.tools.Tool;
@@ -47,6 +49,7 @@ public class Brain {
 	public static HashMap<String, Constructor> constructorModules = new HashMap<String, Constructor>();
 	public static HashMap<String, Tool> toolModules = new HashMap<String, Tool>();
 	public static HashMap<String, Controller> controllerModules = new HashMap<String, Controller>();
+	public static HashMap<String, Independent> independentModules = new HashMap<>();
 	
 	/* Things that think */
 	public static AuthorMemory authorMemory = new AuthorMemory();
@@ -58,7 +61,7 @@ public class Brain {
 	public static UserJoin userJoin = new UserJoin();
 
 	/* Gigantic Variable Library */	
-	public static CalendarHandler calendarHandler = new CalendarHandler();
+	public static Calendar current = Calendar.getInstance();
 
 	/* Music Stuff */
 	public static AudioPlayerManager playerManager;
@@ -67,8 +70,6 @@ public class Brain {
 	public static IDiscordClient cli = null;
 
 	public static void main(String[] args) {
-		
-		Runtime.getRuntime().addShutdownHook( new LoggerShutdown() );
 
 		init();
 
@@ -109,16 +110,16 @@ public class Brain {
 		}
 
 		while( true ) {
-			calendarHandler.check();
+			current = Calendar.getInstance();
+			CalendarHandler.check();
+			IndependentHandler.check();
 		}
-		
 	}
 
 	public static void init() { // add handlers to their appropriate categories here
 		log.log("Initializing.");
 
 		// Build Season Time
-		Constants.kickoff.set(2018, Calendar.JANUARY, 6, 7, 0, 0);
 
 		// Music
 		musicManagers = new HashMap<>();
@@ -264,6 +265,25 @@ public class Brain {
 			}
 		}
 		
+		// Load Independent Modules 
+		log.indent(1).log("Loading Independent Modules...");
+		reflect = new Reflections("modules.independent");
+		for( Class<?> c : reflect.getSubTypesOf( modules.independent.Independent.class ) ) {
+			Independent t = null;
+			try {
+				t = (Independent) c.newInstance();
+			} catch (InstantiationException e) {
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+			}
+			
+			if( ( t != null ) && ( t.status == Status.ENABLED ) && !contains( t.name, Constants.DISABLED_INDEPENDENTS ) ) {
+				log.indent(2).log("Adding " + t.name + " to the independentModules map");
+				independentModules.put( t.name, t );
+			}
+		}
+		
 		log.indent(2).log("Loaded Controllers:");
 		for( String s : controllerModules.keySet() ) {
 			log.indent(3).log(s);
@@ -278,5 +298,4 @@ public class Brain {
 		}
 		return false;
 	}
-	
 }

@@ -1,5 +1,33 @@
 package lavaplayer.source.youtube;
 
+import static lavaplayer.tools.DataFormatTools.convertToMapLayout;
+import static lavaplayer.tools.FriendlyException.Severity.COMMON;
+import static lavaplayer.tools.FriendlyException.Severity.FAULT;
+import static lavaplayer.tools.FriendlyException.Severity.SUSPICIOUS;
+
+import java.io.DataInput;
+import java.io.DataOutput;
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import org.apache.commons.io.IOUtils;
+import org.apache.http.client.config.RequestConfig;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.utils.URLEncodedUtils;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import lavaplayer.player.DefaultAudioPlayerManager;
 import lavaplayer.source.AudioSourceManager;
 import lavaplayer.tools.DataFormatTools;
@@ -16,34 +44,6 @@ import lavaplayer.track.AudioReference;
 import lavaplayer.track.AudioTrack;
 import lavaplayer.track.AudioTrackInfo;
 import lavaplayer.track.BasicAudioPlaylist;
-
-import org.apache.commons.io.IOUtils;
-import org.apache.http.client.config.RequestConfig;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.utils.URLEncodedUtils;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import static lavaplayer.tools.DataFormatTools.convertToMapLayout;
-import static lavaplayer.tools.FriendlyException.Severity.COMMON;
-import static lavaplayer.tools.FriendlyException.Severity.FAULT;
-import static lavaplayer.tools.FriendlyException.Severity.SUSPICIOUS;
-
-import java.io.DataInput;
-import java.io.DataOutput;
-import java.io.IOException;
-import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.function.Function;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * Audio source manager that implements finding Youtube videos or playlists based on an URL or ID.

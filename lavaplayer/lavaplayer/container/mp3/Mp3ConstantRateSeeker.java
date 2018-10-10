@@ -1,11 +1,11 @@
 package lavaplayer.container.mp3;
 
-import lavaplayer.natives.mp3.Mp3Decoder;
-import lavaplayer.tools.io.SeekableInputStream;
-
 import static lavaplayer.natives.mp3.Mp3Decoder.SAMPLES_PER_FRAME;
 
 import java.io.IOException;
+
+import lavaplayer.natives.mp3.Mp3Decoder;
+import lavaplayer.tools.io.SeekableInputStream;
 
 /**
  * MP3 seeking support for constant bitrate files or in cases where the variable bitrate format used by the file is not

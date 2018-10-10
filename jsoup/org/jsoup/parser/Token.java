@@ -1,9 +1,9 @@
 package org.jsoup.parser;
 
+import static org.jsoup.internal.Normalizer.lowerCase;
+
 import org.jsoup.helper.Validate;
 import org.jsoup.nodes.Attributes;
-
-import static org.jsoup.internal.Normalizer.lowerCase;
 
 /**
  * Parse tokens for the Tokeniser.
