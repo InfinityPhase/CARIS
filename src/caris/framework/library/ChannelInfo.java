@@ -1,5 +1,6 @@
 package caris.framework.library;
 
+import caris.framework.tokens.MessageStack;
 import sx.blah.discord.handle.obj.IChannel;
 
 public class ChannelInfo {
@@ -14,6 +15,9 @@ public class ChannelInfo {
 	public boolean blackboxActive;
 	public Long blackboxStart;
 	
+	/* Info */
+	public MessageStack messageHistory;
+	
 	public ChannelInfo( IChannel channel ) {
 		this.name = channel.getName();
 		this.channel = channel;
@@ -22,6 +26,8 @@ public class ChannelInfo {
 		
 		blackboxActive = false;
 		blackboxStart = -1L;
+		
+		this.messageHistory = new MessageStack();
 	}
 	
 	public boolean openBlackbox(Long id) {
