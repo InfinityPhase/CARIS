@@ -62,12 +62,12 @@ public class Brain {
 		Logger.print("Client logged in.");
 		Logger.print("Loaded Channel Map.");
 
-		cli.changePlayingText(Constants.DEFAULT_PLAYING_TEXT);
-
 		while( !cli.isReady() ) {
 			// Wait to do anything else
 		}
 
+		cli.changePlayingText(Constants.DEFAULT_PLAYING_TEXT);
+		
 		while( true ) {
 			iterate();
 		}
@@ -77,11 +77,11 @@ public class Brain {
 		current = Calendar.getInstance();
 		if( !threadQueue.isEmpty() ) {
 			emptyReported = false;
-			Logger.debug("Threads in queue: " + threadQueue.size());
+			Logger.debug("Threads in queue: " + threadQueue.size(), true);
 			threadQueue.remove(0).run();
 		}
 		else if( !emptyReported ) {
-			Logger.debug("Thread queue empty.");
+			Logger.debug("Thread queue empty.", true);
 			emptyReported = true;
 		}
 	}
