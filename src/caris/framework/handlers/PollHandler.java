@@ -20,7 +20,7 @@ import sx.blah.discord.api.events.Event;
 public class PollHandler extends MessageHandler {
 	
 	public PollHandler() {
-		super("Poll Handler");
+		super("Poll", Access.DEFAULT, false);
 	}
 	
 	@Override

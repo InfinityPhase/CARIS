@@ -21,7 +21,7 @@ import sx.blah.discord.handle.obj.IGuild;
 public class TrackerSetHandler extends MessageHandler {
 
 	public TrackerSetHandler() {
-		super("Tracker Handler");
+		super("Tracker", Access.DEVELOPER, false);
 	}
 	
 	@Override

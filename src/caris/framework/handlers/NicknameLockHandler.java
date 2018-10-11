@@ -17,12 +17,12 @@ import sx.blah.discord.handle.obj.IUser;
 public class NicknameLockHandler extends MessageHandler {
 
 	public NicknameLockHandler() {
-		super("NicknameLock Handler");
+		super("NicknameLock", Access.ADMIN, false);
 	}
 	
 	@Override
 	protected boolean isTriggered(Event event) {
-		return isMentioned() && isElevated() && StringUtilities.containsAllOfIgnoreCase(message, "name", "lock");
+		return isMentioned() && StringUtilities.containsAllOfIgnoreCase(message, "name", "lock");
 	}
 	
 	@Override

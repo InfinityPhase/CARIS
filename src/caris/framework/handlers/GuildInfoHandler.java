@@ -18,12 +18,12 @@ import sx.blah.discord.handle.obj.IGuild;
 public class GuildInfoHandler extends MessageHandler {
 
 	public GuildInfoHandler() {
-		super("GuildInfo Handler");
+		super("GuildInfo", Access.DEVELOPER, false);
 	}
 	
 	@Override
 	protected boolean isTriggered(Event event) {
-		return isElevated() && isMentioned() && StringUtilities.containsAnyOfIgnoreCase(message, "info", "data", "analysis", "stats", "statistics") && StringUtilities.containsAnyOfIgnoreCase(message, "guild", "channel", "user", "people");
+		return isMentioned() && StringUtilities.containsAnyOfIgnoreCase(message, "info", "data", "analysis", "stats", "statistics") && StringUtilities.containsAnyOfIgnoreCase(message, "guild", "channel", "user", "people");
 	}
 	
 	@Override

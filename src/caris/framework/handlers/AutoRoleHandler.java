@@ -18,18 +18,16 @@ import sx.blah.discord.handle.obj.IRole;
 public class AutoRoleHandler extends MessageHandler {
 	
 	public AutoRoleHandler() {
-		super("AutoRole Handler");
-		keyword = "autorole";
+		super("AutoRole Handler", Access.ADMIN, false);
 	}
 	
 	@Override
 	protected boolean isTriggered(Event event) {
-		return isElevated() && isInvoked();
+		return isInvoked();
 	}
 	
 	@Override
 	protected Reaction process(Event event) {
-		Logger.debug("AutoRole detected", 2);
 		String text = message;
 		MultiReaction modifyAutoRoles = new MultiReaction(2);
 		ArrayList<String> tokens = TokenUtilities.parseTokens(text);

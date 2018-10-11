@@ -15,12 +15,12 @@ import sx.blah.discord.api.events.Event;
 public class MessagePurgeHandler extends MessageHandler {
 	
 	public MessagePurgeHandler() {
-		super("MessagePurge Handler");
+		super("MessagePurge", Access.ADMIN, false);
 	}
 	
 	@Override
 	protected boolean isTriggered(Event event) {
-		return isMentioned() && isElevated() && StringUtilities.containsAnyOfIgnoreCase(message, "purge", "clear");
+		return isMentioned() && StringUtilities.containsAnyOfIgnoreCase(message, "purge", "clear");
 	}
 	
 	@Override

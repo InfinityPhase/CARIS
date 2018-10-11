@@ -49,8 +49,9 @@ public class _8BallHandler extends MessageHandler {
 	};
 	
 	public _8BallHandler() {
-		super("_8Ball Handler");
-		keyword = "8ball";
+		super("8ball", Access.DEFAULT, false);
+		description = "Answers yes/no questions.";
+		usage.put("c8ball <inquiry>", "Generates a random yes/no/sarcastic answer");
 	}
 	
 	@Override
@@ -60,7 +61,6 @@ public class _8BallHandler extends MessageHandler {
 	
 	@Override
 	protected Reaction process(Event event) {
-		Logger.debug("8Ball detected", 2);
 		Logger.debug("Response produced from " + name, 2, true);
 		return new ReactionMessage(_8BALL_RESPONSES[((int) (Math.random()*_8BALL_RESPONSES.length))], mrEvent.getChannel());
 	}

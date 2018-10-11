@@ -10,7 +10,7 @@ import sx.blah.discord.handle.impl.events.guild.channel.ChannelCreateEvent;
 public class ChannelCreateHandler extends Handler {
 
 	public ChannelCreateHandler() {
-		super("ChannelCreate Handler");
+		super("ChannelCreate", false);
 	}
 	
 	@Override

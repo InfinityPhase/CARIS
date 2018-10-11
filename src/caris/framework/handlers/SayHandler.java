@@ -15,7 +15,7 @@ import sx.blah.discord.api.events.Event;
 public class SayHandler extends MessageHandler {
 
 	public SayHandler() {
-		super("Say Handler");
+		super("Say", Access.ADMIN, false);
 	}
 	
 	@Override

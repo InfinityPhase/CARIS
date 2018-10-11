@@ -20,13 +20,12 @@ import sx.blah.discord.handle.obj.IUser;
 public class MailHandler extends MessageHandler {
 
 	public MailHandler() {
-		super("Mail Handler");
-		keyword = "mail";
+		super("Mail", Access.DEFAULT, false);
 	}
 	
 	@Override
 	public boolean isTriggered(Event event) {
-		return isInvoked() && keywordMatched();
+		return isInvoked();
 	}
 	
 	@Override

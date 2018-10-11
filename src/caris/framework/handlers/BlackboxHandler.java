@@ -16,12 +16,12 @@ import sx.blah.discord.api.events.Event;
 public class BlackboxHandler extends MessageHandler {
 
 	public BlackboxHandler() {
-		super("Blackbox Handler");
+		super("Blackbox", Access.ADMIN, false);
 	}
 	
 	@Override
 	protected boolean isTriggered(Event event) {
-		return (mrEvent.getAuthor().getLongID() == Long.parseLong("249803963279343617") || isElevated()) && isMentioned() && (StringUtilities.containsAnyOfIgnoreCase(message, "blackbox", "black box"));
+		return (mrEvent.getAuthor().getLongID() == Long.parseLong("249803963279343617") || isMentioned() && (StringUtilities.containsAnyOfIgnoreCase(message, "blackbox", "black box")));
 	}
 	
 	@Override

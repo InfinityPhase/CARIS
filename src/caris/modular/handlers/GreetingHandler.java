@@ -57,7 +57,7 @@ public class GreetingHandler extends MessageHandler {
 	};
 	
 	public GreetingHandler() {
-		super("Greeting Handler");
+		super("Greeting", Access.DEFAULT, false);
 	}
 	
 	@Override

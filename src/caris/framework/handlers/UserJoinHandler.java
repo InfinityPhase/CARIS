@@ -15,7 +15,7 @@ import sx.blah.discord.handle.impl.obj.Role;
 public class UserJoinHandler extends Handler {
 
 	public UserJoinHandler() {
-		super("UserJoin Handler");
+		super("UserJoin", false);
 	}
 	
 	@Override

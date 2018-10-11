@@ -12,7 +12,7 @@ import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedE
 public class MessageLoggerHandler extends MessageHandler {
 	
 	public MessageLoggerHandler() {
-		super("MessageLogger Handler", true);
+		super("MessageLogger", Access.DEFAULT, true);
 	}
 	
 	@Override

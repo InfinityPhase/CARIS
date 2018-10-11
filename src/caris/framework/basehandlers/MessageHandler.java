@@ -16,27 +16,22 @@ import sx.blah.discord.handle.obj.IGuild;
 import sx.blah.discord.handle.obj.Permissions;
 
 public class MessageHandler extends Handler {
-
+		
+	public enum Access {
+		DEFAULT,
+		ADMIN,
+		DEVELOPER
+	};
+	
+	public Access accessLevel;
+	
 	public MessageReceivedEvent mrEvent;
 	public String message;
 	public boolean setupComplete;
 	
-	public String keyword = "";
-	
-	public MessageHandler() {
-		this("", false);
-	}
-	
-	public MessageHandler(String name) {
-		this(name, false);
-	}
-	
-	public MessageHandler(boolean allowBots) {
-		this("", allowBots);
-	}
-	
-	public MessageHandler(String name, boolean allowBots) {
+	public MessageHandler(String name, Access accessLevel, boolean allowBots) {
 		super(name, allowBots);
+		this.accessLevel = accessLevel;
 		mrEvent = null;
 		message = "";
 	}
@@ -49,7 +44,7 @@ public class MessageHandler extends Handler {
 			if( botFilter(event) ) {
 				Logger.debug("Event from a bot, ignoring", 1, true);
 				return null;
-			} if( isTriggered(event) ) {
+			} if( isTriggered(event) && (accessLevel != Access.ADMIN || isElevated()) && (accessLevel != Access.DEVELOPER || isDeveloper()) ) {
 				Logger.debug("Processing " + name, 1, true);
 				return process(event);
 			} else {
@@ -137,31 +132,13 @@ public class MessageHandler extends Handler {
 		return check;
 	}
 	
-	protected boolean keywordMatched() {
-		Logger.debug("Checking keyword", 3);
-		ArrayList<String> tokens = TokenUtilities.parseTokens(message, new char[] {});
-		Logger.debug("Message tokens: " + tokens.toString(), 4);
-		boolean check = false;
-		if( tokens.size() >= 1 ) {
-			check = tokens.get(1).equalsIgnoreCase(keyword);
-		} else {
-			Logger.debug("No keyword specified", 4);
-		}
-		if( check ) {
-			Logger.debug("Keyword matched", 4);
-		} else {
-			Logger.debug("Keyword match failed", 4);
-		}
-		return check;
-	}
-	
 	protected boolean isInvoked() {
 		Logger.debug("Checking invocation", 3);
 		ArrayList<String> tokens = TokenUtilities.parseTokens(message, new char[] {});
 		Logger.debug("Message tokens: " + tokens.toString(), 4);
 		boolean check = false;
-		if( tokens.size() >= 2 ) {
-			check = tokens.get(0).equalsIgnoreCase(Constants.INVOCATION_PREFIX) && tokens.get(1).equalsIgnoreCase(keyword);
+		if( tokens.size() >= 1 ) {
+			check = tokens.get(0).equalsIgnoreCase(Constants.INVOCATION_PREFIX.toLowerCase() + name);
 		}
 		if( check ) {
 			Logger.debug("Handler invoked", 4);

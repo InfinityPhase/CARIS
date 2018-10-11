@@ -13,12 +13,12 @@ import sx.blah.discord.api.events.Event;
 public class ChannelAssignHandler extends MessageHandler {
 
 	public ChannelAssignHandler() {
-		super("ChannelAssign Handler");
+		super("ChannelAssign", Access.ADMIN, false);
 	}
 	
 	@Override
 	protected boolean isTriggered(Event event) {
-		return isElevated() && isMentioned() && (StringUtilities.containsAnyOfIgnoreCase(message, "remove", "unset") || StringUtilities.containsAnyOfIgnoreCase(message, "set", "make")) && (StringUtilities.containsIgnoreCase(message, "default") || StringUtilities.containsIgnoreCase(message, "log") && isDeveloper());
+		return isMentioned() && (StringUtilities.containsAnyOfIgnoreCase(message, "remove", "unset") || StringUtilities.containsAnyOfIgnoreCase(message, "set", "make")) && (StringUtilities.containsIgnoreCase(message, "default") || StringUtilities.containsIgnoreCase(message, "log"));
 	}
 	
 	@Override
