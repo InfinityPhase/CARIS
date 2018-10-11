@@ -33,6 +33,7 @@ public class AutoRoleHandler extends MessageHandler {
 		String text = message;
 		MultiReaction modifyAutoRoles = new MultiReaction(2);
 		ArrayList<String> tokens = TokenUtilities.parseTokens(text);
+		ArrayList<IRole> roleMentions = (ArrayList<IRole>) mrEvent.getMessage().getRoleMentions();
 		if( tokens.size() >= 3 ) {
 			if( tokens.get(2).equals("get") ) {
 				String autoRoles = "";
@@ -50,44 +51,30 @@ public class AutoRoleHandler extends MessageHandler {
 				}
 			} else if( tokens.size() >= 4 ) {
 				if( tokens.get(2).equals("add") ) {
-					boolean modified = false;
-					for( int f=3; f<tokens.size(); f++ ) {
-						String token = tokens.get(f);
-						List<IRole> roles = mrEvent.getGuild().getRolesByName(token);
-						for( IRole role : roles ) {
-							modifyAutoRoles.reactions.add(new ReactionAutoRole(mrEvent.getGuild(), role, ReactionAutoRole.Operation.ADD));
-							modified = true;
-						}
+					for( IRole role : roleMentions ) {
+						modifyAutoRoles.reactions.add(new ReactionAutoRole(mrEvent.getGuild(), role, ReactionAutoRole.Operation.ADD));
 					}
-					if( modified ) {
+					if( !roleMentions.isEmpty() ) {
 						Logger.debug("Reaction produced from " + name, 1, true);
 						modifyAutoRoles.reactions.add(new ReactionMessage( "AutoRoles updated successfully!", mrEvent.getChannel()));
 					} else {
 						Logger.debug("Failed to find requested roles", 2);
 						Logger.debug("Reaction produced from " + name, 1, true);
-						modifyAutoRoles.reactions.add(new ReactionMessage( "Sorry, I couldn't find those roles. Did you capitalize them correctly?", mrEvent.getChannel()));
+						modifyAutoRoles.reactions.add(new ReactionMessage( "You need to mention the roles you want added!", mrEvent.getChannel()));
 					}
 				} else if( tokens.get(2).equals("remove") ) {
-					boolean modified = false;
-					for( int f=3; f<tokens.size(); f++ ) {
-						String token = tokens.get(f);
-						List<IRole> roles = mrEvent.getGuild().getRolesByName(token);
-						if( !roles.isEmpty() ) {
-							for( IRole role : roles ) {
-								if( Variables.guildIndex.get(mrEvent.getGuild()).autoRoles.contains(role) ) {
-									modifyAutoRoles.reactions.add(new ReactionAutoRole(mrEvent.getGuild(), role, ReactionAutoRole.Operation.REMOVE));
-									modified = true;
-								}
+					if( !roleMentions.isEmpty() ) {
+						for( IRole role : roleMentions ) {
+							if( Variables.guildIndex.get(mrEvent.getGuild()).autoRoles.contains(role) ) {
+								modifyAutoRoles.reactions.add(new ReactionAutoRole(mrEvent.getGuild(), role, ReactionAutoRole.Operation.REMOVE));
 							}
 						}
-					}
-					if( modified ) {
 						Logger.debug("Reaction produced from " + name, 1, true);
 						modifyAutoRoles.reactions.add(new ReactionMessage( "AutoRoles updated successfully!", mrEvent.getChannel()));
 					} else {
 						Logger.debug("Failed to find requested roles", 2);
 						Logger.debug("Reaction produced from " + name, 1, true);
-						modifyAutoRoles.reactions.add(new ReactionMessage( "Sorry, I couldn't find those roles. Did you capitalize them correctly?", mrEvent.getChannel()));
+						modifyAutoRoles.reactions.add(new ReactionMessage( "You need to mention the roles you want removed!", mrEvent.getChannel()));
 					}
 				} else {
 					Logger.debug("Operation failed due to syntax error", 2);

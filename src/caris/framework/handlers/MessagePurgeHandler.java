@@ -11,7 +11,6 @@ import caris.framework.utilities.Logger;
 import caris.framework.utilities.StringUtilities;
 import caris.framework.utilities.TokenUtilities;
 import sx.blah.discord.api.events.Event;
-import sx.blah.discord.util.MessageHistory;
 
 public class MessagePurgeHandler extends MessageHandler {
 	
@@ -32,16 +31,14 @@ public class MessagePurgeHandler extends MessageHandler {
 		if( !integers.isEmpty() ) {
 			int integer = integers.get(0);
 			if( integer > 0 ) {
-				MessageHistory history = mrEvent.getChannel().getMessageHistory(integer);
-				purgeMessages.reactions.add(new ReactionMessageDelete(mrEvent.getChannel(), history));
+				purgeMessages.reactions.add(new ReactionMessageDelete(mrEvent.getChannel(), integer));
 				purgeMessages.reactions.add(new ReactionMessage("Purged " + integer + " messages!", mrEvent.getChannel(), 2));
 			} else {
 				Logger.debug("Purge failed because incorrect number specified", 2);
 				purgeMessages.reactions.add(new ReactionMessage("You need to specify a positive number!", mrEvent.getChannel()));
 			}
 		} else if( StringUtilities.containsIgnoreCase(message, "last") ) {
-			MessageHistory history = mrEvent.getChannel().getMessageHistory(2);
-			purgeMessages.reactions.add(new ReactionMessageDelete(mrEvent.getChannel(), history));
+			purgeMessages.reactions.add(new ReactionMessageDelete(mrEvent.getChannel(), 2));
 			purgeMessages.reactions.add(new ReactionMessage("Purged the last message!", mrEvent.getChannel(), 2));
 		} else {
 			Logger.debug("Purge failed because no number specified", 2);

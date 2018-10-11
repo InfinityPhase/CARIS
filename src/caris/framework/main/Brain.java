@@ -1,5 +1,6 @@
 package caris.framework.main;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
@@ -34,6 +35,9 @@ public class Brain {
 
 	public static IDiscordClient cli = null;
 
+	public static boolean emptyReported = true;
+	public static ArrayList<Thread> threadQueue = new ArrayList<Thread>();
+	
 	public static void main(String[] args) {
 
 		init();
@@ -65,10 +69,23 @@ public class Brain {
 		}
 
 		while( true ) {
-			current = Calendar.getInstance();
+			iterate();
 		}
 	}
 
+	public static void iterate() { // do things. nothing gets past this block.
+		current = Calendar.getInstance();
+		if( !threadQueue.isEmpty() ) {
+			emptyReported = false;
+			Logger.debug("Threads in queue: " + threadQueue.size());
+			threadQueue.remove(0).run();
+		}
+		else if( !emptyReported ) {
+			Logger.debug("Thread queue empty.");
+			emptyReported = true;
+		}
+	}
+	
 	public static void init() { // add handlers to their appropriate categories here
 		Logger.print("Initializing.");
 

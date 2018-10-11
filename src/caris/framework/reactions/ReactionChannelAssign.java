@@ -1,12 +1,12 @@
 package caris.framework.reactions;
 
 import caris.framework.basereactions.Reaction;
-import caris.framework.library.Variables;
-import caris.framework.utilities.Logger;
 import caris.framework.library.GuildInfo.SpecialChannel;
+import caris.framework.library.Variables;
+import caris.framework.utilities.BotUtils;
+import caris.framework.utilities.Logger;
 import sx.blah.discord.handle.obj.IChannel;
 import sx.blah.discord.handle.obj.IGuild;
-import utilities.BotUtils;
 
 public class ReactionChannelAssign extends Reaction {
 	
