@@ -21,7 +21,7 @@ public class MessageStack {
 	
 	public ArrayList<IMessage> getQuantity(int quantity) {
 		ArrayList<IMessage> subList = new ArrayList<IMessage>();
-		for( int f=0; f<Math.min(1000, quantity); f++ ) {
+		for( int f=0; f<Math.min(1000, Math.min(quantity, messages.size())); f++ ) {
 			subList.add(messages.get(f));
 		}
 		return subList;
