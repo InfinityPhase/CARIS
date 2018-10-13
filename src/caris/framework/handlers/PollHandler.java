@@ -5,12 +5,13 @@ import java.util.ArrayList;
 import caris.framework.basehandlers.MessageHandler;
 import caris.framework.basereactions.MultiReaction;
 import caris.framework.basereactions.Reaction;
+import caris.framework.library.Constants;
 import caris.framework.library.Keywords;
 import caris.framework.library.Variables;
 import caris.framework.reactions.ReactionMessage;
 import caris.framework.reactions.ReactionPollClose;
-import caris.framework.reactions.ReactionPollOpenStart;
 import caris.framework.reactions.ReactionPollOpenCreate;
+import caris.framework.reactions.ReactionPollOpenStart;
 import caris.framework.tokens.Poll;
 import caris.framework.utilities.Logger;
 import caris.framework.utilities.StringUtilities;
@@ -21,6 +22,10 @@ public class PollHandler extends MessageHandler {
 	
 	public PollHandler() {
 		super("Poll", Access.DEFAULT, false);
+		description = "Creates polls for users to easily vote on.";
+		usage.put(Constants.NAME + ", start a poll for \"Question\"", "Creates a yes/no poll for the given question");
+		usage.put(Constants.NAME + ", start a poll for \"Question\" with options \"option1\" \"option2\" ... \"optionN\"", "Creates a poll for the given question with up to 10 options.");
+		usage.put(Constants.NAME + ", end poll <#>", "Closes the poll with the given ID, and displays its results");
 	}
 	
 	@Override

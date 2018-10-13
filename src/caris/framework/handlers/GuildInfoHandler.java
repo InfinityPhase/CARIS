@@ -7,6 +7,7 @@ import caris.framework.basereactions.Reaction;
 import caris.framework.embedbuilders.ChannelInfoBuilder;
 import caris.framework.embedbuilders.GuildInfoBuilder;
 import caris.framework.embedbuilders.UserInfoBuilder;
+import caris.framework.library.Constants;
 import caris.framework.main.Brain;
 import caris.framework.reactions.ReactionEmbed;
 import caris.framework.utilities.Logger;
@@ -19,6 +20,10 @@ public class GuildInfoHandler extends MessageHandler {
 
 	public GuildInfoHandler() {
 		super("GuildInfo", Access.DEVELOPER, false);
+		description = "Displays information on Guilds/Channels.";
+		usage.put(Constants.NAME + ", can I get the guild data?", "Displays a list of all the guilds Caris is on, and their IDs");
+		usage.put(Constants.NAME + ", can I get channel data for <Guild ID>?", "Displays a list of all the channels and their IDs from a guild that Caris is on");
+		usage.put(Constants.NAME + ", can I get user data for <Channel ID>?", "Displays a list of all the users and their IDs from a guild that Caris is on");
 	}
 	
 	@Override

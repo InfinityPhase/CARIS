@@ -138,7 +138,7 @@ public class MessageHandler extends Handler {
 		Logger.debug("Message tokens: " + tokens.toString(), 4);
 		boolean check = false;
 		if( tokens.size() >= 1 ) {
-			check = tokens.get(0).equalsIgnoreCase(Constants.INVOCATION_PREFIX.toLowerCase() + name);
+			check = tokens.get(0).equalsIgnoreCase(getKeyword());
 		}
 		if( check ) {
 			Logger.debug("Handler invoked", 4);
@@ -146,6 +146,10 @@ public class MessageHandler extends Handler {
 			Logger.debug("Handler uninvoked", 4);
 		}
 		return check;
+	}
+	
+	protected String getKeyword() {
+		return Constants.INVOCATION_PREFIX + name;
 	}
 	
 }

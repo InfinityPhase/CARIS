@@ -2,15 +2,18 @@ package caris.framework.embedbuilders;
 
 import caris.framework.basehandlers.Handler;
 import caris.framework.basehandlers.MessageHandler;
+import caris.framework.basehandlers.MessageHandler.Access;
 import caris.framework.main.Brain;
 import sx.blah.discord.util.EmbedBuilder;
 
 public class HelpBuilder extends Builder {
 	
 	public Handler handler;
+	public Access accessLevel;
 	
-	public HelpBuilder() {
+	public HelpBuilder(Access accessLevel) {
 		super();
+		this.accessLevel = accessLevel;
 	}
 	
 	public HelpBuilder(Handler handler) {
@@ -36,7 +39,26 @@ public class HelpBuilder extends Builder {
 		for( String name : Brain.handlers.keySet() ) {
 			Handler h = Brain.handlers.get(name);
 			if( !h.description.isEmpty() ) {
-				embeds.get(0).appendField(name, h.description, false);
+				if( h instanceof MessageHandler ) {
+					MessageHandler m = (MessageHandler) h;
+					boolean access = false;
+					switch (m.accessLevel) {
+						case DEFAULT:
+							access = true;
+							break;
+						case ADMIN:
+							access = accessLevel == Access.ADMIN || accessLevel == Access.DEVELOPER;
+							break;
+						case DEVELOPER:
+							access = accessLevel == Access.DEVELOPER;
+							break;
+					}
+					if( access ) {
+						embeds.get(0).appendField(name, h.description, false);
+					}
+				} else {
+					embeds.get(0).appendField(name, h.description, false);
+				}
 			}
 		}
 	}

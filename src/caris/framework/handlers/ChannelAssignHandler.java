@@ -3,6 +3,7 @@ package caris.framework.handlers;
 import caris.framework.basehandlers.MessageHandler;
 import caris.framework.basereactions.MultiReaction;
 import caris.framework.basereactions.Reaction;
+import caris.framework.library.Constants;
 import caris.framework.library.GuildInfo.SpecialChannel;
 import caris.framework.reactions.ReactionChannelAssign;
 import caris.framework.reactions.ReactionMessage;
@@ -14,6 +15,9 @@ public class ChannelAssignHandler extends MessageHandler {
 
 	public ChannelAssignHandler() {
 		super("ChannelAssign", Access.ADMIN, false);
+		description = "Assigns roles to certain channels.";
+		usage.put(Constants.NAME + ", set this as the default channel", "Sets the current channel as the default channel for welcome and mail messages");
+		usage.put(Constants.NAME + ", unset this as the default channel", "Unsets the current channel as the default channel");
 	}
 	
 	@Override

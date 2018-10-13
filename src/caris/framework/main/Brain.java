@@ -67,6 +67,7 @@ public class Brain {
 		}
 
 		cli.changePlayingText(Constants.INVOCATION_PREFIX + "Help");
+		cli.changeUsername(Constants.NAME);
 		
 		while( true ) {
 			iterate();
@@ -129,7 +130,7 @@ public class Brain {
 			
 			if( h != null ) {
 				Logger.print("Adding " + h.name + " to the Handler Map", 2);
-				handlers.put( h.name, h );
+				handlers.put( h.name.toLowerCase(), h );
 			}
 		}
 		

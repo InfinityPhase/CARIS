@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import caris.framework.basehandlers.MessageHandler;
 import caris.framework.basereactions.MultiReaction;
 import caris.framework.basereactions.Reaction;
+import caris.framework.library.Constants;
 import caris.framework.reactions.ReactionMessage;
 import caris.framework.reactions.ReactionMessageDelete;
 import caris.framework.utilities.Logger;
@@ -16,6 +17,9 @@ public class MessagePurgeHandler extends MessageHandler {
 	
 	public MessagePurgeHandler() {
 		super("MessagePurge", Access.ADMIN, false);
+		description = "Deletes messages in bulk.";
+		usage.put(Constants.NAME + ", purge <#> messages", "Clears the last number of messages specified");
+		usage.put(Constants.NAME + ", purge the last message", "Clears the last message sent");
 	}
 	
 	@Override

@@ -21,6 +21,9 @@ public class MailHandler extends MessageHandler {
 
 	public MailHandler() {
 		super("Mail", Access.DEFAULT, false);
+		description = "Allows users to send mail to offline users to see later.";
+		usage.put(getKeyword() + " check", "Checks any mail you may have");
+		usage.put(getKeyword() + " @user \"message\"", "Sends a message to the mentioned user(s)");
 	}
 	
 	@Override

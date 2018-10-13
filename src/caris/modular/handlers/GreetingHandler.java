@@ -58,6 +58,8 @@ public class GreetingHandler extends MessageHandler {
 	
 	public GreetingHandler() {
 		super("Greeting", Access.DEFAULT, false);
+		description = "Makes " + Constants.NAME + " say hi back to you!";
+		usage.put("Hello " + Constants.NAME + "!", "Produces a random greeting");
 	}
 	
 	@Override

@@ -18,7 +18,10 @@ import sx.blah.discord.handle.obj.IRole;
 public class AutoRoleHandler extends MessageHandler {
 	
 	public AutoRoleHandler() {
-		super("AutoRole Handler", Access.ADMIN, false);
+		super("AutoRole", Access.ADMIN, false);
+		description = "Automatically assigns roles to new users.";
+		usage.put(getKeyword() + " add @Role1 @Role2 ... @RoleN", "Automatically assigns the given roles to each user who joins the server");
+		usage.put(getKeyword() + " remove @Role1 @Role2 ... @RoleN", "Removes the given roles from the list of roles to assign to new users");
 	}
 	
 	@Override

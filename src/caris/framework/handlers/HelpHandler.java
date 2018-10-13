@@ -17,9 +17,9 @@ public class HelpHandler extends MessageHandler {
 
 	public HelpHandler() {
 		super("Help", Access.DEFAULT, false);
-		description = "Provides information on how to use Caris.";
-		usage.put(Constants.INVOCATION_PREFIX + name, "Displays basic information on how to use Caris");
-		usage.put(Constants.INVOCATION_PREFIX + name + " $Module", "Displays information on a module");
+		description = "Provides information on how to use " + Constants.NAME + ".";
+		usage.put(getKeyword(), "Displays basic information on how to use " + Constants.NAME);
+		usage.put(getKeyword() + " <Module>", "Displays information on a module");
 	}
 	
 	@Override
@@ -34,12 +34,29 @@ public class HelpHandler extends MessageHandler {
 		if( tokens.size() > 1 ) {
 			for( int f=1; f<tokens.size(); f++ ) {
 				if( StringUtilities.containsIgnoreCase(Brain.handlers.keySet(), tokens.get(f)) ) {
-					handler = Brain.handlers.get(tokens.get(f));
+					Handler temp = Brain.handlers.get(tokens.get(f));
+					if( temp instanceof MessageHandler ) {
+						MessageHandler m = (MessageHandler) temp;
+						switch (m.accessLevel) {
+							case DEFAULT:
+								handler = temp;
+							case ADMIN:
+								if( isElevated() ) {
+									handler = temp;
+								}
+							case DEVELOPER:
+								if( isDeveloper() ) {
+									handler = temp;
+								}
+						}
+					} else {
+						handler = temp;
+					}
 				}
 			}
 		}
 		if( handler == null ) {
-			return new ReactionEmbed(new HelpBuilder().getEmbeds(), mrEvent.getChannel());
+			return new ReactionEmbed(new HelpBuilder((isDeveloper()) ? Access.DEVELOPER : ((isAdmin()) ? Access.ADMIN : Access.DEFAULT)).getEmbeds(), mrEvent.getChannel());
 		} else {
 			return new ReactionEmbed(new HelpBuilder(handler).getEmbeds(), mrEvent.getChannel());
 		}

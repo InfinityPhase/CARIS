@@ -36,6 +36,8 @@ public class NicknameHandler extends MessageHandler {
 	
 	public NicknameHandler() {
 		super("Nickname", Access.DEFAULT, false);
+		description = "Sets your own nickname.";
+		usage.put("Caris, set my name to \"name\"", "Sets your nickname to the given name");
 	}
 	
 	@Override
