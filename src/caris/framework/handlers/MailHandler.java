@@ -38,14 +38,14 @@ public class MailHandler extends MessageHandler {
 		ArrayList<IUser> mentions = (ArrayList<IUser>) mrEvent.getMessage().getMentions();
 		ArrayList<String> quotes = TokenUtilities.parseQuoted(message);
 		MultiReaction mailbox = new MultiReaction(1);
-		if( tokens.size() >= 3 ) {
-			if( tokens.get(2).equalsIgnoreCase("check") ) {
+		if( tokens.size() >= 2 ) {
+			if( tokens.get(1).equalsIgnoreCase("check") ) {
 				mailbox.reactions.add(new ReactionEmbed(new MailCheckBuilder(Variables.guildIndex.get(mrEvent.getGuild()).userIndex.get(mrEvent.getAuthor())).getEmbeds(), mrEvent.getChannel(), 1));
-			} else if( tokens.get(2).equalsIgnoreCase("clear") ) {
+			} else if( tokens.get(1).equalsIgnoreCase("clear") ) {
 				mailbox.reactions.add(new ReactionMailClear(mrEvent.getGuild(), mrEvent.getAuthor()));
 				mailbox.reactions.add(new ReactionMessage("Mail cleared!", mrEvent.getChannel()));
-			} else if( tokens.size() >= 4 ) {
-				if( tokens.get(2).equalsIgnoreCase("send") ) {
+			} else if( tokens.size() >= 3 ) {
+				if( tokens.get(1).equalsIgnoreCase("send") ) {
 					if( !quotes.isEmpty() ) {
 						if( !mentions.isEmpty() ) {
 							for( IUser user : mentions ) {

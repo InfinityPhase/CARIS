@@ -35,8 +35,8 @@ public class AutoRoleHandler extends MessageHandler {
 		MultiReaction modifyAutoRoles = new MultiReaction(2);
 		ArrayList<String> tokens = TokenUtilities.parseTokens(text);
 		ArrayList<IRole> roleMentions = (ArrayList<IRole>) mrEvent.getMessage().getRoleMentions();
-		if( tokens.size() >= 3 ) {
-			if( tokens.get(2).equals("get") ) {
+		if( tokens.size() >= 2 ) {
+			if( tokens.get(1).equals("get") ) {
 				String autoRoles = "";
 				List<Role> roles = Variables.guildIndex.get(mrEvent.getGuild()).autoRoles;
 				for( Role role : roles ) {
@@ -50,8 +50,8 @@ public class AutoRoleHandler extends MessageHandler {
 					Logger.debug("Reaction produced from " + name, 1, true);
 					modifyAutoRoles.reactions.add(new ReactionMessage( "There aren't any default roles set for this server yet.", mrEvent.getChannel()));
 				}
-			} else if( tokens.size() >= 4 ) {
-				if( tokens.get(2).equals("add") ) {
+			} else if( tokens.size() >= 3 ) {
+				if( tokens.get(1).equals("add") ) {
 					for( IRole role : roleMentions ) {
 						modifyAutoRoles.reactions.add(new ReactionAutoRole(mrEvent.getGuild(), role, ReactionAutoRole.Operation.ADD));
 					}
@@ -63,7 +63,7 @@ public class AutoRoleHandler extends MessageHandler {
 						Logger.debug("Reaction produced from " + name, 1, true);
 						modifyAutoRoles.reactions.add(new ReactionMessage( "You need to mention the roles you want added!", mrEvent.getChannel()));
 					}
-				} else if( tokens.get(2).equals("remove") ) {
+				} else if( tokens.get(1).equals("remove") ) {
 					if( !roleMentions.isEmpty() ) {
 						for( IRole role : roleMentions ) {
 							if( Variables.guildIndex.get(mrEvent.getGuild()).autoRoles.contains(role) ) {
