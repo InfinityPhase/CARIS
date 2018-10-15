@@ -3,6 +3,7 @@ package caris.framework.embedbuilders;
 import caris.framework.basehandlers.Handler;
 import caris.framework.basehandlers.MessageHandler;
 import caris.framework.basehandlers.MessageHandler.Access;
+import caris.framework.library.Constants;
 import caris.framework.main.Brain;
 import sx.blah.discord.util.EmbedBuilder;
 
@@ -35,7 +36,7 @@ public class HelpBuilder extends Builder {
 		embeds.get(0).withAuthorName("Caris Help");
 		embeds.get(0).withDescription("Caris employs a variety of modules."
 				+ "\nSome of them require a specific prefix to use, but most of them can be activated simply by speaking to Caris in a conversational manner."
-				+ "**\n\nType `pHelp <module>` for more information on a specific function.**");
+				+ "**\n\nType `" + Constants.INVOCATION_PREFIX + "Help <module>` for more information on a specific function.**");
 		for( String name : Brain.handlers.keySet() ) {
 			Handler h = Brain.handlers.get(name);
 			if( !h.description.isEmpty() ) {
