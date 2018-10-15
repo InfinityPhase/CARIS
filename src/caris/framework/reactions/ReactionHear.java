@@ -26,7 +26,7 @@ public class ReactionHear extends Reaction {
 	
 	@Override
 	public void run() {
-		if( !user.isBot() ) {
+		if( !user.isBot() && !channel.isPrivate() ) {
 			Variables.guildIndex.get(channel.getGuild()).userIndex.get(user).lastMessage = message;			
 		}
 		Logger.hear(message, user, channel);
