@@ -59,6 +59,10 @@ public class MessageHandler extends Handler {
 	private void setup(Event event) {
 		if( event instanceof MessageReceivedEvent ) {
 			mrEvent = (MessageReceivedEvent) event;
+			if( mrEvent.getChannel().isPrivate() ) {
+				setupComplete = false;
+				return;
+			}
 			message = mrEvent.getMessage().getContent();
 			ArrayList<String> tokens = TokenUtilities.parseTokens(message);
 			if( tokens.size() > 0 ) {
