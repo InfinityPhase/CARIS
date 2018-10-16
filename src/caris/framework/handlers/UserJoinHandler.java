@@ -34,7 +34,7 @@ public class UserJoinHandler extends Handler {
 			welcome.reactions.add(new ReactionRoleAssign(userJoinEvent.getUser(), role));
 			addedRoles += role.getName() + ", ";
 		}
-		if( !welcome.reactions.isEmpty() ) {
+		if( !welcome.reactions.isEmpty() && addedRoles.length() > 2) {
 			addedRoles = addedRoles.substring(0, addedRoles.length()-2);
 			welcome.reactions.add(new ReactionMessage(("Welcome, " + userJoinEvent.getUser().getName() + "!" +  
 					"\nYou have been given the following roles: "+ addedRoles + "!"), Variables.guildIndex.get(userJoinEvent.getGuild()).getDefaultChannel()));
