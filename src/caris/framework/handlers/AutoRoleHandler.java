@@ -31,9 +31,8 @@ public class AutoRoleHandler extends MessageHandler {
 	
 	@Override
 	protected Reaction process(Event event) {
-		String text = message;
 		MultiReaction modifyAutoRoles = new MultiReaction(2);
-		ArrayList<String> tokens = TokenUtilities.parseTokens(text);
+		ArrayList<String> tokens = TokenUtilities.parseTokens(message);
 		ArrayList<IRole> roleMentions = (ArrayList<IRole>) mrEvent.getMessage().getRoleMentions();
 		if( tokens.size() >= 2 ) {
 			if( tokens.get(1).equals("get") ) {
