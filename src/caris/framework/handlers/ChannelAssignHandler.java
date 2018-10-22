@@ -35,6 +35,9 @@ public class ChannelAssignHandler extends MessageHandler {
 			} else if( StringUtilities.containsIgnoreCase(message, "log") ) {
 				channelAssign.reactions.add(new ReactionChannelAssign(mrEvent.getGuild(), null, SpecialChannel.LOG));
 				channelAssign.reactions.add(new ReactionMessage("Log Channel removed successfully!", mrEvent.getChannel()));
+			} else if( StringUtilities.containsIgnoreCase(message, "control") ) {
+				channelAssign.reactions.add(new ReactionChannelAssign(mrEvent.getGuild(), null, SpecialChannel.CONTROL));
+				channelAssign.reactions.add(new ReactionMessage("Control Channel removed successfully!", mrEvent.getChannel()));
 			}
 		} else {
 			if( StringUtilities.containsIgnoreCase(message, "default") ) {
@@ -43,6 +46,9 @@ public class ChannelAssignHandler extends MessageHandler {
 			} else if( StringUtilities.containsIgnoreCase(message, "log") ) {
 				channelAssign.reactions.add(new ReactionChannelAssign(mrEvent.getGuild(), mrEvent.getChannel(), SpecialChannel.LOG));
 				channelAssign.reactions.add(new ReactionMessage("Log Channel set successfully!", mrEvent.getChannel()));
+			} else if( StringUtilities.containsIgnoreCase(message, "control") ) {
+				channelAssign.reactions.add(new ReactionChannelAssign(mrEvent.getGuild(), mrEvent.getChannel(), SpecialChannel.CONTROL));
+				channelAssign.reactions.add(new ReactionMessage("Control Channel set successfully!", mrEvent.getChannel()));
 			}
 		}
 		Logger.debug("Reaction produced from " + name, 1, true);
