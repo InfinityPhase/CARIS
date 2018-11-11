@@ -16,7 +16,7 @@ To use it, pass the the desired token as the first parameter.
 ./run.sh TOKEN
 ```
 Alternatively, it is possible to store the token inside of the script itself, at the line: `declare TOKEN=""`
-This is not reccomended, as it can lead to the easy mistake of committing the token value by accident.
+This is not recommended, as it can lead to the easy mistake of committing the token value by accident.
 
 ### Using Gradle
 
@@ -32,13 +32,13 @@ gradle eclipse
 ```
 This will download the required dependencies and configure your project file to properly point to the dependencies.
 
-To build a project, it is reccomended (but not required) to also clean the build direcory of the previous build.
+To build a project, it is recommended (but not required) to also clean the build direcory of the previous build.
 To both clean and then build the project:
 ```
 gradle clean build
 ```
 This will create a zipped file under `build/distributions`, one of which is a `.tar`, and one a `.zip`.
-The unpacked compressed folder will contain two subdirectories.
+The unpacked compressed folder will contain two sub-directories.
 One is `lib`, which contains all of the required jar files for the project.
 The other, `bin`, contains two scripts: `CARIS` and `CARIS.bat`, which are used to start CARIS on \*nix and Windows respectively.
 
