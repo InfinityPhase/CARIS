@@ -25,5 +25,4 @@ public class Variables {
 	
 	/* Tracker Sets */
 	public static HashMap<IChannel, InputSources> trackerSets = new HashMap<IChannel, InputSources>();
-	
 }

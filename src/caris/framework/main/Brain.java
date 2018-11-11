@@ -90,8 +90,6 @@ public class Brain {
 	public static void init() { // add handlers to their appropriate categories here
 		Logger.print("Initializing.");
 
-		// Build Season Time
-
 		// Music
 		musicManagers = new HashMap<>();
 

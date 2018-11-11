@@ -17,7 +17,6 @@ public class GuildInfo {
 	public enum SpecialChannel {
 		DEFAULT,
 		LOG,
-		CONTROL
 	}
 	
 	/* Basic Information */
