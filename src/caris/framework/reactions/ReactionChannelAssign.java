@@ -36,8 +36,6 @@ public class ReactionChannelAssign extends Reaction {
 			case LOG:
 				Logger.print("Log channel reset in guild <" + guild.getName() + "> (" + guild.getLongID() + ")", 3);
 				break;
-			case CONTROL:
-				Logger.print("Control channel reset in guild <" + guild.getName() + "> (" + guild.getLongID() + ")", 3);
 			default:
 				Logger.error("Invalid ChannelType in ReactionChannelAssign");
 				break;	
@@ -51,10 +49,6 @@ public class ReactionChannelAssign extends Reaction {
 				case LOG:
 					BotUtils.sendMessage(channel, "This channel has been set as the log channel!");
 					Logger.print("Channel (" + channel.getLongID() + ") <" + channel.getName() + "> set as log channel in guild <" + guild.getName() + "> (" + guild.getLongID() + ")", 3);
-					break;
-				case CONTROL:
-					BotUtils.sendMessage(channel, "This channel has been set as the control channel!");
-					Logger.print("Channel (" + channel.getLongID() + ") <" + channel.getName() + "> set as control channel in guild <" + guild.getName() + "> (" + guild.getLongID() + ")", 3);
 					break;
 				default:
 					Logger.error("Invalid ChannelType in ReactionChannelAssign");
