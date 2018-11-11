@@ -65,6 +65,8 @@ public class Constants {
 			
 	};
 	
-	public static final String COMMAND_SEPERATOR = ":"; // Eg: cEcho: Hey there
-	public static final String[] DISABLED_INDEPENDENTS = {};
+	// API Constants
+	public static final String TBA_ENDPOINT = "https://www.thebluealliance.com/api/v3/";
+	public static final String TBA_AUTHENTICATION_HEADER = "X-TBA-Auth-Key";
+	public static final String TBA_AUTHENTICATION_KEY = "Y5RuxdZwUBRRXOOSQ5xG6bZts1rSS8u5vpdjpbFWTqyIpyzSnDf6FWsYABfbNPcB";
 }
