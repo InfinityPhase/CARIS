@@ -12,11 +12,7 @@ import caris.framework.library.Constants;
 
 public class TheBlueAllianceAPI {
 	
-	public TheBlueAllianceAPI() {
-		Unirest.setDefaultHeader(Constants.TBA_AUTHENTICATION_HEADER, Constants.TBA_AUTHENTICATION_KEY);
-	}
-	
-	public JSONObject getJSON(String query) {
+	public static JSONObject getJSON(String query) {
 		GetRequest request = Unirest.get(Constants.TBA_ENDPOINT + query);
 		HttpResponse<JsonNode> jsonNode;
 		try {

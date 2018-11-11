@@ -7,6 +7,8 @@ import java.util.Map;
 
 import org.reflections.Reflections;
 
+import com.mashape.unirest.http.Unirest;
+
 import caris.framework.basehandlers.Handler;
 import caris.framework.events.EventManager;
 import caris.framework.library.Constants;
@@ -90,6 +92,9 @@ public class Brain {
 	public static void init() { // add handlers to their appropriate categories here
 		Logger.print("Initializing.");
 
+		// API
+		Unirest.setDefaultHeader(Constants.TBA_AUTHENTICATION_HEADER, Constants.TBA_AUTHENTICATION_KEY);
+		
 		// Music
 		musicManagers = new HashMap<>();
 
