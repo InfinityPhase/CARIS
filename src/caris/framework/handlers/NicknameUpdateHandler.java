@@ -11,7 +11,7 @@ import sx.blah.discord.handle.impl.events.guild.member.NicknameChangedEvent;
 public class NicknameUpdateHandler extends Handler {
 
 	public NicknameUpdateHandler() {
-		super("NicknameUpdate Handler");
+		super("NicknameUpdate", false);
 	}
 	
 	@Override

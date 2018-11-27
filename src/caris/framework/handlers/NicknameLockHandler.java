@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import caris.framework.basehandlers.MessageHandler;
 import caris.framework.basereactions.MultiReaction;
 import caris.framework.basereactions.Reaction;
+import caris.framework.library.Constants;
 import caris.framework.reactions.ReactionMessage;
 import caris.framework.reactions.ReactionNicknameLock;
 import caris.framework.reactions.ReactionNicknameSet;
@@ -17,12 +18,16 @@ import sx.blah.discord.handle.obj.IUser;
 public class NicknameLockHandler extends MessageHandler {
 
 	public NicknameLockHandler() {
-		super("NicknameLock Handler");
+		super("NicknameLock", Access.ADMIN, false);
+		description = "Locks people's nicknames.";
+		usage.put(Constants.NAME + ", lock @user's name", "Locks the nickname(s) for the user(s) specified to what it is currently");
+		usage.put(Constants.NAME + ", lock @user's name to \"Nickname\"", "Locks the nickname(s) for the user(s) specified to the given name");
+		usage.put(Constants.NAME + ", unlock @user's name", "Unlocks the nickname(s) for the user(s) specified");
 	}
 	
 	@Override
 	protected boolean isTriggered(Event event) {
-		return isMentioned() && isElevated() && StringUtilities.containsAllOfIgnoreCase(message, "name", "lock");
+		return isMentioned() && StringUtilities.containsAllOfIgnoreCase(message, "name", "lock");
 	}
 	
 	@Override

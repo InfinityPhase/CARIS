@@ -62,12 +62,13 @@ public class Brain {
 		Logger.print("Client logged in.");
 		Logger.print("Loaded Channel Map.");
 
-		cli.changePlayingText(Constants.DEFAULT_PLAYING_TEXT);
-
 		while( !cli.isReady() ) {
 			// Wait to do anything else
 		}
 
+		cli.changePlayingText(Constants.INVOCATION_PREFIX + "Help");
+		cli.changeUsername(Constants.NAME);
+		
 		while( true ) {
 			iterate();
 		}
@@ -77,19 +78,17 @@ public class Brain {
 		current = Calendar.getInstance();
 		if( !threadQueue.isEmpty() ) {
 			emptyReported = false;
-			Logger.debug("Threads in queue: " + threadQueue.size());
+			Logger.debug("Threads in queue: " + threadQueue.size(), true);
 			threadQueue.remove(0).run();
 		}
 		else if( !emptyReported ) {
-			Logger.debug("Thread queue empty.");
+			Logger.debug("Thread queue empty.", true);
 			emptyReported = true;
 		}
 	}
 	
 	public static void init() { // add handlers to their appropriate categories here
 		Logger.print("Initializing.");
-
-		// Build Season Time
 
 		// Music
 		musicManagers = new HashMap<>();
@@ -113,7 +112,7 @@ public class Brain {
 			
 			if( h != null ) {
 				Logger.print("Adding " + h.name + " to the Handler Map", 2);
-				handlers.put( h.name, h );
+				handlers.put( h.name.toLowerCase(), h );
 			}
 		}
 		reflect = new Reflections("caris.modular.handlers");
@@ -129,7 +128,7 @@ public class Brain {
 			
 			if( h != null ) {
 				Logger.print("Adding " + h.name + " to the Handler Map", 2);
-				handlers.put( h.name, h );
+				handlers.put( h.name.toLowerCase(), h );
 			}
 		}
 		

@@ -20,13 +20,15 @@ import sx.blah.discord.handle.obj.IUser;
 public class MailHandler extends MessageHandler {
 
 	public MailHandler() {
-		super("Mail Handler");
-		keyword = "mail";
+		super("Mail", Access.DEFAULT, false);
+		description = "Allows users to send mail to offline users to see later.";
+		usage.put(getKeyword() + " check", "Checks any mail you may have");
+		usage.put(getKeyword() + " @user \"message\"", "Sends a message to the mentioned user(s)");
 	}
 	
 	@Override
 	public boolean isTriggered(Event event) {
-		return isInvoked() && keywordMatched();
+		return isInvoked();
 	}
 	
 	@Override
@@ -36,14 +38,14 @@ public class MailHandler extends MessageHandler {
 		ArrayList<IUser> mentions = (ArrayList<IUser>) mrEvent.getMessage().getMentions();
 		ArrayList<String> quotes = TokenUtilities.parseQuoted(message);
 		MultiReaction mailbox = new MultiReaction(1);
-		if( tokens.size() >= 3 ) {
-			if( tokens.get(2).equalsIgnoreCase("check") ) {
+		if( tokens.size() >= 2 ) {
+			if( tokens.get(1).equalsIgnoreCase("check") ) {
 				mailbox.reactions.add(new ReactionEmbed(new MailCheckBuilder(Variables.guildIndex.get(mrEvent.getGuild()).userIndex.get(mrEvent.getAuthor())).getEmbeds(), mrEvent.getChannel(), 1));
-			} else if( tokens.get(2).equalsIgnoreCase("clear") ) {
+			} else if( tokens.get(1).equalsIgnoreCase("clear") ) {
 				mailbox.reactions.add(new ReactionMailClear(mrEvent.getGuild(), mrEvent.getAuthor()));
 				mailbox.reactions.add(new ReactionMessage("Mail cleared!", mrEvent.getChannel()));
-			} else if( tokens.size() >= 4 ) {
-				if( tokens.get(2).equalsIgnoreCase("send") ) {
+			} else if( tokens.size() >= 3 ) {
+				if( tokens.get(1).equalsIgnoreCase("send") ) {
 					if( !quotes.isEmpty() ) {
 						if( !mentions.isEmpty() ) {
 							for( IUser user : mentions ) {

@@ -2,7 +2,7 @@ package caris.modular.handlers;
 
 import java.util.ArrayList;
 
-import caris.framework.basehandlers.Handler;
+import caris.framework.basehandlers.MessageHandler;
 import caris.framework.basereactions.MultiReaction;
 import caris.framework.basereactions.Reaction;
 import caris.framework.reactions.ReactionMessage;
@@ -13,7 +13,7 @@ import caris.framework.utilities.TokenUtilities;
 import sx.blah.discord.api.events.Event;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 
-public class NicknameHandler extends Handler {
+public class NicknameHandler extends MessageHandler {
 
 	private String[] tooLongResponses = new String[] {
 			"You ever tried to fit a camel through eye of a needle?"
@@ -35,17 +35,14 @@ public class NicknameHandler extends Handler {
 	};
 	
 	public NicknameHandler() {
-		super("Nickname Handler");
+		super("Nickname", Access.DEFAULT, false);
+		description = "Sets your own nickname.";
+		usage.put("Caris, set my name to \"name\"", "Sets your nickname to the given name");
 	}
 	
 	@Override
 	protected boolean isTriggered(Event event) {
-		if( !(event instanceof MessageReceivedEvent) ) {
-			return false;
-		}
-		MessageReceivedEvent messageReceivedEvent = (MessageReceivedEvent) event;
-		ArrayList<String> tokens = TokenUtilities.parseTokens(messageReceivedEvent.getMessage().getContent());
-		return StringUtilities.hasAllOfIgnoreCase( tokens, "my", "name" );
+		return StringUtilities.hasIgnoreCase( TokenUtilities.parseTokens(message), "my") && StringUtilities.hasAllOfIgnoreCase( TokenUtilities.parseTokens(message), "name", "nickname");
 	}
 	
 	@Override

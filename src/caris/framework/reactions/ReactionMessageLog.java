@@ -23,7 +23,9 @@ public class ReactionMessageLog extends Reaction {
 	
 	@Override
 	public void run() {
+		if(!channel.isPrivate()) {
 		Variables.guildIndex.get(channel.getGuild()).channelIndex.get(channel).messageHistory.add(message);
 		Logger.print("Logged message from (" + channel.getLongID() + ") <" + channel.getName() + ">", 2);
+		}
 	}
 }

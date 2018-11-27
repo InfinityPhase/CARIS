@@ -15,7 +15,7 @@ import sx.blah.discord.handle.impl.obj.Role;
 public class UserJoinHandler extends Handler {
 
 	public UserJoinHandler() {
-		super("UserJoin Handler");
+		super("UserJoin", false);
 	}
 	
 	@Override
@@ -34,12 +34,12 @@ public class UserJoinHandler extends Handler {
 			welcome.reactions.add(new ReactionRoleAssign(userJoinEvent.getUser(), role));
 			addedRoles += role.getName() + ", ";
 		}
-		if( !welcome.reactions.isEmpty() ) {
+		if( !welcome.reactions.isEmpty() && addedRoles.length() > 2) {
 			addedRoles = addedRoles.substring(0, addedRoles.length()-2);
 			welcome.reactions.add(new ReactionMessage(("Welcome, " + userJoinEvent.getUser().getName() + "!" +  
-					"\nYou have been given the following roles: "+ addedRoles + "!"), userJoinEvent.getGuild().getDefaultChannel()));
+					"\nYou have been given the following roles: "+ addedRoles + "!"), Variables.guildIndex.get(userJoinEvent.getGuild()).getDefaultChannel()));
 		} else {
-			welcome.reactions.add(new ReactionMessage(("Welcome, " + userJoinEvent.getUser().getName() + "!"), userJoinEvent.getGuild().getDefaultChannel()));
+			welcome.reactions.add(new ReactionMessage(("Welcome, " + userJoinEvent.getUser().getName() + "!"), Variables.guildIndex.get(userJoinEvent.getGuild()).getDefaultChannel()));
 		}
 		Logger.debug("Response produced from " + name, 1, true);
 		return welcome;

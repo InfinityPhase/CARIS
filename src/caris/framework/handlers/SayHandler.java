@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import caris.framework.basehandlers.MessageHandler;
 import caris.framework.basereactions.MultiReaction;
 import caris.framework.basereactions.Reaction;
+import caris.framework.library.Constants;
 import caris.framework.reactions.ReactionMessage;
 import caris.framework.reactions.ReactionMessageDelete;
 import caris.framework.utilities.Logger;
@@ -15,12 +16,14 @@ import sx.blah.discord.api.events.Event;
 public class SayHandler extends MessageHandler {
 
 	public SayHandler() {
-		super("Say Handler");
+		super("Say", Access.ADMIN, false);
+		description = "Forces " + Constants.NAME + " to say something.";
+		usage.put(getKeyword() + " \"message\"", "Makes " + Constants.NAME + " say the given message");
 	}
 	
 	@Override
 	protected boolean isTriggered(Event event) {
-		return isMentioned() && isElevated() && StringUtilities.containsAnyOfIgnoreCase(message, "say", "repeat");
+		return isMentioned() && StringUtilities.containsAnyOfIgnoreCase(message, "say", "repeat");
 	}
 	
 	@Override

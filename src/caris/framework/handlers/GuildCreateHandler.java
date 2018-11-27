@@ -10,7 +10,7 @@ import sx.blah.discord.handle.impl.events.guild.GuildCreateEvent;
 public class GuildCreateHandler extends Handler {
 
 	public GuildCreateHandler() {
-		super("GuildCreate Handler");
+		super("GuildCreate", false);
 	}
 	
 	@Override

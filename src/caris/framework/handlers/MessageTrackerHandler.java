@@ -14,7 +14,7 @@ import sx.blah.discord.handle.obj.IGuild;
 public class MessageTrackerHandler extends MessageHandler {
 
 	public MessageTrackerHandler() {
-		super("Message Tracker Handler", true);
+		super("MessageTracker", Access.DEFAULT, true);
 	}
 	
 	@Override

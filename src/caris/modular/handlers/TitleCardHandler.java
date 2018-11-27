@@ -18,7 +18,7 @@ import sx.blah.discord.util.EmbedBuilder;
 public class TitleCardHandler extends MessageHandler {
 
 	public TitleCardHandler() {
-		super("Title Card Handler");
+		super("TitleCard", Access.DEFAULT, false);
 	}
 	
 	@Override

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import caris.framework.basehandlers.MessageHandler;
 import caris.framework.basereactions.MultiReaction;
 import caris.framework.basereactions.Reaction;
+import caris.framework.library.Constants;
 import caris.framework.library.Keywords;
 import caris.framework.library.Variables;
 import caris.framework.reactions.ReactionMessage;
@@ -21,7 +22,10 @@ import sx.blah.discord.handle.obj.IGuild;
 public class TrackerSetHandler extends MessageHandler {
 
 	public TrackerSetHandler() {
-		super("Tracker Handler");
+		super("Tracker", Access.DEVELOPER, false);
+		description = "Outputs all the messages sent in a given channel.";
+		usage.put(Constants.NAME + ", start tracking <Channel ID>", "Begins relaying all messages in the specified channel to the current channel");
+		usage.put(Constants.NAME + ", stop tracking <Channel ID>", "Stops tracking the given channel");
 	}
 	
 	@Override

@@ -3,6 +3,7 @@ package caris.framework.handlers;
 import caris.framework.basehandlers.MessageHandler;
 import caris.framework.basereactions.MultiReaction;
 import caris.framework.basereactions.Reaction;
+import caris.framework.library.Constants;
 import caris.framework.library.Keywords;
 import caris.framework.library.Variables;
 import caris.framework.reactions.ReactionBlackboxEnd;
@@ -16,12 +17,16 @@ import sx.blah.discord.api.events.Event;
 public class BlackboxHandler extends MessageHandler {
 
 	public BlackboxHandler() {
-		super("Blackbox Handler");
+		super("Blackbox", Access.ADMIN, false);
+		description = "Opens a session within which all messages will be deleted once the session is closed.";
+		usage.put( Constants.NAME + ", could you open a blackbox?", "Opens a blackbox session; all messages sent will be deleted once it is closed");
+		usage.put( Constants.NAME + ", could you close the blackbox?", "Closes the active blackbox session; deletes all messages sent since the blackbox was opened");
+		usage.put( Constants.NAME + ", cancel the blackbox", "Cancels the blackbox session");
 	}
 	
 	@Override
 	protected boolean isTriggered(Event event) {
-		return (mrEvent.getAuthor().getLongID() == Long.parseLong("249803963279343617") || isElevated()) && isMentioned() && (StringUtilities.containsAnyOfIgnoreCase(message, "blackbox", "black box"));
+		return (mrEvent.getAuthor().getLongID() == Long.parseLong("249803963279343617") || isMentioned() && (StringUtilities.containsAnyOfIgnoreCase(message, "blackbox", "black box")));
 	}
 	
 	@Override

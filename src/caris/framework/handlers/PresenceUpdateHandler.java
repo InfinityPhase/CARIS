@@ -16,7 +16,7 @@ import sx.blah.discord.handle.obj.StatusType;
 public class PresenceUpdateHandler extends Handler {
 
 	public PresenceUpdateHandler() {
-		super("PresenceUpdate Handler");
+		super("PresenceUpdate", false);
 	}
 	
 	@Override
