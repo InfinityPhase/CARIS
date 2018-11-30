@@ -1,7 +1,6 @@
 package caris.framework.reactions;
 
 import caris.framework.basereactions.Reaction;
-import caris.framework.library.Variables;
 import caris.framework.utilities.Logger;
 import sx.blah.discord.handle.obj.IChannel;
 import sx.blah.discord.handle.obj.IUser;
@@ -26,9 +25,10 @@ public class ReactionHear extends Reaction {
 	
 	@Override
 	public void run() {
-		if( !user.isBot() && !channel.isPrivate() ) {
-			Variables.guildIndex.get(channel.getGuild()).userIndex.get(user).lastMessage = message;			
+		try {
+			Logger.hear(message, user, channel);
+		} catch(NullPointerException n) {
+			Logger.error("Fatal error: null pointer in reactionhear");
 		}
-		Logger.hear(message, user, channel);
 	}
 }

@@ -21,7 +21,6 @@ public class UserInfo {
 	public UserInfo( IUser user ) {
 		this.user = user;
 		location = "";
-		lastMessage = "";
 		
 		nicknameLock = "";
 		
