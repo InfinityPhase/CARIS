@@ -1,8 +1,9 @@
 apply plugin:'java'
 apply plugin:'application'
+apply plugin:'idea'
 apply plugin:'eclipse'
 
-mainClassName = "main.Brain"
+mainClassName = "caris/framework/main/Brain"
 
 run {
 	if (project.hasProperty("runArgs")) {
@@ -37,14 +38,9 @@ sourceSets {
 jar {
 	// Needs to be after dependencies
 	manifest {
-		attributes 'Main-Class': 'main.Brain'
+		attributes 'Main-Class': mainClassName
 		attributes (
 			"Class-Path": configurations.compile.collect { it.getName() }.join(' ')
 		)
 	}
 }
-
-task wrapper( type: Wrapper ) {
-    gradleVersion = '4.6'
-}
-
