@@ -29,11 +29,7 @@ public abstract class Handler {
 				
 		Logger.debug("Handler " + name + " initialized.", 1);
 	}
-	
-	public Reaction handle(Event event) {
-		return null;
-	}
-	
+		
 	protected boolean botFilter(Event event) {
 		return isBot(event) && !allowBots;
 	}
@@ -47,6 +43,7 @@ public abstract class Handler {
 		return false;
 	}
 	
+	public abstract Reaction handle(Event event);
 	protected abstract void setUsage();
 	protected abstract void setDescription();
 	
