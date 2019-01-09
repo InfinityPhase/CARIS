@@ -94,6 +94,7 @@ public class Brain {
 		for( Calendar c : countdownMilestones.keySet() ) {
 			Calendar now = Calendar.getInstance();
 			if( now.after(c) ) {
+				System.out.println(c.getTimeInMillis());
 				for( IChannel ch : countdownChannels ) {
 					BotUtils.sendMessage(ch, countdownMilestones.get(c));
 				}
@@ -215,7 +216,7 @@ public class Brain {
 		countdownMilestones.put(T3s, "**__*THREE!!!*__**");
 		countdownMilestones.put(T2s, "**__*TWO!!!*__**");
 		countdownMilestones.put(T1s, "**__*ONE!!!*__**");
-		countdownMilestones.put(T0s, "**__*H A P P Y  K I C K O F F  E V E R Y O N E ! ! ! ! ! ! ! !*__**");
+		countdownMilestones.put(T0s, "@everyone **__*H A P P Y  K I C K O F F  E V E R Y O N E ! ! ! ! ! ! ! !*__**");
 		Logger.print("Initialization complete.");
 	}
 }
