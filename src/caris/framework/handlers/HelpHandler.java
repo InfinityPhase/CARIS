@@ -2,7 +2,7 @@ package caris.framework.handlers;
 
 import java.util.ArrayList;
 
-import caris.framework.basehandlers.Handler;
+import caris.framework.basehandlers.GeneralHandler;
 import caris.framework.basehandlers.MessageHandler;
 import caris.framework.basereactions.Reaction;
 import caris.framework.embedbuilders.HelpBuilder;
@@ -18,8 +18,8 @@ public class HelpHandler extends MessageHandler {
 	public HelpHandler() {
 		super("Help", Access.DEFAULT, false);
 		description = "Provides information on how to use " + Constants.NAME + ".";
-		usage.put(getKeyword(), "Displays basic information on how to use " + Constants.NAME);
-		usage.put(getKeyword() + " <Module>", "Displays information on a module");
+		usage.put(getInvocation(), "Displays basic information on how to use " + Constants.NAME);
+		usage.put(getInvocation() + " <Module>", "Displays information on a module");
 	}
 	
 	@Override
@@ -30,11 +30,11 @@ public class HelpHandler extends MessageHandler {
 	@Override
 	protected Reaction process(Event event) {
 		ArrayList<String> tokens = TokenUtilities.parseTokens(message);
-		Handler handler = null;
+		GeneralHandler handler = null;
 		if( tokens.size() > 1 ) {
 			for( int f=1; f<tokens.size(); f++ ) {
 				if( StringUtilities.containsIgnoreCase(Brain.handlers.keySet(), tokens.get(f)) ) {
-					Handler temp = Brain.handlers.get(tokens.get(f));
+					GeneralHandler temp = Brain.handlers.get(tokens.get(f));
 					if( temp instanceof MessageHandler ) {
 						MessageHandler m = (MessageHandler) temp;
 						switch (m.accessLevel) {

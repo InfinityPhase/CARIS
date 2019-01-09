@@ -3,7 +3,9 @@ package caris.framework.events;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import caris.framework.basehandlers.MessageHandler.Access;
 import caris.framework.library.Constants;
+import caris.framework.utilities.StringUtilities;
 import caris.framework.utilities.TokenUtilities;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import sx.blah.discord.handle.obj.Permissions;
@@ -34,6 +36,18 @@ public class MessageEventWrapper {
 		adminAuthor = messageReceivedEvent.getAuthor().getPermissionsForGuild(messageReceivedEvent.getGuild()).contains(Permissions.ADMINISTRATOR);
 		developerAuthor = Arrays.asList(Constants.ADMIN_IDS).contains(messageReceivedEvent.getAuthor().getLongID());
 		elevatedAuthor = adminAuthor || developerAuthor;
+	}
+	
+	public boolean invokes(String invocation) {
+		return tokens.size() > 0 ? tokens.get(0).equalsIgnoreCase(invocation) : false;
+	}
+	
+	public boolean mentions() {
+		return StringUtilities.containsIgnoreCase(message, Constants.NAME);
+	}
+	
+	public boolean accessGranted(Access accessLevel) {
+		return (accessLevel != Access.ADMIN || elevatedAuthor) && (accessLevel != Access.DEVELOPER || developerAuthor);
 	}
 	
 	public ArrayList<String> getCapturedTokens(String boundary) {

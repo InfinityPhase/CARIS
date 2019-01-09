@@ -1,6 +1,6 @@
 package caris.framework.handlers;
 
-import caris.framework.basehandlers.Handler;
+import caris.framework.basehandlers.GeneralHandler;
 import caris.framework.basereactions.MultiReaction;
 import caris.framework.basereactions.Reaction;
 import caris.framework.library.Variables;
@@ -12,7 +12,7 @@ import sx.blah.discord.api.events.Event;
 import sx.blah.discord.handle.impl.events.guild.member.UserJoinEvent;
 import sx.blah.discord.handle.impl.obj.Role;
 
-public class UserJoinHandler extends Handler {
+public class UserJoinHandler extends GeneralHandler {
 
 	public UserJoinHandler() {
 		super("UserJoin", false);

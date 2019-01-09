@@ -1,6 +1,6 @@
 package caris.framework.embedbuilders;
 
-import caris.framework.basehandlers.Handler;
+import caris.framework.basehandlers.GeneralHandler;
 import caris.framework.basehandlers.MessageHandler;
 import caris.framework.basehandlers.MessageHandler.Access;
 import caris.framework.library.Constants;
@@ -9,7 +9,7 @@ import sx.blah.discord.util.EmbedBuilder;
 
 public class HelpBuilder extends Builder {
 	
-	public Handler handler;
+	public GeneralHandler handler;
 	public Access accessLevel;
 	
 	public HelpBuilder(Access accessLevel) {
@@ -17,7 +17,7 @@ public class HelpBuilder extends Builder {
 		this.accessLevel = accessLevel;
 	}
 	
-	public HelpBuilder(Handler handler) {
+	public HelpBuilder(GeneralHandler handler) {
 		super();
 		this.handler = handler;
 	}
@@ -38,7 +38,7 @@ public class HelpBuilder extends Builder {
 				+ "\nSome of them require a specific prefix to use, but most of them can be activated simply by speaking to Caris in a conversational manner."
 				+ "**\n\nType `" + Constants.INVOCATION_PREFIX + "Help <module>` for more information on a specific function.**");
 		for( String name : Brain.handlers.keySet() ) {
-			Handler h = Brain.handlers.get(name);
+			GeneralHandler h = Brain.handlers.get(name);
 			if( !h.description.isEmpty() ) {
 				if( h instanceof MessageHandler ) {
 					MessageHandler m = (MessageHandler) h;

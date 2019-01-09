@@ -51,7 +51,7 @@ public class _8BallHandler extends MessageHandler {
 	public _8BallHandler() {
 		super("8ball", Access.DEFAULT, false);
 		description = "Answers yes/no questions.";
-		usage.put(getKeyword() + " <inquiry>", "Generates a random yes/no/sarcastic answer");
+		usage.put(getInvocation() + " <inquiry>", "Generates a random yes/no/sarcastic answer");
 	}
 	
 	@Override

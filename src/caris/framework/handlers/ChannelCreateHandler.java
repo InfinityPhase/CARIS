@@ -1,13 +1,13 @@
 package caris.framework.handlers;
 
-import caris.framework.basehandlers.Handler;
+import caris.framework.basehandlers.GeneralHandler;
 import caris.framework.basereactions.Reaction;
 import caris.framework.reactions.ReactionChannelTrack;
 import caris.framework.utilities.Logger;
 import sx.blah.discord.api.events.Event;
 import sx.blah.discord.handle.impl.events.guild.channel.ChannelCreateEvent;
 
-public class ChannelCreateHandler extends Handler {
+public class ChannelCreateHandler extends GeneralHandler {
 
 	public ChannelCreateHandler() {
 		super("ChannelCreate", false);

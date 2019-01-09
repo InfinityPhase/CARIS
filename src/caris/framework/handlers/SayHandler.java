@@ -18,7 +18,7 @@ public class SayHandler extends MessageHandler {
 	public SayHandler() {
 		super("Say", Access.ADMIN, false);
 		description = "Forces " + Constants.NAME + " to say something.";
-		usage.put(getKeyword() + " \"message\"", "Makes " + Constants.NAME + " say the given message");
+		usage.put(getInvocation() + " \"message\"", "Makes " + Constants.NAME + " say the given message");
 	}
 	
 	@Override

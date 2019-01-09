@@ -1,13 +1,13 @@
 package caris.framework.handlers;
 
-import caris.framework.basehandlers.Handler;
+import caris.framework.basehandlers.GeneralHandler;
 import caris.framework.basereactions.Reaction;
 import caris.framework.reactions.ReactionGuildTrack;
 import caris.framework.utilities.Logger;
 import sx.blah.discord.api.events.Event;
 import sx.blah.discord.handle.impl.events.guild.GuildCreateEvent;
 
-public class GuildCreateHandler extends Handler {
+public class GuildCreateHandler extends GeneralHandler {
 
 	public GuildCreateHandler() {
 		super("GuildCreate", false);

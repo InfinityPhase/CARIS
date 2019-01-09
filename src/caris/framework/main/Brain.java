@@ -7,7 +7,7 @@ import java.util.Map;
 
 import org.reflections.Reflections;
 
-import caris.framework.basehandlers.Handler;
+import caris.framework.basehandlers.GeneralHandler;
 import caris.framework.events.EventManager;
 import caris.framework.library.Constants;
 import caris.framework.music.GuildMusicManager;
@@ -21,7 +21,7 @@ import sx.blah.discord.api.IDiscordClient;
 
 public class Brain {
 
-	public static Map<String, Handler> handlers = new HashMap<String, Handler>();
+	public static Map<String, GeneralHandler> handlers = new HashMap<String, GeneralHandler>();
 
 	/* Event Handlers */
 	public static EventManager eventManager = new EventManager();
@@ -100,10 +100,10 @@ public class Brain {
 		// Load Responder modules
 		Logger.print("Loading Handlers...", 1);
 		Reflections reflect = new Reflections("caris.framework.handlers");
-		for( Class<?> c : reflect.getSubTypesOf( caris.framework.basehandlers.Handler.class ) ) {
-			Handler h = null;
+		for( Class<?> c : reflect.getSubTypesOf( caris.framework.basehandlers.GeneralHandler.class ) ) {
+			GeneralHandler h = null;
 			try {
-				h = (Handler) c.newInstance();
+				h = (GeneralHandler) c.newInstance();
 			} catch (InstantiationException e) {
 				e.printStackTrace();
 			} catch (IllegalAccessException e) {
@@ -116,10 +116,10 @@ public class Brain {
 			}
 		}
 		reflect = new Reflections("caris.modular.handlers");
-		for( Class<?> c : reflect.getSubTypesOf( caris.framework.basehandlers.Handler.class ) ) {
-			Handler h = null;
+		for( Class<?> c : reflect.getSubTypesOf( caris.framework.basehandlers.GeneralHandler.class ) ) {
+			GeneralHandler h = null;
 			try {
-				h = (Handler) c.newInstance();
+				h = (GeneralHandler) c.newInstance();
 			} catch (InstantiationException e) {
 				e.printStackTrace();
 			} catch (IllegalAccessException e) {

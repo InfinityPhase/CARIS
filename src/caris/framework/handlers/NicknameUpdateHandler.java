@@ -1,6 +1,6 @@
 package caris.framework.handlers;
 
-import caris.framework.basehandlers.Handler;
+import caris.framework.basehandlers.GeneralHandler;
 import caris.framework.basereactions.Reaction;
 import caris.framework.library.Variables;
 import caris.framework.reactions.ReactionNicknameSet;
@@ -8,7 +8,7 @@ import caris.framework.utilities.Logger;
 import sx.blah.discord.api.events.Event;
 import sx.blah.discord.handle.impl.events.guild.member.NicknameChangedEvent;
 
-public class NicknameUpdateHandler extends Handler {
+public class NicknameUpdateHandler extends GeneralHandler {
 
 	public NicknameUpdateHandler() {
 		super("NicknameUpdate", false);

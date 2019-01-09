@@ -9,7 +9,7 @@ import sx.blah.discord.api.events.Event;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 
 public class Handler {
-	
+
 	public String name;
 	public boolean allowBots;
 	
@@ -31,17 +31,7 @@ public class Handler {
 	}
 	
 	public Reaction handle(Event event) {
-		Logger.debug("Checking " + name, 0, true);
-		if( botFilter(event) ) {
-			Logger.debug("Event from a bot, ignoring", 1, true);
-			return null;
-		} if( isTriggered(event) ) {
-			Logger.debug("Processing " + name, 1);
-			return process(event);
-		} else {
-			Logger.debug("Ignoring " + name, 1, true);
-			return null;
-		}
+		return null;
 	}
 	
 	protected boolean botFilter(Event event) {
@@ -55,14 +45,6 @@ public class Handler {
 			}
 		}
 		return false;
-	}
-	
-	protected boolean isTriggered(Event event) {
-		return false;
-	}
-	
-	protected Reaction process(Event event) {
-		return new Reaction();
 	}
 	
 }
