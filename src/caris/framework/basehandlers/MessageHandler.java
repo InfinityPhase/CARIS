@@ -102,7 +102,7 @@ public abstract class MessageHandler extends Handler {
 	}
 	
 	protected boolean mentioned(MessageEventWrapper messageEventWrapper) {
-		return messageEventWrapper.searchableMessage.containsIgnoreCase(Constants.NAME);
+		return messageEventWrapper.containsWord(Constants.NAME);
 	}
 	
 	protected boolean invoked(MessageEventWrapper messageEventWrapper) {

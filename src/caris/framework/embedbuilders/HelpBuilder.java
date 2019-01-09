@@ -2,7 +2,6 @@ package caris.framework.embedbuilders;
 
 import caris.framework.basehandlers.Handler;
 import caris.framework.basehandlers.MessageHandler;
-import caris.framework.basehandlers.MessageHandler.Access;
 import caris.framework.library.Constants;
 import caris.framework.main.Brain;
 import sx.blah.discord.util.EmbedBuilder;
@@ -10,11 +9,10 @@ import sx.blah.discord.util.EmbedBuilder;
 public class HelpBuilder extends Builder {
 	
 	public MessageHandler handler;
-	public Access accessLevel;
 	
-	public HelpBuilder(Access accessLevel) {
+	public HelpBuilder() {
 		super();
-		this.accessLevel = accessLevel;
+		handler = null;
 	}
 	
 	public HelpBuilder(MessageHandler handler) {
@@ -41,23 +39,6 @@ public class HelpBuilder extends Builder {
 			Handler h = Brain.handlers.get(name);
 			if( !h.getDescription().isEmpty() ) {
 				if( h instanceof MessageHandler ) {
-					MessageHandler m = (MessageHandler) h;
-					boolean access = false;
-					switch (m.accessLevel) {
-						case DEFAULT:
-							access = true;
-							break;
-						case ADMIN:
-							access = accessLevel == Access.ADMIN || accessLevel == Access.DEVELOPER;
-							break;
-						case DEVELOPER:
-							access = accessLevel == Access.DEVELOPER;
-							break;
-					}
-					if( access ) {
-						embeds.get(0).appendField(name, h.getDescription(), false);
-					}
-				} else {
 					embeds.get(0).appendField(name, h.getDescription(), false);
 				}
 			}
