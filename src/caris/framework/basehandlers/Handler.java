@@ -28,6 +28,8 @@ public abstract class Handler {
 		this.name = name;
 		this.allowBots = allowBots;
 		
+		usage = new HashMap<String, String>();
+		
 		setDescription();
 		setUsage();
 				
