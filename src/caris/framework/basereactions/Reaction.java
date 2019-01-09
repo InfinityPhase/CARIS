@@ -1,6 +1,6 @@
 package caris.framework.basereactions;
 
-public class Reaction implements Runnable, Comparable<Reaction> {
+public abstract class Reaction implements Runnable, Comparable<Reaction> {
 	
 	public int priority;
 	
@@ -13,7 +13,7 @@ public class Reaction implements Runnable, Comparable<Reaction> {
 	}
 	
 	@Override
-	public void run() {}
+	public abstract void run();
 	
 	@Override
 	public int compareTo(Reaction r) {
