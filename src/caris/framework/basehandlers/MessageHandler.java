@@ -11,7 +11,7 @@ import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedE
 import sx.blah.discord.handle.obj.IChannel;
 import sx.blah.discord.handle.obj.IGuild;
 
-public class MessageHandler extends Handler {
+public abstract class MessageHandler extends Handler {
 		
 	public enum Access {
 		DEFAULT,
@@ -50,14 +50,6 @@ public class MessageHandler extends Handler {
 		}
 	}
 	
-	protected boolean isTriggered(MessageEventWrapper messageEventWrapper) {
-		return false;
-	}
-	
-	protected Reaction process(MessageEventWrapper messageEventWrapper) {
-		return null;
-	}
-	
 	private MessageEventWrapper wrap(MessageReceivedEvent messageReceivedEvent) {
 		MessageEventWrapper messageEventWrapper = new MessageEventWrapper(messageReceivedEvent);
 		if( messageEventWrapper.tokens.size() > 0 ) {
@@ -83,5 +75,8 @@ public class MessageHandler extends Handler {
 		}
 		return messageEventWrapper;
 	}
+	
+	protected abstract boolean isTriggered(MessageEventWrapper messageEventWrapper);
+	protected abstract Reaction process(MessageEventWrapper messageEventWrapper);
 	
 }

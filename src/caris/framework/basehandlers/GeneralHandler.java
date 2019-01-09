@@ -4,7 +4,7 @@ import caris.framework.basereactions.Reaction;
 import caris.framework.utilities.Logger;
 import sx.blah.discord.api.events.Event;
 
-public class GeneralHandler extends Handler {
+public abstract class GeneralHandler extends Handler {
 	
 	public GeneralHandler(String name, boolean allowBots) {
 		super(name, allowBots);
@@ -25,12 +25,7 @@ public class GeneralHandler extends Handler {
 		}
 	}
 	
-	protected boolean isTriggered(Event event) {
-		return false;
-	}
-	
-	protected Reaction process(Event event) {
-		return null;
-	}
+	protected abstract boolean isTriggered(Event event);
+	protected abstract Reaction process(Event event);
 	
 }

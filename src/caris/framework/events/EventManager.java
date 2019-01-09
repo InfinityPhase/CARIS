@@ -3,7 +3,7 @@ package caris.framework.events;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import caris.framework.basehandlers.GeneralHandler;
+import caris.framework.basehandlers.Handler;
 import caris.framework.basereactions.MultiReaction;
 import caris.framework.basereactions.Reaction;
 import caris.framework.main.Brain;
@@ -27,7 +27,7 @@ public class EventManager extends SuperEvent {
 			public void run() {
 				ArrayList<Reaction> reactions = new ArrayList<Reaction>();
 				ArrayList<Reaction> passiveQueue = new ArrayList<Reaction>();
-				for( GeneralHandler h : Brain.handlers.values() ) {
+				for( Handler h : Brain.handlers.values() ) {
 					Reaction r = h.handle(event);
 					if( r != null ) {
 						if( r.priority == -1 ) {

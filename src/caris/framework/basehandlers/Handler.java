@@ -8,25 +8,25 @@ import caris.framework.utilities.Logger;
 import sx.blah.discord.api.events.Event;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 
-public class Handler {
+public abstract class Handler {
 
+	public boolean enabled;
+	
 	public String name;
 	public boolean allowBots;
 	
 	public String description;
 	public HashMap<String, String> usage;
 	
-	public boolean enabled;
-	
 	public Handler(String name, boolean allowBots) {
+		enabled = true;
+		
 		this.name = name;
 		this.allowBots = allowBots;
 		
-		description = "";
-		usage = new HashMap<String, String>();
-		
-		enabled = true;
-		
+		setDescription();
+		setUsage();
+				
 		Logger.debug("Handler " + name + " initialized.", 1);
 	}
 	
@@ -46,5 +46,8 @@ public class Handler {
 		}
 		return false;
 	}
+	
+	protected abstract void setUsage();
+	protected abstract void setDescription();
 	
 }
