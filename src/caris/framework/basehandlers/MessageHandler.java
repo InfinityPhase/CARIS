@@ -1,5 +1,7 @@
 package caris.framework.basehandlers;
 
+import java.util.HashMap;
+
 import caris.framework.basereactions.Reaction;
 import caris.framework.events.MessageEventWrapper;
 import caris.framework.library.Constants;
@@ -21,7 +23,7 @@ public abstract class MessageHandler extends Handler {
 	
 	public String invocation;
 	public Access accessLevel;
-	
+		
 	public MessageHandler(String name) {
 		this(name, false, Access.DEFAULT);
 	}
@@ -111,7 +113,8 @@ public abstract class MessageHandler extends Handler {
 		return (accessLevel != Access.ADMIN || messageEventWrapper.elevatedAuthor) && (accessLevel != Access.DEVELOPER || messageEventWrapper.developerAuthor);
 	}
 	
+	protected abstract HashMap<String, String> getUsage();
+	
 	protected abstract boolean isTriggered(MessageEventWrapper messageEventWrapper);
 	protected abstract Reaction process(MessageEventWrapper messageEventWrapper);
-	
 }

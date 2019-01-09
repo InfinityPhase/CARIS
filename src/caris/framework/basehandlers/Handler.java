@@ -1,7 +1,5 @@
 package caris.framework.basehandlers;
 
-import java.util.HashMap;
-
 import caris.framework.basereactions.Reaction;
 import caris.framework.library.Constants;
 import caris.framework.utilities.Logger;
@@ -14,10 +12,7 @@ public abstract class Handler {
 	
 	public String name;
 	public boolean allowBots;
-	
-	public String description;
-	public HashMap<String, String> usage;
-	
+		
 	public Handler(String name) {
 		this(name, false);
 	}
@@ -27,12 +22,7 @@ public abstract class Handler {
 		
 		this.name = name;
 		this.allowBots = allowBots;
-		
-		usage = new HashMap<String, String>();
-		
-		setDescription();
-		setUsage();
-				
+						
 		Logger.debug("Handler " + name + " initialized.", 1);
 	}
 		
@@ -50,7 +40,6 @@ public abstract class Handler {
 	}
 	
 	public abstract Reaction handle(Event event);
-	protected abstract void setUsage();
-	protected abstract void setDescription();
+	protected abstract String getDescription();
 	
 }
