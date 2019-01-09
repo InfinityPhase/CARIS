@@ -113,7 +113,7 @@ public abstract class MessageHandler extends Handler {
 		return (accessLevel != Access.ADMIN || messageEventWrapper.elevatedAuthor) && (accessLevel != Access.DEVELOPER || messageEventWrapper.developerAuthor);
 	}
 	
-	protected abstract HashMap<String, String> getUsage();
+	public abstract HashMap<String, String> getUsage();
 	
 	protected abstract boolean isTriggered(MessageEventWrapper messageEventWrapper);
 	protected abstract Reaction process(MessageEventWrapper messageEventWrapper);

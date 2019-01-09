@@ -9,7 +9,7 @@ import sx.blah.discord.util.EmbedBuilder;
 
 public class HelpBuilder extends Builder {
 	
-	public Handler handler;
+	public MessageHandler handler;
 	public Access accessLevel;
 	
 	public HelpBuilder(Access accessLevel) {
@@ -17,7 +17,7 @@ public class HelpBuilder extends Builder {
 		this.accessLevel = accessLevel;
 	}
 	
-	public HelpBuilder(Handler handler) {
+	public HelpBuilder(MessageHandler handler) {
 		super();
 		this.handler = handler;
 	}
@@ -39,7 +39,7 @@ public class HelpBuilder extends Builder {
 				+ "**\n\nType `" + Constants.INVOCATION_PREFIX + "Help <module>` for more information on a specific function.**");
 		for( String name : Brain.handlers.keySet() ) {
 			Handler h = Brain.handlers.get(name);
-			if( !h.description.isEmpty() ) {
+			if( !h.getDescription().isEmpty() ) {
 				if( h instanceof MessageHandler ) {
 					MessageHandler m = (MessageHandler) h;
 					boolean access = false;
@@ -55,10 +55,10 @@ public class HelpBuilder extends Builder {
 							break;
 					}
 					if( access ) {
-						embeds.get(0).appendField(name, h.description, false);
+						embeds.get(0).appendField(name, h.getDescription(), false);
 					}
 				} else {
-					embeds.get(0).appendField(name, h.description, false);
+					embeds.get(0).appendField(name, h.getDescription(), false);
 				}
 			}
 		}
@@ -68,9 +68,9 @@ public class HelpBuilder extends Builder {
 		embeds.add(new EmbedBuilder());
 		embeds.get(0).withAuthorName(handler.name);
 		embeds.get(0).withTitle("Status: *" + ((handler.enabled) ? "ENABLED" : "DISABLED") + "*");
-		embeds.get(0).withDescription(handler.description);
-		for( String usage : handler.usage.keySet() ) {
-			embeds.get(0).appendField("`" + usage + "`", "*" + handler.usage.get(usage) + "*", false);
+		embeds.get(0).withDescription(handler.getDescription());
+		for( String usage : handler.getUsage().keySet() ) {
+			embeds.get(0).appendField("`" + usage + "`", "*" + handler.getUsage().get(usage) + "*", false);
 		}
 		String info = "";
 		if( handler instanceof MessageHandler ) {

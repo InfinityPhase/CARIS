@@ -40,6 +40,6 @@ public abstract class Handler {
 	}
 	
 	public abstract Reaction handle(Event event);
-	protected abstract String getDescription();
+	public abstract String getDescription();
 	
 }
