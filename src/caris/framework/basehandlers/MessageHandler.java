@@ -21,11 +21,23 @@ public abstract class MessageHandler extends Handler {
 	
 	public String invocation;
 	public Access accessLevel;
-		
-	public MessageHandler(String name, Access accessLevel, boolean allowBots) {
+	
+	public MessageHandler(String name) {
+		this(name, false, Access.DEFAULT);
+	}
+	
+	public MessageHandler(String name, boolean allowBots) {
+		this(name, allowBots, Access.DEFAULT);
+	}
+	
+	public MessageHandler(String name, Access accessLevel) {
+		this(name, false, Access.DEFAULT);
+	}
+	
+	public MessageHandler(String name, boolean allowBots, Access accessLevel) {
 		super(name, allowBots);
-		this.invocation = Constants.INVOCATION_PREFIX + name;
 		this.accessLevel = accessLevel;
+		this.invocation = Constants.INVOCATION_PREFIX + name;
 	}
 	
 	@Override
@@ -36,16 +48,27 @@ public abstract class MessageHandler extends Handler {
 			if( !messageReceivedEvent.getChannel().isPrivate() ) {
 				MessageEventWrapper messageEventWrapper = wrap(messageReceivedEvent);
 				if( botFilter(event) ) {
+					Logger.debug("Event from a bot. Aborting.", 1, true);
 					return null;
-				} else if( isTriggered(messageEventWrapper) && messageEventWrapper.accessGranted(accessLevel) ) {
-					return process(messageEventWrapper);
+				} else if( isTriggered(messageEventWrapper) && accessGranted(messageEventWrapper) ) {
+					Logger.debug("Conditions satisfied. Processing.", 1, true);
+					Reaction result = process(messageEventWrapper);
+					if( result == null ) {
+						Logger.debug("No Reaction produced. Aborting.", 1, true);
+					} else {
+						Logger.debug("Reaction produced from " + name + ". Adding to queue." , 1);
+					}
+					return result;
 				} else {
+					Logger.debug("Conditions unsatisfied. Aborting.", 1, true);
 					return null;
 				}
 			} else {
+				Logger.debug("Message from a private channel. Aborting.", 1, true);
 				return null;
 			}
 		} else {
+			Logger.debug("Event not a MessageReceivedEvent. Aborting.", 1, true);
 			return null;
 		}
 	}
@@ -74,6 +97,18 @@ public abstract class MessageHandler extends Handler {
 			}
 		}
 		return messageEventWrapper;
+	}
+	
+	protected boolean mentioned(MessageEventWrapper messageEventWrapper) {
+		return messageEventWrapper.searchableMessage.containsIgnoreCase(Constants.NAME);
+	}
+	
+	protected boolean invoked(MessageEventWrapper messageEventWrapper) {
+		return messageEventWrapper.tokens.size() > 0 ? messageEventWrapper.tokens.get(0).equalsIgnoreCase(invocation) : false;
+	}
+	
+	public boolean accessGranted(MessageEventWrapper messageEventWrapper) {
+		return (accessLevel != Access.ADMIN || messageEventWrapper.elevatedAuthor) && (accessLevel != Access.DEVELOPER || messageEventWrapper.developerAuthor);
 	}
 	
 	protected abstract boolean isTriggered(MessageEventWrapper messageEventWrapper);

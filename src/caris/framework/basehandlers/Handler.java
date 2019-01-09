@@ -18,6 +18,10 @@ public abstract class Handler {
 	public String description;
 	public HashMap<String, String> usage;
 	
+	public Handler(String name) {
+		this(name, false);
+	}
+	
 	public Handler(String name, boolean allowBots) {
 		enabled = true;
 		
