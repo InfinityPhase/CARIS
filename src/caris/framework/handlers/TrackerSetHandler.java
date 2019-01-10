@@ -1,10 +1,12 @@
 package caris.framework.handlers;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import caris.framework.basehandlers.MessageHandler;
 import caris.framework.basereactions.MultiReaction;
 import caris.framework.basereactions.Reaction;
+import caris.framework.events.MessageEventWrapper;
 import caris.framework.library.Constants;
 import caris.framework.library.Keywords;
 import caris.framework.library.Variables;
@@ -12,52 +14,42 @@ import caris.framework.reactions.ReactionMessage;
 import caris.framework.reactions.ReactionTrackerAdd;
 import caris.framework.reactions.ReactionTrackerRemove;
 import caris.framework.tokens.InputSources;
-import caris.framework.utilities.Logger;
-import caris.framework.utilities.StringUtilities;
-import caris.framework.utilities.TokenUtilities;
-import sx.blah.discord.api.events.Event;
 import sx.blah.discord.handle.obj.IChannel;
 import sx.blah.discord.handle.obj.IGuild;
 
 public class TrackerSetHandler extends MessageHandler {
 
 	public TrackerSetHandler() {
-		super("Tracker", Access.DEVELOPER, false);
-		description = "Outputs all the messages sent in a given channel.";
-		usage.put(Constants.NAME + ", start tracking <Channel ID>", "Begins relaying all messages in the specified channel to the current channel");
-		usage.put(Constants.NAME + ", stop tracking <Channel ID>", "Stops tracking the given channel");
+		super("Tracker", Access.DEVELOPER);
 	}
 	
 	@Override
-	protected boolean isTriggered(Event event) {
-		return isDeveloper() && isMentioned() && StringUtilities.containsAnyOfIgnoreCase(message, "track", "tracking");
+	protected boolean isTriggered(MessageEventWrapper messageEventWrapper) {
+		return messageEventWrapper.developerAuthor && mentioned(messageEventWrapper) && messageEventWrapper.containsAnyWords("track", "tracking");
 	}
 	
 	@Override
-	protected Reaction process(Event event) {
-		Logger.debug("Tracker detected", 2);
-		ArrayList<Long> longs = TokenUtilities.parseLongs(message);
+	protected Reaction process(MessageEventWrapper messageEventWrapper) {
+		ArrayList<Long> longs = messageEventWrapper.longTokens;
 		MultiReaction track = new MultiReaction(2);
 		if( longs.isEmpty() ) {
-			Logger.debug("Operation because no ID specified", 2);
-			track.reactions.add(new ReactionMessage("You need to specify the ID of a channel/guild!", mrEvent.getChannel()));
+			track.reactions.add(new ReactionMessage("You need to specify the ID of a channel/guild!", messageEventWrapper.getChannel()));
 		} else {
-			if( StringUtilities.containsAnyOfIgnoreCase(message, Keywords.END) ) {
-				if( !Variables.trackerSets.containsKey(mrEvent.getChannel()) ) {
-					Logger.debug("Operation failed because no inputs being tracked", 2);
-					track.reactions.add(new ReactionMessage("No inputs are currently being tracked!", mrEvent.getChannel()));
+			if( messageEventWrapper.containsAnyWords(Keywords.END) ) {
+				if( !Variables.trackerSets.containsKey(messageEventWrapper.getChannel()) ) {
+					track.reactions.add(new ReactionMessage("No inputs are currently being tracked!", messageEventWrapper.getChannel()));
 				} else {
-					for( IGuild guild : Variables.trackerSets.get(mrEvent.getChannel()).guilds ) {
+					for( IGuild guild : Variables.trackerSets.get(messageEventWrapper.getChannel()).guilds ) {
 						if( longs.get(0).equals(guild.getLongID()) ) {
-							track.reactions.add(new ReactionTrackerRemove(mrEvent.getChannel(), new InputSources(guild)));
-							track.reactions.add(new ReactionMessage("Tracker for <" + guild.getName() + "> removed successfully!", mrEvent.getChannel()));
+							track.reactions.add(new ReactionTrackerRemove(messageEventWrapper.getChannel(), new InputSources(guild)));
+							track.reactions.add(new ReactionMessage("Tracker for <" + guild.getName() + "> removed successfully!", messageEventWrapper.getChannel()));
 							break;
 						}
 					}
-					for( IChannel channel : Variables.trackerSets.get(mrEvent.getChannel()).channels ) {
+					for( IChannel channel : Variables.trackerSets.get(messageEventWrapper.getChannel()).channels ) {
 						if( longs.get(0).equals(channel.getLongID()) ) {
-							track.reactions.add(new ReactionTrackerRemove(mrEvent.getChannel(), new InputSources(channel)));
-							track.reactions.add(new ReactionMessage("Tracker for <" + channel.getName() + "> removed successfully!", mrEvent.getChannel()));
+							track.reactions.add(new ReactionTrackerRemove(messageEventWrapper.getChannel(), new InputSources(channel)));
+							track.reactions.add(new ReactionMessage("Tracker for <" + channel.getName() + "> removed successfully!", messageEventWrapper.getChannel()));
 							break;
 						}
 					}
@@ -65,14 +57,14 @@ public class TrackerSetHandler extends MessageHandler {
 			} else {
 				for( IGuild guild : Variables.guildIndex.keySet() ) {
 					if( longs.get(0).equals(guild.getLongID()) ) {
-						track.reactions.add(new ReactionMessage("Tracker for <" + guild.getName() + "> set successfully!", mrEvent.getChannel()));
-						track.reactions.add(new ReactionTrackerAdd(mrEvent.getChannel(), new InputSources(guild)));
+						track.reactions.add(new ReactionMessage("Tracker for <" + guild.getName() + "> set successfully!", messageEventWrapper.getChannel()));
+						track.reactions.add(new ReactionTrackerAdd(messageEventWrapper.getChannel(), new InputSources(guild)));
 						break;
 					} else {
 						for( IChannel channel : guild.getChannels() ) {
 							if( longs.get(0).equals(channel.getLongID()) ) {
-								track.reactions.add(new ReactionMessage("Tracker for <" + channel.getName() + "> set successfully!", mrEvent.getChannel()));
-								track.reactions.add(new ReactionTrackerAdd(mrEvent.getChannel(), new InputSources(channel)));
+								track.reactions.add(new ReactionMessage("Tracker for <" + channel.getName() + "> set successfully!", messageEventWrapper.getChannel()));
+								track.reactions.add(new ReactionTrackerAdd(messageEventWrapper.getChannel(), new InputSources(channel)));
 								break;
 							}
 						}
@@ -80,9 +72,20 @@ public class TrackerSetHandler extends MessageHandler {
 				}
 			}
 		}
-		Logger.debug("Response produced from " + name, 1, true);
 		return track;
-		
+	}
+	
+	@Override
+	public String getDescription() {
+		return "Outputs all the messages sent in a given channel.";
+	}
+	
+	@Override
+	public HashMap<String, String> getUsage() {
+		HashMap<String, String> usage = new HashMap<String, String>();
+		usage.put(Constants.NAME + ", start tracking <Channel ID>", "Begins relaying all messages in the specified channel to the current channel");
+		usage.put(Constants.NAME + ", stop tracking <Channel ID>", "Stops tracking the given channel");
+		return usage;
 	}
 	
 }

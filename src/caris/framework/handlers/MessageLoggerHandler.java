@@ -1,18 +1,18 @@
 package caris.framework.handlers;
 
-import caris.framework.basehandlers.MessageHandler;
+import caris.framework.basehandlers.GeneralHandler;
 import caris.framework.basereactions.MultiReaction;
 import caris.framework.basereactions.Reaction;
+import caris.framework.library.Constants;
 import caris.framework.reactions.ReactionHear;
 import caris.framework.reactions.ReactionMessageLog;
-import caris.framework.utilities.Logger;
 import sx.blah.discord.api.events.Event;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 
-public class MessageLoggerHandler extends MessageHandler {
+public class MessageLoggerHandler extends GeneralHandler {
 	
 	public MessageLoggerHandler() {
-		super("MessageLogger", Access.DEFAULT, true);
+		super("MessageLogger", true);
 	}
 	
 	@Override
@@ -22,12 +22,16 @@ public class MessageLoggerHandler extends MessageHandler {
 	
 	@Override
 	protected Reaction process(Event event) {
+		MessageReceivedEvent messageReceivedEvent = (MessageReceivedEvent) event;
 		MultiReaction logMessage = new MultiReaction(-1);
-		Logger.debug("Message detected", 2);
-		logMessage.reactions.add(new ReactionHear(mrEvent.getMessage().getFormattedContent(), mrEvent.getAuthor(), mrEvent.getChannel()));
-		logMessage.reactions.add(new ReactionMessageLog(mrEvent.getChannel(), mrEvent.getMessage()));
-		Logger.debug("Response produced from " + name, 1, true);
+		logMessage.reactions.add(new ReactionHear(messageReceivedEvent.getMessage().getFormattedContent(), messageReceivedEvent.getAuthor(), messageReceivedEvent.getChannel()));
+		logMessage.reactions.add(new ReactionMessageLog(messageReceivedEvent.getChannel(), messageReceivedEvent.getMessage()));
 		return logMessage;
+	}
+	
+	@Override
+	public String getDescription() {
+		return "Logs messages being sent in " + Constants.NAME + "'s servers.";
 	}
 	
 }

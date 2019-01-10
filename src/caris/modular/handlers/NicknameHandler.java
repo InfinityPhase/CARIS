@@ -1,17 +1,14 @@
 package caris.modular.handlers;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import caris.framework.basehandlers.MessageHandler;
 import caris.framework.basereactions.MultiReaction;
 import caris.framework.basereactions.Reaction;
+import caris.framework.events.MessageEventWrapper;
 import caris.framework.reactions.ReactionMessage;
 import caris.framework.reactions.ReactionNicknameSet;
-import caris.framework.utilities.Logger;
-import caris.framework.utilities.StringUtilities;
-import caris.framework.utilities.TokenUtilities;
-import sx.blah.discord.api.events.Event;
-import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 
 public class NicknameHandler extends MessageHandler {
 
@@ -35,40 +32,32 @@ public class NicknameHandler extends MessageHandler {
 	};
 	
 	public NicknameHandler() {
-		super("Nickname", Access.DEFAULT, false);
-		description = "Sets your own nickname.";
-		usage.put("Caris, set my name to \"name\"", "Sets your nickname to the given name");
+		super("Nickname");
 	}
 	
 	@Override
-	protected boolean isTriggered(Event event) {
-		return StringUtilities.hasIgnoreCase( TokenUtilities.parseTokens(message), "my") && StringUtilities.hasAllOfIgnoreCase( TokenUtilities.parseTokens(message), "name", "nickname");
+	protected boolean isTriggered(MessageEventWrapper messageEventWrapper) {
+		return messageEventWrapper.containsWord("my") && messageEventWrapper.containsAnyWords("name", "nickname");
 	}
 	
 	@Override
-	protected Reaction process(Event event) {
-		Logger.debug("Nickname request detected", 2);
-		MessageReceivedEvent messageReceivedEvent = (MessageReceivedEvent) event;
-		ArrayList<String> quoted = TokenUtilities.parseQuoted(messageReceivedEvent.getMessage().getContent());
+	protected Reaction process(MessageEventWrapper messageEventWrapper) {
+		ArrayList<String> quoted = messageEventWrapper.quotedTokens;
 		MultiReaction setName = new MultiReaction(1);
 		if( !quoted.isEmpty() ) {
 			if( quoted.get(0).length() > 32 ) {
-				setName.reactions.add(new ReactionMessage(tooLong(), messageReceivedEvent.getChannel()));
-				Logger.debug("Failed to set nickname because name was too long", 2);
+				setName.reactions.add(new ReactionMessage(tooLong(), messageEventWrapper.getChannel()));
 			} else if( quoted.get(0).equalsIgnoreCase("CARIS") ) {
-				setName.reactions.add(new ReactionNicknameSet(messageReceivedEvent.getGuild(), messageReceivedEvent.getAuthor(), quoted.get(0)));
-				setName.reactions.add(new ReactionMessage(myName(), messageReceivedEvent.getChannel()));
+				setName.reactions.add(new ReactionNicknameSet(messageEventWrapper.getGuild(), messageEventWrapper.getAuthor(), quoted.get(0)));
+				setName.reactions.add(new ReactionMessage(myName(), messageEventWrapper.getChannel()));
 			} else if( quoted.get(0).equalsIgnoreCase("Inigo Montoya") ) {
-				setName.reactions.add(new ReactionNicknameSet(messageReceivedEvent.getGuild(), messageReceivedEvent.getAuthor(), quoted.get(0)));
-				setName.reactions.add(new ReactionMessage("You killed my father. Prepare to die!", messageReceivedEvent.getChannel()));
+				setName.reactions.add(new ReactionNicknameSet(messageEventWrapper.getGuild(), messageEventWrapper.getAuthor(), quoted.get(0)));
+				setName.reactions.add(new ReactionMessage("You killed my father. Prepare to die!", messageEventWrapper.getChannel()));
 			} else {
-				setName.reactions.add(new ReactionNicknameSet(messageReceivedEvent.getGuild(), messageReceivedEvent.getAuthor(), quoted.get(0)));
-				setName.reactions.add(new ReactionMessage("Nickname set to \"" + quoted.get(0) + "\"!", messageReceivedEvent.getChannel()));
+				setName.reactions.add(new ReactionNicknameSet(messageEventWrapper.getGuild(), messageEventWrapper.getAuthor(), quoted.get(0)));
+				setName.reactions.add(new ReactionMessage("Nickname set to \"" + quoted.get(0) + "\"!", messageEventWrapper.getChannel()));
 			}
-		} else {
-			Logger.debug("Failed to set nickname because name was not quoted properly", 2);
 		}
-		Logger.debug("Reaction produced from " + name, 1, true);
 		return setName;
 	}
 	
@@ -78,6 +67,19 @@ public class NicknameHandler extends MessageHandler {
 	
 	private String myName() {
 		return (myNameResponses.length > 0) ? myNameResponses[(int) (Math.random()*myNameResponses.length)] : "That's my name!";
+	}
+	
+	@Override
+	public String getDescription() {
+		return "Sets your own nickname.";
+	}
+	
+	@Override
+	public HashMap<String, String> getUsage() {
+		HashMap<String, String> usage = new HashMap<String, String>();
+		usage.put("Caris, set my name to \"name\"", "Sets your nickname to the given name");
+		usage.put("My name is \"name\"", "Sets your nickname to the given name");
+		return usage;
 	}
 	
 }

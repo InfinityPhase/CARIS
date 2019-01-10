@@ -1,69 +1,74 @@
 package caris.framework.handlers;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import caris.framework.basehandlers.MessageHandler;
 import caris.framework.basereactions.MultiReaction;
 import caris.framework.basereactions.Reaction;
+import caris.framework.events.MessageEventWrapper;
 import caris.framework.library.Constants;
 import caris.framework.reactions.ReactionMessage;
 import caris.framework.reactions.ReactionNicknameLock;
 import caris.framework.reactions.ReactionNicknameSet;
-import caris.framework.utilities.Logger;
-import caris.framework.utilities.StringUtilities;
-import caris.framework.utilities.TokenUtilities;
-import sx.blah.discord.api.events.Event;
 import sx.blah.discord.handle.obj.IUser;
 
 public class NicknameLockHandler extends MessageHandler {
 
 	public NicknameLockHandler() {
-		super("NicknameLock", Access.ADMIN, false);
-		description = "Locks people's nicknames.";
-		usage.put(Constants.NAME + ", lock @user's name", "Locks the nickname(s) for the user(s) specified to what it is currently");
-		usage.put(Constants.NAME + ", lock @user's name to \"Nickname\"", "Locks the nickname(s) for the user(s) specified to the given name");
-		usage.put(Constants.NAME + ", unlock @user's name", "Unlocks the nickname(s) for the user(s) specified");
+		super("NicknameLock", Access.ADMIN);
 	}
 	
 	@Override
-	protected boolean isTriggered(Event event) {
-		return isMentioned() && StringUtilities.containsAllOfIgnoreCase(message, "name", "lock");
+	protected boolean isTriggered(MessageEventWrapper messageEventWrapper) {
+		return mentioned(messageEventWrapper) && messageEventWrapper.containsAllWords("name", "lock");
 	}
 	
 	@Override
-	protected Reaction process(Event event) {
-		Logger.debug("NicknameLock detected", 2);
-		ArrayList<String> quoted = TokenUtilities.parseQuoted(message);
-		ArrayList<IUser> mentions = (ArrayList<IUser>) mrEvent.getMessage().getMentions(); 
+	protected Reaction process(MessageEventWrapper messageEventWrapper) {
+		ArrayList<String> quoted = messageEventWrapper.quotedTokens;
+		ArrayList<IUser> mentions = (ArrayList<IUser>) messageEventWrapper.getMessage().getMentions();
 		MultiReaction lockNickname = new MultiReaction(2);
 		if( !mentions.isEmpty() ) {
-			if( StringUtilities.containsAnyOfIgnoreCase(message, "unlock", "remove", "undo", "delete", "dismiss", "erase", "disperse") ) {
+			if( messageEventWrapper.containsAnyWords("unlock", "remove", "undo", "delete", "dismiss", "erase", "disperse") ) {
 				for( IUser user : mentions ) {
-					lockNickname.reactions.add(new ReactionNicknameLock(mrEvent.getGuild(), user, ""));
+					lockNickname.reactions.add(new ReactionNicknameLock(messageEventWrapper.getGuild(), user, ""));
 				}
-				lockNickname.reactions.add(new ReactionMessage("Nickname(s) unlocked!", mrEvent.getChannel()));
+				lockNickname.reactions.add(new ReactionMessage("Nickname(s) unlocked!", messageEventWrapper.getChannel()));
 			} else {
 				if( !quoted.isEmpty() ) {
 					String name = quoted.get(0);
 					for( IUser user : mentions ) {
-						lockNickname.reactions.add(new ReactionNicknameLock(mrEvent.getGuild(), user, name));
-						lockNickname.reactions.add(new ReactionNicknameSet(mrEvent.getGuild(), user, name));
+						lockNickname.reactions.add(new ReactionNicknameLock(messageEventWrapper.getGuild(), user, name));
+						lockNickname.reactions.add(new ReactionNicknameSet(messageEventWrapper.getGuild(), user, name));
 					}
-					lockNickname.reactions.add(new ReactionMessage("Nickname(s) locked!", mrEvent.getChannel()));
+					lockNickname.reactions.add(new ReactionMessage("Nickname(s) locked!", messageEventWrapper.getChannel()));
 				} else {
 					for( IUser user : mentions ) {
-						lockNickname.reactions.add(new ReactionNicknameLock(mrEvent.getGuild(), user, user.getDisplayName(mrEvent.getGuild())));
-						lockNickname.reactions.add(new ReactionNicknameSet(mrEvent.getGuild(), user, user.getDisplayName(mrEvent.getGuild())));
+						lockNickname.reactions.add(new ReactionNicknameLock(messageEventWrapper.getGuild(), user, user.getDisplayName(messageEventWrapper.getGuild())));
+						lockNickname.reactions.add(new ReactionNicknameSet(messageEventWrapper.getGuild(), user, user.getDisplayName(messageEventWrapper.getGuild())));
 					}
-					lockNickname.reactions.add(new ReactionMessage("Nickname(s) locked!", mrEvent.getChannel()));
+					lockNickname.reactions.add(new ReactionMessage("Nickname(s) locked!", messageEventWrapper.getChannel()));
 				}
 			}
 		} else {
-			lockNickname.reactions.add(new ReactionMessage("You need to mention the users you want to lock/unlock.", mrEvent.getChannel()));
-			Logger.debug("Failed to update nickname because no users were specified.", 2);
+			lockNickname.reactions.add(new ReactionMessage("You need to mention the users you want to lock/unlock.", messageEventWrapper.getChannel()));
 		}
-		Logger.debug("Reaction produced from " + name, 1, true);
 		return lockNickname;
+	}
+	
+	@Override
+	public String getDescription() {
+		return "Locks people's nicknames.";
+	}
+	
+	@Override
+	public HashMap<String, String> getUsage() {
+		HashMap<String, String> usage = new HashMap<String, String>();
+		usage.put(Constants.NAME + ", lock @user's name", "Locks the nickname(s) for the user(s) specified to what it is currently");
+		usage.put(Constants.NAME + ", lock @user's name to \"Nickname\"", "Locks the nickname(s) for the user(s) specified to the given name");
+		usage.put(Constants.NAME + ", unlock @user's name", "Unlocks the nickname(s) for the user(s) specified");
+		return usage;
 	}
 	
 }

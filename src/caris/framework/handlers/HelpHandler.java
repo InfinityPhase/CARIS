@@ -1,65 +1,60 @@
 package caris.framework.handlers;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
-import caris.framework.basehandlers.GeneralHandler;
+import caris.framework.basehandlers.Handler;
 import caris.framework.basehandlers.MessageHandler;
 import caris.framework.basereactions.Reaction;
 import caris.framework.embedbuilders.HelpBuilder;
+import caris.framework.events.MessageEventWrapper;
 import caris.framework.library.Constants;
 import caris.framework.main.Brain;
 import caris.framework.reactions.ReactionEmbed;
 import caris.framework.utilities.StringUtilities;
-import caris.framework.utilities.TokenUtilities;
-import sx.blah.discord.api.events.Event;
 
 public class HelpHandler extends MessageHandler {
 
 	public HelpHandler() {
-		super("Help", Access.DEFAULT, false);
-		description = "Provides information on how to use " + Constants.NAME + ".";
-		usage.put(getInvocation(), "Displays basic information on how to use " + Constants.NAME);
-		usage.put(getInvocation() + " <Module>", "Displays information on a module");
+		super("Help");
 	}
 	
 	@Override
-	protected boolean isTriggered(Event event) {
-		return isInvoked();
+	protected boolean isTriggered(MessageEventWrapper messageEventWrapper) {
+		return invoked(messageEventWrapper);
 	}
 	
 	@Override
-	protected Reaction process(Event event) {
-		ArrayList<String> tokens = TokenUtilities.parseTokens(message);
-		GeneralHandler handler = null;
+	protected Reaction process(MessageEventWrapper messageEventWrapper) {
+		ArrayList<String> tokens = messageEventWrapper.tokens;
+		MessageHandler handler = null;
 		if( tokens.size() > 1 ) {
 			for( int f=1; f<tokens.size(); f++ ) {
 				if( StringUtilities.containsIgnoreCase(Brain.handlers.keySet(), tokens.get(f)) ) {
-					GeneralHandler temp = Brain.handlers.get(tokens.get(f));
+					Handler temp = Brain.handlers.get(tokens.get(f));
 					if( temp instanceof MessageHandler ) {
-						MessageHandler m = (MessageHandler) temp;
-						switch (m.accessLevel) {
-							case DEFAULT:
-								handler = temp;
-							case ADMIN:
-								if( isElevated() ) {
-									handler = temp;
-								}
-							case DEVELOPER:
-								if( isDeveloper() ) {
-									handler = temp;
-								}
-						}
-					} else {
-						handler = temp;
+						handler = (MessageHandler) temp;
 					}
 				}
 			}
 		}
 		if( handler == null ) {
-			return new ReactionEmbed(new HelpBuilder((isDeveloper()) ? Access.DEVELOPER : ((isAdmin()) ? Access.ADMIN : Access.DEFAULT)).getEmbeds(), mrEvent.getChannel());
+			return new ReactionEmbed(new HelpBuilder().getEmbeds(), messageEventWrapper.getChannel());
 		} else {
-			return new ReactionEmbed(new HelpBuilder(handler).getEmbeds(), mrEvent.getChannel());
+			return new ReactionEmbed(new HelpBuilder(handler).getEmbeds(), messageEventWrapper.getChannel());
 		}
 	}
 
+	@Override
+	public String getDescription() {
+		return "Provides information on how to use " + Constants.NAME + ".";
+	}
+	
+	@Override
+	public HashMap<String, String> getUsage() {
+		HashMap<String, String> usage = new HashMap<String, String>();
+		usage.put(invocation, "Displays basic information on how to use " + Constants.NAME);
+		usage.put(invocation + " <Module>", "Displays information on a module");
+		return usage;
+	}
 }

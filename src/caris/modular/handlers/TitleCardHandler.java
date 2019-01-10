@@ -1,16 +1,15 @@
 package caris.modular.handlers;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import caris.framework.basehandlers.MessageHandler;
 import caris.framework.basereactions.Reaction;
 import caris.framework.embedbuilders.Builder;
+import caris.framework.events.MessageEventWrapper;
 import caris.framework.reactions.ReactionEmbed;
 import caris.framework.reactions.ReactionMessage;
-import caris.framework.utilities.Logger;
 import caris.framework.utilities.StringUtilities;
-import caris.framework.utilities.TokenUtilities;
-import sx.blah.discord.api.events.Event;
 import sx.blah.discord.handle.obj.IGuild;
 import sx.blah.discord.handle.obj.IUser;
 import sx.blah.discord.util.EmbedBuilder;
@@ -18,30 +17,27 @@ import sx.blah.discord.util.EmbedBuilder;
 public class TitleCardHandler extends MessageHandler {
 
 	public TitleCardHandler() {
-		super("TitleCard", Access.DEFAULT, false);
+		super("TitleCard");
 	}
 	
 	@Override
-	protected boolean isTriggered(Event event) {
-		return message.startsWith(">im ");
+	protected boolean isTriggered(MessageEventWrapper messageEventWrapper) {
+		return messageEventWrapper.message.startsWith(">im ");
 	}
 	
 	@Override
-	protected Reaction process(Event event) {
-		Logger.debug("TitleCard detected", 2);
-		ArrayList<String> tokens = TokenUtilities.parseTokens(message, new char[] {});
+	protected Reaction process(MessageEventWrapper messageEventWrapper) {
+		ArrayList<String> tokens = messageEventWrapper.tokens;
 		IUser subject = null;
-		for( IUser user : mrEvent.getGuild().getUsers() ) {
+		for( IUser user : messageEventWrapper.getGuild().getUsers() ) {
 			if( StringUtilities.equalsAnyOfIgnoreCase(tokens.get(1), user.mention(true), user.mention(false)) ) {
 				subject = user;
 			}
 		}
 		if( subject == null ) {
-			Logger.debug("Operation failed because no user specified", 2);
-			return new ReactionMessage( "**" + mrEvent.getAuthor().getDisplayName(mrEvent.getGuild()) + "**, no one answered to the call and no work found.", mrEvent.getChannel() );
+			return new ReactionMessage( "**" + messageEventWrapper.getAuthor().getDisplayName(messageEventWrapper.getGuild()) + "**, no one answered to the call and no work found.", messageEventWrapper.getChannel() );
 		} else {
-			Logger.debug("Response produced from " + name, 1, true);
-			return new ReactionEmbed((new TitleCardBuilder(subject, mrEvent.getGuild())).getEmbeds(), mrEvent.getChannel());
+			return new ReactionEmbed((new TitleCardBuilder(subject, messageEventWrapper.getGuild())).getEmbeds(), messageEventWrapper.getChannel());
 		}
 	}
 	
@@ -68,7 +64,16 @@ public class TitleCardHandler extends MessageHandler {
 				embeds.get(0).withFooterText("Belongs to " + guild.getUserByID(Long.parseLong("298652669839671296")).getName() + " ~~ " + "1/1");
 			}
 		}
-		
+	}
+	
+	@Override
+	public String getDescription() {
+		return "";
+	}
+	
+	@Override
+	public HashMap<String, String> getUsage() {
+		return null;
 	}
 	
 }

@@ -1,97 +1,88 @@
 package caris.framework.handlers;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import caris.framework.basehandlers.MessageHandler;
 import caris.framework.basereactions.MultiReaction;
 import caris.framework.basereactions.Reaction;
+import caris.framework.events.MessageEventWrapper;
 import caris.framework.library.Variables;
 import caris.framework.reactions.ReactionAutoRole;
 import caris.framework.reactions.ReactionMessage;
-import caris.framework.utilities.Logger;
-import caris.framework.utilities.TokenUtilities;
-import sx.blah.discord.api.events.Event;
 import sx.blah.discord.handle.impl.obj.Role;
 import sx.blah.discord.handle.obj.IRole;
 
 public class AutoRoleHandler extends MessageHandler {
 	
 	public AutoRoleHandler() {
-		super("AutoRole", Access.ADMIN, false);
-		description = "Automatically assigns roles to new users.";
-		usage.put(getInvocation() + " add @Role1 @Role2 ... @RoleN", "Automatically assigns the given roles to each user who joins the server");
-		usage.put(getInvocation() + " remove @Role1 @Role2 ... @RoleN", "Removes the given roles from the list of roles to assign to new users");
+		super("AutoRole", Access.ADMIN);
 	}
 	
 	@Override
-	protected boolean isTriggered(Event event) {
-		return isInvoked();
+	protected boolean isTriggered(MessageEventWrapper messageEventWrapper) {
+		return invoked(messageEventWrapper);
 	}
 	
 	@Override
-	protected Reaction process(Event event) {
+	protected Reaction process(MessageEventWrapper messageEventWrapper) {
 		MultiReaction modifyAutoRoles = new MultiReaction(2);
-		ArrayList<String> tokens = TokenUtilities.parseTokens(message);
-		ArrayList<IRole> roleMentions = (ArrayList<IRole>) mrEvent.getMessage().getRoleMentions();
-		if( tokens.size() >= 2 ) {
-			if( tokens.get(1).equals("get") ) {
+		if( messageEventWrapper.tokens.size() >= 2 ) {
+			if( messageEventWrapper.tokens.get(1).equals("get") ) {
 				String autoRoles = "";
-				List<Role> roles = Variables.guildIndex.get(mrEvent.getGuild()).autoRoles;
+				List<Role> roles = Variables.guildIndex.get(messageEventWrapper.getGuild()).autoRoles;
 				for( Role role : roles ) {
 					autoRoles += role.getName() + ", ";
 				}
 				if( !autoRoles.isEmpty() ) {
 					autoRoles = autoRoles.substring(0, autoRoles.length()-2);
-					Logger.debug("Reaction produced from " + name, 1, true);
-					modifyAutoRoles.reactions.add(new ReactionMessage( "Here are the current default roles for this server: " + autoRoles, mrEvent.getChannel()));
+					modifyAutoRoles.reactions.add(new ReactionMessage( "Here are the current default roles for this server: " + autoRoles, messageEventWrapper.getChannel()));
 				} else {
-					Logger.debug("Reaction produced from " + name, 1, true);
-					modifyAutoRoles.reactions.add(new ReactionMessage( "There aren't any default roles set for this server yet.", mrEvent.getChannel()));
+					modifyAutoRoles.reactions.add(new ReactionMessage( "There aren't any default roles set for this server yet.", messageEventWrapper.getChannel()));
 				}
-			} else if( tokens.size() >= 3 ) {
-				if( tokens.get(1).equals("add") ) {
-					for( IRole role : roleMentions ) {
-						modifyAutoRoles.reactions.add(new ReactionAutoRole(mrEvent.getGuild(), role, ReactionAutoRole.Operation.ADD));
+			} else if( messageEventWrapper.tokens.size() >= 3 ) {
+				if( messageEventWrapper.tokens.get(1).equals("add") ) {
+					for( IRole role : messageEventWrapper.getMessage().getRoleMentions() ) {
+						modifyAutoRoles.reactions.add(new ReactionAutoRole(messageEventWrapper.getMessage().getGuild(), role, ReactionAutoRole.Operation.ADD));
 					}
-					if( !roleMentions.isEmpty() ) {
-						Logger.debug("Reaction produced from " + name, 1, true);
-						modifyAutoRoles.reactions.add(new ReactionMessage( "AutoRoles updated successfully!", mrEvent.getChannel()));
+					if( !messageEventWrapper.getMessage().getRoleMentions().isEmpty() ) {
+						modifyAutoRoles.reactions.add(new ReactionMessage( "AutoRoles updated successfully!", messageEventWrapper.getChannel()));
 					} else {
-						Logger.debug("Failed to find requested roles", 2);
-						Logger.debug("Reaction produced from " + name, 1, true);
-						modifyAutoRoles.reactions.add(new ReactionMessage( "You need to mention the roles you want added!", mrEvent.getChannel()));
+						modifyAutoRoles.reactions.add(new ReactionMessage( "You need to mention the roles you want added!", messageEventWrapper.getChannel()));
 					}
-				} else if( tokens.get(1).equals("remove") ) {
-					if( !roleMentions.isEmpty() ) {
-						for( IRole role : roleMentions ) {
-							if( Variables.guildIndex.get(mrEvent.getGuild()).autoRoles.contains(role) ) {
-								modifyAutoRoles.reactions.add(new ReactionAutoRole(mrEvent.getGuild(), role, ReactionAutoRole.Operation.REMOVE));
+				} else if( messageEventWrapper.tokens.get(1).equals("remove") ) {
+					if( !messageEventWrapper.getMessage().getRoleMentions().isEmpty() ) {
+						for( IRole role : messageEventWrapper.getMessage().getRoleMentions() ) {
+							if( Variables.guildIndex.get(messageEventWrapper.getGuild()).autoRoles.contains(role) ) {
+								modifyAutoRoles.reactions.add(new ReactionAutoRole(messageEventWrapper.getGuild(), role, ReactionAutoRole.Operation.REMOVE));
 							}
 						}
-						Logger.debug("Reaction produced from " + name, 1, true);
-						modifyAutoRoles.reactions.add(new ReactionMessage( "AutoRoles updated successfully!", mrEvent.getChannel()));
+						modifyAutoRoles.reactions.add(new ReactionMessage( "AutoRoles updated successfully!", messageEventWrapper.getChannel()));
 					} else {
-						Logger.debug("Failed to find requested roles", 2);
-						Logger.debug("Reaction produced from " + name, 1, true);
-						modifyAutoRoles.reactions.add(new ReactionMessage( "You need to mention the roles you want removed!", mrEvent.getChannel()));
+						modifyAutoRoles.reactions.add(new ReactionMessage( "You need to mention the roles you want removed!", messageEventWrapper.getChannel()));
 					}
 				} else {
-					Logger.debug("Operation failed due to syntax error", 2);
-					Logger.debug("Reaction produced from " + name, 1, true);
-					modifyAutoRoles.reactions.add(new ReactionMessage( "Syntax Error!", mrEvent.getChannel()));
+					modifyAutoRoles.reactions.add(new ReactionMessage( "Syntax Error!", messageEventWrapper.getChannel()));
 				}
 			} else {
-				Logger.debug("Operation failed due to syntax error", 2);
-				Logger.debug("Reaction produced from " + name, 1, true);
-				modifyAutoRoles.reactions.add(new ReactionMessage( "Syntax Error!", mrEvent.getChannel()));
+				modifyAutoRoles.reactions.add(new ReactionMessage( "Syntax Error!", messageEventWrapper.getChannel()));
 			}
 		} else {
-			Logger.debug("Operation failed due to syntax error", 2);
-			Logger.debug("Reaction produced from " + name, 1, true);
-			modifyAutoRoles.reactions.add(new ReactionMessage( "Syntax Error!", mrEvent.getChannel()));
+			modifyAutoRoles.reactions.add(new ReactionMessage( "Syntax Error!", messageEventWrapper.getChannel()));
 		}
 		return modifyAutoRoles;
 	}
 	
+	@Override
+	public String getDescription() {
+		 return "Automatically assigns roles to new users.";
+	}
+	
+	@Override
+	public HashMap<String, String> getUsage() {
+		HashMap<String, String> usage = new HashMap<String, String>();
+		usage.put(invocation + " add @Role1 @Role2 ... @RoleN", "Automatically assigns the given roles to each user who joins the server");
+		usage.put(invocation + " remove @Role1 @Role2 ... @RoleN", "Removes the given roles from the list of roles to assign to new users");
+		return usage;
+	}
 }

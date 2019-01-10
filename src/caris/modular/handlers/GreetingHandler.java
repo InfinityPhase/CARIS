@@ -1,12 +1,13 @@
 package caris.modular.handlers;
 
+import java.util.HashMap;
+
 import caris.framework.basehandlers.MessageHandler;
 import caris.framework.basereactions.MultiReaction;
 import caris.framework.basereactions.Reaction;
+import caris.framework.events.MessageEventWrapper;
 import caris.framework.library.Constants;
 import caris.framework.reactions.ReactionMessage;
-import caris.framework.utilities.Logger;
-import sx.blah.discord.api.events.Event;
 
 public class GreetingHandler extends MessageHandler {
 	
@@ -57,26 +58,22 @@ public class GreetingHandler extends MessageHandler {
 	};
 	
 	public GreetingHandler() {
-		super("Greeting", Access.DEFAULT, false);
-		description = "Makes " + Constants.NAME + " say hi back to you!";
-		usage.put("Hello " + Constants.NAME + "!", "Produces a random greeting");
+		super("Greeting");
 	}
 	
 	@Override
-	protected boolean isTriggered(Event event) {
-		return startsWithAGreeting(message) && isMentioned();
+	protected boolean isTriggered(MessageEventWrapper messageEventWrapper) {
+		return startsWithAGreeting(messageEventWrapper.message) && mentioned(messageEventWrapper);
 	}
 	
 	@Override
-	protected Reaction process(Event event) {
-		Logger.debug("Greeting detected", 2);
+	protected Reaction process(MessageEventWrapper messageEventWrapper) {
 		MultiReaction returnGreeting = new MultiReaction(0);
-		if( mrEvent.getAuthor().getLongID() == Constants.MIKKI_ID ) {
-			returnGreeting.reactions.add(new ReactionMessage(getRandomCorrection(), mrEvent.getChannel(), 0));
+		if( messageEventWrapper.getAuthor().getLongID() == Constants.MIKKI_ID ) {
+			returnGreeting.reactions.add(new ReactionMessage(getRandomCorrection(), messageEventWrapper.getChannel(), 0));
 		} else {
-			returnGreeting.reactions.add(new ReactionMessage(getRandomGreeting() + ", " + mrEvent.getAuthor().getDisplayName(mrEvent.getGuild()) + "!", mrEvent.getChannel(), 0));
+			returnGreeting.reactions.add(new ReactionMessage(getRandomGreeting() + ", " + messageEventWrapper.getAuthor().getDisplayName(messageEventWrapper.getGuild()) + "!", messageEventWrapper.getChannel(), 0));
 		}
-		Logger.debug("Reaction produced from " + name, 1);
 		return returnGreeting;
 	}
 	
@@ -95,6 +92,18 @@ public class GreetingHandler extends MessageHandler {
 	
 	private String getRandomCorrection() {
 		return (correctionOutput.length > 0) ? correctionOutput[(int) (Math.random()*correctionOutput.length)] : "Actually, it's pronounced *Care*-is.";
+	}
+	
+	@Override
+	public String getDescription() {
+		return "Makes " + Constants.NAME + " say hi back to you!";
+	}
+	
+	@Override
+	public HashMap<String, String> getUsage() {
+		HashMap<String, String> usage = new HashMap<String, String>();
+		usage.put("Hello " + Constants.NAME + "!", "Produces a random greeting");
+		return usage;
 	}
 	
 }

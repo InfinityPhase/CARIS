@@ -4,14 +4,13 @@ import caris.framework.basehandlers.GeneralHandler;
 import caris.framework.basereactions.Reaction;
 import caris.framework.library.Variables;
 import caris.framework.reactions.ReactionNicknameSet;
-import caris.framework.utilities.Logger;
 import sx.blah.discord.api.events.Event;
 import sx.blah.discord.handle.impl.events.guild.member.NicknameChangedEvent;
 
 public class NicknameUpdateHandler extends GeneralHandler {
 
 	public NicknameUpdateHandler() {
-		super("NicknameUpdate", false);
+		super("NicknameUpdate");
 	}
 	
 	@Override
@@ -24,11 +23,14 @@ public class NicknameUpdateHandler extends GeneralHandler {
 		NicknameChangedEvent nicknameChangedEvent = (NicknameChangedEvent) event;
 		String nicknameLock = Variables.guildIndex.get(nicknameChangedEvent.getGuild()).userIndex.get(nicknameChangedEvent.getUser()).nicknameLock;
 		if( !nicknameLock.isEmpty() ) {
-			Logger.debug("Reaction produced from " + name, 1, true);
 			return new ReactionNicknameSet(nicknameChangedEvent.getGuild(), nicknameChangedEvent.getUser(), nicknameLock, -1);
 		} else {
 			return null;
 		}
 	}
 	
+	@Override
+	public String getDescription() {
+		return "Automatically changes back the nicknames of users who have it locked.";
+	}
 }

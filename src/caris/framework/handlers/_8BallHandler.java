@@ -1,10 +1,11 @@
 package caris.framework.handlers;
 
+import java.util.HashMap;
+
 import caris.framework.basehandlers.MessageHandler;
 import caris.framework.basereactions.Reaction;
+import caris.framework.events.MessageEventWrapper;
 import caris.framework.reactions.ReactionMessage;
-import caris.framework.utilities.Logger;
-import sx.blah.discord.api.events.Event;
 
 public class _8BallHandler extends MessageHandler {
 
@@ -49,20 +50,29 @@ public class _8BallHandler extends MessageHandler {
 	};
 	
 	public _8BallHandler() {
-		super("8ball", Access.DEFAULT, false);
-		description = "Answers yes/no questions.";
-		usage.put(getInvocation() + " <inquiry>", "Generates a random yes/no/sarcastic answer");
+		super("8ball");
 	}
 	
 	@Override
-	protected boolean isTriggered(Event event) {
-		return isInvoked();
+	protected boolean isTriggered(MessageEventWrapper messageEventWrapper) {
+		return invoked(messageEventWrapper);
 	}
 	
 	@Override
-	protected Reaction process(Event event) {
-		Logger.debug("Response produced from " + name, 2, true);
-		return new ReactionMessage(_8BALL_RESPONSES[((int) (Math.random()*_8BALL_RESPONSES.length))], mrEvent.getChannel());
+	protected Reaction process(MessageEventWrapper messageEventWrapper) {
+		return new ReactionMessage(_8BALL_RESPONSES[((int) (Math.random()*_8BALL_RESPONSES.length))], messageEventWrapper.getChannel());
+	}
+	
+	@Override
+	public String getDescription() {
+		return "Answers yes/no questions.";
+	}
+	
+	@Override
+	public HashMap<String, String> getUsage() {
+		HashMap<String, String> usage = new HashMap<String, String>();
+		usage.put(invocation + " <inquiry>", "Generates a random yes/no/sarcastic answer");
+		return usage;
 	}
 	
 }

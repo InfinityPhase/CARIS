@@ -2,15 +2,15 @@ package caris.framework.handlers;
 
 import caris.framework.basehandlers.GeneralHandler;
 import caris.framework.basereactions.Reaction;
+import caris.framework.library.Constants;
 import caris.framework.reactions.ReactionChannelTrack;
-import caris.framework.utilities.Logger;
 import sx.blah.discord.api.events.Event;
 import sx.blah.discord.handle.impl.events.guild.channel.ChannelCreateEvent;
 
 public class ChannelCreateHandler extends GeneralHandler {
 
 	public ChannelCreateHandler() {
-		super("ChannelCreate", false);
+		super("ChannelCreate");
 	}
 	
 	@Override
@@ -20,10 +20,13 @@ public class ChannelCreateHandler extends GeneralHandler {
 	
 	@Override
 	protected Reaction process(Event event) {
-		Logger.debug("Channel creation detected", 2);
 		ChannelCreateEvent channelCreateEvent = (ChannelCreateEvent) event;
-		Logger.debug("Reaction produced from " + name, 1, true);
 		return new ReactionChannelTrack(channelCreateEvent.getGuild(), channelCreateEvent.getChannel(), -1);
+	}
+
+	@Override
+	public String getDescription() {
+		return "Handles the creation of new channels on " + Constants.NAME + "'s servers.";
 	}
 	
 }

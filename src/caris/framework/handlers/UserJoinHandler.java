@@ -3,6 +3,7 @@ package caris.framework.handlers;
 import caris.framework.basehandlers.GeneralHandler;
 import caris.framework.basereactions.MultiReaction;
 import caris.framework.basereactions.Reaction;
+import caris.framework.library.Constants;
 import caris.framework.library.Variables;
 import caris.framework.reactions.ReactionMessage;
 import caris.framework.reactions.ReactionRoleAssign;
@@ -15,7 +16,7 @@ import sx.blah.discord.handle.impl.obj.Role;
 public class UserJoinHandler extends GeneralHandler {
 
 	public UserJoinHandler() {
-		super("UserJoin", false);
+		super("UserJoin");
 	}
 	
 	@Override
@@ -41,8 +42,11 @@ public class UserJoinHandler extends GeneralHandler {
 		} else {
 			welcome.reactions.add(new ReactionMessage(("Welcome, " + userJoinEvent.getUser().getName() + "!"), Variables.guildIndex.get(userJoinEvent.getGuild()).getDefaultChannel()));
 		}
-		Logger.debug("Response produced from " + name, 1, true);
 		return welcome;
 	}
 	
+	@Override
+	public String getDescription() {
+		return "Handles the joining of new users on " + Constants.NAME + "'s servers.";
+	}
 }
