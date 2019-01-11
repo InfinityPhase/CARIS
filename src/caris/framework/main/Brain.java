@@ -85,7 +85,10 @@ public class Brain {
 		if( !threadQueue.isEmpty() ) {
 			emptyReported = false;
 			Logger.debug("Threads in queue: " + threadQueue.size(), true);
-			threadQueue.remove(0).run();
+			Thread thread = threadQueue.remove(0);
+			if( thread != null ) {
+				thread.run();
+			}
 		}
 		else if( !emptyReported ) {
 			Logger.debug("Thread queue empty.", true);
