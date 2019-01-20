@@ -88,7 +88,7 @@ public abstract class MessageHandler extends Handler {
 							if( channel.getLongID() == channelID ) {
 								messageEventWrapper = new MessageEventWrapper(
 														new MessageReceivedEvent(
-															new RedirectedMessage(messageReceivedEvent.getMessage(), channel, messageEventWrapper.message.substring(messageEventWrapper.message.indexOf("}"+2)))
+															new RedirectedMessage(messageReceivedEvent.getMessage(), channel, messageEventWrapper.message.substring(messageEventWrapper.message.indexOf("}")+2))
 														));
 							}
 						}
