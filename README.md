@@ -1,4 +1,7 @@
 # CARIS
+This version of CARIS is now horribly outdated. 
+Use this repo *only* if you want to see the development history.
+The most up to date version is at: [CARIS](https://github.com/Auxiliatrix/CARIS-Framework)
 
 ### 604's Auto-Responding Discord Chat Bot
 
